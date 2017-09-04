@@ -1,0 +1,352 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Callbacks &#8212; rpy2 2.9.1 documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.9.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Client-Server" href="server.html" />
+    <link rel="prev" title="Miscellaneous topics" href="miscellaneous.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="Client-Server"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="miscellaneous.html" title="Miscellaneous topics"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="miscellaneous.html" accesskey="U">Miscellaneous topics</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="callbacks">
+<span id="rinterface-callbacks"></span><h1>Callbacks<a class="headerlink" href="#callbacks" title="Permalink to this headline">¶</a></h1>
+<p>Although R has been tightly bound to its console, the R-core development team has
+great progress in letting front-end developpers customize R’s interactive behavior
+to their needs.</p>
+<p><code class="xref py py-mod docutils literal"><span class="pre">rpy2</span></code> is offering to customize R’s interactive behavior through callback functions.</p>
+<div class="section" id="console-i-o">
+<span id="rinterface-callbacks-consoleio"></span><h2>Console I/O<a class="headerlink" href="#console-i-o" title="Permalink to this headline">¶</a></h2>
+<p>During an interactive session, much of the communication between R and the user happen
+happen through the console. How the console reads input and writes output, can be
+defined through callback functions.</p>
+<div class="section" id="read-console">
+<h3>Read console<a class="headerlink" href="#read-console" title="Permalink to this headline">¶</a></h3>
+<p>The ‘read console’ function is called whenever console input is expected.</p>
+<p>The default callback for inputing data is <code class="xref py py-func docutils literal"><span class="pre">rinterface.consoleRead()</span></code></p>
+<dl class="function">
+<dt id="rpy2.rinterface.consoleRead">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">consoleRead</code><span class="sig-paren">(</span><em>prompt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#consoleRead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface.consoleRead" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prompt</strong> – <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>A suitable callback function will be such as it accepts one parameter of class <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>,
+that is the prompt, and returns the user input as a <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>.</p>
+<p>The pair of functions
+<a class="reference internal" href="#rpy2.rinterface.set_readconsole" title="rpy2.rinterface.set_readconsole"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_readconsole()</span></code></a> and <a class="reference internal" href="#rpy2.rinterface.get_readconsole" title="rpy2.rinterface.get_readconsole"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_readconsole()</span></code></a>
+can be used to set and retrieve the callback function respectively.</p>
+<dl class="function">
+<dt id="rpy2.rinterface.set_readconsole">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">set_readconsole</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.set_readconsole" title="Permalink to this definition">¶</a></dt>
+<dd><p>set_readconsole(f)</p>
+<p>Set how to handle input to R with either None or a function f such as f(prompt) returns the string message to be passed to R</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.get_readconsole">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">get_readconsole</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.get_readconsole" title="Permalink to this definition">¶</a></dt>
+<dd><p>get_readconsole()</p>
+<p>Retrieve the current R alert message handler (see set_readconsole)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a callable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="write-console">
+<h3>Write console<a class="headerlink" href="#write-console" title="Permalink to this headline">¶</a></h3>
+<p>The ‘write console’ function is called whenever output is sent to the R console.</p>
+<p>A suitable callback function will be such as it accepts one parameter of class <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>
+and only has side-effects (does not return anything).</p>
+<p>The pairs of functions (<a class="reference internal" href="#rpy2.rinterface.set_writeconsole_regular" title="rpy2.rinterface.set_writeconsole_regular"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_writeconsole_regular()</span></code></a>,
+<a class="reference internal" href="#rpy2.rinterface.get_writeconsole_regular" title="rpy2.rinterface.get_writeconsole_regular"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_writeconsole_regular()</span></code></a>) and
+(<a class="reference internal" href="#rpy2.rinterface.set_writeconsole_warnerror" title="rpy2.rinterface.set_writeconsole_warnerror"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_writeconsole_warnerror()</span></code></a>,
+<a class="reference internal" href="#rpy2.rinterface.get_writeconsole_warnerror" title="rpy2.rinterface.get_writeconsole_warnerror"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_writeconsole_warnerror()</span></code></a>)
+can be used to set and retrieve the callback functions.</p>
+<p>The default callback function, called <code class="xref py py-func docutils literal"><span class="pre">rinterface.consolePrint()</span></code>
+is a simple write to <a class="reference external" href="https://docs.python.org/2/library/sys.html#sys.stdout" title="(in Python v2.7)"><code class="xref py py-data docutils literal"><span class="pre">sys.stdout</span></code></a></p>
+<dl class="function">
+<dt id="rpy2.rinterface.consolePrint">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">consolePrint</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#consolePrint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface.consolePrint" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> – <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/constants.html#None" title="(in Python v2.7)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<p>An example should make it obvious:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># function that append its argument to the list &#39;buf&#39;</span>
+    <span class="n">buf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># output from the R console will now be appended to the list &#39;buf&#39;</span>
+<span class="n">rinterface</span><span class="o">.</span><span class="n">set_writeconsole</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">date</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>
+<span class="n">rprint</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;print&#39;</span><span class="p">]</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">date</span><span class="p">())</span>
+
+<span class="c1"># the output is in our list (as defined in the function f above)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+
+
+<span class="c1"># restore default function</span>
+<span class="n">rinterface</span><span class="o">.</span><span class="n">set_writeconsole</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">consolePrint</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="function">
+<dt id="rpy2.rinterface.set_writeconsole_regular">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">set_writeconsole_regular</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.set_writeconsole_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>set_writeconsole_regular(f)</p>
+<p>Set how to handle regular output from the R console with either None or a function f such as f(output) returns None (f only has side effects).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.set_writeconsole_warnerror">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">set_writeconsole_warnerror</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.set_writeconsole_warnerror" title="Permalink to this definition">¶</a></dt>
+<dd><p>set_writeconsole_warnerror(f)</p>
+<p>Set how to handle warning or error output from the R console with either None or a function f such as f(output) returns None (f only has side effects).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.get_writeconsole_regular">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">get_writeconsole_regular</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.get_writeconsole_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>get_writeconsole_regular()</p>
+<p>Retrieve the current R console output handler (see set_writeconsole_regular)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a callable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.get_writeconsole_warnerror">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">get_writeconsole_warnerror</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.get_writeconsole_warnerror" title="Permalink to this definition">¶</a></dt>
+<dd><p>get_writeconsole_warnerror()</p>
+<p>Retrieve the current R console output handler for warnings and errors. (see set_writeconsole_warnerror)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a callable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="flush-console">
+<h3>Flush console<a class="headerlink" href="#flush-console" title="Permalink to this headline">¶</a></h3>
+<p>The ‘write console’ function is called whenever output is sent to the R console.</p>
+<p>A suitable callback function will be such as it accepts no parameter
+and only has side-effects (does not return anything).</p>
+<p>The pair of functions
+<code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_flushconsole()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_flushconsole()</span></code>
+can be used to set and retrieve the callback function respectively.</p>
+</div>
+</div>
+<div class="section" id="files">
+<h2>Files<a class="headerlink" href="#files" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="showing-files">
+<h3>Showing files<a class="headerlink" href="#showing-files" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="choosing-files">
+<h3>Choosing files<a class="headerlink" href="#choosing-files" title="Permalink to this headline">¶</a></h3>
+<p>File choosing a on basic R console has very little bells and whistles.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">choose_csv</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="other">
+<h2>Other<a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="clean-up">
+<span id="rinterface-callbacks-cleanup"></span><h3>Clean up<a class="headerlink" href="#clean-up" title="Permalink to this headline">¶</a></h3>
+<p>When asked to terminate, through either its terminal console
+win32 or quartz GUI front-end, <em>R</em> will perform a cleanup operation
+at the begining of which whether the user wants to save the workspace
+or not.</p>
+<p>What is happening during that cleaning step can be specified through
+a callback function that will take three parameters <em>saveact</em>, <em>status</em>,
+and <em>runlast</em>, return of 1 (save the workspace),
+0 (do not save the workspace), and None (cancel the exit/cleanup, raising
+an <code class="xref py py-class docutils literal"><span class="pre">RRuntimeError</span></code>).</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.rinterface</span>
+
+<span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
+
+<span class="n">rquit</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">):</span>
+    <span class="c1"># cancel all attempts to quit R programmatically</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&quot;One can&#39;t escape...&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span> <span class="n">orig_cleanup</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">get_cleanup</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">set_cleanup</span><span class="p">(</span><span class="n">cleanup</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rquit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Restore the original cleanup:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">set_cleanup</span><span class="p">(</span><span class="n">orig_cleanup</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#console-i-o">Console I/O</a><ul>
+<li><a class="reference internal" href="#read-console">Read console</a></li>
+<li><a class="reference internal" href="#write-console">Write console</a></li>
+<li><a class="reference internal" href="#flush-console">Flush console</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#files">Files</a><ul>
+<li><a class="reference internal" href="#showing-files">Showing files</a></li>
+<li><a class="reference internal" href="#choosing-files">Choosing files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other">Other</a><ul>
+<li><a class="reference internal" href="#clean-up">Clean up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="miscellaneous.html"
+                        title="previous chapter">Miscellaneous topics</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="server.html"
+                        title="next chapter">Client-Server</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/callbacks.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="Client-Server"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="miscellaneous.html" title="Miscellaneous topics"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="miscellaneous.html" >Miscellaneous topics</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>
