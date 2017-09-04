@@ -1,0 +1,259 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>High-level interface &#8212; rpy2 2.10.0-dev documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.10.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="The robjects package" href="robjects.html" />
+    <link rel="prev" title="Porting code to rpy2" href="porting-to-rpy2.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects.html" title="The robjects package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="porting-to-rpy2.html" title="Porting code to rpy2"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="high-level-interface">
+<h1>High-level interface<a class="headerlink" href="#high-level-interface" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="robjects.html">The robjects package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robjects_overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_rinstance.html"><cite>r</cite>: the instance of <strong class="program">R</strong></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robjects_rinstance.html#evaluating-a-string-as-r-code">Evaluating a string as R code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_robjects.html">R objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_environments.html">Environments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_functions.html">Functions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robjects_functions.html#callable">Callable</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_functions.html#rcall"><code class="docutils literal"><span class="pre">rcall()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_functions.html#docstrings">Docstrings</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_formulae.html">Formulae</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_rpackages.html">R packages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robjects_rpackages.html#importing-r-packages">Importing R packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_rpackages.html#importing-arbitrary-r-code-as-a-package">Importing arbitrary R code as a package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="robjects_rpackages.html#r-namespaces">R namespaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robjects_rpackages.html#module-rpy2.robjects.packages">Class diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_rpackages.html#finding-where-an-r-symbol-is-coming-from">Finding where an R symbol is coming from</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_rpackages.html#installing-removing-r-packages">Installing/removing R packages</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_oop.html">Working with R’s OOPs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robjects_oop.html#s3-objects">S3 objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_oop.html#s4-objects">S4 objects</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="generated_rst/s4class.html">Basic handling</a></li>
+<li class="toctree-l4"><a class="reference internal" href="generated_rst/s4class.html#mapping-s4-classes-to-python-classes">Mapping S4 classes to Python classes</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="generated_rst/s4class.html#custom-conversion">Custom conversion</a></li>
+<li class="toctree-l5"><a class="reference internal" href="generated_rst/s4class.html#class-attributes">Class attributes</a></li>
+<li class="toctree-l5"><a class="reference internal" href="generated_rst/s4class.html#methods">Methods</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="robjects_oop.html#manual-r-in-python-class-definition">Manual R-in-Python class definition</a></li>
+<li class="toctree-l4"><a class="reference internal" href="robjects_oop.html#automated-r-in-python-class-definitions">Automated R-in-Python class definitions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_oop.html#automated-mapping-of-user-defined-classes">Automated mapping of user-defined classes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_serialization.html">Object serialization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robjects.html#class-diagram">Class diagram</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vector.html">Vectors and arrays</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#creating-vectors">Creating vectors</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#factorvector">FactorVector</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#extracting-items">Extracting items</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#extracting-python-style">Extracting, Python-style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#extracting-r-style">Extracting, R-style</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#assigning-items">Assigning items</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#assigning-python-style">Assigning, Python-style</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#assigning-r-style">Assigning, R-style</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#missing-values">Missing values</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#operators">Operators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#names">Names</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#array"><code class="docutils literal"><span class="pre">Array</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#matrix"><code class="docutils literal"><span class="pre">Matrix</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#computing-on-matrices">Computing on matrices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#extracting">Extracting</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="vector.html#dataframe"><code class="docutils literal"><span class="pre">DataFrame</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#creating-objects">Creating objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#extracting-elements">Extracting elements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#python-docstrings">Python docstrings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rhelp.html">R help</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="rhelp.html#querying-on-aliases">Querying on aliases</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rhelp.html#package-documentation">Package documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rhelp.html#documentation-page">Documentation page</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_convert.html">Mapping rpy2 objects to arbitrary python objects</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="robjects_convert.html#protocols">Protocols</a></li>
+<li class="toctree-l2"><a class="reference internal" href="robjects_convert.html#conversion">Conversion</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="robjects_convert.html#converter-objects">Converter objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_convert.html#local-conversion-rules">Local conversion rules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_convert.html#ri2ro"><code class="docutils literal"><span class="pre">ri2ro()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_convert.html#ri2py"><code class="docutils literal"><span class="pre">ri2py()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_convert.html#p2ri"><code class="docutils literal"><span class="pre">p2ri()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="robjects_convert.html#customizing-the-conversion">Customizing the conversion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">Graphics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#introduction">Introduction</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#graphical-devices">Graphical devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#getting-ready">Getting ready</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#package-lattice">Package <em>lattice</em></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#id2">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#scatter-plot">Scatter plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#box-plot">Box plot</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#other-plots">Other plots</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#package-ggplot2">Package <em>ggplot2</em></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#id3">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#plot">Plot</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="graphics.html#aesthethics-mapping">Aesthethics mapping</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphics.html#geometry">Geometry</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphics.html#axes">Axes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="graphics.html#facets">Facets</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="graphics.html#package-grid">Package <em>grid</em></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#custom-ggplot2-layout-with-grid">Custom ggplot2 layout with grid</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#classes">Classes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="graphics.html#class-diagram">Class diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lib_dplyr.html">DataFrames and dplyr</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="lib_dplyr.html#dplyr">dplyr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lib_dplyr.html#dplyr-in-python">dplyr in Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lib_dplyr.html#tidyr">tidyr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="lib_dplyr.html#tidyr-in-python">tidyr in Python</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="porting-to-rpy2.html"
+                        title="previous chapter">Porting code to rpy2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="robjects.html"
+                        title="next chapter">The robjects package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/high-level.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects.html" title="The robjects package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="porting-to-rpy2.html" title="Porting code to rpy2"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

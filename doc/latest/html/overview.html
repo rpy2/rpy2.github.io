@@ -1,0 +1,589 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Overview &#8212; rpy2 2.10.0-dev documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.10.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Introduction to rpy2" href="introduction.html" />
+    <link rel="prev" title="Getting started" href="getting-started.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction to rpy2"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="getting-started.html" accesskey="U">Getting started</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="background">
+<h2>Background<a class="headerlink" href="#background" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.python.org">Python</a> is a popular
+all-purpose scripting language, while <a class="reference external" href="http://www.r-project.org">R</a> (an open source implementation
+of the S/Splus language)
+is a scripting language mostly popular for data analysis, statistics, and
+graphics. If you are reading this, there are good chances that you are
+at least familiar with one or both.</p>
+<p>Having an interface between both languages to benefit from the
+libraries of one language while working in the other appeared
+desirable; an early option to achieve it was the RSPython project,
+itself part of the <a class="reference external" href="http://www.omegahat.org/RSPython">Omegahat project</a>.</p>
+<p>A bit later, the RPy project appeared and focused on providing simple and
+robust access to R from within Python, with the initial Unix-only releases
+quickly followed by Microsoft and MacOS compatible versions.
+This project is referred to as RPy-1.x in the
+rest of this document.</p>
+<p>The present documentation describes RPy2, an evolution of RPy-1.x.
+Naturally RPy2 is inspired by RPy, but also by Alexander Belopolsky’s contributions
+that were waiting to be included into RPy.</p>
+<p>This effort can be seen as a redesign and rewrite of the RPy package, and this
+unfortunately means there is not enough left in common to ensure compatibility.</p>
+</div>
+<div class="section" id="installation">
+<span id="install-installation"></span><h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="docker-image">
+<h3>Docker image<a class="headerlink" href="#docker-image" title="Permalink to this headline">¶</a></h3>
+<p>There is a Docker image available to try rpy2 out
+without even reading about requirements (e.g., R installed
+compiled with the shared library flag). The Docker image
+can also be an easy start for Windows users.</p>
+<p>Its name is <cite>rpy2/rpy2</cite>, with currently two possible release tags
+(making the full image names either <cite>rpy2/rpy2:2.8.x</cite> or
+<cite>rpy2/rpy2:devel</cite>).</p>
+<p>The image was primarily designed to run a jupyter notebook or
+an ipython terminal, as shown in further details below, but
+it can also constitute a base image for custom needs.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If behind a proxy, one will need to pass the relevant
+environment variables when running a container from the image.
+Without this the container will not be able to communicate with
+the internet and perform operations such as downloading and installing
+additional R packages from CRAN or Python packages from pip.</p>
+</div>
+<div class="section" id="ipython-terminal">
+<h4>ipython terminal<a class="headerlink" href="#ipython-terminal" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run <span class="se">\</span>
+       -it --rm <span class="se">\</span>
+       rpy2/rpy2:2.8.x ipython
+</pre></div>
+</div>
+</div>
+<div class="section" id="jupyter-notebook">
+<h4>jupyter notebook<a class="headerlink" href="#jupyter-notebook" title="Permalink to this headline">¶</a></h4>
+<p>To run the jupyter notebook on port 8888:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker run <span class="se">\</span>
+       --rm -p <span class="m">8888</span>:8888 <span class="se">\</span>
+       rpy2/rpy2:2.8.x
+</pre></div>
+</div>
+<p>Once started, point a web browser to <cite>http://localhost:8888</cite>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>If using <cite>docker-machine</cite> (which should be the case when on
+a Mac or a Windows PC), this will not be <cite>localhost</cite>. The IP
+address will be given by:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>docker-machine ip <span class="o">[</span>name-of-your-docker-machine-vm<span class="o">]</span>
+</pre></div>
+</div>
+<p class="last">If usure about the name of your docker-machine VM, check the
+output of the command <cite>docker-machine ls</cite>.</p>
+</div>
+</div>
+</div>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<p>Currently the development is done on UNIX-like operating systems with the
+following software versions. Those are the recommended
+versions to run rpy2 with.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Software</th>
+<th class="head">Versions</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Python</td>
+<td>3.5 (compatible with 2.7 and &gt;3.3, but features might be missing)</td>
+</tr>
+<tr class="row-odd"><td>R</td>
+<td>3.2+</td>
+</tr>
+</tbody>
+</table>
+<p>Running Rpy2 will require compiled libraries for R, Python, and readline;
+building rpy2 will require the corresponding development headers
+(check the documentation for more information about builing rpy2).</p>
+<p>rpy2 is almost certainly not working with Python 2.6.
+Older Python versions are even less likely to work.</p>
+<p>While Python 3.3 should be working, earlier version of Python 3 are not
+expected to (they might work, they might not - you are on your own).</p>
+<p>Rpy2 is not expected to work at all with an R version &lt; 2.8. The use of the
+latest rpy2 with an R version older than the current release is not
+adviced (and mostly unsupported).</p>
+<div class="section" id="alternative-python-implementations">
+<h4>Alternative Python implementations<a class="headerlink" href="#alternative-python-implementations" title="Permalink to this headline">¶</a></h4>
+<p>CPython is the target implementation, and because of presence of C code
+in rpy2 is it currently not possible to run the package on Jython.
+For that same reason, running it with Pypy is expected to require
+some effort.</p>
+</div>
+<div class="section" id="upgrading-from-an-older-release-of-rpy2">
+<h4>Upgrading from an older release of rpy2<a class="headerlink" href="#upgrading-from-an-older-release-of-rpy2" title="Permalink to this headline">¶</a></h4>
+<p>In order to upgrade one will have to first remove older
+installed rpy2 packages then and only then install
+a version of rpy2.</p>
+<p>To do so, or to check whether you have an earlier version
+of rpy2 installed, do the following in a Python console:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2</span>
+<span class="n">rpy2</span><span class="o">.</span><span class="n">__path__</span>
+</pre></div>
+</div>
+<p>An error during execution means that you do not have any older
+version of rpy2 installed and you should proceed to the next section.</p>
+<p>If this returns a string containing a path, you should go to that path
+and remove all files and directories starting with <em>rpy2</em>. To make sure
+that the cleaning is complete, open a new Python session and check that
+the above code results in an error.</p>
+</div>
+</div>
+<div class="section" id="download">
+<h3>Download<a class="headerlink" href="#download" title="Permalink to this headline">¶</a></h3>
+<p>The following options are, or could be, available for download:</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Source packages. Released versions are available on Pypi
+(Sourceforge is no longer used).
+Snapshots of the development version can be downloaded from
+bitbucket</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The repository on bitbucket has several branches. Make sure to select
+the one you are interested in.</p>
+</div>
+</li>
+<li><p class="first">Pre-compiled binary packages for</p>
+<ul class="simple">
+<li>Microsoft’s Windows - unofficial and unsupported binaries are provided
+by Christoph Gohlke (<a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">http://www.lfd.uci.edu/~gohlke/pythonlibs/</a>);
+there is otherwise currently
+close to no support for this platform</li>
+<li>Apple’s MacOS X (although Fink and Macports are available, there does not
+seem to be binaries currently available)</li>
+<li>Linux distributions</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p><cite>rpy2</cite> has been reported compiling successfully on all 3 platforms, provided
+that development items such as Python headers and a C compiler are installed.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Choose files from the <cite>rpy2</cite> package, not <cite>rpy</cite>.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <em>pip</em> or <em>easy_install</em> commands can be used,
+although they currently only provide installation from source
+(see <a class="reference internal" href="#install-easyinstall"><span class="std std-ref">easy_install and pip</span></a>).</p>
+</div>
+</div>
+<div class="section" id="linux-precompiled-binaries">
+<h3>Linux precompiled binaries<a class="headerlink" href="#linux-precompiled-binaries" title="Permalink to this headline">¶</a></h3>
+<p>Linux distribution have packaging systems, and rpy2 is present
+in a number of them, either as a pre-compiled package or a source
+package compiled on-the-fly.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Those versions will often be older than the latest rpy2 release.</p>
+</div>
+<p>Known distributions are: Debian and related (such as Ubuntu - often
+the most recent thanks to Dirk Eddelbuettel), Suse, RedHat, Mandrake,
+Gentoo.</p>
+<p>On, OS X rpy2 is in Macports and Fink.</p>
+</div>
+<div class="section" id="microsoft-s-windows-precompiled-binaries">
+<span id="index-0"></span><h3>Microsoft’s Windows precompiled binaries<a class="headerlink" href="#microsoft-s-windows-precompiled-binaries" title="Permalink to this headline">¶</a></h3>
+<p>If available, the executable can be run; this will install the package
+in the default Python installation.</p>
+<p>For few releases in the 2.0.x series,
+Microsoft Windows binaries were contributed by Laurent Oget from Predictix.</p>
+<p>There is currently no binaries or support for Microsoft Windows
+(because of lack of ressources more than anything else), but
+the collection of Unofficial Windows Binaries for Python Extension Packages
+provided by Christoph Gohlke includes rpy2:
+<a class="reference external" href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">http://www.lfd.uci.edu/~gohlke/pythonlibs/</a></p>
+</div>
+<div class="section" id="install-from-source">
+<span id="index-1"></span><h3>Install from source<a class="headerlink" href="#install-from-source" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="easy-install-and-pip">
+<span id="install-easyinstall"></span><h4>easy_install and pip<a class="headerlink" href="#easy-install-and-pip" title="Permalink to this headline">¶</a></h4>
+<p>The source package is on the PYthon Package Index (PYPI), and the
+<em>pip</em> or <em>easy_install</em> scripts can be used whenever available.
+The shell command will then just be:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># recommended:</span>
+pip install rpy2
+
+<span class="c1"># or</span>
+easy_install rpy2
+</pre></div>
+</div>
+<p>Upgrading an existing installation is done with:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>      <span class="c1"># recommended:</span>
+pip install rpy2 --upgrade
+
+<span class="c1"># or</span>
+easy_install rpy2 --upgrade
+</pre></div>
+</div>
+<p>Both utilities have a list of options and their respective documentation should
+be checked for details.</p>
+</div>
+<div class="section" id="source-archive">
+<span id="install-setup"></span><h4>source archive<a class="headerlink" href="#source-archive" title="Permalink to this headline">¶</a></h4>
+<p>To install from a downloaded source archive <cite>&lt;rpy_package&gt;</cite>, do in a shell:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>tar -xzf &lt;rpy_package&gt;.tar.gz
+<span class="nb">cd</span> &lt;rpy_package&gt;
+python setup.py build install
+</pre></div>
+</div>
+<p>This will build the package, guessing the R HOME from
+the R executable found in the PATH.</p>
+<p>Beside the regular options for <a class="reference external" href="https://docs.python.org/2/library/distutils.html#module-distutils" title="(in Python v2.7)"><code class="xref py py-mod docutils literal"><span class="pre">distutils</span></code></a>-way of building and installing
+Python packages, it is otherwise possible to give explicitly the location for the R HOME:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python setup.py build --r-home /opt/packages/R/lib install
+</pre></div>
+</div>
+<p>Other options to build the package are:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>--r-home-lib <span class="c1"># for exotic location of the R shared libraries</span>
+
+--r-home-modules <span class="c1"># for R shared modules</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="compiling-on-linux">
+<h4>Compiling on Linux<a class="headerlink" href="#compiling-on-linux" title="Permalink to this headline">¶</a></h4>
+<p>Given that you have the libraries and development headers listed above, this
+should be butter smooth.</p>
+<p>The most frequent errors seem to be because of missing headers.</p>
+</div>
+<div class="section" id="compiling-on-os-x">
+<h4>Compiling on OS X<a class="headerlink" href="#compiling-on-os-x" title="Permalink to this headline">¶</a></h4>
+<p><em>XCode</em> tools will be required in order to compile rpy2. Please refer to the documentation on the Apple
+site for more details about what they are and how to install them.</p>
+<p>On OS X “Snow Leopard” (10.6.8), it was reported that setting architecture flags was sometimes needed</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>env <span class="nv">ARCHFLAGS</span><span class="o">=</span><span class="s2">&quot;-arch i386 -arch x86_64&quot;</span> pip install rpy2
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>env <span class="nv">ARCHFLAGS</span><span class="o">=</span><span class="s2">&quot;-arch i386 -arch x86_64&quot;</span> python setup.py build install
+</pre></div>
+</div>
+<p>Some people have reported trouble with OS X “Lion”. Please check the bug tracker if you are in that situation.</p>
+</div>
+<div class="section" id="using-rpy2-with-other-versions-of-r-or-python">
+<h4>Using rpy2 with other versions of R or Python<a class="headerlink" href="#using-rpy2-with-other-versions-of-r-or-python" title="Permalink to this headline">¶</a></h4>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>When building rpy2, it is checked that this is against a recommended
+version of R. Building against a different version is possible, although
+not supported at all, through the flag <em>–ignore-check-rversion</em></p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python setup.py build_ext --ignore-check-rversion install
+</pre></div>
+</div>
+<p class="last">Since recently, development R is no longer returning
+an R version and the check ends with an error
+“Error: R &gt;= &lt;some version&gt; required (and R told ‘development.’).”.
+The flag <em>–ignore-check-rversion</em> is then required in order to build.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When compiling R from source, do not forget to specify
+<em>–enable-R-shlib</em> at the <em>./configure</em> step.</p>
+</div>
+</div>
+</div>
+<div class="section" id="test-an-installation">
+<span id="index-2"></span><h3>Test an installation<a class="headerlink" href="#test-an-installation" title="Permalink to this headline">¶</a></h3>
+<p>An installation can be tested for functionalities, and whenever necessary
+the different layers constituting the packages can be tested independently.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python -m <span class="s1">&#39;rpy2.tests&#39;</span>
+</pre></div>
+</div>
+<p>On Python 2.6, this should return that all tests were successful.</p>
+<p>Whenever more details are needed, one can consider running tests
+for specific parts of the package. For example:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python -m rpy2.rinterface.tests.__init__
+
+<span class="c1"># or</span>
+
+python -m rpy2.robjects.tests.__init__
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Running the tests in an interactive session appears to trigger spurious exceptions
+when testing callback functions raising exceptions.
+If unsure, simply use the former way to test (in a shell).</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>For reasons that remain to be elucidated, running the test suites used to leave the Python
+interpreter in a fragile state, soon crashing after the tests have been run.</p>
+<p class="last">It is not clear whether this is still the case, but is recommended to terminate the
+Python process after the tests and start working with a fresh new session.</p>
+</div>
+<p>To test the <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a> high-level interface:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python -m <span class="s1">&#39;rpy2.robjects.tests.__init__&#39;</span>
+</pre></div>
+</div>
+<p>or for a full control of options</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects.tests</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="c1"># the verbosity level can be increased if needed</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">suite</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">tests</span><span class="o">.</span><span class="n">suite</span><span class="p">()</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">suite</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>If interested in the lower-level interface, the tests can be run with:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python -m <span class="s1">&#39;rpy2.rinterface.tests.__init__&#39;</span>
+</pre></div>
+</div>
+<p>or for a full control of options</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.rinterface.tests</span>
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<span class="c1"># the verbosity level can be increased if needed</span>
+<span class="n">tr</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TextTestRunner</span><span class="p">(</span><span class="n">verbosity</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">suite</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">tests</span><span class="o">.</span><span class="n">suite</span><span class="p">()</span>
+<span class="n">tr</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">suite</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="contents">
+<h2>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
+<p>The package is made of several sub-packages or modules:</p>
+<div class="section" id="rpy2-rinterface">
+<h3><a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rinterface</span></code></a><a class="headerlink" href="#rpy2-rinterface" title="Permalink to this headline">¶</a></h3>
+<p>Low-level interface to R, when speed and flexibility
+matter most. Close to R’s C-level API.</p>
+</div>
+<div class="section" id="rpy2-robjects">
+<h3><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a><a class="headerlink" href="#rpy2-robjects" title="Permalink to this headline">¶</a></h3>
+<p>High-level interface, when ease-of-use matters most.
+Should be the right pick for casual and general use.
+Based on the previous one.</p>
+</div>
+<div class="section" id="rpy2-interactive">
+<h3><a class="reference internal" href="interactive.html#module-rpy2.interactive" title="rpy2.interactive"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.interactive</span></code></a><a class="headerlink" href="#rpy2-interactive" title="Permalink to this headline">¶</a></h3>
+<p>High-level interface, with an eye for interactive work. Largely based
+on <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a>.</p>
+</div>
+<div class="section" id="rpy2-rpy-classic">
+<h3><a class="reference internal" href="rpy_classic.html#module-rpy2.rpy_classic" title="rpy2.rpy_classic: Emulate the orignal rpy"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rpy_classic</span></code></a><a class="headerlink" href="#rpy2-rpy-classic" title="Permalink to this headline">¶</a></h3>
+<p>High-level interface similar to the one in RPy-1.x.
+This is provided for compatibility reasons, as well as to facilitate the migration
+to RPy2.</p>
+</div>
+<div class="section" id="rpy2-rlike">
+<h3><a class="reference internal" href="rlike.html#module-rpy2.rlike" title="rpy2.rlike: Operate (a bit) like in R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rlike</span></code></a><a class="headerlink" href="#rpy2-rlike" title="Permalink to this headline">¶</a></h3>
+<p>Data structures and functions to mimic some of R’s features and specificities
+in pure Python (no embedded R process).</p>
+</div>
+</div>
+<div class="section" id="design-notes">
+<h2>Design notes<a class="headerlink" href="#design-notes" title="Permalink to this headline">¶</a></h2>
+<p>When designing rpy2, attention was given to:</p>
+<ul class="simple">
+<li>render the use of the module simple from both a Python or R user’s perspective,</li>
+<li>minimize the need for knowledge about R, and the need for tricks and workarounds,</li>
+<li>allow to customize a lot while remaining at the Python level (without having to go down to C-level).</li>
+</ul>
+<p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a> implements an extension to the interface in
+<a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rinterface</span></code></a> by extending the classes for R
+objects defined there with child classes.</p>
+<p>The choice of inheritance was made to facilitate the implementation
+of mostly inter-exchangeable classes between <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rinterface</span></code></a>
+and <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a>. For example, an <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpClosure</span></code>
+can be given any <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.RObject" title="rpy2.robjects.RObject"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.RObject</span></code></a> as a parameter while
+any <code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.Function</span></code> can be given any
+<a class="reference internal" href="rinterface.html#rpy2.rinterface.Sexp" title="rpy2.rinterface.Sexp"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.Sexp</span></code></a>. Because of R’s functional basis,
+a container-like extension is also present.</p>
+<p>The module <a class="reference internal" href="rpy_classic.html#module-rpy2.rpy_classic" title="rpy2.rpy_classic: Emulate the orignal rpy"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rpy_classic</span></code></a> is using delegation, letting us
+demonstrate how to extend <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rinterface</span></code></a> with an alternative
+to inheritance.</p>
+</div>
+<div class="section" id="acknowledgements">
+<h2>Acknowledgements<a class="headerlink" href="#acknowledgements" title="Permalink to this headline">¶</a></h2>
+<p>Acknowledgements for contributions, support, and early testing go to (alphabetical order):</p>
+<p>Alexander Belopolsky,
+Brad Chapman,
+Peter Cock,
+Dirk Eddelbuettel,
+Thomas Kluyver,
+Walter Moreira,
+Laurent Oget,
+John Owens,
+Nicolas Rapin,
+Grzegorz Slodkowicz,
+Nathaniel Smith,
+Gregory Warnes,
+as well as
+the JRI author(s),
+the R authors,
+R-help list responders,
+Numpy list responders,
+and other contributors.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Overview</a><ul>
+<li><a class="reference internal" href="#background">Background</a></li>
+<li><a class="reference internal" href="#installation">Installation</a><ul>
+<li><a class="reference internal" href="#docker-image">Docker image</a><ul>
+<li><a class="reference internal" href="#ipython-terminal">ipython terminal</a></li>
+<li><a class="reference internal" href="#jupyter-notebook">jupyter notebook</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#requirements">Requirements</a><ul>
+<li><a class="reference internal" href="#alternative-python-implementations">Alternative Python implementations</a></li>
+<li><a class="reference internal" href="#upgrading-from-an-older-release-of-rpy2">Upgrading from an older release of rpy2</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#download">Download</a></li>
+<li><a class="reference internal" href="#linux-precompiled-binaries">Linux precompiled binaries</a></li>
+<li><a class="reference internal" href="#microsoft-s-windows-precompiled-binaries">Microsoft’s Windows precompiled binaries</a></li>
+<li><a class="reference internal" href="#install-from-source">Install from source</a><ul>
+<li><a class="reference internal" href="#easy-install-and-pip">easy_install and pip</a></li>
+<li><a class="reference internal" href="#source-archive">source archive</a></li>
+<li><a class="reference internal" href="#compiling-on-linux">Compiling on Linux</a></li>
+<li><a class="reference internal" href="#compiling-on-os-x">Compiling on OS X</a></li>
+<li><a class="reference internal" href="#using-rpy2-with-other-versions-of-r-or-python">Using rpy2 with other versions of R or Python</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#test-an-installation">Test an installation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#contents">Contents</a><ul>
+<li><a class="reference internal" href="#rpy2-rinterface"><code class="docutils literal"><span class="pre">rpy2.rinterface</span></code></a></li>
+<li><a class="reference internal" href="#rpy2-robjects"><code class="docutils literal"><span class="pre">rpy2.robjects</span></code></a></li>
+<li><a class="reference internal" href="#rpy2-interactive"><code class="docutils literal"><span class="pre">rpy2.interactive</span></code></a></li>
+<li><a class="reference internal" href="#rpy2-rpy-classic"><code class="docutils literal"><span class="pre">rpy2.rpy_classic</span></code></a></li>
+<li><a class="reference internal" href="#rpy2-rlike"><code class="docutils literal"><span class="pre">rpy2.rlike</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#design-notes">Design notes</a></li>
+<li><a class="reference internal" href="#acknowledgements">Acknowledgements</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="getting-started.html"
+                        title="previous chapter">Getting started</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="next chapter">Introduction to rpy2</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/overview.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="Introduction to rpy2"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="getting-started.html" title="Getting started"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="getting-started.html" >Getting started</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,385 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Custom graphical devices &#8212; rpy2 2.10.0-dev documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.10.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Appendix" href="appendix.html" />
+    <link rel="prev" title="Performances" href="performances.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="appendix.html" title="Appendix"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="performances.html" title="Performances"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="miscellaneous.html" accesskey="U">Miscellaneous topics</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="custom-graphical-devices">
+<span id="graphicaldevices-custom"></span><h1>Custom graphical devices<a class="headerlink" href="#custom-graphical-devices" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This is still very experimental, and using this may result in
+crashing the Python interpreter.</p>
+</div>
+<p>The C-API to R allows extension writers to implement custom
+graphical devices (using C). This feature was used to implement
+drivers to SVG or Cairo, for example (Cairo support made it later to the R
+codebase).</p>
+<p>Rpy2 is exposing the creation of custome graphical devies to Python
+programmer, without the need for C.</p>
+<p>To demonstrate how to implement a graphical, we consider the following
+example:
+a device that counts the number of times graphical primitives are used.
+This is something of very limited practical use, but enough to explain
+the principles.</p>
+<p>Such a device would be implemented as follows:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.rinterface._rpy_device</span> <span class="kn">as</span> <span class="nn">rdevice</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="k">class</span> <span class="nc">BeancounterDevice</span><span class="p">(</span><span class="n">rdevice</span><span class="o">.</span><span class="n">GraphicalDevice</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Graphical devive for R that counts the</span>
+<span class="sd">    number of times primitives are called.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BeancounterDevice</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">circle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">radius</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span><span class="p">[</span><span class="s1">&#39;circle&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">clip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span><span class="p">[</span><span class="s1">&#39;clip&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span><span class="p">[</span><span class="s1">&#39;lines&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span><span class="p">[</span><span class="s1">&#39;mode&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">rect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">y1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span><span class="p">[</span><span class="s1">&#39;rectangle&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">strwidth</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span><span class="p">[</span><span class="s1">&#39;strwidth&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">text</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">rot</span><span class="p">,</span> <span class="n">hadj</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ct</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>The class <code class="xref py py-class docutils literal"><span class="pre">BeancounterDevice</span></code> can now be used as genuine
+R plotting device.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">BeancounterDevice</span><span class="p">()</span>
+
+<span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;graphics&quot;</span><span class="p">)</span>
+<span class="c1"># plot into our counting device</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># Print the counts</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dev</span><span class="o">.</span><span class="n">_ct</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To implement a new custom graphical device for R, one only has to
+extend the class <a class="reference internal" href="#rpy2.rinterface._rpy_device.GraphicalDevice" title="rpy2.rinterface._rpy_device.GraphicalDevice"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface._rpy_device.GraphicalDevice</span></code></a>.
+Error messages will be printed if that new device does not implement
+functionalities used by R.</p>
+<p>The Python documentation strings for the class and its methods are:</p>
+<dl class="class">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice">
+<em class="property">class </em><code class="descclassname">rpy2.rinterface._rpy_device.</code><code class="descname">GraphicalDevice</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Python-defined graphical device for R.</p>
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.activate">
+<code class="descname">activate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.activate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: activation of the graphical device.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.bottom">
+<code class="descname">bottom</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.bottom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bottom coordinate.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.canGenKeybd">
+<code class="descname">canGenKeybd</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.canGenKeybd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ability to generate keyboard events.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.canGenMouseDown">
+<code class="descname">canGenMouseDown</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.canGenMouseDown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ability to generate mouse down events.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.canGenMouseMove">
+<code class="descname">canGenMouseMove</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.canGenMouseMove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ability to generate mouse move events.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.canGenMouseUp">
+<code class="descname">canGenMouseUp</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.canGenMouseUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ability to generate mouse up events.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.circle">
+<code class="descname">circle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.circle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: draw a circle on the graphical device.
+The callback will receive the parameters x, y, radius</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.clip">
+<code class="descname">clip</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.clip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: clip the graphical device.
+The callback method will receive 4 arguments (Python floats) corresponding to the x0, x1, y0, y1 respectively.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: close the device.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.deactivate">
+<code class="descname">deactivate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.deactivate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: deactivate the graphical device.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.devnum">
+<code class="descname">devnum</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.devnum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Device number.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.displayListOn">
+<code class="descname">displayListOn</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.displayListOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Status of the display list.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.getevent">
+<code class="descname">getevent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.getevent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: get event on the graphical device.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.hasTextUTF8">
+<code class="descname">hasTextUTF8</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.hasTextUTF8" title="Permalink to this definition">¶</a></dt>
+<dd><p>UTF8 capabilities of the device.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.left">
+<code class="descname">left</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.left" title="Permalink to this definition">¶</a></dt>
+<dd><p>Left coordinate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.line">
+<code class="descname">line</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: draw a line on the graphical device.
+The callback will receive the arguments x1, y1, x2, y2.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.locator">
+<code class="descname">locator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.locator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: locator on the graphical device.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.metricinfo">
+<code class="descname">metricinfo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.metricinfo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: MetricInfo on the graphical device.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.mode">
+<code class="descname">mode</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: mode of the graphical device.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.newpage">
+<code class="descname">newpage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.newpage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: create a new page for the graphical device.
+If the device can only handle one page, the callback will have to eventually terminate clean an existing page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.polygon">
+<code class="descname">polygon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.polygon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: draw a polygon on the graphical device.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.polyline">
+<code class="descname">polyline</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.polyline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: draw a polyline on the graphical device.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.rect">
+<code class="descname">rect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: draw a rectangle on the graphical device.
+The callback will receive 4 parameters x0, x1, y0, y1.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.right">
+<code class="descname">right</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.right" title="Permalink to this definition">¶</a></dt>
+<dd><p>Right coordinate.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.size">
+<code class="descname">size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: set the size of the graphical device.
+The callback must return a tuple of 4 Python float (C double).
+These could be:
+left = 0
+right= &lt;WindowWidth&gt;
+bottom = &lt;WindowHeight&gt;
+top=0</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.strwidth">
+<code class="descname">strwidth</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.strwidth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: strwidth(text) -&gt; width</p>
+<p>Width (in pixels) of a text when represented on the graphical device.
+The callback will return a Python float (C double).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.text">
+<code class="descname">text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Callback to implement: display text on the device.
+The callback will receive the parameters:
+x, y (position), string, rot (angle in degrees), hadj (some horizontal spacing parameter ?)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.top">
+<code class="descname">top</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.top" title="Permalink to this definition">¶</a></dt>
+<dd><p>Top coordinate.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.rinterface._rpy_device.GraphicalDevice.wantSymbolUTF8">
+<code class="descname">wantSymbolUTF8</code><a class="headerlink" href="#rpy2.rinterface._rpy_device.GraphicalDevice.wantSymbolUTF8" title="Permalink to this definition">¶</a></dt>
+<dd><p>UTF8 capabilities of the device.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="performances.html"
+                        title="previous chapter">Performances</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="appendix.html"
+                        title="next chapter">Appendix</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/graphicaldevices.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="appendix.html" title="Appendix"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="performances.html" title="Performances"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="miscellaneous.html" >Miscellaneous topics</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>

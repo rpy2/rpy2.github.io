@@ -1,0 +1,232 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>The robjects package &#8212; rpy2 2.10.0-dev documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2.10.0-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="robjects_overview.html" />
+    <link rel="prev" title="High-level interface" href="high-level.html" /> 
+  </head>
+  <body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_overview.html" title="Overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="high-level.html" title="High-level interface"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-rpy2.robjects">
+<span id="the-robjects-package"></span><h1>The robjects package<a class="headerlink" href="#module-rpy2.robjects" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="robjects_overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_rinstance.html"><cite>r</cite>: the instance of <strong class="program">R</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_robjects.html">R objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_formulae.html">Formulae</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_rpackages.html">R packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_oop.html">Working with R’s OOPs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_serialization.html">Object serialization</a></li>
+</ul>
+</div>
+<div class="section" id="class-diagram">
+<h2>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h2>
+digraph inheritance53be5cfb4d {
+rankdir=LR;
+size=&quot;8.0, 12.0&quot;;
+  &quot;Array&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.Array&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;An R array&quot;];
+  &quot;Vector&quot; -&gt; &quot;Array&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;BoolSexpVector&quot; [URL=&quot;rinterface.html#rpy2.rinterface.BoolSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of booleans&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;BoolSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;BoolVector&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.BoolVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Vector of boolean (logical) elements &quot;];
+  &quot;Vector&quot; -&gt; &quot;BoolVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;BoolSexpVector&quot; -&gt; &quot;BoolVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ClassRepresentation&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Definition of an R S4 class&quot;];
+  &quot;RS4&quot; -&gt; &quot;ClassRepresentation&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ComplexSexpVector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R vector of complex values.&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;ComplexSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ComplexVector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Vector of complex elements &quot;];
+  &quot;Vector&quot; -&gt; &quot;ComplexVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ComplexSexpVector&quot; -&gt; &quot;ComplexVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;DataFrame&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.DataFrame&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R 'data.frame'.&quot;];
+  &quot;ListVector&quot; -&gt; &quot;DataFrame&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;DateVector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Vector of dates&quot;];
+  &quot;FloatVector&quot; -&gt; &quot;DateVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;DocstringProperty&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;DocumentedSTFunction&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SignatureTranslatedFunction&quot; -&gt; &quot;DocumentedSTFunction&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;DoubleExtractDelegator&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Delegate the R 'extraction' (\&quot;[[\&quot;) and \&quot;replacement\&quot; (\&quot;[[&lt;-\&quot;)&quot;];
+  &quot;ExtractDelegator&quot; -&gt; &quot;DoubleExtractDelegator&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ExtractDelegator&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Delegate the R 'extraction' (\&quot;[\&quot;) and 'replacement' (\&quot;[&lt;-\&quot;)&quot;];
+  &quot;FactorVector&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.FactorVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Vector of 'factors' &quot;];
+  &quot;IntVector&quot; -&gt; &quot;FactorVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;FloatSexpVector&quot; [URL=&quot;rinterface.html#rpy2.rinterface.FloatSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of Python floats (note: double in C)&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;FloatSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;FloatVector&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.FloatVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Vector of float (double) elements &quot;];
+  &quot;Vector&quot; -&gt; &quot;FloatVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;FloatSexpVector&quot; -&gt; &quot;FloatVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;Formula&quot; [URL=&quot;robjects_formulae.html#rpy2.robjects.Formula&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;];
+  &quot;RObjectMixin&quot; -&gt; &quot;Formula&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;Sexp&quot; -&gt; &quot;Formula&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;Function&quot; [URL=&quot;robjects_functions.html#rpy2.robjects.functions.Function&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Python representation of an R function.&quot;];
+  &quot;RObjectMixin&quot; -&gt; &quot;Function&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SexpClosure&quot; -&gt; &quot;Function&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;IntSexpVector&quot; [URL=&quot;rinterface.html#rpy2.rinterface.IntSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of integers (note: integers in R are C-int, not C-long)&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;IntSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;IntVector&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.IntVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Vector of integer elements &quot;];
+  &quot;Vector&quot; -&gt; &quot;IntVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;IntSexpVector&quot; -&gt; &quot;IntVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ListSexpVector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R list.&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;ListSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ListVector&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.ListVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R list (vector of arbitray elements)&quot;];
+  &quot;Vector&quot; -&gt; &quot;ListVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;ListSexpVector&quot; -&gt; &quot;ListVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;Matrix&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.Matrix&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;An R matrix&quot;];
+  &quot;Array&quot; -&gt; &quot;Matrix&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;POSIXct&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.POSIXct&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Representation of dates as seconds since Epoch.&quot;];
+  &quot;POSIXt&quot; -&gt; &quot;POSIXct&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;FloatVector&quot; -&gt; &quot;POSIXct&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;POSIXlt&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.POSIXlt&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Representation of dates with a 9-component structure&quot;];
+  &quot;POSIXt&quot; -&gt; &quot;POSIXlt&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;Vector&quot; -&gt; &quot;POSIXlt&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;POSIXt&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;POSIX time vector. This is an abstract class.&quot;];
+  &quot;ParsedCode&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;ParsedCode&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;R&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Singleton representing the embedded R running.&quot;];
+  &quot;RObjectMixin&quot; [URL=&quot;robjects_robjects.html#rpy2.robjects.robject.RObjectMixin&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Class to provide methods common to all RObject instances&quot;];
+  &quot;RS4&quot; [URL=&quot;robjects_oop.html#rpy2.robjects.methods.RS4&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Python representation of an R instance of class 'S4'.&quot;];
+  &quot;RObjectMixin&quot; -&gt; &quot;RS4&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SexpS4&quot; -&gt; &quot;RS4&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;RS4Auto_Type&quot; [URL=&quot;robjects_oop.html#rpy2.robjects.methods.RS4Auto_Type&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;This type (metaclass) takes an R S4 class&quot;];
+  &quot;RS4_Type&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;Sexp&quot; [URL=&quot;rinterface.html#rpy2.rinterface.Sexp&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;];
+  &quot;SexpClosure&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;A R object that is a closure, that is a function. In R a function is defined within an enclosing environment, thus the name closure. In Python, 'nested scopes' could be the closest similar thing.&quot;];
+  &quot;Sexp&quot; -&gt; &quot;SexpClosure&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SexpS4&quot; [URL=&quot;rinterface.html#rpy2.rinterface.SexpS4&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R object that is an 'S4 object'.Attributes can be accessed using the method 'do_slot'.&quot;];
+  &quot;Sexp&quot; -&gt; &quot;SexpS4&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SexpVector&quot; [URL=&quot;rinterface.html#rpy2.rinterface.SexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R object that is a vector. R vectors start their indexing at one, while Python lists or arrays start indexing at zero.&quot;];
+  &quot;Sexp&quot; -&gt; &quot;SexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SignatureTranslatedFunction&quot; [URL=&quot;robjects_functions.html#rpy2.robjects.functions.SignatureTranslatedFunction&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Python representation of an R function, where&quot;];
+  &quot;Function&quot; -&gt; &quot;SignatureTranslatedFunction&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SourceCode&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;StrSexpVector&quot; [URL=&quot;rinterface.html#rpy2.rinterface.StrSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of Python strings&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;StrSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;StrVector&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.StrVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Vector of string elements&quot;];
+  &quot;Vector&quot; -&gt; &quot;StrVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;StrSexpVector&quot; -&gt; &quot;StrVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;Vector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Vector(seq) -&gt; Vector.&quot;];
+  &quot;RObjectMixin&quot; -&gt; &quot;Vector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;SexpVector&quot; -&gt; &quot;Vector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
+  &quot;VectorOperationsDelegator&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Delegate operations such as __getitem__, __add__, etc...&quot;];
+}
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The robjects package</a><ul>
+<li><a class="reference internal" href="#class-diagram">Class diagram</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="high-level.html"
+                        title="previous chapter">High-level interface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="robjects_overview.html"
+                        title="next chapter">Overview</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_overview.html" title="Overview"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="high-level.html" title="High-level interface"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.10.0-dev documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+    </div>
+  </body>
+</html>
