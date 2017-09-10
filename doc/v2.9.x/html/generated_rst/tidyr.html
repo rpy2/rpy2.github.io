@@ -44,25 +44,29 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+  <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="k">import</span> <span class="n">html</span>
 <span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="tidyr-in-python">
 <h1>tidyr in Python<a class="headerlink" href="#tidyr-in-python" title="Permalink to this headline">¶</a></h1>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.tidyr</span> <span class="k">import</span> <span class="n">DataFrame</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.tidyr</span> <span class="k">import</span> <span class="n">DataFrame</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">laurent</span><span class="o">/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">software</span><span class="o">/</span><span class="n">python</span><span class="o">/</span><span class="n">py35_env</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">5</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">-</span><span class="mf">2.9</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">py3</span><span class="o">.</span><span class="mi">5</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x86_64</span><span class="o">.</span><span class="n">egg</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">robjects</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">tidyr</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">This</span> <span class="n">was</span> <span class="n">designed</span> <span class="n">againt</span> <span class="n">tidyr</span> <span class="n">version</span> <span class="mf">0.4</span><span class="o">.</span><span class="mi">1</span> <span class="n">but</span> <span class="n">you</span> <span class="n">have</span> <span class="mf">0.7</span><span class="o">.</span><span class="mi">1</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;This was designed againt tidyr version </span><span class="si">%s</span><span class="s1"> but you have </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">TARGET_VERSION</span><span class="p">,</span> <span class="n">tidyr</span><span class="o">.</span><span class="n">__version__</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>(note: <code class="docutils literal"><span class="pre">dplyr</span></code> is implicitly used by <code class="docutils literal"><span class="pre">tidyr</span></code>.)</p>
 <p>In addition to that, and because this tutorial is in a notebook, we
 initialize HTML rendering for R objects (pretty display of R data
 frames).</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.ipython.html</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.ipython.html</span>
 <span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="p">(</span><span class="n">StrVector</span><span class="p">,</span>
                                    <span class="n">IntVector</span><span class="p">)</span>
 <span class="n">dataf</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">StrVector</span><span class="p">((</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)),</span>
@@ -78,8 +82,8 @@ frames).</p>
       <th></th>
       <th></th>
       <th>z</th>
-      <th>x</th>
       <th>y</th>
+      <th>x</th>
     </tr>
   </thead>
   <tbody>
@@ -87,25 +91,25 @@ frames).</p>
       <td class="rpy2_rowname">0</td>
         <td class="rpy2_names">1</td>
       <td>6</td>
-      <td>a</td>
       <td>3</td>
+      <td>a</td>
     </tr>
     <tr>
       <td class="rpy2_rowname">1</td>
         <td class="rpy2_names">2</td>
       <td>7</td>
-      <td>b</td>
       <td>4</td>
+      <td>b</td>
     </tr>
     <tr>
       <td class="rpy2_rowname">2</td>
         <td class="rpy2_names">3</td>
       <td>8</td>
-      <td>b</td>
       <td>5</td>
+      <td>b</td>
     </tr>
   </tbody>
-</table><div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">dataf</span><span class="o">.</span><span class="n">spread</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</table><div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">dataf</span><span class="o">.</span><span class="n">spread</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <emph>DataFrame</emph> with 3 rows and 3 columns:

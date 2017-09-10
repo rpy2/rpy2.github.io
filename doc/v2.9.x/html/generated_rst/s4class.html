@@ -55,7 +55,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+  <div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="k">import</span> <span class="n">html</span>
 <span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
 </pre></div>
@@ -65,25 +65,25 @@
 <p>The S4 system is one the OOP systems in R. Its largest use might in the
 Bioconductor collection of packages for bioinformatics and computational
 biology.</p>
-<p>We use the bioconductor `Biobase:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<p>We use the bioconductor <code class="docutils literal"><span class="pre">Biobase</span></code>:</p>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
 <span class="n">biobase</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;Biobase&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The R package contains constructors for the S4 classes defined. They are
 simply functions, and can be used as such through <code class="docutils literal"><span class="pre">rpy2</span></code>:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="n">eset</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">ExpressionSet</span><span class="p">()</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="n">eset</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">ExpressionSet</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The object <code class="docutils literal"><span class="pre">eset</span></code> is an R object of type <code class="docutils literal"><span class="pre">S4</span></code>:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">RS4</span>
 </pre></div>
 </div>
 <p>It has a class as well:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;ExpressionSet&#39;</span><span class="p">,)</span>
@@ -91,7 +91,7 @@ simply functions, and can be used as such through <code class="docutils literal"
 </div>
 <p>In R, objects attributes are also known as slots. The attribute names
 can be listed with:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">slotnames</span><span class="p">())</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">slotnames</span><span class="p">())</span>
 </pre></div>
 </div>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">(</span><span class="s1">&#39;experimentData&#39;</span><span class="p">,</span>
@@ -106,7 +106,7 @@ can be listed with:</p>
 <p>The attributes can also be accessed through the <code class="docutils literal"><span class="pre">rpy2</span></code> property
 <code class="docutils literal"><span class="pre">slots</span></code>. <code class="docutils literal"><span class="pre">slots</span></code> is a mapping between attributes names (keys) and
 their associated R object (values). It can be used as Python <code class="docutils literal"><span class="pre">dict</span></code>:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="c1"># print keys</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="c1"># print keys</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">slots</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
 <span class="c1"># fetch `phenoData`</span>
@@ -124,7 +124,7 @@ their associated R object (values). It can be used as Python <code class="docuti
 <h1>Mapping S4 classes to Python classes<a class="headerlink" href="#mapping-s4-classes-to-python-classes" title="Permalink to this headline">¶</a></h1>
 <p>Writing one’s own Python class extending rpy2’s <code class="docutils literal"><span class="pre">RS4</span></code> is
 straightforward. That class can be used wrap our <code class="docutils literal"><span class="pre">eset</span></code> object</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">RS4</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">RS4</span>
 <span class="k">class</span> <span class="nc">ExpressionSet</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -137,7 +137,7 @@ straightforward. That class can be used wrap our <code class="docutils literal">
 customizing the handling of S4 objects.</p>
 <p>A simple implementation is a factory function that will conditionally
 wrap the object in our Python class <code class="docutils literal"><span class="pre">ExpressionSet</span></code>:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ri2ro_s4</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ri2ro_s4</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="k">if</span> <span class="s1">&#39;ExpressionSet&#39;</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">ExpressionSet</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -148,11 +148,12 @@ wrap the object in our Python class <code class="docutils literal"><span class="
 <span class="n">ri2ro_s4</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">ExpressionSet</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x7f730ee4d088</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x29831c0</span><span class="o">&gt;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="nb">object</span> <span class="k">with</span> <span class="n">classes</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;ExpressionSet&#39;</span><span class="p">,)</span> <span class="n">mapped</span> <span class="n">to</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="n">ExpressionSet</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x7fbe1253c708</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x5634a32d64d0</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 <p>That function can be be register to a <code class="docutils literal"><span class="pre">Converter</span></code>:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">default_converter</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">default_converter</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="n">Converter</span><span class="p">,</span> <span class="n">localconverter</span>
 
 <span class="n">my_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">&#39;ExpressionSet-aware converter&#39;</span><span class="p">,</span>
@@ -167,7 +168,7 @@ wrap the object in our Python class <code class="docutils literal"><span class="
 </div>
 <p>When using that converter, the matching R objects are returned as
 instances of our Python class <code class="docutils literal"><span class="pre">ExpressionSet</span></code>:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">my_converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">my_converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
     <span class="n">eset</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">ExpressionSet</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">eset</span><span class="p">))</span>
 </pre></div>
@@ -180,7 +181,7 @@ instances of our Python class <code class="docutils literal"><span class="pre">E
 <h2>Class attributes<a class="headerlink" href="#class-attributes" title="Permalink to this headline">¶</a></h2>
 <p>The R attribute <code class="docutils literal"><span class="pre">assayData</span></code> can be accessed through the accessor
 method <code class="docutils literal"><span class="pre">exprs()</span></code> in R. We can make it a property in our Python class:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExpressionSet</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ExpressionSet</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">_exprs_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;assayData&#39;</span><span class="p">]</span>
     <span class="k">def</span> <span class="nf">_exprs_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
@@ -194,7 +195,8 @@ method <code class="docutils literal"><span class="pre">exprs()</span></code> in
 <span class="n">eset_myclass</span><span class="o">.</span><span class="n">exprs</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">Environment</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x7f730ee59d08</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x4ca6b48</span><span class="o">&gt;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="nb">object</span> <span class="k">with</span> <span class="n">classes</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;environment&#39;</span><span class="p">,)</span> <span class="n">mapped</span> <span class="n">to</span><span class="p">:</span>
+<span class="o">&lt;</span><span class="n">Environment</span> <span class="o">-</span> <span class="n">Python</span><span class="p">:</span><span class="mh">0x7fbe1255ca08</span> <span class="o">/</span> <span class="n">R</span><span class="p">:</span><span class="mh">0x5634a0c3f210</span><span class="o">&gt;</span>
 </pre></div>
 </div>
 </div>
@@ -204,7 +206,7 @@ method <code class="docutils literal"><span class="pre">exprs()</span></code> in
 system.</p>
 <p>A natural way to expose the S4 method to Python is to use the
 <code class="docutils literal"><span class="pre">multipledispatch</span></code> package:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">multipledispatch</span> <span class="k">import</span> <span class="n">dispatch</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">multipledispatch</span> <span class="k">import</span> <span class="n">dispatch</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
 
 <span class="n">my_namespace</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -222,7 +224,7 @@ system.</p>
 </div>
 <p>The R method <code class="docutils literal"><span class="pre">rowMedians</span></code> is also defined for matrices, which we can
 expose on the Python end as well:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">Matrix</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">Matrix</span>
 <span class="nd">@dispatch</span><span class="p">(</span><span class="n">Matrix</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">rowmedians</span><span class="p">(</span><span class="n">m</span><span class="p">,</span>
                <span class="n">na_rm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -237,7 +239,7 @@ functions. What is happening is that the dispatch is performed by R.</p>
 <p>If this is ever becoming a performance issue, the specific R function
 dispatched can be prefetched and explicitly called in the Python
 function. For example:</p>
-<div class="code python highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">getmethod</span>
+<div class="code highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">getmethod</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">StrVector</span>
 <span class="n">_rowmedians_matrix</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;rowMedians&quot;</span><span class="p">]),</span>
                                <span class="n">signature</span><span class="o">=</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;matrix&quot;</span><span class="p">]))</span>
