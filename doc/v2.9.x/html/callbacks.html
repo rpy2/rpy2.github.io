@@ -68,24 +68,76 @@ defined through callback functions.</p>
 <h3>Read console<a class="headerlink" href="#read-console" title="Permalink to this headline">¶</a></h3>
 <p>The ‘read console’ function is called whenever console input is expected.</p>
 <p>The default callback for inputing data is <code class="xref py py-func docutils literal"><span class="pre">rinterface.consoleRead()</span></code></p>
+<dl class="function">
+<dt id="rpy2.rinterface.consoleRead">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">consoleRead</code><span class="sig-paren">(</span><em>prompt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#consoleRead"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface.consoleRead" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prompt</strong> – <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <p>A suitable callback function will be such as it accepts one parameter of class <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>,
 that is the prompt, and returns the user input as a <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>.</p>
 <p>The pair of functions
-<code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_readconsole()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_readconsole()</span></code>
+<a class="reference internal" href="#rpy2.rinterface.set_readconsole" title="rpy2.rinterface.set_readconsole"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_readconsole()</span></code></a> and <a class="reference internal" href="#rpy2.rinterface.get_readconsole" title="rpy2.rinterface.get_readconsole"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_readconsole()</span></code></a>
 can be used to set and retrieve the callback function respectively.</p>
+<dl class="function">
+<dt id="rpy2.rinterface.set_readconsole">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">set_readconsole</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.set_readconsole" title="Permalink to this definition">¶</a></dt>
+<dd><p>set_readconsole(f)</p>
+<p>Set how to handle input to R with either None or a function f such as f(prompt) returns the string message to be passed to R</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.get_readconsole">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">get_readconsole</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.get_readconsole" title="Permalink to this definition">¶</a></dt>
+<dd><p>get_readconsole()</p>
+<p>Retrieve the current R alert message handler (see set_readconsole)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a callable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="write-console">
 <h3>Write console<a class="headerlink" href="#write-console" title="Permalink to this headline">¶</a></h3>
 <p>The ‘write console’ function is called whenever output is sent to the R console.</p>
 <p>A suitable callback function will be such as it accepts one parameter of class <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a>
 and only has side-effects (does not return anything).</p>
-<p>The pairs of functions (<code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_writeconsole_regular()</span></code>,
-<code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_writeconsole_regular()</span></code>) and
-(<code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_writeconsole_warnerror()</span></code>,
-<code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_writeconsole_warnerror()</span></code>)
+<p>The pairs of functions (<a class="reference internal" href="#rpy2.rinterface.set_writeconsole_regular" title="rpy2.rinterface.set_writeconsole_regular"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_writeconsole_regular()</span></code></a>,
+<a class="reference internal" href="#rpy2.rinterface.get_writeconsole_regular" title="rpy2.rinterface.get_writeconsole_regular"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_writeconsole_regular()</span></code></a>) and
+(<a class="reference internal" href="#rpy2.rinterface.set_writeconsole_warnerror" title="rpy2.rinterface.set_writeconsole_warnerror"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.set_writeconsole_warnerror()</span></code></a>,
+<a class="reference internal" href="#rpy2.rinterface.get_writeconsole_warnerror" title="rpy2.rinterface.get_writeconsole_warnerror"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.get_writeconsole_warnerror()</span></code></a>)
 can be used to set and retrieve the callback functions.</p>
 <p>The default callback function, called <code class="xref py py-func docutils literal"><span class="pre">rinterface.consolePrint()</span></code>
 is a simple write to <a class="reference external" href="https://docs.python.org/2/library/sys.html#sys.stdout" title="(in Python v2.7)"><code class="xref py py-data docutils literal"><span class="pre">sys.stdout</span></code></a></p>
+<dl class="function">
+<dt id="rpy2.rinterface.consolePrint">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">consolePrint</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#consolePrint"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface.consolePrint" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>x</strong> – <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/constants.html#None" title="(in Python v2.7)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <p>An example should make it obvious:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -107,6 +159,50 @@ is a simple write to <a class="reference external" href="https://docs.python.org
 <span class="n">rinterface</span><span class="o">.</span><span class="n">set_writeconsole</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">consolePrint</span><span class="p">)</span>
 </pre></div>
 </div>
+<dl class="function">
+<dt id="rpy2.rinterface.set_writeconsole_regular">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">set_writeconsole_regular</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.set_writeconsole_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>set_writeconsole_regular(f)</p>
+<p>Set how to handle regular output from the R console with either None or a function f such as f(output) returns None (f only has side effects).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.set_writeconsole_warnerror">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">set_writeconsole_warnerror</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.set_writeconsole_warnerror" title="Permalink to this definition">¶</a></dt>
+<dd><p>set_writeconsole_warnerror(f)</p>
+<p>Set how to handle warning or error output from the R console with either None or a function f such as f(output) returns None (f only has side effects).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.get_writeconsole_regular">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">get_writeconsole_regular</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.get_writeconsole_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>get_writeconsole_regular()</p>
+<p>Retrieve the current R console output handler (see set_writeconsole_regular)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a callable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="rpy2.rinterface.get_writeconsole_warnerror">
+<code class="descclassname">rpy2.rinterface.</code><code class="descname">get_writeconsole_warnerror</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.get_writeconsole_warnerror" title="Permalink to this definition">¶</a></dt>
+<dd><p>get_writeconsole_warnerror()</p>
+<p>Retrieve the current R console output handler for warnings and errors. (see set_writeconsole_warnerror)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">a callable</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 <div class="section" id="flush-console">
 <h3>Flush console<a class="headerlink" href="#flush-console" title="Permalink to this headline">¶</a></h3>

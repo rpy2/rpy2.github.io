@@ -78,13 +78,47 @@ possible to have several packages defining a documentation page for the
 same alias.</p>
 <p>With rpy2’s interface to the help system, an easy way to retrive
 pages associated with an alias is to
-use the function <code class="xref py py-func docutils literal"><span class="pre">pages()</span></code>, which returns a <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code>
-of <code class="xref py py-class docutils literal"><span class="pre">Page</span></code> instances.</p>
+use the function <a class="reference internal" href="#rpy2.robjects.help.pages" title="rpy2.robjects.help.pages"><code class="xref py py-func docutils literal"><span class="pre">pages()</span></code></a>, which returns a <code class="xref py py-class docutils literal"><span class="pre">tuple</span></code>
+of <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal"><span class="pre">Page</span></code></a> instances.</p>
+<dl class="function">
+<dt id="rpy2.robjects.help.pages">
+<code class="descclassname">rpy2.robjects.help.</code><code class="descname">pages</code><span class="sig-paren">(</span><em>topic</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#pages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get help pages corresponding to a given topic.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="package-documentation">
 <h2>Package documentation<a class="headerlink" href="#package-documentation" title="Permalink to this headline">¶</a></h2>
 <p>The documentation for a package is represented with the class
-<code class="xref py py-class docutils literal"><span class="pre">Package</span></code>.</p>
+<a class="reference internal" href="#rpy2.robjects.help.Package" title="rpy2.robjects.help.Package"><code class="xref py py-class docutils literal"><span class="pre">Package</span></code></a>.</p>
+<dl class="class">
+<dt id="rpy2.robjects.help.Package">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.help.</code><code class="descname">Package</code><span class="sig-paren">(</span><em>package_name</em>, <em>package_path = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>The R documentation page (aka help) for a package.</p>
+<dl class="method">
+<dt id="rpy2.robjects.help.Package.fetch">
+<code class="descname">fetch</code><span class="sig-paren">(</span><em>alias</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Package.fetch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Package.fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch the documentation page associated with a given alias.</p>
+<p>For S4 classes, the class name is <em>often</em> suffixed with ‘-class’.
+For example, the alias to the documentation for the class
+AnnotatedDataFrame in the package Biobase is ‘AnnotatedDataFrame-class’.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.robjects.help.Package.name">
+<code class="descname">name</code><a class="headerlink" href="#rpy2.robjects.help.Package.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the package as known by R</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.robjects.help.Package.package_path">
+<code class="descname">package_path</code><a class="headerlink" href="#rpy2.robjects.help.Package.package_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the installed R package</p>
+</dd></dl>
+
+</dd></dl>
+
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.robjects.help</span> <span class="k">as</span> <span class="nn">rh</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base_help</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">Package</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
@@ -94,7 +128,71 @@ of <code class="xref py py-class docutils literal"><span class="pre">Page</span>
 <div class="section" id="documentation-page">
 <h2>Documentation page<a class="headerlink" href="#documentation-page" title="Permalink to this headline">¶</a></h2>
 <p>A documentation page is represented as an instance of
-class <code class="xref py py-class docutils literal"><span class="pre">Page</span></code>.</p>
+class <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal"><span class="pre">Page</span></code></a>.</p>
+<dl class="class">
+<dt id="rpy2.robjects.help.Page">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.help.</code><code class="descname">Page</code><span class="sig-paren">(</span><em>struct_rdb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>An R documentation page. 
+The original R structure is a nested sequence of components,
+corresponding to the latex-like .Rd file</p>
+<p>An help page is divided into sections, the names for the sections
+are the keys for the dict attribute ‘sections’, and a given section
+can be extracted with the square-bracket operator.</p>
+<p>In R, the S3 class ‘Rd’ is the closest entity to this class.</p>
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.arguments">
+<code class="descname">arguments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the arguments and their description as a list of tuples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.description">
+<code class="descname">description</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the description of the entry</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.iteritems">
+<code class="descname">iteritems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.iteritems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.iteritems" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterator through the sections names and content
+in the documentation Page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.seealso">
+<code class="descname">seealso</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.seealso"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.seealso" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the other documentation entries recommended</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.title">
+<code class="descname">title</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the title</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.to_docstring">
+<code class="descname">to_docstring</code><span class="sig-paren">(</span><em>section_names=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.to_docstring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.to_docstring" title="Permalink to this definition">¶</a></dt>
+<dd><p>section_names: list of section names to consider. If None
+all sections are used.</p>
+<p>Returns a string that can be used as a Python docstring.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.usage">
+<code class="descname">usage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the usage for the object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.value">
+<code class="descname">value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value returned</p>
+</dd></dl>
+
+</dd></dl>
+
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span> <span class="o">=</span> <span class="n">base_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
 </pre></div>
 </div>

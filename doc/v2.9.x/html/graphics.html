@@ -576,6 +576,297 @@ used the grammar of graphics) are still specified the usual way.</p>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2smoothblue.png"><img alt="_images/graphics_ggplot2smoothblue.png" src="_images/graphics_ggplot2smoothblue.png" style="width: 306.0px; height: 306.0px;" /></a>
+<span class="target" id="module-rpy2.robjects.lib.ggplot2"></span><p>Wrapper for the popular R library ggplot2.</p>
+<p>With rpy2, the most convenient general way to
+import packages is to use <cite>importr()</cite>, for example
+with ggplot2:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="n">ggplot2</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This module is an supplementary layer in which an attempt
+at modelling the package as it was really developed
+as Python package is made. Behind the scene, <cite>importr()</cite>
+is used and can be accessed with:</p>
+<blockquote>
+<div>from robjects.robjects.lib import ggplot2
+ggplot2.ggplot2</div></blockquote>
+<p>GGplot2 is designed using a prototype-based approach to
+Object-Oriented Programming, and this module is trying
+to define class-hierachies so the nature of a given
+instance can be identified more easily.</p>
+<p>The main families of classes are:</p>
+<ul class="simple">
+<li>GGplot</li>
+<li>Aes and AesString</li>
+<li>Layer</li>
+<li>Stat</li>
+</ul>
+<p>A downside of the approach is that the code in the
+module is ‘hand-made’. In hindsight, this can be tedious
+to maintain and document but this is a good showcase of
+“manual” mapping of R code into Python classes.</p>
+<p>The codebase in R for ggplot2 has evolved since this
+was initially written, and many functions have
+signature-defined parameters (used to be ellipsis
+about everywhere). Metaprogramming will hopefully
+be added to shorten the Python code in the module,
+and provide a more dynamic mapping.</p>
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.Aes">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">Aes</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#Aes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.Aes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aesthetics mapping, using expressions rather than string
+(this is the most common form when using the package in R - it might
+be easier to use AesString when working in Python using rpy2 -
+see class AesString in this Python module).</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.ggplot2.Aes.new">
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#Aes.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.Aes.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor for the class Aes.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.AesString">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">AesString</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#AesString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.AesString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Aesthetics mapping, using strings rather than expressions (the later
+being most common form when using the package in R - see class Aes
+in this Python module).</p>
+<p>This associates dimensions in the data sets (columns in the DataFrame),
+possibly with a transformation applied on-the-fly (e.g., “log(value)”,
+or “cost / benefits”) to graphical “dimensions” in a chosen graphical
+representation (e.g., x-axis, color of points, size, etc…).</p>
+<p>Not all graphical representations have all dimensions. Refer to the
+documentation of ggplot2, online tutorials, or Hadley’s book for
+more details.</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.ggplot2.AesString.new">
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#AesString.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.AesString.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor for the class AesString.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.Coord">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">Coord</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#Coord"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.Coord" title="Permalink to this definition">¶</a></dt>
+<dd><p>Coordinates</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.CoordCartesian">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">CoordCartesian</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#CoordCartesian"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.CoordCartesian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cartesian coordinates.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.CoordEqual">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">CoordEqual</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#CoordEqual"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.CoordEqual" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class seems to be identical to CoordFixed.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.CoordFixed">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">CoordFixed</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#CoordFixed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.CoordFixed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cartesian coordinates with fixed relationship
+(that is fixed ratio between units in axes).
+CoordEquel seems to be identical to this class.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.CoordFlip">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">CoordFlip</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#CoordFlip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.CoordFlip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip horizontal and vertical coordinates.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.CoordMap">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">CoordMap</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#CoordMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.CoordMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map projections.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.CoordPolar">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">CoordPolar</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#CoordPolar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.CoordPolar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Polar coordinates.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.CoordTrans">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">CoordTrans</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#CoordTrans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.CoordTrans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply transformations (functions) to a cartesian coordinate system.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.Facet">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">Facet</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#Facet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.Facet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Panels</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.FacetGrid">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">FacetGrid</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#FacetGrid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.FacetGrid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Panels in a grid.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.FacetWrap">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">FacetWrap</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#FacetWrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.FacetWrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sequence of panels in a 2D layout</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.GGPlot">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">GGPlot</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#GGPlot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.GGPlot" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Grammar of Graphics Plot.</p>
+<p>GGPlot instances can be added to one an other in order to construct
+the final plot (the method <cite>__add__()</cite> is implemented).</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.ggplot2.GGPlot.new">
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#GGPlot.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.GGPlot.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor for the class GGplot.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.lib.ggplot2.GGPlot.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>filename</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#GGPlot.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.GGPlot.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the plot ( calls R’s <cite>ggplot2::ggsave()</cite> )</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.GeomSpoke">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">GeomSpoke</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#GeomSpoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.GeomSpoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert angle and radius to xend and yend</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.Layer">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">Layer</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#Layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.Layer" title="Permalink to this definition">¶</a></dt>
+<dd><p>At this level, aesthetics mapping can (should ?) be specified
+(see Aes and AesString).</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.ggplot2.Layer.new">
+<em class="property">classmethod </em><code class="descname">new</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#Layer.new"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.Layer.new" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor for the class Layer.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.Stat">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">Stat</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#Stat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.Stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>A “statistical” processing of the data in order
+to make a plot, or a plot element.</p>
+<p>This is an abstract class; material classes are called
+Stat* (e.g., StatAbline, StatBin, etc…).</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatBin">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatBin</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatBin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatBin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bin data.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatBin2D">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatBin2D</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatBin2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatBin2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D binning of data into squares/rectangles.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatBinhex">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatBinhex</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatBinhex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatBinhex" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D binning of data into hexagons.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatBoxplot">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatBoxplot</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatBoxplot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatBoxplot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Components of box and whisker plot.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatContour">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatContour</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatContour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatContour" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contours of 3D data.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatDensity">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatDensity</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatDensity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatDensity" title="Permalink to this definition">¶</a></dt>
+<dd><p>1D density estimate</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatDensity2D">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatDensity2D</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatDensity2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatDensity2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>2D density estimate</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatFunction">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatFunction</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Superimpose a function</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatIdentity">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatIdentity</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatIdentity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatIdentity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Identity function</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatQQ">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatQQ</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatQQ"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatQQ" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculation for quantile-quantile plot.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatQuantile">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatQuantile</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatQuantile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatQuantile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Continuous quantiles</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatSmooth">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatSmooth</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatSmooth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatSmooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Smoothing function</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatSpoke">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatSpoke</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatSpoke"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatSpoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert angle and radius to xend and yend</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatSum">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatSum</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatSum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatSum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum unique values.
+Useful when overplotting.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatSummary">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatSummary</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatSummary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatSummary" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summarize values for y at every unique value for x</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatSummary2D">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatSummary2D</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatSummary2D"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatSummary2D" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summarize values for y at every unique value for x</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.ggplot2.StatUnique">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.ggplot2.</code><code class="descname">StatUnique</code><a class="reference internal" href="_modules/rpy2/robjects/lib/ggplot2.html#StatUnique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.ggplot2.StatUnique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove duplicates.</p>
+</dd></dl>
+
 </div>
 </div>
 </div>
@@ -659,9 +950,112 @@ Pushing into the current viewport, can be done by using the class method
 </div>
 <div class="section" id="classes">
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="rpy2.robjects.lib.grid.Viewport">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.grid.</code><code class="descname">Viewport</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.robject.RObject</span></code></p>
+<p>Drawing context.
+Viewports can be thought of as nodes in a scene graph.</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.current">
+<em class="property">classmethod </em><code class="descname">current</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.current"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.current" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current viewport in the stack.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.default">
+<em class="property">classmethod </em><code class="descname">default</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.down">
+<em class="property">classmethod </em><code class="descname">down</code><span class="sig-paren">(</span><em>name</em>, <em>strict=False</em>, <em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.down" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of Viewports it went down</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.pop">
+<em class="property">classmethod </em><code class="descname">pop</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop n viewports from the stack.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.lib.grid.Viewport.push">
+<code class="descname">push</code><span class="sig-paren">(</span><em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.seek">
+<em class="property">classmethod </em><code class="descname">seek</code><span class="sig-paren">(</span><em>name</em>, <em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.seek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.seek" title="Permalink to this definition">¶</a></dt>
+<dd><p>Seek and return a Viewport given its name</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.up">
+<em class="property">classmethod </em><code class="descname">up</code><span class="sig-paren">(</span><em>n</em>, <em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go up n viewports</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.viewport">
+<em class="property">classmethod </em><code class="descname">viewport</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.viewport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.viewport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor: create a Viewport</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.grid.Grob">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.grid.</code><code class="descname">Grob</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.robject.RObject</span></code></p>
+<p>Graphical object</p>
+<dl class="method">
+<dt id="rpy2.robjects.lib.grid.Grob.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a graphical object (calling the R function grid::grid.raw())</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Grob.grob">
+<em class="property">classmethod </em><code class="descname">grob</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob.grob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob.grob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor (uses the R function grid::grob())</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.grid.GTree">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.grid.</code><code class="descname">GTree</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.lib.grid.Grob" title="rpy2.robjects.lib.grid.Grob"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.lib.grid.Grob</span></code></a></p>
+<p>gTree</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.GTree.grobtree">
+<em class="property">classmethod </em><code class="descname">grobtree</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.grobtree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.grobtree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor (uses the R function grid::grobTree())</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.GTree.gtree">
+<em class="property">classmethod </em><code class="descname">gtree</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.gtree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.gtree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor (uses the R function grid::gTree())</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="class-diagram">
 <h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h3>
+<img src="_images/inheritance-367a2724fd180c2066efda57e2a3746f59d3913d.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance"/>
+<map id="inheritancee1ac3c21eb" name="inheritancee1ac3c21eb">
+<area shape="rect" id="node2" href="#rpy2.robjects.lib.grid.GTree" target="_top" title="gTree" alt="" coords="401,31,473,56"/>
+<area shape="rect" id="node4" href="#rpy2.robjects.lib.grid.Grob" target="_top" title="Graphical object" alt="" coords="279,153,351,179"/>
+<area shape="rect" id="node5" title="Graphical parameters" alt="" coords="279,203,351,228"/>
+<area shape="rect" id="node6" title="Base class for all R objects." alt="" coords="156,228,228,253"/>
+<area shape="rect" id="node13" title="Vector of unit values (as in R&#39;s grid package)" alt="" coords="279,252,351,277"/>
+<area shape="rect" id="node14" href="#rpy2.robjects.lib.grid.Viewport" target="_top" title="Drawing context." alt="" coords="276,301,353,327"/>
+<area shape="rect" id="node9" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances" alt="" coords="5,203,108,228"/>
+<area shape="rect" id="node10" href="rinterface.html#rpy2.rinterface.Sexp" target="_top" title="Sexp" alt="" coords="21,252,93,277"/>
+</map>
 </div>
 </div>
 </div>

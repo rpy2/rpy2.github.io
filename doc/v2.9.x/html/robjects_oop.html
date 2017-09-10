@@ -125,7 +125,7 @@ for this example to work.</p>
 </div>
 <p>First, a bit of boilerplate code is needed. We
 import the higher-level interface and the function
-<code class="xref py py-func docutils literal"><span class="pre">rpy2.robjects.packages.importr()</span></code>. The R class we want to represent
+<a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.importr" title="rpy2.robjects.packages.importr"><code class="xref py py-func docutils literal"><span class="pre">rpy2.robjects.packages.importr()</span></code></a>. The R class we want to represent
 is defined in the
 <code class="xref py py-mod docutils literal"><span class="pre">rpy2</span></code> modules and utilities.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
@@ -220,6 +220,31 @@ the environment for the <code class="xref py py-class docutils literal"><span cl
 <span class="n">lml1</span> <span class="o">=</span> <span class="n">LmList</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
 </pre></div>
 </div>
+<dl class="class">
+<dt id="rpy2.robjects.methods.RS4">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.methods.</code><code class="descname">RS4</code><span class="sig-paren">(</span><em>sexp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpS4" title="rpy2.rinterface.SexpS4"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpS4</span></code></a></p>
+<p>Python representation of an R instance of class ‘S4’.</p>
+<dl class="staticmethod">
+<dt id="rpy2.robjects.methods.RS4.isclass">
+<em class="property">static </em><code class="descname">isclass</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.isclass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.isclass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the given name is a defined class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.methods.RS4.slotnames">
+<code class="descname">slotnames</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.slotnames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.slotnames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the ‘slots’ defined for this object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.methods.RS4.validobject">
+<code class="descname">validobject</code><span class="sig-paren">(</span><em>test=False</em>, <em>complete=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.validobject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.validobject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the instance is ‘valid’ for its class.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="automated-r-in-python-class-definitions">
 <h3>Automated R-in-Python class definitions<a class="headerlink" href="#automated-r-in-python-class-definitions" title="Permalink to this headline">¶</a></h3>
@@ -273,6 +298,18 @@ to represent all slots (<cite>attributes</cite> in the S4 nomenclature)
 and methods defined for the class when the class is declared
 (remember that class methods can be declared afterwards, or even in a different
 R package).</p>
+<dl class="class">
+<dt id="rpy2.robjects.methods.RS4Auto_Type">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.methods.</code><code class="descname">RS4Auto_Type</code><span class="sig-paren">(</span><em>sexp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4Auto_Type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4Auto_Type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#type" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">type</span></code></a></p>
+<p>This type (metaclass) takes an R S4 class
+and create a Python class out of it,
+copying the R documention page into the Python docstring.
+A class with this metaclass has the following optional
+attributes: __rname__, __rpackagename__, __attr__translation,
+__meth_translation__.</p>
+</dd></dl>
+
 </div>
 </div>
 <div class="section" id="automated-mapping-of-user-defined-classes">

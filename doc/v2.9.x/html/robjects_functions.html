@@ -60,7 +60,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">This section is about calling R functions from Python.
 To make Python functions
-callable by R, see the low-level function <code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.rternalize()</span></code>.</p>
+callable by R, see the low-level function <a class="reference internal" href="rinterface.html#rpy2.rinterface.rternalize" title="rpy2.rinterface.rternalize"><code class="xref py py-func docutils literal"><span class="pre">rpy2.rinterface.rternalize()</span></code></a>.</p>
 </div>
 <p>R functions exposed by <code class="xref py py-mod docutils literal"><span class="pre">rpy2</span></code>’s high-level interface can be used:</p>
 <ul class="simple">
@@ -246,6 +246,35 @@ to a better compartmentalization of code.</p>
 <p>The R functions as defined in <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a> inherit from the class
 <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpClosure</span></code>, and further documentation
 on the behavior of function can be found in Section <a class="reference internal" href="rinterface.html#rinterface-functions"><span class="std std-ref">Functions</span></a>.</p>
+<dl class="class">
+<dt id="rpy2.robjects.functions.Function">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.functions.</code><code class="descname">Function</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpClosure</span></code></p>
+<p>Python representation of an R function.</p>
+<dl class="method">
+<dt id="rpy2.robjects.functions.Function.formals">
+<code class="descname">formals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.formals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.formals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the signature of the underlying R function 
+(as the R function ‘formals()’ would).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.functions.Function.rcall">
+<code class="descname">rcall</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.rcall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.rcall" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper around the parent method rpy2.rinterface.SexpClosure.rcall().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.functions.SignatureTranslatedFunction">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.functions.</code><code class="descname">SignatureTranslatedFunction</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#SignatureTranslatedFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.SignatureTranslatedFunction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.functions.Function" title="rpy2.robjects.functions.Function"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.functions.Function</span></code></a></p>
+<p>Python representation of an R function, where
+the names in named argument are translated to valid
+argument names in Python.</p>
+</dd></dl>
+
 </div>
 </div>
 

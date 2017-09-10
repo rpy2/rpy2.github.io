@@ -238,26 +238,26 @@ code runs.</p>
 </tbody>
 </table>
 <p>The object one iterates through matters much for the speed, and
-the poorest performer is <code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code>,
+the poorest performer is <a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a>,
 being almost twice slower than pure R. This is expected since the iteration
 relies on R-level mechanisms to which a penalty for using a higher-level
 interface must be added.
-On the other hand, using a <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code> provides
+On the other hand, using a <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a> provides
 an impressive speedup, making the use of R through rpy2 faster that using
 R from R itself. This was not unexpected, as the lower-level interface is
 closer to the C API for R.
-Since casting back a <code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code> to its
-parent class <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code> is straightforward, we
+Since casting back a <a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a> to its
+parent class <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a> is straightforward, we
 have a mechanism that allows rpy2 to run code over R objects faster than
 R can. It also means than <code class="xref py py-mod docutils literal"><span class="pre">rpy2</span></code> is at faster than other Python-to-R bridges
 delegating all there code to be evaluated by R when considering the execution of
 code. Traversing from Python to R and back will also be faster with <code class="xref py py-mod docutils literal"><span class="pre">rpy2</span></code>
 than with either pipes-based solutions or Rserve-based solutions.</p>
 <p>What might seem more of a surprise is that iterating through a <code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code> is only
-slightly faster than pure R, and slower than when using <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code>.
+slightly faster than pure R, and slower than when using <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a>.
 This is happening because the subsetting mechanism for the later is kept much lighter weight,
 giving speed when needed. On the other hand, accessing
-<code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code> is slower because the interface is currently
+<a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a> is slower because the interface is currently
 implemented in pure Python, while it is in C for <code class="xref py py-mod docutils literal"><span class="pre">numpy.array</span></code>.</p>
 <p>Finally, and to put the earlier benchmarks in perspective, it would be
 fair to note that python and R have a builtin function <em>sum</em>,
