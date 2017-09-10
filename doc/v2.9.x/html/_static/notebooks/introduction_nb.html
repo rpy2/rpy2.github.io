@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>s4class</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>introduction_nb</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11790,10 +11790,14 @@ div#notebook {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Basic-handling">Basic handling<a class="anchor-link" href="#Basic-handling">&#182;</a></h1><p>The S4 system is one the OOP systems in R.
-Its largest use might in the Bioconductor collection of packages
-for bioinformatics and computational biology.</p>
-<p>We use the bioconductor <code>Biobase</code>:</p>
+<h1 id="Introduction-to-rpy2">Introduction to rpy2<a class="anchor-link" href="#Introduction-to-rpy2">&#182;</a></h1><p>This introduction aims at making a gentle start to rpy2,
+either when coming from R to Python/rpy2, from Python to rpy2/R,
+or from elsewhere to Python/rpy2/R.</p>
+<h2 id="Getting-started">Getting started<a class="anchor-link" href="#Getting-started">&#182;</a></h2><p>It is assumed here that the rpy2 package has been properly installed.
+In python, making a package or module available is achieved by
+importing it. <code>rpy2</code> is just a python package. Most users will interact
+with R using the <code>robjects</code> layer, a high-level interface that tries
+to hide R behind a Python-like behavior.</p>
 
 </div>
 </div>
@@ -11803,8 +11807,7 @@ for bioinformatics and computational biology.</p>
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
-<span class="n">biobase</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;Biobase&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
 </pre></div>
 
 </div>
@@ -11816,8 +11819,9 @@ for bioinformatics and computational biology.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The R package contains constructors for the S4 classes defined. They
-are simply functions, and can be used as such through <code>rpy2</code>:</p>
+<h2 id="R-packages">R packages<a class="anchor-link" href="#R-packages">&#182;</a></h2><p>R is  any data analysis toolbox because of the
+breadth and depth of the packages available.</p>
+<p>For this introduction, we use few popular R packages.</p>
 
 </div>
 </div>
@@ -11827,7 +11831,16 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 <div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">eset</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">ExpressionSet</span><span class="p">()</span> 
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># R package names</span>
+<span class="n">packnames</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">,</span> <span class="s1">&#39;hexbin&#39;</span><span class="p">)</span>
+
+<span class="c1"># import rpy2&#39;s package module</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpackages</span>
+
+<span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">rpackages</span><span class="o">.</span><span class="n">isinstalled</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">packnames</span><span class="p">):</span>
+    <span class="n">have_tutorial_packages</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">have_tutorial_packages</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 
 </div>
@@ -11839,7 +11852,10 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The object <code>eset</code> is an R object of type <code>S4</code>:</p>
+<p>Downloading and installing R packages is usually performed
+by fetching R packages
+from a package repository and installing them locally.
+We can get set with:</p>
 
 </div>
 </div>
@@ -11849,30 +11865,14 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">type</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">have_tutorial_packages</span><span class="p">:</span>
+    <span class="c1"># import R&#39;s utility package</span>
+    <span class="n">utils</span> <span class="o">=</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
+    <span class="c1"># select a mirror for R packages</span>
+    <span class="n">utils</span><span class="o">.</span><span class="n">chooseCRANmirror</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># select the first mirror in the list</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[4]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>rpy2.robjects.methods.RS4</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -11881,7 +11881,7 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>It has a class as well:</p>
+<p>We are now ready to install packages using R's own function <code>install.package</code>:</p>
 
 </div>
 </div>
@@ -11891,30 +11891,16 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">have_tutorial_packages</span><span class="p">:</span>
+    <span class="c1"># R vector of strings</span>
+    <span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">StrVector</span>
+    <span class="c1"># file</span>
+    <span class="n">packnames_to_install</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">packnames</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">isinstalled</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">packnames_to_install</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">utils</span><span class="o">.</span><span class="n">install_packages</span><span class="p">(</span><span class="n">StrVector</span><span class="p">(</span><span class="n">packnames_to_install</span><span class="p">))</span>
 </pre></div>
 
 </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[5]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(&#39;ExpressionSet&#39;,)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -11923,8 +11909,18 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>In R, objects attributes are also known as slots. The attribute names
-can be listed with:</p>
+<p>The code above can be part of the Python you distribute if you are relying
+on packages not distributed with
+R by default.</p>
+<p>More documentation about the handling of R packages in <code>rpy2</code> can be found Section :ref:<code>robjects-packages</code>.</p>
+<h2 id="The-r-instance">The <code>r</code> instance<a class="anchor-link" href="#The-r-instance">&#182;</a></h2><p>The object <code>r</code> in <code>rpy2.robjects</code> represents the embedded
+<code>R</code> process.</p>
+<p>If familiar with R and the R console, <code>r</code> is a little like a
+communication channel from Python to R.</p>
+<h3 id="Getting-R-objects">Getting R objects<a class="anchor-link" href="#Getting-R-objects">&#182;</a></h3><p>In Python the <code>[</code> operator is an alias for the  ethod :meth:<code>__getitem__</code>.</p>
+<p>The :meth:<code>__getitem__</code> method of :mod:<code>rpy2.robjects.r</code>,
+evaluates a variable from the R console.</p>
+<p>Example in R:</p>
 
 </div>
 </div>
@@ -11934,64 +11930,8 @@ can be listed with:</p>
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">slotnames</span><span class="p">())</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(&#39;experimentData&#39;,
- &#39;assayData&#39;,
- &#39;phenoData&#39;,
- &#39;featureData&#39;,
- &#39;annotation&#39;,
- &#39;protocolData&#39;,
- &#39;.__classVersion__&#39;)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>The attributes can also be accessed through the <code>rpy2</code> property <code>slots</code>.
-<code>slots</code> is a mapping between attributes names (keys) and their associated
-R object (values). It can be used as Python <code>dict</code>:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># print keys</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">slots</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
-
-<span class="c1"># fetch `phenoData`</span>
-<span class="n">phdat</span> <span class="o">=</span> <span class="n">eset</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;phenoData&#39;</span><span class="p">]</span>
-
-<span class="c1"># phdat is an S4 object itself</span>
-<span class="n">pheno_dataf</span> <span class="o">=</span> <span class="n">phdat</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span>R
+<span class="kc">pi</span>
 </pre></div>
 
 </div>
@@ -12007,8 +11947,8 @@ R object (values). It can be used as Python <code>dict</code>:</p>
 <div class="prompt"></div>
 
 
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>(&#39;.__classVersion__&#39;, &#39;experimentData&#39;, &#39;assayData&#39;, &#39;phenoData&#39;, &#39;featureData&#39;, &#39;annotation&#39;, &#39;protocolData&#39;, &#39;class&#39;)
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>ERROR:root:Cell magic `%%R` not found.
 </pre>
 </div>
 </div>
@@ -12021,8 +11961,73 @@ R object (values). It can be used as Python <code>dict</code>:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Mapping-S4-classes-to-Python-classes">Mapping S4 classes to Python classes<a class="anchor-link" href="#Mapping-S4-classes-to-Python-classes">&#182;</a></h1><p>Writing one's own Python class extending rpy2's <code>RS4</code> is straightforward.
-That class can be used wrap our <code>eset</code> object</p>
+<p>With :mod:<code>rpy2</code>:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span>
+<span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt output_prompt">Out[7]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>3.141592653589793</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div style="border: solid 1px rgb(50,50,50)">
+<p>
+   Under the hood, the variable `pi` is gotten by default from the
+   R *base* package, unless an other variable with the name `pi` was
+   created in R's `.globalEnv`. 
+</p>
+<p>
+   Whenever one wishes to be specific about where the symbol
+   should be looked for (which should be most of the time),
+   it possible to wrap R packages in Python namespace objects
+   (see Section `robjects-packages`).
+</p>
+<p>
+   For more details on environments, see Section 
+   `robjects-environments`.
+</p>
+<p>
+   Also, note that *pi* is not a scalar but a vector of length 1.
+</p>
+</div><h3 id="Evaluating-R-code">Evaluating R code<a class="anchor-link" href="#Evaluating-R-code">&#182;</a></h3><p>The <code>r</code> object is also callable, and the string passed to it evaluated
+as <code>R</code> code.</p>
+<p>This can be used to <code>get</code> variables, and provide an alternative to
+the method presented above.</p>
+<p>Example in R:</p>
 
 </div>
 </div>
@@ -12032,14 +12037,29 @@ That class can be used wrap our <code>eset</code> object</p>
 <div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">RS4</span>   
-<span class="k">class</span> <span class="nc">ExpressionSet</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
-    <span class="k">pass</span>
-
-<span class="n">eset_myclass</span> <span class="o">=</span> <span class="n">ExpressionSet</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">%%</span>R
+<span class="kc">pi</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>ERROR:root:Cell magic `%%R` not found.
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12048,10 +12068,7 @@ That class can be used wrap our <code>eset</code> object</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Custom-conversion">Custom conversion<a class="anchor-link" href="#Custom-conversion">&#182;</a></h2><p>The conversion system can also be made aware our new class by customizing
-the handling of S4 objects.</p>
-<p>A simple implementation is a factory function that will conditionally wrap
-the object in our Python class <code>ExpressionSet</code>:</p>
+<p>With <code>rpy2</code>:</p>
 
 </div>
 </div>
@@ -12061,15 +12078,8 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 <div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">ri2ro_s4</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">&#39;ExpressionSet&#39;</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ExpressionSet</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">robj</span>
-    <span class="k">return</span> <span class="n">res</span>
-
-<span class="c1"># try it</span>
-<span class="n">ri2ro_s4</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span>
+<span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
 </div>
@@ -12088,8 +12098,7 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>R object with classes: (&#39;ExpressionSet&#39;,) mapped to:
-&lt;ExpressionSet - Python:0x7fb310ca1ec8 / R:0x55f5ba1b25e8&gt;</pre>
+<pre>3.141592653589793</pre>
 </div>
 
 </div>
@@ -12102,8 +12111,13 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>That function can be be register to a <code>Converter</code>:</p>
+<div style="border: solid 1px rgb(50,50,50)">
 
+   The result is an R vector. The Section
+   `introduction-vectors` will provide an explanation
+   for the following behavior:
+
+</div>
 </div>
 </div>
 </div>
@@ -12112,59 +12126,10 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">default_converter</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="n">Converter</span><span class="p">,</span> <span class="n">localconverter</span>
-
-<span class="n">my_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">&#39;ExpressionSet-aware converter&#39;</span><span class="p">,</span>
-                         <span class="n">template</span><span class="o">=</span><span class="n">default_converter</span><span class="p">)</span>
-
-<span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="k">import</span> <span class="n">SexpS4</span>
-<span class="n">my_converter</span><span class="o">.</span><span class="n">ri2ro</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SexpS4</span><span class="p">,</span> <span class="n">ri2ro_s4</span><span class="p">)</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-<div class="prompt output_prompt">Out[10]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;function __main__.ri2ro_s4&gt;</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div>
-<div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>When using that converter, the matching R objects are returned as
-instances of our Python class <code>ExpressionSet</code>:</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[11]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">my_converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
-    <span class="n">eset</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">ExpressionSet</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">eset</span><span class="p">))</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">piplus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">piplus2</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="n">pi0plus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pi0plus2</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12181,7 +12146,8 @@ instances of our Python class <code>ExpressionSet</code>:</p>
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>&lt;class &#39;__main__.ExpressionSet&#39;&gt;
+<pre>c(3.14159265358979, 2)
+5.141592653589793
 </pre>
 </div>
 </div>
@@ -12194,30 +12160,29 @@ instances of our Python class <code>ExpressionSet</code>:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Class-attributes">Class attributes<a class="anchor-link" href="#Class-attributes">&#182;</a></h2><p>The R attribute <code>assayData</code> can be accessed
-through the accessor method <code>exprs()</code> in R.
-We can make it a property in our Python class:</p>
+<p>The evaluation is performed in what is known to R users as the 
+<code>Global Environment</code>, that is the place one starts at when starting
+the R console. Whenever the <code>R</code> code creates variables, those
+variables are "located" in that <code>Global Environment</code> by default.</p>
+<p>Example:</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ExpressionSet</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">_exprs_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;assayData&#39;</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">_exprs_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;assayData&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
-    <span class="n">exprs</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_exprs_get</span><span class="p">,</span>
-                     <span class="n">_exprs_set</span><span class="p">,</span>
-                     <span class="kc">None</span><span class="p">,</span>
-                     <span class="s2">&quot;R attribute `exprs`&quot;</span><span class="p">)</span>
-<span class="n">eset_myclass</span> <span class="o">=</span> <span class="n">ExpressionSet</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
-
-<span class="n">eset_myclass</span><span class="o">.</span><span class="n">exprs</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">	f &lt;- function(r, verbose=FALSE) {</span>
+<span class="s1">        if (verbose) {</span>
+<span class="s1">            cat(&quot;I am calling f().</span><span class="se">\n</span><span class="s1">&quot;)</span>
+<span class="s1">        }</span>
+<span class="s1">        2 * pi * r </span>
+<span class="s1">        }</span>
+<span class="s1">        f(3)</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12230,14 +12195,25 @@ We can make it a property in our Python class:</p>
 
 <div class="output_area">
 
-<div class="prompt output_prompt">Out[12]:</div>
+<div class="prompt output_prompt">Out[11]:</div>
 
 
 
+<div class="output_html rendered_html output_subarea output_execute_result">
 
-<div class="output_text output_subarea output_execute_result">
-<pre>R object with classes: (&#39;environment&#39;,) mapped to:
-&lt;Environment - Python:0x7fb315937548 / R:0x55f5b7b15660&gt;</pre>
+    <span>FloatVector with 1 elements.</span>
+    <table>
+      <tbody>
+      <tr>
+      
+      <td>
+        18.849556
+      </td>
+      
+      </tr>
+      </tbody>
+    </table>
+    
 </div>
 
 </div>
@@ -12250,9 +12226,66 @@ We can make it a property in our Python class:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Methods">Methods<a class="anchor-link" href="#Methods">&#182;</a></h2><p>In R's S4 methods are generic functions served by a multiple dispatch system.</p>
-<p>A natural way to expose the S4 method to Python is to use the
-<code>multipledispatch</code> package:</p>
+<p>The expression above returns the value 18.85, 
+but first creates an R function <code>f</code>. 
+That function <code>f</code> is present in the R <code>Global Environement</code>, and can
+be accessed with the <code>__getitem__</code> mechanism outlined above:</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r_f</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">r_f</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>function (r, verbose = FALSE) 
+{
+    if (verbose) {
+        cat(&#34;I am calling f().\n&#34;)
+    }
+    2 * pi * r
+}
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<div style="border: solid 1px rgb(50,50,50)">
+
+   As shown earlier, an alternative way to get the function
+   is to get it from the :class:`R` singleton
+
+   ```
+   >>> r_f = robjects.r['f']
+   ```
+
+</div><p>The function r_f is callable, and can be used like a regular Python function.</p>
 
 </div>
 </div>
@@ -12262,20 +12295,7 @@ We can make it a property in our Python class:</p>
 <div class="prompt input_prompt">In&nbsp;[13]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">multipledispatch</span> <span class="k">import</span> <span class="n">dispatch</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
-
-<span class="n">my_namespace</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-<span class="n">dispatch</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">dispatch</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">my_namespace</span><span class="p">)</span>
-
-<span class="nd">@dispatch</span><span class="p">(</span><span class="n">ExpressionSet</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">rowmedians</span><span class="p">(</span><span class="n">eset</span><span class="p">,</span>
-               <span class="n">na_rm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">rowMedians</span><span class="p">(</span><span class="n">eset</span><span class="p">,</span>
-                             <span class="n">na_rm</span><span class="o">=</span><span class="n">na_rm</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span>
-
-<span class="n">res</span> <span class="o">=</span> <span class="n">rowmedians</span><span class="p">(</span><span class="n">eset_myclass</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">r_f</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -12287,8 +12307,14 @@ We can make it a property in our Python class:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The R method <code>rowMedians</code> is also defined for matrices, which we can expose
-on the Python end as well:</p>
+<p>Jump to Section :ref:<code>robjects-introduction-functions</code> for more on calling
+functions.</p>
+<h3 id="Interpolating-R-objects-into-R-code-strings">Interpolating R objects into R code strings<a class="anchor-link" href="#Interpolating-R-objects-into-R-code-strings">&#182;</a></h3><p>Against the first impression one may get from the title
+of this section, simple and handy features of :mod:<code>rpy2</code> are
+presented here.</p>
+<p>An R object has a string representation that can be used
+directly into R code to be evaluated.</p>
+<p>Simple example:</p>
 
 </div>
 </div>
@@ -12298,16 +12324,32 @@ on the Python end as well:</p>
 <div class="prompt input_prompt">In&nbsp;[14]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">Matrix</span>
-<span class="nd">@dispatch</span><span class="p">(</span><span class="n">Matrix</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">rowmedians</span><span class="p">(</span><span class="n">m</span><span class="p">,</span>
-               <span class="n">na_rm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">rowMedians</span><span class="p">(</span><span class="n">m</span><span class="p">,</span>
-                             <span class="n">na_rm</span><span class="o">=</span><span class="n">na_rm</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">letters</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span>
+<span class="n">rcode</span> <span class="o">=</span> <span class="s1">&#39;paste(</span><span class="si">%s</span><span class="s1">, collapse=&quot;-&quot;)&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">letters</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rcode</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 
 </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>[1] &#34;a-b-c-d-e-f-g-h-i-j-k-l-m-n-o-p-q-r-s-t-u-v-w-x-y-z&#34;
+
+</pre>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -12316,37 +12358,265 @@ on the Python end as well:</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>While this is working, one can note that we call the same R function
-<code>rowMedians()</code> in the package <code>Biobase</code> in both Python decorated
-functions. What is happening is that the dispatch is performed by R.</p>
-<p>If this is ever becoming a performance issue, the specific R function
-dispatched can be prefetched and explicitly called in the Python
-function. For example:</p>
+<p>.. _introduction-vectors:</p>
+<h1 id="R-vectors">R vectors<a class="anchor-link" href="#R-vectors">&#182;</a></h1><p>In <code>R</code>, data are mostly represented by vectors, even when looking
+like scalars.</p>
+<p>When looking closely at the R object <code>pi</code> used previously,
+we can observe that this is in fact a vector of length 1.</p>
+<blockquote><blockquote><blockquote><p>len(robjects.r['pi'])
+1</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>As such, the python method :meth:<code>add</code> will result in a concatenation
+(function <code>c()</code> in R), as this is the case for regular python lists.</p>
+<p>Accessing the one value in that vector has to be stated
+explicitly:</p>
+<blockquote><blockquote><blockquote><p>robjects.r['pi'][0]
+3.1415926535897931</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>There is much that can be achieved with vectors, having them to behave
+more like Python lists or R vectors.
+A comprehensive description of the behavior of vectors is found in
+:mod:<code>robjects.vector</code>.</p>
+<h2 id="Creating-rpy2-vectors">Creating rpy2 vectors<a class="anchor-link" href="#Creating-rpy2-vectors">&#182;</a></h2><p>Creating R vectors can be achieved simply:</p>
+<blockquote><blockquote><blockquote><p>res = robjects.StrVector(['abc', 'def'])
+print(res.r_repr())
+c("abc", "def")
+res = robjects.IntVector([1, 2, 3])
+print(res.r_repr())
+1:3
+res = robjects.FloatVector([1.1, 2.2, 3.3])
+print(res.r_repr())
+c(1.1, 2.2, 3.3)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>R matrixes and arrays are just vectors with a <code>dim</code> attribute.</p>
+<p>The easiest way to create such objects is to do it through
+R functions:</p>
+<blockquote><blockquote><blockquote><p>v = robjects.FloatVector([1.1, 2.2, 3.3, 4.4, 5.5, 6.6])
+m = robjects.r<a href="v, nrow = 2">'matrix'</a>
+print(m)
+     [,1] [,2] [,3]
+[1,]  1.1  3.3  5.5
+[2,]  2.2  4.4  6.6</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>.. _robjects-introduction-functions:</p>
+<h1 id="Calling-R-functions">Calling R functions<a class="anchor-link" href="#Calling-R-functions">&#182;</a></h1><p>Calling R functions is disappointingly similar to calling
+Python functions:</p>
+<blockquote><blockquote><blockquote><p>rsum = robjects.r['sum']
+rsum(robjects.IntVector([1,2,3]))[0]
+6L</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Keywords are also working:</p>
+<blockquote><blockquote><blockquote><p>rsort = robjects.r['sort']
+res = rsort(robjects.IntVector([1,2,3]), decreasing=True)
+print(res.r_repr())
+c(3L, 2L, 1L)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>.. note::</p>
+<p>By default, calling R functions return R objects.</p>
+<p>More information on functions is in Section :ref:<code>robjects-functions</code>.</p>
+<h1 id="Getting-help">Getting help<a class="anchor-link" href="#Getting-help">&#182;</a></h1><p>R has a builtin help system that, just like the pydoc strings are used frequently
+in python during interactive sessions, is used very frequently by R programmmers.
+This help system is accessible from an R function, therefore accessible from rpy2.</p>
+<h2 id="Help-on-a-topic-within-a-given-package,-or-currently-loaded-packages">Help on a topic within a given package, or currently loaded packages<a class="anchor-link" href="#Help-on-a-topic-within-a-given-package,-or-currently-loaded-packages">&#182;</a></h2><blockquote><blockquote><blockquote><p>from rpy2.robjects.packages import importr
+utils = importr("utils") 
+help_doc = utils.help("help")
+help_doc[0]
+'/where/R/is/installed/library/utils/help/help'</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Converting the object returned to a string produces the full help text
+on the topic:</p>
+<blockquote><blockquote><blockquote><p>str(help_doc)
+[...long output...]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>.. warning::</p>
+<p>The help message so produced is not a string returned to the console
+   but is directly printed by R to the standard output. The call to
+   :func:<code>str</code> only returns an empty string, and the reason for this is
+   somewhat involved for an introductory documentation.
+   This behaviour is rooted in :program:<code>R</code> itself and in :mod:<code>rpy2</code> the
+   string representation of R objects is the string representation as
+   given by the :program:<code>R</code> console,
+   which in that case takes a singular route.</p>
+<p>For a Python friendly help to the R help system, consider the module
+   :mod:<code>rpy2.robjects.help</code>.</p>
+<h2 id="Locate-topics-among-available-packages">Locate topics among available packages<a class="anchor-link" href="#Locate-topics-among-available-packages">&#182;</a></h2><blockquote><blockquote><blockquote><p>help_where = utils.help_search("help")</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>As before with <code>help</code>, the result can be printed / converted to a string,
+giving a similar result to what is obtained from an R session.</p>
+<p>.. note::</p>
+<p>The data structure returned can otherwise be used to access the information
+   returned in details.</p>
+<blockquote><blockquote><blockquote><p>tuple(help_where)
+   (&lt;StrVector - Python:0x1f9a968 / R:0x247f908&gt;,
+    &lt;StrVector - Python:0x1f9a990 / R:0x25079d0&gt;,
+    &lt;StrVector - Python:0x1f9a9b8 / R:0x247f928&gt;,
+    &lt;Matrix - Python:0x1f9a850 / R:0x1ec0390&gt;)
+tuple(help_where[3].colnames)
+   ('topic', 'title', 'Package', 'LibPath')</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>However, this is beyond the scope of an introduction, and one should
+   master the content of the module :mod:<code>robjects.vector</code> before anything else.</p>
+<h1 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h1><p>This section demonstrates some of the features of
+rpy2.</p>
+<h2 id="Graphics-and-plots">Graphics and plots<a class="anchor-link" href="#Graphics-and-plots">&#182;</a></h2><p>.. code-block:: python</p>
+<p>import rpy2.robjects as robjects</p>
+<p>r = robjects.r</p>
+<p>x = robjects.IntVector(range(10))
+  y = r.rnorm(10)</p>
+<p>r.X11()</p>
+<p>r.layout(r.matrix(robjects.IntVector([1,2,3,2]), nrow=2, ncol=2))
+  r.plot(r.runif(10), y, xlab="runif", ylab="foo/bar", col="red")</p>
+<p>Setting dynamically the number of arguments in a function call can be
+done the usual way in python.</p>
+<p>There are several ways to plot data in <code>R</code>, some of which are
+presented in this documentation:</p>
+<p>The general setup is repeated here:</p>
+<p>.. literalinclude:: _static/demos/graphics.py
+   :start-after: #-- setup-begin
+   :end-before: #-- setup-end</p>
+<p>The setup specific to ggplot2 is:</p>
+<p>.. literalinclude:: _static/demos/graphics.py
+   :start-after: #-- setupggplot2-begin
+   :end-before: #-- setupggplot2-end</p>
+<p>.. literalinclude:: _static/demos/graphics.py
+   :start-after: #-- ggplot2smoothbycylwithcolours-begin
+   :end-before: #-- ggplot2smoothbycylwithcolours-end</p>
+<p>.. image:: _static/graphics_ggplot2_smoothbycylwithcolours.png
+   :scale: 50</p>
+<p>More about plots and graphics in R, as well as more advanced
+plots are presented in Section :ref:<code>graphics</code>.</p>
+<p>.. warning::</p>
+<p>By default, the embedded R open an interactive plotting device,
+   that is a window in which the plot is located.
+   Processing interactive events on that devices, such as resizing or closing
+   the window must be explicitly required
+   (see Section :ref:<code>rinterface-interactive-processevents</code>).</p>
+<h2 id="Linear-models">Linear models<a class="anchor-link" href="#Linear-models">&#182;</a></h2><p>The R code is:</p>
+<p>.. code-block:: r</p>
+<p>ctl &lt;- c(4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14)
+   trt &lt;- c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
+   group &lt;- gl(2, 10, 20, labels = c("Ctl","Trt"))
+   weight &lt;- c(ctl, trt)</p>
+<p>anova(lm.D9 &lt;- lm(weight ~ group))</p>
+<p>summary(lm.D90 &lt;- lm(weight ~ group - 1))# omitting intercept</p>
+<p>One way to achieve the same with :mod:<code>rpy2.robjects</code> is</p>
+<p>.. code-block:: python</p>
+<p>from rpy2.robjects import FloatVector
+   from rpy2.robjects.packages import importr
+   stats = importr('stats')
+   base = importr('base')</p>
+<p>ctl = FloatVector([4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14])
+   trt = FloatVector([4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69])
+   group = base.gl(2, 10, 20, labels = ["Ctl","Trt"])
+   weight = ctl + trt</p>
+<p>robjects.globalenv["weight"] = weight
+   robjects.globalenv["group"] = group
+   lm_D9 = stats.lm("weight ~ group")
+   print(stats.anova(lm_D9))</p>
+<h1 id="omitting-the-intercept">omitting the intercept<a class="anchor-link" href="#omitting-the-intercept">&#182;</a></h1><p>lm_D90 = stats.lm("weight ~ group - 1")
+   print(base.summary(lm_D90))</p>
+<p>This way to perform a linear fit it matching precisely the way in R presented
+above, but there are other ways (see Section :ref:<code>robjects-formula</code>
+for storing the variables directly in the lookup environment of the formula).</p>
+<p>Q: Now how to extract data from the resulting objects ?</p>
+<p>A: Well, it all depends on the object. R is very much designed
+for interactive sessions, and users often inspect what a
+function is returning in order to know how to extract information.</p>
+<p>When taking the results from the code above, one could go like:</p>
+<blockquote><blockquote><blockquote><p>print(lm_D9.rclass)
+[1] "lm"</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Here the resulting object is a list structure, as either inspecting
+the data structure or reading the R man pages for <code>lm</code> would tell us.
+Checking its element names is then trivial:</p>
+<blockquote><blockquote><blockquote><p>print(lm_D9.names)
+ [1] "coefficients"  "residuals"     "effects"       "rank"<br>
+ [5] "fitted.values" "assign"        "qr"            "df.residual"<br>
+ [9] "contrasts"     "xlevels"       "call"          "terms"<br>
+[13] "model"</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>And so is extracting a particular element:</p>
+<blockquote><blockquote><blockquote><p>print(lm_D9.rx2('coefficients'))
+(Intercept)    groupTrt 
+      5.032      -0.371</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>or</p>
+<blockquote><blockquote><blockquote><p>print(lm_D9.rx('coefficients'))
+$coefficients
+(Intercept)    groupTrt 
+      5.032      -0.371</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>More about extracting elements from vectors is available
+at :ref:<code>robjects-extracting</code>.</p>
+<h2 id="Principal-component-analysis">Principal component analysis<a class="anchor-link" href="#Principal-component-analysis">&#182;</a></h2><p>The R code is</p>
+<p>.. code-block:: r</p>
+<p>m &lt;- matrix(rnorm(100), ncol=5)
+  pca &lt;- princomp(m)
+  plot(pca, main="Eigen values")
+  biplot(pca, main="biplot")</p>
+<p>The :mod:<code>rpy2.robjects</code> code can be as close to the
+R code as possible:</p>
+<p>.. testcode::</p>
+<p>import rpy2.robjects as robjects</p>
+<p>r = robjects.r</p>
+<p>m = r.matrix(r.rnorm(100), ncol=5)
+  pca = r.princomp(m)
+  r.plot(pca, main="Eigen values")
+  r.biplot(pca, main="biplot")</p>
+<p>However, the same example can be made a little tidier
+(with respect to being specific about R functions used)</p>
+<p>.. testcode::</p>
+<p>from rpy2.robjects.packages import importr</p>
+<p>base     = importr('base')
+   stats    = importr('stats')
+   graphics = importr('graphics')</p>
+<p>m = base.matrix(stats.rnorm(100), ncol = 5)
+   pca = stats.princomp(m)
+   graphics.plot(pca, main = "Eigen values")
+   stats.biplot(pca, main = "biplot")</p>
+<h2 id="Creating-an-R-vector-or-matrix,-and-filling-its-cells-using-Python-code">Creating an R vector or matrix, and filling its cells using Python code<a class="anchor-link" href="#Creating-an-R-vector-or-matrix,-and-filling-its-cells-using-Python-code">&#182;</a></h2><p>.. testcode::</p>
+<p>from rpy2.robjects import NA_Real
+   from rpy2.rlike.container import TaggedList
+   from rpy2.robjects.packages import importr</p>
+<p>base = importr('base')</p>
+<h1 id="create-a-numerical-matrix-of-size-100x10-filled-with-NAs">create a numerical matrix of size 100x10 filled with NAs<a class="anchor-link" href="#create-a-numerical-matrix-of-size-100x10-filled-with-NAs">&#182;</a></h1><p>m = base.matrix(NA_Real, nrow=100, ncol=10)</p>
+<h1 id="fill-the-matrix">fill the matrix<a class="anchor-link" href="#fill-the-matrix">&#182;</a></h1><p>for row_i in xrange(1, 100+1):
+       for col_i in xrange(1, 10+1):
+           m.rx[TaggedList((row_i, ), (col_i, ))] = row_i + col_i * 100</p>
+<p>.. testoutput::</p>
+<p>None</p>
+<h2 id="One-more-example">One more example<a class="anchor-link" href="#One-more-example">&#182;</a></h2><p>.. literalinclude:: _static/demos/example01.py</p>
 
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">getmethod</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">StrVector</span>
-<span class="n">_rowmedians_matrix</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;rowMedians&quot;</span><span class="p">]),</span>
-                               <span class="n">signature</span><span class="o">=</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;matrix&quot;</span><span class="p">]))</span>
-<span class="nd">@dispatch</span><span class="p">(</span><span class="n">Matrix</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">rowmedians</span><span class="p">(</span><span class="n">m</span><span class="p">,</span>
-               <span class="n">na_rm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">_rowmedians_matrix</span><span class="p">(</span><span class="n">m</span><span class="p">,</span>
-                             <span class="n">na_rm</span><span class="o">=</span><span class="n">na_rm</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">res</span>
-</pre></div>
-
-</div>
-</div>
-</div>
-
 </div>
     </div>
   </div>
