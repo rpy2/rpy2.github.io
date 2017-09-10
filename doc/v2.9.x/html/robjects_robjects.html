@@ -56,64 +56,16 @@
             
   <div class="section" id="r-objects">
 <h1>R objects<a class="headerlink" href="#r-objects" title="Permalink to this headline">¶</a></h1>
-<p>The class <a class="reference internal" href="#rpy2.robjects.RObject" title="rpy2.robjects.RObject"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.RObject</span></code></a>
+<p>The class <code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.RObject</span></code>
 can represent any R object, although it will often
 be used for objects without any more specific representation
 in Python/rpy2 (such as <code class="xref py py-class docutils literal"><span class="pre">Vector</span></code>,
 <code class="xref py py-class docutils literal"><span class="pre">functions.Function</span></code>, <code class="xref py py-class docutils literal"><span class="pre">Environment</span></code>).</p>
 <p>The class inherits from the lower-level
 <a class="reference internal" href="rinterface.html#rpy2.rinterface.Sexp" title="rpy2.rinterface.Sexp"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.Sexp</span></code></a>
-and from <a class="reference internal" href="#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, the later defining
+and from <code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code>, the later defining
 higher-level methods for R objects to be shared by other higher-level
 representations of R objects.</p>
-<dl class="class">
-<dt id="rpy2.robjects.robject.RObjectMixin">
-<em class="property">class </em><code class="descclassname">rpy2.robjects.robject.</code><code class="descname">RObjectMixin</code><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObjectMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class to provide methods common to all RObject instances</p>
-<dl class="method">
-<dt id="rpy2.robjects.robject.RObjectMixin.r_repr">
-<code class="descname">r_repr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObjectMixin.r_repr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.r_repr" title="Permalink to this definition">¶</a></dt>
-<dd><p>String representation for an object that can be
-directly evaluated as R code.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="rpy2.robjects.robject.RObjectMixin.rclass">
-<code class="descname">rclass</code><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.rclass" title="Permalink to this definition">¶</a></dt>
-<dd><p>R class for the object, stored as an R string vector.</p>
-<p>When setting the rclass, the new value will be:
-- wrapped in a Python tuple if a string (the R class</p>
-<blockquote>
-<div>is a vector of strings, and this is made for convenience)</div></blockquote>
-<ul class="simple">
-<li>wrapped in a StrSexpVector</li>
-</ul>
-<p>Note that when setting the class R may make a copy of
-the whole object (R is mostly a functional language).
-If this must be avoided, and if the number of parent
-classes before and after the change are compatible,
-the class name can be changed in-place by replacing ”
-vector elements.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="rpy2.robjects.robject.RObjectMixin.slots">
-<code class="descname">slots</code><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.slots" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attributes of the underlying R object as a Python mapping.</p>
-<p>The attributes can accessed and assigned by name (as if they
-were in a Python <cite>dict</cite>).</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.robjects.RObject">
-<em class="property">class </em><code class="descclassname">rpy2.robjects.</code><code class="descname">RObject</code><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.RObject" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.Sexp" title="rpy2.rinterface.Sexp"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.Sexp</span></code></a></p>
-<p>Base class for all R objects.</p>
-</dd></dl>
-
 </div>
 
 

@@ -67,23 +67,15 @@ has an excessive cost in terms of performance.</p>
 <div class="section" id="initialization">
 <span id="index-0"></span><h3>Initialization<a class="headerlink" href="#initialization" title="Permalink to this headline">¶</a></h3>
 <p>One has to initialize R before much can be done.
-The function <a class="reference internal" href="#rpy2.rinterface.initr" title="rpy2.rinterface.initr"><code class="xref py py-func docutils literal"><span class="pre">initr()</span></code></a> lets one initialize
+The function <code class="xref py py-func docutils literal"><span class="pre">initr()</span></code> lets one initialize
 the embedded R.</p>
-<p>This is done with the function <a class="reference internal" href="#rpy2.rinterface.initr" title="rpy2.rinterface.initr"><code class="xref py py-meth docutils literal"><span class="pre">initr()</span></code></a>.</p>
-<dl class="function">
-<dt id="rpy2.rinterface.initr">
-<code class="descclassname">rpy2.rinterface.</code><code class="descname">initr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.initr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize an embedded R.
-initr(r_preservehash=False) -&gt; return code (an integer)</p>
-<p>The optional argument r_preservehash is using an hash of the memory address as a key in an R environment to preserve R objects from garbage collection.</p>
-</dd></dl>
-
+<p>This is done with the function <code class="xref py py-meth docutils literal"><span class="pre">initr()</span></code>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rinterface</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>Initialization should only be performed once.
 To avoid unpredictable results when using the embedded R,
-subsequent calls to <a class="reference internal" href="#rpy2.rinterface.initr" title="rpy2.rinterface.initr"><code class="xref py py-func docutils literal"><span class="pre">initr()</span></code></a> will not have any effect.</p>
+subsequent calls to <code class="xref py py-func docutils literal"><span class="pre">initr()</span></code> will not have any effect.</p>
 <p>The functions <code class="xref py py-func docutils literal"><span class="pre">get_initoptions()</span></code> and <code class="xref py py-func docutils literal"><span class="pre">set_initoptions()</span></code>
 can be used to modify the options.
 Default parameters for the initialization are otherwise
@@ -103,7 +95,7 @@ the embedded R, or importing <a class="reference internal" href="robjects.html#m
 </div>
 <div class="admonition note" id="index-2">
 <p class="first admonition-title">Note</p>
-<p>If calling <a class="reference internal" href="#rpy2.rinterface.initr" title="rpy2.rinterface.initr"><code class="xref py py-func docutils literal"><span class="pre">initr()</span></code></a> returns an error stating that
+<p>If calling <code class="xref py py-func docutils literal"><span class="pre">initr()</span></code> returns an error stating that
 <span class="target" id="index-3"></span><code class="xref std std-envvar docutils literal"><span class="pre">R_HOME</span></code> is not defined, you should either have the <strong class="program">R</strong> executable in
 your path (<span class="target" id="index-4"></span><code class="xref std std-envvar docutils literal"><span class="pre">PATH</span></code> on unix-alikes, or <span class="target" id="index-5"></span><code class="xref std std-envvar docutils literal"><span class="pre">Path</span></code> on Microsoft Windows) or
 have the environment variable <span class="target" id="index-6"></span><code class="xref std std-envvar docutils literal"><span class="pre">R_HOME</span></code> defined.</p>
@@ -117,16 +109,9 @@ might cause problems.</p>
 <div class="section" id="ending-r">
 <h4>Ending R<a class="headerlink" href="#ending-r" title="Permalink to this headline">¶</a></h4>
 <p>Ending the R process is possible, but starting it again with
-<a class="reference internal" href="#rpy2.rinterface.initr" title="rpy2.rinterface.initr"><code class="xref py py-func docutils literal"><span class="pre">initr()</span></code></a> does appear to lead to an R process that is hardly usable.
-For that reason, the use of <a class="reference internal" href="#rpy2.rinterface.endr" title="rpy2.rinterface.endr"><code class="xref py py-func docutils literal"><span class="pre">endr()</span></code></a> should be considered
+<code class="xref py py-func docutils literal"><span class="pre">initr()</span></code> does appear to lead to an R process that is hardly usable.
+For that reason, the use of <code class="xref py py-func docutils literal"><span class="pre">endr()</span></code> should be considered
 carefully, if at all.</p>
-<dl class="function">
-<dt id="rpy2.rinterface.endr">
-<code class="descclassname">rpy2.rinterface.</code><code class="descname">endr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.endr" title="Permalink to this definition">¶</a></dt>
-<dd><p>endr(int) -&gt; None</p>
-<p>Terminate an embedded R by calling the function Rf_endEmbeddedR(int fatal) in the R’s C-API. 0 (zero) seems to be be a commonly used integer when calling Rf_endEmbeddedR. Note that a terminated R cannot be restarted from the same process.</p>
-</dd></dl>
-
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">When writing a GUI for R, a developper may want to either prevent a user
@@ -264,7 +249,7 @@ way Python objects are usually copied (using <a class="reference external" href=
 <div class="section" id="parsing-and-evaluating-r-code">
 <h3>Parsing and evaluating R code<a class="headerlink" href="#parsing-and-evaluating-r-code" title="Permalink to this headline">¶</a></h3>
 <p>The R C-level function for parsing an arbitrary string a R code is exposed
-as the function <a class="reference internal" href="#rpy2.rinterface.parse" title="rpy2.rinterface.parse"><code class="xref py py-func docutils literal"><span class="pre">parse()</span></code></a></p>
+as the function <code class="xref py py-func docutils literal"><span class="pre">parse()</span></code></p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">expression</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s1">&#39;1 + 2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -291,13 +276,6 @@ with the function) with the arguments <em>1</em> and <em>2</em>.</p>
 <p class="last">The expression must be evaluated if the result from its execution
 is wanted.</p>
 </div>
-<dl class="function">
-<dt id="rpy2.rinterface.parse">
-<code class="descclassname">rpy2.rinterface.</code><code class="descname">parse</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>parse(string)</p>
-<p>Parse a string as R code.</p>
-</dd></dl>
-
 </div>
 <div class="section" id="calling-python-functions-from-r">
 <h3>Calling Python functions from R<a class="headerlink" href="#calling-python-functions-from-r" title="Permalink to this headline">¶</a></h3>
@@ -338,16 +316,9 @@ coding skills are necessary as the code below demonstrates it.</p>
 </div>
 <p>For convenience, the code example uses the higher-level interface
 robjects whenever possible.</p>
-<p>The lower-level function <a class="reference internal" href="#rpy2.rinterface.rternalize" title="rpy2.rinterface.rternalize"><code class="xref py py-func docutils literal"><span class="pre">rternalize()</span></code></a> will take an arbitray
+<p>The lower-level function <code class="xref py py-func docutils literal"><span class="pre">rternalize()</span></code> will take an arbitray
 Python function and return an <code class="xref py py-class docutils literal"><span class="pre">rinterface.SexpClosure</span></code> instance,
 that is a object that can be used by R as a function.</p>
-<dl class="function">
-<dt id="rpy2.rinterface.rternalize">
-<code class="descclassname">rpy2.rinterface.</code><code class="descname">rternalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#rternalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface.rternalize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes an arbitrary Python function and wrap it
-in such a way that it can be called from the R side.</p>
-</dd></dl>
-
 </div>
 </div>
 <div class="section" id="interactive-features">
@@ -506,7 +477,7 @@ R objects between rpy2 objects.</p>
 </div>
 </div>
 <div class="section" id="sexpvector">
-<span id="index-9"></span><h3><a class="reference internal" href="#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">SexpVector</span></code></a><a class="headerlink" href="#sexpvector" title="Permalink to this headline">¶</a></h3>
+<span id="index-9"></span><h3><code class="xref py py-class docutils literal"><span class="pre">SexpVector</span></code><a class="headerlink" href="#sexpvector" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id1">
 <h4>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
 <p>In R all scalars are in fact vectors.
@@ -583,7 +554,7 @@ called <cite>names</cite>), and can be accessed as such:</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">Elements in a name vector do not have to be unique. A Python
-counterpart is provided as <a class="reference internal" href="rlike.html#rpy2.rlike.container.TaggedList" title="rpy2.rlike.container.TaggedList"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rlike.container.TaggedList</span></code></a>.</p>
+counterpart is provided as <code class="xref py py-class docutils literal"><span class="pre">rpy2.rlike.container.TaggedList</span></code>.</p>
 </div>
 <p class="rubric" id="index-12">Dim and dimnames</p>
 <p>In the case of an <cite>array</cite>, the names across the
@@ -649,84 +620,8 @@ peculiar and cannot be retrieved with <code class="xref py py-meth docutils lite
 <p>Those missing values can also be used with the <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a> layer
 and more documentation about their usage can be found there
 (see <a class="reference internal" href="vector.html#robjects-missingvalues"><span class="std std-ref">Missing values</span></a>).</p>
-<dl class="class">
-<dt id="rpy2.rinterface.NAIntegerType">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">NAIntegerType</code><a class="headerlink" href="#rpy2.rinterface.NAIntegerType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></p>
-<p>Missing value for an integer in R.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.rinterface.NARealType">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">NARealType</code><a class="headerlink" href="#rpy2.rinterface.NARealType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">float</span></code></a></p>
-<p>Missing value for a float in R.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.rinterface.NALogicalType">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">NALogicalType</code><a class="headerlink" href="#rpy2.rinterface.NALogicalType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">int</span></code></a></p>
-<p>Missing value for a boolean in R.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.rinterface.NACharacterType">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">NACharacterType</code><a class="headerlink" href="#rpy2.rinterface.NACharacterType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">str</span></code></a></p>
-<p>Missing value for a string.</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.rinterface.NAComplexType">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">NAComplexType</code><a class="headerlink" href="#rpy2.rinterface.NAComplexType" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#complex" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">complex</span></code></a></p>
-<p>Missing value for a complex in R.</p>
-</dd></dl>
-
 <p class="rubric">Constructors</p>
-<dl class="class">
-<dt id="rpy2.rinterface.SexpVector">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">SexpVector</code><span class="sig-paren">(</span><em>obj</em>, <em>sexptype</em>, <em>copy</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.SexpVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.rinterface.Sexp" title="rpy2.rinterface.Sexp"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.Sexp</span></code></a></p>
-<p>R object that is a vector. R vectors start their indexing at one, while Python lists or arrays start indexing at zero.
-In the hope to avoid confusion, the indexing in Python (e.g., <code class="xref py py-meth docutils literal"><span class="pre">__getitem__()</span></code> / <code class="xref py py-meth docutils literal"><span class="pre">__setitem__()</span></code>) starts at zero.</p>
-<dl class="method">
-<dt id="rpy2.rinterface.SexpVector.index">
-<code class="descname">index</code><span class="sig-paren">(</span><em>value</em><span class="optional">[</span>, <em>start</em><span class="optional">[</span>, <em>stop</em><span class="optional">]</span><span class="optional">]</span><span class="sig-paren">)</span> &#x2192; integer -- return first index of value.Raises ValueError if the value is not present.<a class="headerlink" href="#rpy2.rinterface.SexpVector.index" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <p>Convenience classes are provided to create vectors of a given type:</p>
-<dl class="class">
-<dt id="rpy2.rinterface.StrSexpVector">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">StrSexpVector</code><a class="headerlink" href="#rpy2.rinterface.StrSexpVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a></p>
-<p>R vector of Python strings</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.rinterface.IntSexpVector">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">IntSexpVector</code><a class="headerlink" href="#rpy2.rinterface.IntSexpVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a></p>
-<p>R vector of integers (note: integers in R are C-int, not C-long)</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.rinterface.FloatSexpVector">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">FloatSexpVector</code><a class="headerlink" href="#rpy2.rinterface.FloatSexpVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a></p>
-<p>R vector of Python floats (note: double in C)</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="rpy2.rinterface.BoolSexpVector">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">BoolSexpVector</code><a class="headerlink" href="#rpy2.rinterface.BoolSexpVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a></p>
-<p>R vector of booleans</p>
-</dd></dl>
-
 </div>
 </div>
 <div class="section" id="sexpenvironment">
@@ -1030,7 +925,7 @@ will write almost identically in rpy2.</p>
 </div>
 </div>
 <div class="section" id="sexps4">
-<h3><a class="reference internal" href="#rpy2.rinterface.SexpS4" title="rpy2.rinterface.SexpS4"><code class="xref py py-class docutils literal"><span class="pre">SexpS4</span></code></a><a class="headerlink" href="#sexps4" title="Permalink to this headline">¶</a></h3>
+<h3><code class="xref py py-class docutils literal"><span class="pre">SexpS4</span></code><a class="headerlink" href="#sexps4" title="Permalink to this headline">¶</a></h3>
 <p>Object-Oriented programming in R exists in several flavours, and one
 of those is called <cite>S4</cite>.
 It has its own type at R’s C-API level, and because of that specificity
@@ -1039,16 +934,9 @@ features (see the pydoc for the class below).</p>
 <p>An instance’s attributes can be accessed through the parent
 class <a class="reference internal" href="#rpy2.rinterface.Sexp" title="rpy2.rinterface.Sexp"><code class="xref py py-class docutils literal"><span class="pre">Sexp</span></code></a> method
 <code class="xref py py-meth docutils literal"><span class="pre">do_slot()</span></code>.</p>
-<dl class="class">
-<dt id="rpy2.rinterface.SexpS4">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">SexpS4</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.SexpS4" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.rinterface.Sexp" title="rpy2.rinterface.Sexp"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.Sexp</span></code></a></p>
-<p>R object that is an ‘S4 object’.Attributes can be accessed using the method ‘do_slot’.</p>
-</dd></dl>
-
 </div>
 <div class="section" id="sexpextptr">
-<h3><a class="reference internal" href="#rpy2.rinterface.SexpExtPtr" title="rpy2.rinterface.SexpExtPtr"><code class="xref py py-class docutils literal"><span class="pre">SexpExtPtr</span></code></a><a class="headerlink" href="#sexpextptr" title="Permalink to this headline">¶</a></h3>
+<h3><code class="xref py py-class docutils literal"><span class="pre">SexpExtPtr</span></code><a class="headerlink" href="#sexpextptr" title="Permalink to this headline">¶</a></h3>
 <p>External pointers are intended to facilitate the handling of C or C++ data structures
 from R. In few words they are pointers to structures <em>external</em> to R. They have
 been used to implement vectors and arrays in shared memory, or storage-based vectors
@@ -1084,61 +972,10 @@ a Python function accessible to R has is was a function of its own. It is possib
 to define arbitrary Python data structures as well as functions or methods to operate
 on them, pass the data structure to R as an external pointer, and expose the functions
 and methods to R.</p>
-<dl class="class">
-<dt id="rpy2.rinterface.SexpExtPtr">
-<em class="property">class </em><code class="descclassname">rpy2.rinterface.</code><code class="descname">SexpExtPtr</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="headerlink" href="#rpy2.rinterface.SexpExtPtr" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.rinterface.Sexp" title="rpy2.rinterface.Sexp"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.Sexp</span></code></a></p>
-<p>R object that is an ‘external pointer’, a pointer to a data structure implemented at the C level.
-SexpExtPtr(extref, tag = None, protected = None)</p>
-</dd></dl>
-
 </div>
 </div>
 <div class="section" id="class-diagram">
 <h2>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h2>
-digraph inheritance422e17c3d0 {
-rankdir=LR;
-size=&quot;8.0, 12.0&quot;;
-  &quot;BoolSexpVector&quot; [URL=&quot;#rpy2.rinterface.BoolSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of booleans&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;BoolSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;ByteSexpVector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R vector of bytes&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;ByteSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;ComplexSexpVector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R vector of complex values.&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;ComplexSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;FloatSexpVector&quot; [URL=&quot;#rpy2.rinterface.FloatSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of Python floats (note: double in C)&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;FloatSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;IntSexpVector&quot; [URL=&quot;#rpy2.rinterface.IntSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of integers (note: integers in R are C-int, not C-long)&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;IntSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;ListSexpVector&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R list.&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;ListSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;NACharacterType&quot; [URL=&quot;#rpy2.rinterface.NACharacterType&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Missing value for a string.&quot;];
-  &quot;NAComplexType&quot; [URL=&quot;#rpy2.rinterface.NAComplexType&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Missing value for a complex in R.&quot;];
-  &quot;NAIntegerType&quot; [URL=&quot;#rpy2.rinterface.NAIntegerType&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Missing value for an integer in R.&quot;];
-  &quot;NALogicalType&quot; [URL=&quot;#rpy2.rinterface.NALogicalType&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Missing value for a boolean in R.&quot;];
-  &quot;NARealType&quot; [URL=&quot;#rpy2.rinterface.NARealType&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;Missing value for a float in R.&quot;];
-  &quot;RNULLType&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R NULL (singleton).&quot;];
-  &quot;Sexp&quot; -&gt; &quot;RNULLType&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;RParsingError&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Error when parsing a string as R code.&quot;];
-  &quot;RParsingIncompleteError&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;Exception raised when a string parsed asR code seems like an incomplete code block.&quot;];
-  &quot;RParsingError&quot; -&gt; &quot;RParsingIncompleteError&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;RRuntimeError&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;RRuntimeWarning&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Sexp&quot; [URL=&quot;#rpy2.rinterface.Sexp&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;];
-  &quot;SexpClosure&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;A R object that is a closure, that is a function. In R a function is defined within an enclosing environment, thus the name closure. In Python, 'nested scopes' could be the closest similar thing.&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpClosure&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpEnvironment&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R object that is an environment. R environments can be seen as similar to Python dictionnaries, with the following twists:&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpEnvironment&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpExtPtr&quot; [URL=&quot;#rpy2.rinterface.SexpExtPtr&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R object that is an 'external pointer', a pointer to a data structure implemented at the C level.&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpExtPtr&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpS4&quot; [URL=&quot;#rpy2.rinterface.SexpS4&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R object that is an 'S4 object'.Attributes can be accessed using the method 'do_slot'.&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpS4&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpSymbol&quot; [fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,tooltip=&quot;R symbol&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpSymbol&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpVector&quot; [URL=&quot;#rpy2.rinterface.SexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R object that is a vector. R vectors start their indexing at one, while Python lists or arrays start indexing at zero.&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;StrSexpVector&quot; [URL=&quot;#rpy2.rinterface.StrSexpVector&quot;,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=10,height=0.25,shape=box,style=&quot;setlinewidth(0.5)&quot;,target=&quot;_top&quot;,tooltip=&quot;R vector of Python strings&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;StrSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-}
 </div>
 <div class="section" id="misc-variables">
 <h2>Misc. variables<a class="headerlink" href="#misc-variables" title="Permalink to this headline">¶</a></h2>
@@ -1194,7 +1031,7 @@ size=&quot;8.0, 12.0&quot;;
 <dt><code class="xref py py-const docutils literal"><span class="pre">ENVSXP</span></code></dt>
 <dd>Environment. Represented by <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpEnvironment</span></code>.</dd>
 <dt><code class="xref py py-const docutils literal"><span class="pre">S4SXP</span></code></dt>
-<dd>Instance of class S4. Represented by <a class="reference internal" href="#rpy2.rinterface.SexpS4" title="rpy2.rinterface.SexpS4"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpS4</span></code></a>.</dd>
+<dd>Instance of class S4. Represented by <code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpS4</span></code>.</dd>
 </dl>
 </div>
 <div class="section" id="types-one-should-not-meet">
