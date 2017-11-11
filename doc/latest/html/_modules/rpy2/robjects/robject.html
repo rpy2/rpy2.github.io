@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.robjects.robject &#8212; rpy2 3.0.0-dev documentation</title>
+    <title>rpy2.robjects.robject &#8212; rpy2 2.9.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '3.0.0-dev',
+        VERSION:     '2.9.1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
       </ul>
@@ -97,12 +97,6 @@
             <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
             <span class="k">yield</span> <span class="n">v</span>
 
-
-<span class="k">def</span> <span class="nf">_reduce_robjectmixin</span><span class="p">(</span><span class="n">rdumps</span><span class="p">,</span> <span class="n">rtypeof</span><span class="p">,</span>
-                         <span class="n">rinterface_factory</span><span class="p">,</span>
-                         <span class="n">rpy2type</span><span class="p">):</span>
-    <span class="n">rinterface_level</span><span class="o">=</span><span class="n">rinterface_factory</span><span class="p">(</span><span class="n">rdumps</span><span class="p">,</span> <span class="n">rtypeof</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">rpy2type</span><span class="p">(</span><span class="n">rinterface_level</span><span class="p">)</span>
         
 <div class="viewcode-block" id="RObjectMixin"><a class="viewcode-back" href="../../../robjects_robjects.html#rpy2.robjects.robject.RObjectMixin">[docs]</a><span class="k">class</span> <span class="nc">RObjectMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Class to provide methods common to all RObject instances. &quot;&quot;&quot;</span>
@@ -202,6 +196,7 @@
 <span class="sd">R class for the object, stored as an R string vector.</span>
 
 <span class="sd">When setting the rclass, the new value will be:</span>
+
 <span class="sd">- wrapped in a Python tuple if a string (the R class</span>
 <span class="sd">  is a vector of strings, and this is made for convenience)</span>
 <span class="sd">- wrapped in a StrSexpVector</span>
@@ -211,21 +206,8 @@
 <span class="sd">If this must be avoided, and if the number of parent</span>
 <span class="sd">classes before and after the change are compatible,</span>
 <span class="sd">the class name can be changed in-place by replacing</span>
-<span class="sd">vector elements.&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="sd">vector elements.&quot;&quot;&quot;</span><span class="p">)</span></div>
 
-
-    <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        robjects-level `__reduce__()`, calling the parent class&#39;</span>
-<span class="sd">        `__reduce__()` before substituting the current high-level</span>
-<span class="sd">        class as a constructor.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">t</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__reduce__</span><span class="p">()</span>
-        <span class="c1"># fix the constructor and parameters</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-        <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="n">l</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">_reduce_robjectmixin</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">l</span><span class="p">)</span></div>
 
     
 <span class="k">def</span> <span class="nf">repr_robject</span><span class="p">(</span><span class="n">o</span><span class="p">,</span> <span class="n">linesep</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">):</span>
@@ -278,7 +260,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
       </ul>
