@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.robjects.robject &#8212; rpy2 2.9.1 documentation</title>
+    <title>rpy2.robjects.robject &#8212; rpy2 2.9.2 documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.9.1',
+        VERSION:     '2.9.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
       </ul>
@@ -167,6 +167,14 @@
             <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
+    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+        <span class="n">rds</span><span class="p">,</span> <span class="vm">__dict__</span> <span class="o">=</span> <span class="n">state</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setstate__</span><span class="p">(</span><span class="n">rds</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="vm">__dict__</span><span class="p">)</span>
+
 <div class="viewcode-block" id="RObjectMixin.r_repr"><a class="viewcode-back" href="../../../robjects_robjects.html#rpy2.robjects.robject.RObjectMixin.r_repr">[docs]</a>    <span class="k">def</span> <span class="nf">r_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; String representation for an object that can be</span>
 <span class="sd">        directly evaluated as R code.</span>
@@ -217,7 +225,7 @@
 
     
 <div class="viewcode-block" id="RObject"><a class="viewcode-back" href="../../../robjects_robjects.html#rpy2.robjects.robject.RObject">[docs]</a><span class="k">class</span> <span class="nc">RObject</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Base class for all R objects. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Base class for all non-vector R objects. &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;_sexp&#39;</span><span class="p">:</span>
@@ -226,7 +234,6 @@
                                      <span class="s2">&quot;that inherits from rpy2.rinterface.Sexp&quot;</span> <span class="o">+</span>\
                                      <span class="s2">&quot;(not from </span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span><span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">RObject</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
-
 </pre></div>
 
           </div>
@@ -260,14 +267,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>
