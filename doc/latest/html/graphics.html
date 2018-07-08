@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Graphics &#8212; rpy2 2.9.1 documentation</title>
+    <title>Graphics &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.9.1',
+        VERSION:     '3.0.0-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -25,7 +25,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="DataFrames and dplyr" href="lib_dplyr.html" />
-    <link rel="prev" title="Mapping rpy2 objects to arbitrary python objects" href="robjects_convert.html" /> 
+    <link rel="prev" title="Interoperability with pandas" href="pandas.html" /> 
   </head>
   <body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -41,9 +41,9 @@
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="robjects_convert.html" title="Mapping rpy2 objects to arbitrary python objects"
+          <a href="pandas.html" title="Interoperability with pandas"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li> 
       </ul>
     </div>  
@@ -468,7 +468,8 @@ example below:</p>
 <span class="n">grid</span><span class="o">.</span><span class="n">newpage</span><span class="p">()</span>
 <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="n">grid</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
 
-<span class="n">diamonds</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">__rdata__</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;diamonds&#39;</span><span class="p">)[</span><span class="s1">&#39;diamonds&#39;</span><span class="p">]</span>
+<span class="n">ggplot2_rpack</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">)</span>
+<span class="n">diamonds</span> <span class="o">=</span> <span class="n">ggplot2_rpack</span><span class="o">.</span><span class="n">__rdata__</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;diamonds&#39;</span><span class="p">)[</span><span class="s1">&#39;diamonds&#39;</span><span class="p">]</span>
 <span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">diamonds</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">trans</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="s2">&quot;log2&quot;</span><span class="p">,</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">)):</span>
@@ -1045,16 +1046,16 @@ Viewports can be thought of as nodes in a scene graph.</p>
 </div>
 <div class="section" id="class-diagram">
 <h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h3>
-<img src="_images/inheritance-f6543263de8f8a85b3438917854080eb43424f6f.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance"/>
+<img src="_images/inheritance-782978145bcd8fa763d4954e351601b0b7923e07.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance"/>
 <map id="inheritancee1ac3c21eb" name="inheritancee1ac3c21eb">
-<area shape="rect" id="node2" href="#rpy2.robjects.lib.grid.GTree" target="_top" title="gTree" alt="" coords="401,31,473,56"/>
-<area shape="rect" id="node4" href="#rpy2.robjects.lib.grid.Grob" target="_top" title="Graphical object" alt="" coords="279,153,351,179"/>
-<area shape="rect" id="node5" title="Graphical parameters" alt="" coords="279,203,351,228"/>
-<area shape="rect" id="node6" title="Base class for all R objects." alt="" coords="156,228,228,253"/>
-<area shape="rect" id="node13" title="Vector of unit values (as in R&#39;s grid package)" alt="" coords="279,252,351,277"/>
-<area shape="rect" id="node14" href="#rpy2.robjects.lib.grid.Viewport" target="_top" title="Drawing context." alt="" coords="276,301,353,327"/>
-<area shape="rect" id="node9" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="5,203,108,228"/>
-<area shape="rect" id="node10" href="rinterface.html#rpy2.rinterface.Sexp" target="_top" title="Sexp" alt="" coords="21,252,93,277"/>
+<area shape="rect" id="node2" href="#rpy2.robjects.lib.grid.GTree" target="_top" title="gTree" alt="" coords="411,31,483,56"/>
+<area shape="rect" id="node4" href="#rpy2.robjects.lib.grid.Grob" target="_top" title="Graphical object" alt="" coords="287,153,359,179"/>
+<area shape="rect" id="node5" title="Graphical parameters" alt="" coords="287,203,359,228"/>
+<area shape="rect" id="node6" title="Base class for all non&#45;vector R objects." alt="" coords="161,228,235,253"/>
+<area shape="rect" id="node13" title="Vector of unit values (as in R&#39;s grid package)" alt="" coords="287,252,359,277"/>
+<area shape="rect" id="node14" href="#rpy2.robjects.lib.grid.Viewport" target="_top" title="Drawing context." alt="" coords="283,301,363,327"/>
+<area shape="rect" id="node9" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="5,203,113,228"/>
+<area shape="rect" id="node10" href="rinterface.html#rpy2.rinterface.Sexp" target="_top" title="Sexp" alt="" coords="23,252,95,277"/>
 </map>
 </div>
 </div>
@@ -1106,8 +1107,8 @@ Viewports can be thought of as nodes in a scene graph.</p>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="robjects_convert.html"
-                        title="previous chapter">Mapping rpy2 objects to arbitrary python objects</a></p>
+  <p class="topless"><a href="pandas.html"
+                        title="previous chapter">Interoperability with pandas</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="lib_dplyr.html"
                         title="next chapter">DataFrames and dplyr</a></p>
@@ -1145,15 +1146,15 @@ Viewports can be thought of as nodes in a scene graph.</p>
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              >next</a> |</li>
         <li class="right" >
-          <a href="robjects_convert.html" title="Mapping rpy2 objects to arbitrary python objects"
+          <a href="pandas.html" title="Interoperability with pandas"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

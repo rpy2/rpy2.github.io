@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Vectors and arrays &#8212; rpy2 2.9.1 documentation</title>
+    <title>Vectors and arrays &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '2.9.1',
+        VERSION:     '3.0.0-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="robjects_serialization.html" title="Object serialization"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li> 
       </ul>
     </div>  
@@ -186,7 +186,7 @@ an rpy2.rinterface.SexpVector of type VECSXP.</li>
 
 <p>Sequences of date or time points can be stored in
 <code class="xref py py-class docutils literal"><span class="pre">POSIXlt</span></code> or <code class="xref py py-class docutils literal"><span class="pre">POSIXct</span></code> objects. Both can be created
-from Python sequences of <a class="reference external" href="https://docs.python.org/2/library/time.html#time.struct_time" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">time.struct_time</span></code></a> objects or
+from Python sequences of <a class="reference external" href="https://docs.python.org/3/library/time.html#time.struct_time" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">time.struct_time</span></code></a> objects or
 from R objects.</p>
 <dl class="class">
 <dt id="rpy2.robjects.vectors.POSIXlt">
@@ -453,7 +453,7 @@ very common tasks in data analysis such as reordering and random sampling.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x_resampled</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">o_i</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>R operators are vector operations, with the operator applyied
+<p>R operators are vector operations, with the operator applied
 to each element in the vector. This can be used to build extraction
 indexes.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">i</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ro</span> <span class="o">&gt;</span> <span class="mi">3</span> <span class="c1"># extract values &gt; 3</span>
@@ -537,7 +537,7 @@ our rpy2 R objects through those structures.</p>
 </pre></div>
 </div>
 <p>For the sake of complete compatibility with R, arguments can be named
-(and passed as a <a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> or <a class="reference internal" href="rlike.html#rpy2.rlike.container.TaggedList" title="rpy2.rlike.container.TaggedList"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rlike.container.TaggedList</span></code></a>).</p>
+(and passed as a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> or <a class="reference internal" href="rlike.html#rpy2.rlike.container.TaggedList" title="rpy2.rlike.container.TaggedList"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rlike.container.TaggedList</span></code></a>).</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">ListVector</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">rx2</span><span class="p">[{</span><span class="s1">&#39;i&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">)}]</span> <span class="o">=</span> <span class="mi">9</span>
 </pre></div>
@@ -924,7 +924,7 @@ measures by subject is given by the column <em>Subject</em>.</p>
 <code class="xref py py-class docutils literal"><span class="pre">rinterface.SexpVector</span></code>
 (with <code class="xref py py-attr docutils literal"><span class="pre">typeof</span></code> equal to <em>VECSXP</em>, that is, an R <cite>list</cite>)
 or any Python object implementing the method <code class="xref py py-meth docutils literal"><span class="pre">items()</span></code>
-(for example <a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> or <a class="reference internal" href="rlike.html#rpy2.rlike.container.OrdDict" title="rpy2.rlike.container.OrdDict"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rlike.container.OrdDict</span></code></a>).</p>
+(for example <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">dict</span></code></a> or <a class="reference internal" href="rlike.html#rpy2.rlike.container.OrdDict" title="rpy2.rlike.container.OrdDict"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rlike.container.OrdDict</span></code></a>).</p>
 <p>Empty <cite>data.frame</cite>:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dataf</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({})</span>
 </pre></div>
@@ -1209,13 +1209,13 @@ append       : boolean (append if the file in the path is already existing, or n
         <li class="right" >
           <a href="robjects_serialization.html" title="Object serialization"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.ipython.rmagic &#8212; rpy2 2.9.1 documentation</title>
+    <title>rpy2.ipython.rmagic &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '2.9.1',
+        VERSION:     '3.0.0-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -109,25 +109,30 @@
 <span class="c1"># Try loading pandas and numpy, emitting a warning if either cannot be</span>
 <span class="c1"># loaded.</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">numpy2ri</span>
-    <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
-        <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span>
+        <span class="kn">import</span> <span class="nn">pandas</span>
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+        <span class="n">pandas</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s2">&quot;The Python package &#39;pandas&#39; is strongly&quot;</span>
                                 <span class="s2">&quot;recommended when using `rpy2.ipython`.&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;Unfortunately it could not be loaded,&quot;</span><span class="p">,</span>
                                 <span class="s2">&quot;but at least we found &#39;numpy&#39;.&quot;</span><span class="p">)))</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="c1"># Give up on numerics</span>
+    <span class="n">numpy</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s2">&quot;The Python package &#39;pandas&#39; is strongly&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;recommended when using `rpy2.ipython`.&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;Unfortunately it could not be loaded,&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;as we did not manage to load &#39;numpy&#39;&quot;</span><span class="p">,</span>
                             <span class="s2">&quot;first.&quot;</span><span class="p">)))</span>
-        
-        
+<span class="k">if</span> <span class="n">numpy</span><span class="p">:</span>
+  <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">numpy2ri</span>
+  <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
+  <span class="k">if</span> <span class="n">pandas</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
+    <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span>
+
 
 <span class="c1"># IPython imports</span>
 
@@ -393,8 +398,8 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 
-<span class="sd">        Beware that R names can have &#39;.&#39; so this is not fool proof.</span>
-<span class="sd">        To avoid this, don&#39;t name your R objects with &#39;.&#39;s...</span>
+<span class="sd">        Beware that R names can have dots (&#39;.&#39;) so this is not fool proof.</span>
+<span class="sd">        To avoid this, don&#39;t name your R objects with dots...</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">args</span> <span class="o">=</span> <span class="n">parse_argstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rpull</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
@@ -556,11 +561,11 @@
         <span class="p">)</span>
     <span class="nd">@argument_group</span><span class="p">(</span><span class="s2">&quot;Plot&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments to plotting device&quot;</span><span class="p">)</span>
     <span class="nd">@argument</span><span class="p">(</span>
-        <span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--width&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--width&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Width of plotting device in R.&#39;</span>
         <span class="p">)</span>
     <span class="nd">@argument</span><span class="p">(</span>
-        <span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--height&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--height&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Height of plotting device in R.&#39;</span>
         <span class="p">)</span>
     <span class="nd">@argument</span><span class="p">(</span>
@@ -858,13 +863,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>

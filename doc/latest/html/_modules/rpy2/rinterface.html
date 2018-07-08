@@ -5,13 +5,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.rinterface &#8212; rpy2 2.9.1 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '2.9.1',
+        VERSION:     '3.0.0-dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -35,7 +35,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -46,7 +46,9 @@
           <div class="body" role="main">
             
   <h1>Source code for rpy2.rinterface</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">rpy2.situation</span> <span class="k">import</span> <span class="p">(</span><span class="n">r_home_from_subprocess</span><span class="p">,</span>
@@ -92,8 +94,6 @@
 <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
     <span class="n">_load_r_dll</span><span class="p">(</span><span class="n">R_HOME</span><span class="p">)</span>
 
-<span class="c1"># cleanup the namespace</span>
-<span class="k">del</span><span class="p">(</span><span class="n">os</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">rpy2.rinterface._rinterface</span> <span class="k">import</span> <span class="p">(</span><span class="n">baseenv</span><span class="p">,</span>
                                          <span class="n">emptyenv</span><span class="p">,</span>
@@ -151,7 +151,6 @@
                                          <span class="n">NARealType</span><span class="p">,</span>
                                          <span class="n">NA_Character</span><span class="p">,</span>
                                          <span class="n">NA_Complex</span><span class="p">,</span>
-                                         <span class="n">NA_Integer</span><span class="p">,</span>
                                          <span class="n">NA_Logical</span><span class="p">,</span>
                                          <span class="n">NA_Real</span><span class="p">,</span>
                                          <span class="n">NULL</span><span class="p">,</span>
@@ -175,41 +174,109 @@
                                          <span class="n">SYMSXP</span><span class="p">,</span>
                                          <span class="n">TRUE</span><span class="p">,</span>
                                          <span class="n">VECSXP</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="k">import</span> <span class="n">_rinterface</span>
 
+
+<span class="n">_REFERENCE_TO_R_SESSIONS</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/rstudio/reticulate/issues/98&#39;</span>
+
+<span class="k">def</span> <span class="nf">get_r_session_status</span><span class="p">(</span><span class="n">r_session_init</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return information about the R session, if available.</span>
+
+<span class="sd">    Information about the R session being already initialized can be communicated by a parent environment.</span>
+<span class="sd">    See discussion at: %s</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">_REFERENCE_TO_R_SESSIONS</span>
+    
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;current_pid&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()}</span>
+    
+    <span class="k">if</span> <span class="n">r_session_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r_session_init</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;R_SESSION_INITIALIZED&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r_session_init</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">r_session_init</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">lsplit</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The item </span><span class="si">%s</span><span class="s1"> in R_SESSION_INITIALIZED should be of the form key=value.&#39;</span> <span class="o">%</span> <span class="n">item</span><span class="p">)</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">d</span>
+
+
+<span class="k">def</span> <span class="nf">is_r_externally_initialized</span><span class="p">():</span>
+    <span class="n">r_session_status</span> <span class="o">=</span> <span class="n">get_r_session_status</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">r_session_status</span><span class="p">[</span><span class="s1">&#39;current_pid&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">r_session_status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PID&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">set_python_session_status</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Set information about the Python process in an environment variable.</span>
+
+<span class="sd">    Current the information See discussion at: %s</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">_REFERENCE_TO_R_SESSIONS</span>
+    
+    <span class="n">d</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">(((</span><span class="s1">&#39;current_pid&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()),</span>
+                                <span class="p">(</span><span class="s1">&#39;sys.executable&#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">)))</span>
+    <span class="n">info_string</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;PYTHON_SESSION_INITIALIZED&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">info_string</span>
+
+
+<span class="c1">## rename function imported from C-extension to wrap it.</span>
+<span class="n">_initr</span> <span class="o">=</span> <span class="n">initr</span>
+<div class="viewcode-block" id="initr"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.initr">[docs]</a><span class="k">def</span> <span class="nf">initr</span><span class="p">(</span><span class="n">r_preservehash</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;&quot;Wrapper around `rpy2.rinterface._rinterface.initr()`.</span>
+
+<span class="sd">    This wrapper is adding the following:</span>
+
+<span class="sd">    - R is only initialized if `is_r_externally_initialized()` is not</span>
+<span class="sd">    true when this function is called.</span>
+
+<span class="sd">    - After R is initialized, :func:`rpy2.rinterface.endr` is registered</span>
+<span class="sd">    to be called when Python exits.</span>
+<span class="sd">    </span>
+<span class="sd">    - The environment variable &quot;PYTHON_SESSION_INFO&quot; is set (See %s).</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">_REFERENCE_TO_R_SESSIONS</span>
+
+    <span class="c1"># Force the internal initialization flag if there is an environment</span>
+    <span class="c1"># variable that indicates that R was alreay initialized in the current</span>
+    <span class="c1"># process.</span>
+
+    <span class="k">if</span> <span class="n">is_r_externally_initialized</span><span class="p">():</span>
+        <span class="n">_rinterface</span><span class="o">.</span><span class="n">_force_initialized</span><span class="p">()</span>
+
+    <span class="c1"># As soon as R is initialized, set the environment variable</span>
+    <span class="c1"># PYTHON_SESSION_INFO</span>
+    <span class="n">_initr</span><span class="p">(</span><span class="n">r_preservehash</span><span class="o">=</span><span class="n">r_preservehash</span><span class="p">)</span>
+    <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">endr</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">set_python_session_status</span><span class="p">()</span>
+
+    
+    <span class="c1"># TODO: the use of global does seem to be a too good pattern.</span>
+    <span class="k">global</span> <span class="n">NA_Integer</span>
+    <span class="n">NA_Integer</span> <span class="o">=</span> <span class="n">NAIntegerType</span><span class="p">()</span></div>
+
+    
 <span class="c1"># wrapper in case someone changes sys.stdout:</span>
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-    <span class="c1"># Print became a regular function in Python 3, making</span>
-    <span class="c1"># the workaround (mostly) unnecessary (python2to3 still needs it</span>
-    <span class="c1"># wrapped in a function</span>
-    <span class="k">def</span> <span class="nf">consolePrint</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-<div class="viewcode-block" id="consolePrint"><a class="viewcode-back" href="../../callbacks.html#rpy2.rinterface.consolePrint">[docs]</a>    <span class="k">def</span> <span class="nf">consolePrint</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+<div class="viewcode-block" id="consolePrint"><a class="viewcode-back" href="../../callbacks.html#rpy2.rinterface.consolePrint">[docs]</a><span class="k">def</span> <span class="nf">consolePrint</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+    
 
 <span class="n">set_writeconsole_regular</span><span class="p">(</span><span class="n">consolePrint</span><span class="p">)</span>
+
 
 <span class="k">def</span> <span class="nf">consoleWarn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">RRuntimeWarning</span><span class="p">)</span>
 <span class="n">set_writeconsole_warnerror</span><span class="p">(</span><span class="n">consoleWarn</span><span class="p">)</span>
+
 
 <span class="k">def</span> <span class="nf">consoleFlush</span><span class="p">():</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
 
 <span class="n">set_flushconsole</span><span class="p">(</span><span class="n">consoleFlush</span><span class="p">)</span>
 
-<span class="c1"># wrapper in case someone changes sys.stdout:</span>
-<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-    <span class="c1"># &#39;raw_input()&#39; became &#39;input()&#39; in Python 3</span>
-    <span class="k">def</span> <span class="nf">consoleRead</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
-        <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="n">text</span>
-<span class="k">else</span><span class="p">:</span>
-<div class="viewcode-block" id="consoleRead"><a class="viewcode-back" href="../../callbacks.html#rpy2.rinterface.consoleRead">[docs]</a>    <span class="k">def</span> <span class="nf">consoleRead</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
-        <span class="n">text</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
-        <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
-        <span class="k">return</span> <span class="n">text</span></div>
+
+<div class="viewcode-block" id="consoleRead"><a class="viewcode-back" href="../../callbacks.html#rpy2.rinterface.consoleRead">[docs]</a><span class="k">def</span> <span class="nf">consoleRead</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">text</span></div>
+
 
 <span class="n">set_readconsole</span><span class="p">(</span><span class="n">consoleRead</span><span class="p">)</span>
 
@@ -247,7 +314,7 @@
     <span class="n">template</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s1">&#39;function(...) { .External(&quot;.Python&quot;, foo, ...) }&#39;</span><span class="p">)</span>
     <span class="n">template</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">rpy_fun</span>
     <span class="k">return</span> <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;eval&#39;</span><span class="p">](</span><span class="n">template</span><span class="p">)</span></div>
-
+  
 <span class="c1"># def cleanUp(saveact, status, runlast):</span>
 <span class="c1">#     return True</span>
 
@@ -285,13 +352,13 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 2.9.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.3.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
     </div>
   </body>
 </html>
