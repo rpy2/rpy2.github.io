@@ -4,30 +4,23 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Performances &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.0.0-dev',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Custom graphical devices" href="graphicaldevices.html" />
     <link rel="prev" title="Related projects" href="related_projects.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -64,7 +57,7 @@ and because of that it seems that Python does not always garbage collect often e
 large objects are involved. This is sometimes leading to transient increased memory usage when large
 objects are overwritten in loops, and although reaching a system’s memory limit appears
 to trigger garbage collection, one may wish to explicitly trigger the collection.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gc</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gc</span>
 <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -72,7 +65,7 @@ to trigger garbage collection, one may wish to explicitly trigger the collection
 Python-to-R bridge, unfortunately without considering specificities of the Python and R respective garbage
 collection mechanisms. The outcome of the benchmark changes dramatically, probably putting back rpy2 as
 the fastest, most memory efficient, and most versatile Python-to-R bridge.</p>
-<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span>
 <span class="kn">import</span> <span class="nn">gc</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span>
@@ -89,10 +82,10 @@ the fastest, most memory efficient, and most versatile Python-to-R bridge.</p>
 </div>
 <div class="section" id="low-level-interface">
 <h3>Low-level interface<a class="headerlink" href="#low-level-interface" title="Permalink to this headline">¶</a></h3>
-<p>The high-level layer <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.robjects</span></code></a> brings a lot of convenience, such a class mappings and interfaces, but obviously
+<p>The high-level layer <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> brings a lot of convenience, such a class mappings and interfaces, but obviously
 with a cost in term of performances. This cost is neglibible for common usage, but compute-intensive programms traversing the
 Python-to-R bridge way and back a very large number of time will notice it.</p>
-<p>For those cases, the <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal"><span class="pre">rpy2.rinterface</span></code></a> low-level layer gets the programmer closer to R’s C-level interface, bring rpy2
+<p>For those cases, the <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a> low-level layer gets the programmer closer to R’s C-level interface, bring rpy2
 faster than R code itself, as shown below.</p>
 </div>
 </div>
@@ -101,7 +94,7 @@ faster than R code itself, as shown below.</p>
 <p>As a simple benchmark, we took a function that would sum
 up all elements in a numerical vector.</p>
 <p>In pure R, the code is like:</p>
-<div class="highlight-r"><div class="highlight"><pre><span></span><span class="kr">function</span><span class="p">(</span>x<span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="kr">function</span><span class="p">(</span>x<span class="p">)</span>
 <span class="p">{</span>
   total <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
   <span class="kr">for</span> <span class="p">(</span>elt <span class="kr">in</span> x<span class="p">)</span> <span class="p">{</span>
@@ -111,7 +104,7 @@ up all elements in a numerical vector.</p>
 </pre></div>
 </div>
 <p>while in pure Python this is like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">python_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">python_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
         <span class="n">total</span> <span class="o">+=</span> <span class="n">elt</span>
@@ -121,7 +114,7 @@ up all elements in a numerical vector.</p>
 <p>R has obviously a vectorized function <cite>sum()</cite> calling underlying C code, but the purpose of the benchmark
 is to measure the running time of pure R code.</p>
 <p>We ran this function over different types of sequences (of the same length)</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span>    <span class="n">n</span> <span class="o">=</span> <span class="mi">20000</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>    <span class="n">n</span> <span class="o">=</span> <span class="mi">20000</span>
     <span class="n">x_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
     <span class="n">module</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;array.array&quot;</span><span class="p">:</span>
@@ -148,7 +141,7 @@ is to measure the running time of pure R code.</p>
 </div>
 <p>The running times are summarized in the figure below.</p>
 <a class="reference internal image-reference" href="_images/benchmark_sum.png"><img alt="_images/benchmark_sum.png" src="_images/benchmark_sum.png" style="width: 649.6px; height: 489.6px;" /></a>
-<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.6)"><code class="xref py py-class docutils literal"><span class="pre">list</span></code></a> is likely the fastest, explaining
+<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> is likely the fastest, explaining
 why implementations of the sum in pure Python over this type are the fastest.
 Python is much faster than R for iterating through a vector/list.</p>
 <p>Measuring the respective slopes, and using the slope for the R code
@@ -242,27 +235,27 @@ code runs.</p>
 </tbody>
 </table>
 <p>The object one iterates through matters much for the speed, and
-the poorest performer is <a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a>,
+the poorest performer is <a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a>,
 being almost twice slower than pure R. This is expected since the iteration
 relies on R-level mechanisms to which a penalty for using a higher-level
 interface must be added.
-On the other hand, using a <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a> provides
+On the other hand, using a <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpVector</span></code></a> provides
 an impressive speedup, making the use of R through rpy2 faster that using
 R from R itself. This was not unexpected, as the lower-level interface is
 closer to the C API for R.
-Since casting back a <a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a> to its
-parent class <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a> is straightforward, we
+Since casting back a <a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a> to its
+parent class <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpVector</span></code></a> is straightforward, we
 have a mechanism that allows rpy2 to run code over R objects faster than
-R can. It also means than <code class="xref py py-mod docutils literal"><span class="pre">rpy2</span></code> is at faster than other Python-to-R bridges
+R can. It also means than <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> is at faster than other Python-to-R bridges
 delegating all there code to be evaluated by R when considering the execution of
-code. Traversing from Python to R and back will also be faster with <code class="xref py py-mod docutils literal"><span class="pre">rpy2</span></code>
+code. Traversing from Python to R and back will also be faster with <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code>
 than with either pipes-based solutions or Rserve-based solutions.</p>
-<p>What might seem more of a surprise is that iterating through a <code class="xref py py-class docutils literal"><span class="pre">numpy.array</span></code> is only
-slightly faster than pure R, and slower than when using <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.rinterface.SexpVector</span></code></a>.
+<p>What might seem more of a surprise is that iterating through a <code class="xref py py-class docutils literal notranslate"><span class="pre">numpy.array</span></code> is only
+slightly faster than pure R, and slower than when using <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpVector</span></code></a>.
 This is happening because the subsetting mechanism for the later is kept much lighter weight,
 giving speed when needed. On the other hand, accessing
-<a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a> is slower because the interface is currently
-implemented in pure Python, while it is in C for <code class="xref py py-mod docutils literal"><span class="pre">numpy.array</span></code>.</p>
+<a class="reference internal" href="vector.html#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a> is slower because the interface is currently
+implemented in pure Python, while it is in C for <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy.array</span></code>.</p>
 <p>Finally, and to put the earlier benchmarks in perspective, it would be
 fair to note that python and R have a builtin function <em>sum</em>,
 calling C-compiled code, and to compare their performances.</p>
@@ -278,7 +271,7 @@ calling C-compiled code, and to compare their performances.</p>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
             </a></p>
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Performances</a><ul>
 <li><a class="reference internal" href="#optimizing-for-performances">Optimizing for performances</a><ul>
@@ -306,12 +299,14 @@ calling C-compiled code, and to compare their performances.</p>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -339,7 +334,7 @@ calling C-compiled code, and to compare their performances.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

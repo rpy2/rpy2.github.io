@@ -4,28 +4,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>rpy2.robjects.packages &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '3.0.0-dev',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -264,7 +257,6 @@
 
 <span class="sd">        - on_conflict: &#39;fail&#39; or &#39;warn&#39; (default: &#39;fail&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-
         <span class="k">assert</span><span class="p">(</span><span class="n">on_conflict</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;fail&#39;</span><span class="p">,</span> <span class="s1">&#39;warn&#39;</span><span class="p">))</span>
 
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span>
@@ -304,7 +296,7 @@
                 <span class="n">riobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_env</span><span class="p">[</span><span class="n">rname</span><span class="p">]</span>
             <span class="k">except</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">RRuntimeError</span> <span class="k">as</span> <span class="n">rre</span><span class="p">:</span>
                 <span class="n">warn</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">rre</span><span class="p">))</span>
-            <span class="n">rpyobj</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ri2ro</span><span class="p">(</span><span class="n">riobj</span><span class="p">)</span>
+            <span class="n">rpyobj</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">riobj</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">rpyobj</span><span class="p">,</span> <span class="s1">&#39;__rname__&#39;</span><span class="p">):</span>
                 <span class="n">rpyobj</span><span class="o">.</span><span class="n">__rname__</span> <span class="o">=</span> <span class="n">rname</span>
             <span class="c1">#FIXME: shouldn&#39;t the original R name be also in the __dict__ ?</span>
@@ -322,9 +314,11 @@
 <span class="sd">    &#39;translated&#39; (that this the named parameters were made to </span>
 <span class="sd">    to conform Python&#39;s rules for vaiable names).&quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__fill_rpy2r__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on_conflict</span> <span class="o">=</span> <span class="s1">&#39;fail&#39;</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__fill_rpy2r__</span><span class="p">(</span><span class="n">on_conflict</span> <span class="o">=</span> <span class="n">on_conflict</span><span class="p">)</span>
+        <span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">__fill_rpy2r__</span><span class="p">(</span><span class="n">on_conflict</span> <span class="o">=</span> <span class="n">on_conflict</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">robj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">robj</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">robj</span><span class="o">.</span><span class="n">typeof</span> <span class="o">==</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">CLOSXP</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">robj</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">)</span> <span class="ow">and</span> \
+               <span class="n">robj</span><span class="o">.</span><span class="n">typeof</span> <span class="o">==</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">CLOSXP</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">STF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">],</span>
                                           <span class="n">on_conflict</span> <span class="o">=</span> <span class="n">on_conflict</span><span class="p">,</span>
                                           <span class="n">symbol_r2python</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_symbol_r2python</span><span class="p">,</span>
@@ -333,17 +327,17 @@
 <span class="c1"># alias</span>
 <span class="n">STP</span> <span class="o">=</span> <span class="n">SignatureTranslatedPackage</span>
 
-<span class="k">class</span> <span class="nc">SignatureTranslatedAnonymousPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
+<div class="viewcode-block" id="SignatureTranslatedAnonymousPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SignatureTranslatedAnonymousPackage">[docs]</a><span class="k">class</span> <span class="nc">SignatureTranslatedAnonymousPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
         <span class="n">reval</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">SignatureTranslatedAnonymousPackage</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">env</span><span class="p">,</span>
-                                                                  <span class="n">name</span><span class="p">)</span>
+                                                                  <span class="n">name</span><span class="p">)</span></div>
 
 <span class="c1"># alias</span>
 <span class="n">STAP</span> <span class="o">=</span> <span class="n">SignatureTranslatedAnonymousPackage</span>
 
-<span class="k">class</span> <span class="nc">InstalledSTPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
+<div class="viewcode-block" id="InstalledSTPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledSTPackage">[docs]</a><span class="k">class</span> <span class="nc">InstalledSTPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
     <span class="nd">@docstring_property</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">doc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="s1">&#39;Python representation of an R package.&#39;</span><span class="p">])</span>
@@ -359,14 +353,16 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__fill_rpy2r__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">on_conflict</span> <span class="o">=</span> <span class="s1">&#39;fail&#39;</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__fill_rpy2r__</span><span class="p">(</span><span class="n">on_conflict</span> <span class="o">=</span> <span class="n">on_conflict</span><span class="p">)</span>
+        <span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+         <span class="o">.</span><span class="n">__fill_rpy2r__</span><span class="p">(</span><span class="n">on_conflict</span> <span class="o">=</span> <span class="n">on_conflict</span><span class="p">))</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">robj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">robj</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">)</span> <span class="ow">and</span> <span class="n">robj</span><span class="o">.</span><span class="n">typeof</span> <span class="o">==</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">CLOSXP</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">robj</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">)</span> <span class="ow">and</span> \
+               <span class="n">robj</span><span class="o">.</span><span class="n">typeof</span> <span class="o">==</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">CLOSXP</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">DocumentedSTFunction</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="n">name</span><span class="p">],</span>
-                                                           <span class="n">packagename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span><span class="p">)</span>
+                                                           <span class="n">packagename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span><span class="p">)</span></div>
 
 
-<span class="k">class</span> <span class="nc">InstalledPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
+<div class="viewcode-block" id="InstalledPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledPackage">[docs]</a><span class="k">class</span> <span class="nc">InstalledPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
     <span class="nd">@docstring_property</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">doc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="s1">&#39;Python representation of an R package.&#39;</span><span class="p">,</span>
@@ -380,7 +376,7 @@
                                            <span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]))</span>
             <span class="k">except</span> <span class="n">rhelp</span><span class="o">.</span><span class="n">HelpNotFoundError</span> <span class="k">as</span> <span class="n">hnf</span><span class="p">:</span>
                 <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;[R help was not found]&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="WeakPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.WeakPackage">[docs]</a><span class="k">class</span> <span class="nc">WeakPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
@@ -533,24 +529,22 @@
     <span class="sd">&quot;&quot;&quot; Return the PackageData for the given package.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">package</span><span class="o">.</span><span class="n">__rdata__</span></div>
 
-<div class="viewcode-block" id="wherefrom"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.wherefrom">[docs]</a><span class="k">def</span> <span class="nf">wherefrom</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="n">startenv</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">globalenv</span><span class="p">):</span>
+<div class="viewcode-block" id="wherefrom"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.wherefrom">[docs]</a><span class="k">def</span> <span class="nf">wherefrom</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">startenv</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">globalenv</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; For a given symbol, return the environment</span>
 <span class="sd">    this symbol is first found in, starting from &#39;startenv&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">env</span> <span class="o">=</span> <span class="n">startenv</span>
     <span class="n">obj</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">tryagain</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">while</span> <span class="n">tryagain</span><span class="p">:</span>
+    <span class="n">found</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">found</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">env</span><span class="p">[</span><span class="n">symbol</span><span class="p">]</span>
-            <span class="n">tryagain</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">found</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">except</span> <span class="ne">LookupError</span> <span class="k">as</span> <span class="n">knf</span><span class="p">:</span>
-            <span class="n">env</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">enclos</span><span class="p">()</span>
+            <span class="n">env</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">enclos</span>
             <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">rsame</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">emptyenv</span><span class="p">):</span>
-                <span class="n">tryagain</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">tryagain</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ri2ro</span><span class="p">(</span><span class="n">env</span><span class="p">)</span></div>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">env</span><span class="p">)</span></div>
 
 </pre></div>
 
@@ -564,12 +558,14 @@
             </a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -592,7 +588,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

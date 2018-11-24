@@ -4,28 +4,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>rpy2.robjects.functions &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '3.0.0-dev',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -47,14 +40,15 @@
           <div class="body" role="main">
             
   <h1>Source code for rpy2.robjects.functions</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">re</span>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="k">import</span> <span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">RObject</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">help</span>
 <span class="c1">#import rpy2.robjects.conversion conversion</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">conversion</span>
-<span class="c1"># XXX: I need to import default_ri2ro</span>
 
 <span class="kn">from</span> <span class="nn">rpy2.robjects.packages_utils</span> <span class="k">import</span> <span class="p">(</span><span class="n">default_symbol_r2python</span><span class="p">,</span>
                                           <span class="n">default_symbol_check_after</span><span class="p">,</span>
@@ -67,13 +61,18 @@
 <span class="c1">#needed to avoid circular imports</span>
 <span class="n">_reval</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;eval&#39;</span><span class="p">]</span>
 
-<span class="n">__formals</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;formals&#39;</span><span class="p">)</span>
-<span class="n">__args</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">)</span>
-<span class="c1">#_genericsargsenv = baseenv_ri[&#39;.GenericArgsEnv&#39;]</span>
-<span class="c1">#_argsenv = baseenv_ri[&#39;.ArgsEnv&#39;]</span>
+<span class="n">__formals</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;formals&#39;</span><span class="p">)</span>
+<span class="n">__args</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;args&#39;</span><span class="p">)</span>
+<span class="n">__is_null</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;is.null&#39;</span><span class="p">)</span>
+
+
 <span class="k">def</span> <span class="nf">_formals_fixed</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
     <span class="n">tmp</span> <span class="o">=</span> <span class="n">__args</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">__formals</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">__is_null</span><span class="p">(</span><span class="n">tmp</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">__formals</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+
 
 <span class="c1">## docstring_property and DocstringProperty</span>
 <span class="c1">## from Bradley Froehle</span>
@@ -82,7 +81,8 @@
     <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">fget</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">DocstringProperty</span><span class="p">(</span><span class="n">class_doc</span><span class="p">,</span> <span class="n">fget</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">wrapper</span>
- 
+
+
 <span class="k">class</span> <span class="nc">DocstringProperty</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">class_doc</span><span class="p">,</span> <span class="n">fget</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fget</span> <span class="o">=</span> <span class="n">fget</span>
@@ -122,10 +122,10 @@
 <div class="viewcode-block" id="Function"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function">[docs]</a><span class="k">class</span> <span class="nc">Function</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpClosure</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Python representation of an R function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">__local</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;local&#39;</span><span class="p">)</span>
-    <span class="n">__call</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;call&#39;</span><span class="p">)</span>
-    <span class="n">__assymbol</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;as.symbol&#39;</span><span class="p">)</span>
-    <span class="n">__newenv</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;new.env&#39;</span><span class="p">)</span>
+    <span class="n">__local</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;local&#39;</span><span class="p">)</span>
+    <span class="n">__call</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;call&#39;</span><span class="p">)</span>
+    <span class="n">__assymbol</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;as.symbol&#39;</span><span class="p">)</span>
+    <span class="n">__newenv</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;new.env&#39;</span><span class="p">)</span>
 
     <span class="n">_local_env</span> <span class="o">=</span> <span class="kc">None</span>
         
@@ -148,12 +148,16 @@
 
 
     <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">new_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">conversion</span><span class="o">.</span><span class="n">py2ri</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+        <span class="n">new_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
         <span class="n">new_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">new_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ri</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="c1"># TODO: shouldn&#39;t this be handled by the conversion itself ?</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">):</span>
+                <span class="n">new_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Function</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">new_args</span><span class="p">,</span> <span class="o">**</span><span class="n">new_kwargs</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ri2ro</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
 <div class="viewcode-block" id="Function.formals"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function.formals">[docs]</a>    <span class="k">def</span> <span class="nf">formals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -161,16 +165,12 @@
 <span class="sd">        (as the R function &#39;formals()&#39; would).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">_formals_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ri2ro</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
 <div class="viewcode-block" id="Function.rcall"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function.rcall">[docs]</a>    <span class="k">def</span> <span class="nf">rcall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Wrapper around the parent method rpy2.rinterface.SexpClosure.rcall(). &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Function</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
-        <span class="c1"># XXX: Now that ri2ro converts to python objects, we restrict to the</span>
-        <span class="c1"># default now for a raw R call. I&#39;m not sure there should be *any*</span>
-        <span class="c1"># conversion. However, we need to get this out of __init__.py first!</span>
-        <span class="c1"># res = ro.default_ri2ro(res)</span>
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 <div class="viewcode-block" id="SignatureTranslatedFunction"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.SignatureTranslatedFunction">[docs]</a><span class="k">class</span> <span class="nc">SignatureTranslatedFunction</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
@@ -193,13 +193,14 @@
             <span class="n">prm_translate</span> <span class="o">=</span> <span class="n">init_prm_translate</span>
 
         <span class="n">formals</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formals</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">formals</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">formals</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span> <span class="o">!=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">:</span>
             <span class="p">(</span><span class="n">symbol_mapping</span><span class="p">,</span> 
              <span class="n">conflicts</span><span class="p">,</span> 
-             <span class="n">resolutions</span><span class="p">)</span> <span class="o">=</span> <span class="n">_map_symbols</span><span class="p">(</span><span class="n">formals</span><span class="o">.</span><span class="n">names</span><span class="p">,</span>
-                                         <span class="n">translation</span> <span class="o">=</span> <span class="n">prm_translate</span><span class="p">,</span>
-                                         <span class="n">symbol_r2python</span> <span class="o">=</span> <span class="n">symbol_r2python</span><span class="p">,</span>
-                                         <span class="n">symbol_check_after</span> <span class="o">=</span> <span class="n">symbol_check_after</span><span class="p">)</span>
+             <span class="n">resolutions</span><span class="p">)</span> <span class="o">=</span> <span class="n">_map_symbols</span><span class="p">(</span>
+                 <span class="n">formals</span><span class="o">.</span><span class="n">names</span><span class="p">,</span>
+                 <span class="n">translation</span><span class="o">=</span><span class="n">prm_translate</span><span class="p">,</span>
+                 <span class="n">symbol_r2python</span><span class="o">=</span><span class="n">symbol_r2python</span><span class="p">,</span>
+                 <span class="n">symbol_check_after</span><span class="o">=</span><span class="n">symbol_check_after</span><span class="p">)</span>
 
             <span class="n">msg_prefix</span> <span class="o">=</span> <span class="s1">&#39;Conflict when converting R symbols&#39;</span><span class="o">+</span>\
                 <span class="s1">&#39; in the function</span><span class="se">\&#39;</span><span class="s1">s signature:</span><span class="se">\n</span><span class="s1">- &#39;</span>
@@ -224,7 +225,9 @@
             <span class="k">if</span> <span class="n">r_k</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">v</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
                 <span class="n">kwargs</span><span class="p">[</span><span class="n">r_k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">SignatureTranslatedFunction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">SignatureTranslatedFunction</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+                <span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span></div>
+
 
 <span class="n">pattern_link</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">link\{(.+?)\}&#39;</span><span class="p">)</span>
 <span class="n">pattern_code</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">code\{(.+?)\}&#39;</span><span class="p">)</span>
@@ -282,12 +285,14 @@
             </a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -310,7 +315,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

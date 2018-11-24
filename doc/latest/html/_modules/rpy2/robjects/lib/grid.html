@@ -4,28 +4,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>rpy2.robjects.lib.grid &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="../../../../_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../../',
-        VERSION:     '3.0.0-dev',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="../../../../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -98,9 +91,9 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">od</span> <span class="o">=</span> <span class="n">OrdDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-            <span class="n">od</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">od</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">od</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">od</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructor</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">od</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">__sexp__</span>
 
@@ -110,7 +103,9 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_unit</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
+
 <span class="n">unit</span> <span class="o">=</span> <span class="n">Unit</span><span class="o">.</span><span class="n">unit</span>
+
 
 <span class="k">class</span> <span class="nc">Gpar</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">RObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Graphical parameters &quot;&quot;&quot;</span>
@@ -120,9 +115,9 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">od</span> <span class="o">=</span> <span class="n">OrdDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-            <span class="n">od</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">od</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">od</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">od</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructor</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">od</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">__sexp__</span>
 
@@ -135,7 +130,9 @@
     <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_gpar</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
 
+
 <span class="n">gpar</span> <span class="o">=</span> <span class="n">Gpar</span><span class="o">.</span><span class="n">gpar</span>
+
 
 <div class="viewcode-block" id="Grob"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Grob">[docs]</a><span class="k">class</span> <span class="nc">Grob</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">RObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Graphical object &quot;&quot;&quot;</span>
@@ -145,11 +142,11 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">od</span> <span class="o">=</span> <span class="n">OrdDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
-            <span class="n">od</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">od</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">od</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+            <span class="n">od</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_constructor</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">od</span><span class="o">.</span><span class="n">items</span><span class="p">()),</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">__sexp__</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">__sexp__</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Grob.grob"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Grob.grob">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">grob</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -161,26 +158,42 @@
         <span class="sd">&quot;&quot;&quot; Draw a graphical object (calling the R function grid::grid.raw())&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="n">recording</span><span class="p">)</span></div></div>
 
+
 <span class="n">grob</span> <span class="o">=</span> <span class="n">Grob</span><span class="o">.</span><span class="n">grob</span>
+
 
 <span class="k">class</span> <span class="nc">Rect</span><span class="p">(</span><span class="n">Grob</span><span class="p">):</span>
     <span class="n">_constructor</span> <span class="o">=</span> <span class="n">grid_env</span><span class="p">[</span><span class="s1">&#39;rectGrob&#39;</span><span class="p">]</span>
+
+
 <span class="n">rect</span> <span class="o">=</span> <span class="n">Rect</span>
+
 
 <span class="k">class</span> <span class="nc">Lines</span><span class="p">(</span><span class="n">Grob</span><span class="p">):</span>
     <span class="n">_constructor</span> <span class="o">=</span> <span class="n">grid_env</span><span class="p">[</span><span class="s1">&#39;linesGrob&#39;</span><span class="p">]</span>
+
+
 <span class="n">lines</span> <span class="o">=</span> <span class="n">Lines</span>
+
 
 <span class="k">class</span> <span class="nc">Circle</span><span class="p">(</span><span class="n">Grob</span><span class="p">):</span>
     <span class="n">_constructor</span> <span class="o">=</span> <span class="n">grid_env</span><span class="p">[</span><span class="s1">&#39;circleGrob&#39;</span><span class="p">]</span>
+
+
 <span class="n">circle</span> <span class="o">=</span> <span class="n">Circle</span>
+
 
 <span class="k">class</span> <span class="nc">Points</span><span class="p">(</span><span class="n">Grob</span><span class="p">):</span>
     <span class="n">_constructor</span> <span class="o">=</span> <span class="n">grid_env</span><span class="p">[</span><span class="s1">&#39;pointsGrob&#39;</span><span class="p">]</span>
+
+
 <span class="n">points</span> <span class="o">=</span> <span class="n">Points</span>
+
 
 <span class="k">class</span> <span class="nc">Text</span><span class="p">(</span><span class="n">Grob</span><span class="p">):</span>
     <span class="n">_constructor</span> <span class="o">=</span> <span class="n">grid_env</span><span class="p">[</span><span class="s1">&#39;textGrob&#39;</span><span class="p">]</span>
+
+
 <span class="n">text</span> <span class="o">=</span> <span class="n">Text</span>
 
 
@@ -299,13 +312,13 @@
     <span class="s1">&#39;viewport&#39;</span><span class="p">:</span> <span class="n">Viewport</span>
 <span class="p">}</span>
 
-<span class="n">original_py2ri</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">original_ri2ro</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="n">original_py2ro</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">original_py2rpy</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="n">original_rpy2py</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="k">def</span> <span class="nf">grid_ri2ro</span><span class="p">(</span><span class="n">robj</span><span class="p">):</span>
 
-    <span class="n">pyobj</span> <span class="o">=</span> <span class="n">original_ri2ro</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">grid_rpy2py</span><span class="p">(</span><span class="n">robj</span><span class="p">):</span>
+
+    <span class="n">pyobj</span> <span class="o">=</span> <span class="n">original_rpy2py</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pyobj</span><span class="p">,</span> <span class="n">robjects</span><span class="o">.</span><span class="n">RS4</span><span class="p">):</span>
         <span class="n">rcls</span> <span class="o">=</span> <span class="n">pyobj</span><span class="o">.</span><span class="n">rclass</span>
@@ -319,33 +332,31 @@
 
     <span class="k">return</span> <span class="n">pyobj</span>
 
+
 <span class="k">def</span> <span class="nf">activate</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">original_py2ri</span><span class="p">,</span> <span class="n">original_ri2ro</span><span class="p">,</span> <span class="n">original_py2ro</span>
+    <span class="k">global</span> <span class="n">original_py2rpy</span><span class="p">,</span> <span class="n">original_rpy2py</span>
 
     <span class="c1"># If module is already activated, there is nothing to do</span>
-    <span class="k">if</span> <span class="n">original_py2ri</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="n">original_py2rpy</span><span class="p">:</span> 
         <span class="k">return</span>
 
-    <span class="n">original_py2ri</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ri</span>
-    <span class="n">original_ri2ro</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">ri2ro</span>
-    <span class="n">original_py2ro</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span>
+    <span class="n">original_py2rpy</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span>
+    <span class="n">original_rpy2py</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span>
 
-    <span class="c1">#conversion.py2ri = numpy2ri</span>
-    <span class="n">conversion</span><span class="o">.</span><span class="n">ri2ro</span> <span class="o">=</span> <span class="n">grid_ri2ro</span>
-    <span class="c1">#conversion.py2ro = numpy2ro</span>
+    <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span> <span class="o">=</span> <span class="n">grid_rpy2py</span>
+
 
 <span class="k">def</span> <span class="nf">deactivate</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">original_py2ri</span><span class="p">,</span> <span class="n">original_ri2ro</span><span class="p">,</span> <span class="n">original_py2ro</span>
+    <span class="k">global</span> <span class="n">original_py2rpy</span><span class="p">,</span> <span class="n">original_rpy2py</span>
 
     <span class="c1"># If module has never been activated or already deactivated,</span>
     <span class="c1"># there is nothing to do</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">original_py2ri</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">original_py2rpy</span><span class="p">:</span>
         <span class="k">return</span>
 
-    <span class="n">conversion</span><span class="o">.</span><span class="n">py2ri</span> <span class="o">=</span> <span class="n">original_py2ri</span>
-    <span class="n">conversion</span><span class="o">.</span><span class="n">ri2ro</span> <span class="o">=</span> <span class="n">original_ri2ro</span>
-    <span class="n">conversion</span><span class="o">.</span><span class="n">py2ro</span> <span class="o">=</span> <span class="n">original_py2ro</span>
-    <span class="n">original_py2ri</span> <span class="o">=</span> <span class="n">original_ri2ro</span> <span class="o">=</span> <span class="n">original_py2ro</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span> <span class="o">=</span> <span class="n">original_py2rpy</span>
+    <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span> <span class="o">=</span> <span class="n">original_rpy2py</span>
+    <span class="n">original_py2rpy</span> <span class="o">=</span> <span class="n">original_rpy2py</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
 
           </div>
@@ -358,12 +369,14 @@
             </a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -386,7 +399,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>

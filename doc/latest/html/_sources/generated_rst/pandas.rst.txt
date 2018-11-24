@@ -1,0 +1,603 @@
+
+.. code:: 
+
+    from functools import partial
+    from rpy2.ipython import html
+    html.html_rdataframe=partial(html.html_rdataframe, table_class="docutils")
+
+``R`` and ``pandas`` data frames
+================================
+
+R ``data.frame`` and :class:``pandas.DataFrame`` objects share a lot of
+conceptual similarities, and :mod:``pandas`` chose to use the class name
+``DataFrame`` after R objects.
+
+In a nutshell, both are sequences of vectors (or arrays) of consistent
+length or size for the first dimension (the "number of rows"). if coming
+from the database world, an other way to look at them is column-oriented
+data tables, or data table API.
+
+rpy2 is providing an interface between Python and R, and a convenience
+conversion layer between :class:``rpy2.robjects.vectors.DataFrame`` and
+:class:``pandas.DataFrame`` objects, implemented in
+:mod:``rpy2.robjects.pandas2ri``.
+
+.. code:: 
+
+    import pandas as pd
+    import rpy2.robjects as ro
+    from rpy2.robjects.packages import importr 
+    from rpy2.robjects import pandas2ri
+    
+    from rpy2.robjects.conversion import localconverter
+
+From ``pandas`` to ``R``
+------------------------
+
+Pandas data frame:
+
+.. code:: 
+
+    pd_df = pd.DataFrame({'int_values': [1,2,3],
+                          'str_values': ['abc', 'def', 'ghi']})
+    
+    pd_df
+
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: right;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>int_values</th>
+          <th>str_values</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>1</td>
+          <td>abc</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>2</td>
+          <td>def</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>3</td>
+          <td>ghi</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+R data frame converted from a ``pandas`` data frame:
+
+.. code:: 
+
+    with localconverter(ro.default_converter + pandas2ri.converter):
+      r_from_pd_df = ro.conversion.py2rpy(pd_df)
+    
+    r_from_pd_df
+
+
+
+
+.. raw:: html
+
+    
+        <span>R/rpy2 DataFrame (3 x 2)</span>
+        <table>
+          <thead>
+            <tr>
+            
+              <th>int_values</th>
+            
+              <th>str_values</th>
+            
+            </tr>
+          </thead>
+          <tbody>
+          
+          <tr>
+          
+          <td>
+            1
+          </td>
+          
+          <td>
+            'abc'
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2
+          </td>
+          
+          <td>
+            'def'
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            3
+          </td>
+          
+          <td>
+            'ghi'
+          </td>
+          
+          </tr>
+          
+          </tbody>
+        </table>
+        
+
+
+
+The conversion is automatically happening when calling R functions. For
+example, when calling the R function ``base::summary``:
+
+.. code:: 
+
+    base = importr('base')
+    
+    with localconverter(ro.default_converter + pandas2ri.converter):
+      df_summary = base.summary(pd_df)
+    print(df_summary)
+
+
+.. parsed-literal::
+
+    ['Min.   :1.0  ' '1st Qu.:1.5  ' 'Median :2.0  ' 'Mean   :2.0  '
+     '3rd Qu.:2.5  ' 'Max.   :3.0  ' 'Length:3          ' 'Class :character  '
+     'Mode  :character  ' 'NA' 'NA' 'NA']
+
+
+Note that a ``ContextManager`` is used to limit the scope of the
+conversion. Without it, rpy2 will not know how to convert a pandas data
+frame:
+
+.. code:: 
+
+    try:
+      df_summary = base.summary(pd_df)
+    except NotImplementedError as nie:
+      print('NotImplementedError:')
+      print(nie)
+
+
+.. parsed-literal::
+
+    NotImplementedError:
+    Conversion 'py2rpy' not defined for objects of type '<class 'pandas.core.frame.DataFrame'>'
+
+
+From ``R`` to ``pandas``
+------------------------
+
+Starting from an R data frame this time:
+
+.. code:: 
+
+    r_df = ro.DataFrame({'int_values': ro.IntVector([1,2,3]),
+                         'str_values': ro.StrVector(['abc', 'def', 'ghi'])})
+    
+    r_df
+
+
+
+
+.. raw:: html
+
+    
+        <span>R/rpy2 DataFrame (3 x 2)</span>
+        <table>
+          <thead>
+            <tr>
+            
+              <th>int_values</th>
+            
+              <th>str_values</th>
+            
+            </tr>
+          </thead>
+          <tbody>
+          
+          <tr>
+          
+          <td>
+            1
+          </td>
+          
+          <td>
+            'abc'
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2
+          </td>
+          
+          <td>
+            'def'
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            3
+          </td>
+          
+          <td>
+            'ghi'
+          </td>
+          
+          </tr>
+          
+          </tbody>
+        </table>
+        
+
+
+
+It can be converted to a pandas data frame using the same converter:
+
+.. code:: 
+
+    with localconverter(ro.default_converter + pandas2ri.converter):
+      pd_from_r_df = ro.conversion.rpy2py(r_df)
+    
+    pd_from_r_df
+
+
+.. parsed-literal::
+
+    /home/laurent/Desktop/software/python/py36_env/lib/python3.6/site-packages/rpy2-3.0.0.dev0-py3.6.egg/rpy2/robjects/pandas2ri.py:196: FutureWarning: from_items is deprecated. Please use DataFrame.from_dict(dict(items), ...) instead. DataFrame.from_dict(OrderedDict(items)) may be used to preserve the key order.
+      res = PandasDataFrame.from_items(items)
+
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: right;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>int_values</th>
+          <th>str_values</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>1</td>
+          <td>abc</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>2</td>
+          <td>def</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>3</td>
+          <td>ghi</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+Date and time objects
+---------------------
+
+.. code:: 
+
+    pd_df = pd.DataFrame({
+        'Timestamp': pd.date_range('2017-01-01 00:00:00', periods=10, freq='s')
+        })
+        
+    pd_df
+
+
+
+
+.. raw:: html
+
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: right;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>0</th>
+          <td>2017-01-01 00:00:00</td>
+        </tr>
+        <tr>
+          <th>1</th>
+          <td>2017-01-01 00:00:01</td>
+        </tr>
+        <tr>
+          <th>2</th>
+          <td>2017-01-01 00:00:02</td>
+        </tr>
+        <tr>
+          <th>3</th>
+          <td>2017-01-01 00:00:03</td>
+        </tr>
+        <tr>
+          <th>4</th>
+          <td>2017-01-01 00:00:04</td>
+        </tr>
+        <tr>
+          <th>5</th>
+          <td>2017-01-01 00:00:05</td>
+        </tr>
+        <tr>
+          <th>6</th>
+          <td>2017-01-01 00:00:06</td>
+        </tr>
+        <tr>
+          <th>7</th>
+          <td>2017-01-01 00:00:07</td>
+        </tr>
+        <tr>
+          <th>8</th>
+          <td>2017-01-01 00:00:08</td>
+        </tr>
+        <tr>
+          <th>9</th>
+          <td>2017-01-01 00:00:09</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+
+
+
+.. code:: 
+
+    with localconverter(ro.default_converter + pandas2ri.converter):
+      r_from_pd_df = ro.conversion.py2rpy(pd_df)
+    
+    r_from_pd_df
+
+
+
+
+.. raw:: html
+
+    
+        <span>R/rpy2 DataFrame (10 x 1)</span>
+        <table>
+          <thead>
+            <tr>
+            
+              <th>Timestamp</th>
+            
+            </tr>
+          </thead>
+          <tbody>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            ...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          </tbody>
+        </table>
+        
+
+
+
+The timezone used for conversion is the system's default timezone unless
+``pandas2ri.default_timezone`` is specified... or unless the time zone
+is specified in the original time object:
+
+.. code:: 
+
+    pd_tz_df = pd.DataFrame({
+        'Timestamp': pd.date_range('2017-01-01 00:00:00', periods=10, freq='s',
+                                   tz='UTC')
+        })
+        
+    with localconverter(ro.default_converter + pandas2ri.converter):
+      r_from_pd_tz_df = ro.conversion.py2rpy(pd_tz_df)
+    
+    r_from_pd_tz_df
+
+
+
+
+.. raw:: html
+
+    
+        <span>R/rpy2 DataFrame (10 x 1)</span>
+        <table>
+          <thead>
+            <tr>
+            
+              <th>Timestamp</th>
+            
+            </tr>
+          </thead>
+          <tbody>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            ...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          <tr>
+          
+          <td>
+            2017-01-0...
+          </td>
+          
+          </tr>
+          
+          </tbody>
+        </table>
+        
+
+

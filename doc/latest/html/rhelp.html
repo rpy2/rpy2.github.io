@@ -4,30 +4,23 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>R help &#8212; rpy2 3.0.0-dev documentation</title>
     <link rel="stylesheet" href="_static/classic.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.0.0-dev',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Mapping rpy2 objects to arbitrary python objects" href="robjects_convert.html" />
     <link rel="prev" title="Vectors and arrays" href="vector.html" /> 
-  </head>
-  <body>
+  </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -59,7 +52,7 @@
 distributed as packages is installed when packages are installed.
 This documentation can be called and searched from R itself.</p>
 <p>Unlike <cite>Python</cite> docstrings, where the documentation string
-can be found in the special attribute <code class="xref py py-attr docutils literal"><span class="pre">__doc__</span></code>,
+can be found in the special attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">__doc__</span></code>,
 the R documentation lives outside objects in documentation pages.
 Each documentation page is associated at minimum one <cite>alias</cite>, aliases often
 corresponding to the name of an R object defined in a package
@@ -78,8 +71,8 @@ possible to have several packages defining a documentation page for the
 same alias.</p>
 <p>With rpy2’s interface to the help system, an easy way to retrive
 pages associated with an alias is to
-use the function <a class="reference internal" href="#rpy2.robjects.help.pages" title="rpy2.robjects.help.pages"><code class="xref py py-func docutils literal"><span class="pre">pages()</span></code></a>, which returns a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">tuple</span></code></a>
-of <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal"><span class="pre">Page</span></code></a> instances.</p>
+use the function <a class="reference internal" href="#rpy2.robjects.help.pages" title="rpy2.robjects.help.pages"><code class="xref py py-func docutils literal notranslate"><span class="pre">pages()</span></code></a>, which returns a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>
+of <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal notranslate"><span class="pre">Page</span></code></a> instances.</p>
 <dl class="function">
 <dt id="rpy2.robjects.help.pages">
 <code class="descclassname">rpy2.robjects.help.</code><code class="descname">pages</code><span class="sig-paren">(</span><em>topic</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#pages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.pages" title="Permalink to this definition">¶</a></dt>
@@ -90,11 +83,11 @@ of <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.rob
 <div class="section" id="package-documentation">
 <h2>Package documentation<a class="headerlink" href="#package-documentation" title="Permalink to this headline">¶</a></h2>
 <p>The documentation for a package is represented with the class
-<a class="reference internal" href="#rpy2.robjects.help.Package" title="rpy2.robjects.help.Package"><code class="xref py py-class docutils literal"><span class="pre">Package</span></code></a>.</p>
+<a class="reference internal" href="#rpy2.robjects.help.Package" title="rpy2.robjects.help.Package"><code class="xref py py-class docutils literal notranslate"><span class="pre">Package</span></code></a>.</p>
 <dl class="class">
 <dt id="rpy2.robjects.help.Package">
 <em class="property">class </em><code class="descclassname">rpy2.robjects.help.</code><code class="descname">Package</code><span class="sig-paren">(</span><em>package_name</em>, <em>package_path = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Package" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The R documentation page (aka help) for a package.</p>
 <dl class="method">
 <dt id="rpy2.robjects.help.Package.fetch">
@@ -119,7 +112,7 @@ AnnotatedDataFrame in the package Biobase is ‘AnnotatedDataFrame-class’.</p>
 
 </dd></dl>
 
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.robjects.help</span> <span class="k">as</span> <span class="nn">rh</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.robjects.help</span> <span class="k">as</span> <span class="nn">rh</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base_help</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">Package</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
 </pre></div>
@@ -128,11 +121,11 @@ AnnotatedDataFrame in the package Biobase is ‘AnnotatedDataFrame-class’.</p>
 <div class="section" id="documentation-page">
 <h2>Documentation page<a class="headerlink" href="#documentation-page" title="Permalink to this headline">¶</a></h2>
 <p>A documentation page is represented as an instance of
-class <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal"><span class="pre">Page</span></code></a>.</p>
+class <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal notranslate"><span class="pre">Page</span></code></a>.</p>
 <dl class="class">
 <dt id="rpy2.robjects.help.Page">
 <em class="property">class </em><code class="descclassname">rpy2.robjects.help.</code><code class="descname">Page</code><span class="sig-paren">(</span><em>struct_rdb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An R documentation page. 
 The original R structure is a nested sequence of components,
 corresponding to the latex-like .Rd file</p>
@@ -193,20 +186,20 @@ all sections are used.</p>
 
 </dd></dl>
 
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span> <span class="o">=</span> <span class="n">base_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span> <span class="o">=</span> <span class="n">base_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">(&#39;title&#39;, &#39;name&#39;, &#39;alias&#39;, &#39;keyword&#39;, &#39;description&#39;, &#39;usage&#39;, &#39;arguments&#39;, &#39;deta</span>
 <span class="go">ils&#39;, &#39;value&#39;, &#39;section&#39;, &#39;references&#39;, &#39;seealso&#39;)</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">to_docstring</span><span class="p">((</span><span class="s1">&#39;details&#39;</span><span class="p">,))))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">to_docstring</span><span class="p">((</span><span class="s1">&#39;details&#39;</span><span class="p">,))))</span>
 </pre></div>
 </div>
-<div class="last highlight-default"><div class="highlight"><pre><span></span><span class="n">details</span>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">details</span>
 <span class="o">-------</span>
 
 
@@ -238,7 +231,7 @@ all sections are used.</p>
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
             </a></p>
-  <h3><a href="index.html">Table Of Contents</a></h3>
+  <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">R help</a><ul>
 <li><a class="reference internal" href="#querying-on-aliases">Querying on aliases</a></li>
@@ -263,12 +256,14 @@ all sections are used.</p>
    </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -296,7 +291,7 @@ all sections are used.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
     </div>
   </body>
 </html>
