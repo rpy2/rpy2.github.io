@@ -1,13 +1,13 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Graphics &#8212; rpy2 3.0.0-dev documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
@@ -15,11 +15,15 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="DataFrames and dplyr" href="lib_dplyr.html" />
-    <link rel="prev" title="Interoperability with pandas" href="pandas.html" /> 
+    <link rel="prev" title="Interoperability with pandas" href="pandas.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -39,7 +43,75 @@
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Graphics</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#graphical-devices">Graphical devices</a></li>
+<li><a class="reference internal" href="#getting-ready">Getting ready</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-lattice">Package <em>lattice</em></a><ul>
+<li><a class="reference internal" href="#id2">Introduction</a></li>
+<li><a class="reference internal" href="#scatter-plot">Scatter plot</a></li>
+<li><a class="reference internal" href="#box-plot">Box plot</a></li>
+<li><a class="reference internal" href="#other-plots">Other plots</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-ggplot2">Package <em>ggplot2</em></a><ul>
+<li><a class="reference internal" href="#id3">Introduction</a></li>
+<li><a class="reference internal" href="#plot">Plot</a><ul>
+<li><a class="reference internal" href="#aesthethics-mapping">Aesthethics mapping</a></li>
+<li><a class="reference internal" href="#geometry">Geometry</a></li>
+<li><a class="reference internal" href="#axes">Axes</a></li>
+<li><a class="reference internal" href="#facets">Facets</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-grid">Package <em>grid</em></a><ul>
+<li><a class="reference internal" href="#custom-ggplot2-layout-with-grid">Custom ggplot2 layout with grid</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#class-diagram">Class diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pandas.html"
+                        title="previous chapter">Interoperability with pandas</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lib_dplyr.html"
+                        title="next chapter">DataFrames and dplyr</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/graphics.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -102,7 +174,7 @@ functions.</p>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="c1"># The R &#39;print&#39; function</span>
-<span class="n">rprint</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;print&quot;</span><span class="p">)</span>
+<span class="n">rprint</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;print&quot;</span><span class="p">)</span>
 <span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
 <span class="n">grdevices</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grDevices&#39;</span><span class="p">)</span>
 <span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
@@ -1586,86 +1658,18 @@ Viewports can be thought of as nodes in a scene graph.</p>
 </div>
 <div class="section" id="class-diagram">
 <h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-d5fc82666ceba5da4b563d332f1f16444f441654.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance graphviz" /></div>
+<div class="graphviz"><img src="_images/inheritance-084b25a6e5613a22d8e36c277a4d380b40fc6b3d.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance graphviz" /></div>
 <map id="inheritancee1ac3c21eb" name="inheritancee1ac3c21eb">
-<area shape="rect" id="node2" href="#rpy2.robjects.lib.grid.GTree" target="_top" title="gTree" alt="" coords="411,31,483,56"/>
-<area shape="rect" id="node4" href="#rpy2.robjects.lib.grid.Grob" target="_top" title="Graphical object" alt="" coords="287,153,359,179"/>
-<area shape="rect" id="node14" href="#rpy2.robjects.lib.grid.Viewport" target="_top" title="Drawing context." alt="" coords="283,301,363,327"/>
-<area shape="rect" id="node9" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="5,203,113,228"/>
+<area shape="rect" id="node2" href="#rpy2.robjects.lib.grid.GTree" target="_top" title="gTree" alt="" coords="452,32,524,60"/>
+<area shape="rect" id="node4" href="#rpy2.robjects.lib.grid.Grob" target="_top" title="Graphical object" alt="" coords="322,160,394,188"/>
+<area shape="rect" id="node14" href="#rpy2.robjects.lib.grid.Viewport" target="_top" title="Drawing context." alt="" coords="312,316,405,344"/>
+<area shape="rect" id="node9" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="5,214,131,241"/>
 </map></div>
 </div>
 </div>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
-            </a></p>
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Graphics</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a><ul>
-<li><a class="reference internal" href="#graphical-devices">Graphical devices</a></li>
-<li><a class="reference internal" href="#getting-ready">Getting ready</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#package-lattice">Package <em>lattice</em></a><ul>
-<li><a class="reference internal" href="#id2">Introduction</a></li>
-<li><a class="reference internal" href="#scatter-plot">Scatter plot</a></li>
-<li><a class="reference internal" href="#box-plot">Box plot</a></li>
-<li><a class="reference internal" href="#other-plots">Other plots</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#package-ggplot2">Package <em>ggplot2</em></a><ul>
-<li><a class="reference internal" href="#id3">Introduction</a></li>
-<li><a class="reference internal" href="#plot">Plot</a><ul>
-<li><a class="reference internal" href="#aesthethics-mapping">Aesthethics mapping</a></li>
-<li><a class="reference internal" href="#geometry">Geometry</a></li>
-<li><a class="reference internal" href="#axes">Axes</a></li>
-<li><a class="reference internal" href="#facets">Facets</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#package-grid">Package <em>grid</em></a><ul>
-<li><a class="reference internal" href="#custom-ggplot2-layout-with-grid">Custom ggplot2 layout with grid</a></li>
-<li><a class="reference internal" href="#classes">Classes</a></li>
-<li><a class="reference internal" href="#class-diagram">Class diagram</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="pandas.html"
-                        title="previous chapter">Interoperability with pandas</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="lib_dplyr.html"
-                        title="next chapter">DataFrames and dplyr</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/graphics.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>

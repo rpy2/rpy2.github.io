@@ -1,13 +1,13 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!doctype html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Interactive work &#8212; rpy2 3.0.0-dev documentation</title>
-    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
@@ -15,11 +15,15 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Numpy" href="numpy.html" />
-    <link rel="prev" title="DataFrames and dplyr" href="lib_dplyr.html" /> 
+    <link rel="prev" title="DataFrames and dplyr" href="lib_dplyr.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
@@ -38,7 +42,68 @@
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0-dev documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Interactive work</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#module-rpy2.ipython.rmagic">IPython magic integration (was rmagic)</a><ul>
+<li><a class="reference internal" href="#rmagic">Rmagic</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#r-event-loop">R event loop</a></li>
+<li><a class="reference internal" href="#utilities-for-interactive-work">Utilities for interactive work</a><ul>
+<li><a class="reference internal" href="#r-vectors">R vectors</a></li>
+<li><a class="reference internal" href="#r-packages">R packages</a><ul>
+<li><a class="reference internal" href="#loading-installed-packages">Loading installed packages</a></li>
+<li><a class="reference internal" href="#available-packages">Available packages</a></li>
+<li><a class="reference internal" href="#installing-packages">Installing packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lib_dplyr.html"
+                        title="previous chapter">DataFrames and dplyr</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.html"
+                        title="next chapter">Numpy</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/interactive.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -69,8 +134,8 @@ the line and cell magics, respectively.</p>
 </div>
 <div class="section" id="usage">
 <h4>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h4>
-<p>To enable the magics below, execute <code class="docutils literal notranslate"><span class="pre">%load_ext</span> <span class="pre">rpy2.ipython</span></code>.</p>
-<p><code class="docutils literal notranslate"><span class="pre">%R</span></code></p>
+<p>To enable the magics below, execute <cite>%load_ext rpy2.ipython</cite>.</p>
+<p><cite>%R</cite></p>
 <blockquote>
 <div><blockquote>
 <div></div></blockquote>
@@ -245,7 +310,7 @@ converter if all three are available).</td></tr>
 <p class="last">code</p>
 </dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre">%Rpush</span></code></p>
+<p><cite>%Rpush</cite></p>
 <blockquote>
 <div><p>A line-level magic for R that pushes
 variables from python to rpy2. The line should be made up
@@ -265,7 +330,7 @@ namespace:</p>
 </pre></div>
 </div>
 </div></blockquote>
-<p><code class="docutils literal notranslate"><span class="pre">%Rpull</span></code></p>
+<p><cite>%Rpull</cite></p>
 <blockquote>
 <div><blockquote>
 <div></div></blockquote>
@@ -300,7 +365,7 @@ To avoid this, don’t name your R objects with dots…</p>
 <dt>positional arguments:</dt>
 <dd>outputs</dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre">%Rget</span></code></p>
+<p><cite>%Rget</cite></p>
 <blockquote>
 <div><blockquote>
 <div></div></blockquote>
@@ -881,67 +946,6 @@ the need to install it again (unless a different version of R is used).</p>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
-            </a></p>
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Interactive work</a><ul>
-<li><a class="reference internal" href="#overview">Overview</a></li>
-<li><a class="reference internal" href="#module-rpy2.ipython.rmagic">IPython magic integration (was rmagic)</a><ul>
-<li><a class="reference internal" href="#rmagic">Rmagic</a><ul>
-<li><a class="reference internal" href="#usage">Usage</a><ul>
-<li><a class="reference internal" href="#notes">Notes</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#r-event-loop">R event loop</a></li>
-<li><a class="reference internal" href="#utilities-for-interactive-work">Utilities for interactive work</a><ul>
-<li><a class="reference internal" href="#r-vectors">R vectors</a></li>
-<li><a class="reference internal" href="#r-packages">R packages</a><ul>
-<li><a class="reference internal" href="#loading-installed-packages">Loading installed packages</a></li>
-<li><a class="reference internal" href="#available-packages">Available packages</a></li>
-<li><a class="reference internal" href="#installing-packages">Installing packages</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="lib_dplyr.html"
-                        title="previous chapter">DataFrames and dplyr</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="numpy.html"
-                        title="next chapter">Numpy</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/interactive.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    </div>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
