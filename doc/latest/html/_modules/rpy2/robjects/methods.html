@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -63,8 +64,7 @@
           <div class="body" role="main">
             
   <h1>Source code for rpy2.robjects.methods</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="n">SimpleNamespace</span>
+<span></span><span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="n">SimpleNamespace</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="k">import</span> <span class="n">RObjectMixin</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="k">import</span> <span class="n">StrSexpVector</span>
@@ -77,7 +77,7 @@
 
 <span class="n">require</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;require&#39;</span><span class="p">)</span>
 <span class="n">require</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="s1">&#39;methods&#39;</span><span class="p">,</span> <span class="p">)),</span>
-        <span class="n">quiet</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">BoolSexpVector</span><span class="p">((</span><span class="kc">True</span><span class="p">,</span> <span class="p">)))</span>
+        <span class="n">quiet</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">BoolSexpVector</span><span class="p">((</span><span class="kc">True</span><span class="p">,</span> <span class="p">)))</span>
 
 
 <div class="viewcode-block" id="RS4"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4">[docs]</a><span class="k">class</span> <span class="nc">RS4</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">):</span>
@@ -86,7 +86,7 @@
 <div class="viewcode-block" id="RS4.slotnames"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.slotnames">[docs]</a>    <span class="k">def</span> <span class="nf">slotnames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return the &#39;slots&#39; defined for this object &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;slotNames&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span></div>
-    
+
     <span class="k">def</span> <span class="nf">do_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">RS4</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
@@ -96,12 +96,12 @@
         <span class="n">name</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;isClass&#39;</span><span class="p">](</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RS4.validobject"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.validobject">[docs]</a>    <span class="k">def</span> <span class="nf">validobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">complete</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="RS4.validobject"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.validobject">[docs]</a>    <span class="k">def</span> <span class="nf">validobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">complete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return whether the instance is &#39;valid&#39; for its class. &quot;&quot;&quot;</span>
         <span class="n">test</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
         <span class="n">complete</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">complete</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;validObject&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">test</span><span class="p">,</span>
-                                          <span class="n">complete</span> <span class="o">=</span> <span class="n">complete</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
+        <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;validObject&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span>
+                                          <span class="n">complete</span><span class="o">=</span><span class="n">complete</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
 
 
 <span class="k">class</span> <span class="nc">ClassRepresentation</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
@@ -109,7 +109,7 @@
     <span class="n">slots</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;slots&#39;</span><span class="p">)],</span>
                      <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                      <span class="s2">&quot;Slots (attributes) for the class&quot;</span><span class="p">)</span>
-    
+
     <span class="n">basenames</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;contains&#39;</span><span class="p">)],</span>
                          <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="s2">&quot;Parent classes&quot;</span><span class="p">)</span>
@@ -139,19 +139,19 @@
 
 
 <span class="k">class</span> <span class="nc">RS4_Type</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-    
+
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">):</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cls_rname</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__rname__&#39;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">cls_rname</span> <span class="o">=</span> <span class="n">name</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">accessors</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__accessors__&#39;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">accessors</span> <span class="o">=</span> <span class="p">[]</span>
-            
+
         <span class="k">for</span> <span class="n">rname</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> \
                 <span class="n">python_name</span><span class="p">,</span> <span class="n">as_property</span><span class="p">,</span> \
                 <span class="n">docstring</span> <span class="ow">in</span> <span class="n">accessors</span><span class="p">:</span>
@@ -164,19 +164,20 @@
 
             <span class="k">if</span> <span class="n">python_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">python_name</span> <span class="o">=</span> <span class="n">rname</span>
-                
-            <span class="n">signature</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_rname</span><span class="p">,</span> <span class="p">))</span>            
-            <span class="n">r_meth</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">rname</span><span class="p">,</span> <span class="p">)),</span> 
-                               <span class="n">signature</span> <span class="o">=</span> <span class="n">signature</span><span class="p">,</span>
-                               <span class="n">where</span> <span class="o">=</span> <span class="n">where</span><span class="p">)</span>
+
+            <span class="n">signature</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_rname</span><span class="p">,</span> <span class="p">))</span>
+            <span class="n">r_meth</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">rname</span><span class="p">,</span> <span class="p">)),</span>
+                               <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">,</span>
+                               <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
             <span class="n">r_meth</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">r_meth</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">as_property</span><span class="p">:</span>
                 <span class="n">cls_dict</span><span class="p">[</span><span class="n">python_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">r_meth</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                                                 <span class="n">doc</span> <span class="o">=</span> <span class="n">docstring</span><span class="p">)</span>
+                                                 <span class="n">doc</span><span class="o">=</span><span class="n">docstring</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">cls_dict</span><span class="p">[</span><span class="n">python_name</span><span class="p">]</span> <span class="o">=</span>  <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">r_meth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-                
+                <span class="n">cls_dict</span><span class="p">[</span><span class="n">python_name</span><span class="p">]</span> <span class="o">=</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">r_meth</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">)</span>
+
 
 <span class="c1"># playground to experiment with more metaclass-level automation</span>
 
@@ -191,25 +192,25 @@
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cls_rname</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__rname__&#39;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">cls_rname</span> <span class="o">=</span> <span class="n">name</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cls_rpackagename</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__rpackagename__&#39;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">cls_rpackagename</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cls_attr_translation</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__attr_translation__&#39;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">cls_attr_translation</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cls_meth_translation</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__meth_translation__&#39;</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="n">cls_meth_translation</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="n">cls_def</span> <span class="o">=</span> <span class="n">getclassdef</span><span class="p">(</span><span class="n">cls_rname</span><span class="p">,</span> <span class="n">cls_rpackagename</span><span class="p">)</span>
-    
+
         <span class="c1"># documentation / help</span>
         <span class="k">if</span> <span class="n">cls_rpackagename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__doc__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Undocumented class from the R workspace.&quot;</span>
@@ -217,29 +218,30 @@
             <span class="n">pack_help</span> <span class="o">=</span> <span class="n">rhelp</span><span class="o">.</span><span class="n">Package</span><span class="p">(</span><span class="n">cls_rpackagename</span><span class="p">)</span>
             <span class="n">page_help</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="c1">#R&#39;s classes are sometimes documented with a prefix &#39;class.&#39;</span>
+                <span class="c1"># R&#39;s classes are sometimes documented with a prefix &#39;class.&#39;</span>
                 <span class="n">page_help</span> <span class="o">=</span> <span class="n">pack_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">cls_def</span><span class="o">.</span><span class="n">__rname__</span> <span class="o">+</span> <span class="s2">&quot;-class&quot;</span><span class="p">)</span>
-            <span class="k">except</span> <span class="n">rhelp</span><span class="o">.</span><span class="n">HelpNotFoundError</span> <span class="k">as</span> <span class="n">hnf</span><span class="p">:</span>
+            <span class="k">except</span> <span class="n">rhelp</span><span class="o">.</span><span class="n">HelpNotFoundError</span><span class="p">:</span>
                 <span class="k">pass</span>
             <span class="k">if</span> <span class="n">page_help</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">page_help</span> <span class="o">=</span> <span class="n">pack_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="n">cls_def</span><span class="o">.</span><span class="n">__rname__</span><span class="p">)</span>
-                <span class="k">except</span> <span class="n">rhelp</span><span class="o">.</span><span class="n">HelpNotFoundError</span> <span class="k">as</span> <span class="n">hnf</span><span class="p">:</span>
+                <span class="k">except</span> <span class="n">rhelp</span><span class="o">.</span><span class="n">HelpNotFoundError</span><span class="p">:</span>
                     <span class="k">pass</span>
             <span class="k">if</span> <span class="n">page_help</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__doc__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Unable to fetch R documentation for the class&#39;</span>
+                <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__doc__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Unable to fetch R documentation &#39;</span>
+                                       <span class="s1">&#39;for the class&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__doc__&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">page_help</span><span class="o">.</span><span class="n">to_docstring</span><span class="p">())</span>
-        
+
         <span class="k">for</span> <span class="n">slt_name</span> <span class="ow">in</span> <span class="n">cls_def</span><span class="o">.</span><span class="n">slots</span><span class="p">:</span>
-            <span class="c1">#FIXME: sanity check on the slot name</span>
+            <span class="c1"># TODO: sanity check on the slot name</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">slt_name</span> <span class="o">=</span> <span class="n">cls_attr_translation</span><span class="p">[</span><span class="n">slt_name</span><span class="p">]</span>
-            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="c1"># no translation: abort</span>
                 <span class="k">pass</span>
 
-            <span class="c1">#FIXME: isolate the slot documentation and have it here</span>
+            <span class="c1"># TODO: isolate the slot documentation and have it here</span>
             <span class="n">cls_dict</span><span class="p">[</span><span class="n">slt_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="n">slt_name</span><span class="p">),</span>
                                           <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                                           <span class="kc">None</span><span class="p">)</span>
@@ -252,8 +254,8 @@
         <span class="c1"># than loop across all generics</span>
         <span class="n">r_cls_rname</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_rname</span><span class="p">,</span> <span class="p">))</span>
         <span class="k">for</span> <span class="n">funcname</span> <span class="ow">in</span> <span class="n">all_generics</span><span class="p">:</span>
-            <span class="n">all_methods</span> <span class="o">=</span> <span class="n">findmethods</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">funcname</span><span class="p">,</span> <span class="p">)),</span> 
-                                      <span class="n">classes</span> <span class="o">=</span> <span class="n">r_cls_rname</span><span class="p">)</span>
+            <span class="n">all_methods</span> <span class="o">=</span> <span class="n">findmethods</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">funcname</span><span class="p">,</span> <span class="p">)),</span>
+                                      <span class="n">classes</span><span class="o">=</span><span class="n">r_cls_rname</span><span class="p">)</span>
 
             <span class="c1"># skip if no methods (issue #301). R&#39;s findMethods() result</span>
             <span class="c1"># does not have an attribute &quot;names&quot; if of length zero.</span>
@@ -263,7 +265,7 @@
             <span class="c1"># having the class we are considering somewhere in the signature</span>
             <span class="c1"># (the R/S4 systems allows multiple dispatch)</span>
             <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">meth</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">all_methods</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">),</span> <span class="n">all_methods</span><span class="p">):</span>
-                <span class="c1"># R/S4 is storing each method/signature as a string, </span>
+                <span class="c1"># R/S4 is storing each method/signature as a string,</span>
                 <span class="c1"># with the argument type separated by the character &#39;#&#39;</span>
                 <span class="c1"># We will re-use that name for the Python name</span>
                 <span class="c1"># (no multiple dispatch in python, the method name</span>
@@ -272,25 +274,26 @@
                 <span class="n">meth_name</span> <span class="o">=</span> <span class="s1">&#39;__&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
                 <span class="c1"># function names ending with &#39;&lt;-&#39; indicate that the function</span>
                 <span class="c1"># is a setter of some sort. We reflect that by adding a &#39;set_&#39;</span>
-                <span class="c1"># prefix to the Python name (and of course remove the suffix &#39;&lt;-&#39;).</span>
+                <span class="c1"># prefix to the Python name (and of course remove the</span>
+                <span class="c1"># suffix &#39;&lt;-&#39;).</span>
                 <span class="k">if</span> <span class="n">funcname</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;&lt;-&#39;</span><span class="p">):</span>
                     <span class="n">meth_name</span> <span class="o">=</span> <span class="s1">&#39;set_&#39;</span> <span class="o">+</span> <span class="n">funcname</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">meth_name</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">meth_name</span> <span class="o">=</span> <span class="n">funcname</span> <span class="o">+</span> <span class="s1">&#39;__&#39;</span> <span class="o">+</span> <span class="n">meth_name</span>
                 <span class="c1"># finally replace remaining &#39;.&#39;s in the Python name with &#39;_&#39;s</span>
                 <span class="n">meth_name</span> <span class="o">=</span> <span class="n">meth_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
-                
-            <span class="c1">#FIXME: sanity check on the function name</span>
+
+            <span class="c1"># TODO: sanity check on the function name</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">meth_name</span> <span class="o">=</span> <span class="n">cls_meth_translation</span><span class="p">[</span><span class="n">meth_name</span><span class="p">]</span>
-                <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="c1"># no translation: abort</span>
                     <span class="k">pass</span>
 
-            <span class="c1">#FIXME: isolate the slot documentation and have it here</span>
-                
+            <span class="c1"># TODO: isolate the slot documentation and have it here</span>
+
                 <span class="k">if</span> <span class="n">meth_name</span> <span class="ow">in</span> <span class="n">cls_dict</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">Error</span><span class="p">(</span><span class="s2">&quot;Duplicated attribute/method name.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Duplicated attribute/method name.&quot;</span><span class="p">)</span>
                 <span class="n">cls_dict</span><span class="p">[</span><span class="n">meth_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">meth</span>
 
         <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">)</span></div>
@@ -308,34 +311,40 @@
     <span class="k">for</span> <span class="n">r_name</span><span class="p">,</span> <span class="n">python_name</span><span class="p">,</span> <span class="n">as_property</span><span class="p">,</span> <span class="n">docstring</span> <span class="ow">in</span> <span class="n">acs</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">python_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">python_name</span> <span class="o">=</span> <span class="n">r_name</span>
-        <span class="n">r_meth</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">r_name</span><span class="p">,</span> <span class="p">)),</span> 
-                           <span class="n">signature</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_name</span><span class="p">,</span> <span class="p">)),</span>
-                           <span class="n">where</span> <span class="o">=</span> <span class="n">where</span><span class="p">)</span>
+        <span class="n">r_meth</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">r_name</span><span class="p">,</span> <span class="p">)),</span>
+                           <span class="n">signature</span><span class="o">=</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_name</span><span class="p">,</span> <span class="p">)),</span>
+                           <span class="n">where</span><span class="o">=</span><span class="n">where</span><span class="p">)</span>
         <span class="n">r_meth</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">r_meth</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">as_property</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">python_name</span><span class="p">,</span> <span class="nb">property</span><span class="p">(</span><span class="n">r_meth</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">python_name</span><span class="p">,</span> <span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="n">r_meth</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
+
 <span class="k">def</span> <span class="nf">get_classnames</span><span class="p">(</span><span class="n">packname</span><span class="p">):</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;getClasses&#39;</span><span class="p">](</span><span class="n">where</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="s2">&quot;package:</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="n">packname</span><span class="p">,</span> <span class="p">)))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;getClasses&#39;</span><span class="p">](</span>
+        <span class="n">where</span><span class="o">=</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="s2">&quot;package:</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">packname</span><span class="p">,</span> <span class="p">))</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
 
 <span class="c1"># Namespace to store the definition of RS4 classes</span>
 <span class="n">rs4classes</span> <span class="o">=</span> <span class="n">SimpleNamespace</span><span class="p">()</span>
+
 
 <span class="k">def</span> <span class="nf">_getclass</span><span class="p">(</span><span class="n">rclsname</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">rs4classes</span><span class="p">,</span> <span class="n">rclsname</span><span class="p">):</span>
         <span class="n">rcls</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">rs4classes</span><span class="p">,</span> <span class="n">rclsname</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># dynamically create a class</span>
-        <span class="n">rcls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">rclsname</span><span class="p">,</span> 
-                    <span class="p">(</span><span class="n">RS4</span><span class="p">,</span> <span class="p">),</span> 
+        <span class="n">rcls</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">rclsname</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">RS4</span><span class="p">,</span> <span class="p">),</span>
                     <span class="nb">dict</span><span class="p">())</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="n">rs4classes</span><span class="p">,</span>
                 <span class="n">rclsname</span><span class="p">,</span>
                 <span class="n">rcls</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rcls</span>
+
 
 <span class="k">def</span> <span class="nf">rs4instance_factory</span><span class="p">(</span><span class="n">robj</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -347,16 +356,19 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">clslist</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">robj</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Currently unable to handle more than one class per object&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s1">&#39;Currently unable to handle more than one class per object&#39;</span>
+        <span class="p">)</span>
     <span class="k">for</span> <span class="n">rclsname</span> <span class="ow">in</span> <span class="n">robj</span><span class="o">.</span><span class="n">rclass</span><span class="p">:</span>
         <span class="n">rcls</span> <span class="o">=</span> <span class="n">_getclass</span><span class="p">(</span><span class="n">rclsname</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">rcls</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">clslist</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">robj</span>
 
-<span class="n">methods_env</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;as.environment&#39;</span><span class="p">)(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="s1">&#39;package:methods&#39;</span><span class="p">,</span> <span class="p">)))</span>
 
-
+<span class="n">methods_env</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;as.environment&#39;</span><span class="p">)(</span>
+    <span class="n">StrSexpVector</span><span class="p">((</span><span class="s1">&#39;package:methods&#39;</span><span class="p">,</span> <span class="p">))</span>
+<span class="p">)</span>
 </pre></div>
 
           </div>
@@ -380,7 +392,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

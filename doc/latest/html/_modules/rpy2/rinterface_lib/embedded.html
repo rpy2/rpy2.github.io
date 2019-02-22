@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -64,7 +65,9 @@
   <h1>Source code for rpy2.rinterface_lib.embedded</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">enum</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">_rinterface_cffi</span> <span class="k">import</span> <span class="n">ffi</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">openrlib</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">callbacks</span>
@@ -99,6 +102,11 @@
     <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">&amp;</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">INITIALIZED</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
 
+<span class="k">def</span> <span class="nf">setinitialized</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">rpy2_embeddedR_isinitialized</span>
+    <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">INITIALIZED</span><span class="o">.</span><span class="n">value</span>
+
+
 <span class="k">def</span> <span class="nf">isready</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Is the embedded R ready for use.&quot;&quot;&quot;</span>
     <span class="n">INITIALIZED</span> <span class="o">=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">INITIALIZED</span>
@@ -124,8 +132,6 @@
 
 <span class="c1"># TODO: can init_once() be used here ?</span>
 <span class="k">def</span> <span class="nf">_initr</span><span class="p">(</span><span class="n">interactive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-    <span class="k">global</span> <span class="n">rpy2_embeddedR_isinitialized</span>
-
     <span class="n">rlib</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
     <span class="k">if</span> <span class="n">isinitialized</span><span class="p">():</span>
         <span class="k">return</span>
@@ -157,7 +163,7 @@
 
     <span class="n">rlib</span><span class="o">.</span><span class="n">ptr_R_CleanUp</span> <span class="o">=</span> <span class="n">callbacks</span><span class="o">.</span><span class="n">_cleanup</span>
 
-    <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">INITIALIZED</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">setinitialized</span><span class="p">()</span>
 
     <span class="c1"># TODO: still needed ?</span>
     <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
@@ -178,6 +184,55 @@
     <span class="n">rlib</span><span class="o">.</span><span class="n">R_gc</span><span class="p">()</span>
     <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_endEmbeddedR</span><span class="p">(</span><span class="n">fatal</span><span class="p">)</span>
     <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">^=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">ENDED</span><span class="o">.</span><span class="n">value</span></div>
+
+
+<span class="n">_REFERENCE_TO_R_SESSIONS</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/rstudio/reticulate/issues/98&#39;</span>
+<span class="n">_R_SESSION_INITIALIZED</span> <span class="o">=</span> <span class="s1">&#39;R_SESSION_INITIALIZED&#39;</span>
+<span class="n">_PYTHON_SESSION_INITIALIZED</span> <span class="o">=</span> <span class="s1">&#39;PYTHON_SESSION_INITIALIZED&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">get_r_session_status</span><span class="p">(</span><span class="n">r_session_init</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Return information about the R session, if available.</span>
+
+<span class="sd">    Information about the R session being already initialized can be</span>
+<span class="sd">    communicated by an environment variable exported by the process that</span>
+<span class="sd">    initialized it. See discussion at:</span>
+<span class="sd">    %s</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">_REFERENCE_TO_R_SESSIONS</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;current_pid&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()}</span>
+
+    <span class="k">if</span> <span class="n">r_session_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r_session_init</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_R_SESSION_INITIALIZED</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r_session_init</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">r_session_init</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s1">&#39;The item </span><span class="si">%s</span><span class="s1"> in </span><span class="si">%s</span><span class="s1"> should be of the form key=value.&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">_R_SESSION_INITIALIZED</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">def</span> <span class="nf">is_r_externally_initialized</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">r_status</span> <span class="o">=</span> <span class="n">get_r_session_status</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">r_status</span><span class="p">[</span><span class="s1">&#39;current_pid&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">r_status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PID&#39;</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">set_python_process_info</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Set information about the Python process in an environment variable.</span>
+
+<span class="sd">    Current the information See discussion at:</span>
+<span class="sd">    %s</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">_REFERENCE_TO_R_SESSIONS</span>
+
+    <span class="n">info</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;current_pid&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s1">&#39;sys.executable&#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">))</span>
+    <span class="n">info_string</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">info</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">_PYTHON_SESSION_INITIALIZED</span><span class="p">]</span> <span class="o">=</span> <span class="n">info_string</span>
 
 
 <span class="c1"># R environments, initialized with rpy2.rinterface.SexpEnvironment</span>
@@ -207,7 +262,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

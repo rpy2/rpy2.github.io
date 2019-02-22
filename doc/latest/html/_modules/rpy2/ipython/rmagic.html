@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -852,18 +853,7 @@
 <div class="viewcode-block" id="load_ipython_extension"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.load_ipython_extension">[docs]</a><span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load the extension in IPython.&quot;&quot;&quot;</span>
 
-    <span class="n">ip</span><span class="o">.</span><span class="n">register_magics</span><span class="p">(</span><span class="n">RMagics</span><span class="p">)</span>
-
-    <span class="c1"># TODO: drop support for ipython &lt; 5.0</span>
-    <span class="c1"># Initialising rpy2 interferes with readline. Since, at this point, we&#39;ve</span>
-    <span class="c1"># probably just loaded rpy2, we reset the delimiters. See issue gh-2759.</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="s1">&#39;has_readline&#39;</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">ip</span><span class="o">.</span><span class="n">has_readline</span><span class="p">:</span>
-            <span class="n">ip</span><span class="o">.</span><span class="n">readline</span><span class="o">.</span><span class="n">set_completer_delims</span><span class="p">(</span><span class="n">ip</span><span class="o">.</span><span class="n">readline_delims</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># ipython &gt;= 5.0.0</span>
-        <span class="c1"># not doing anything (for now)</span>
-        <span class="k">pass</span></div>
+    <span class="n">ip</span><span class="o">.</span><span class="n">register_magics</span><span class="p">(</span><span class="n">RMagics</span><span class="p">)</span></div>
 </pre></div>
 
           </div>
@@ -886,7 +876,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -120,6 +121,34 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
+<span class="k">def</span> <span class="nf">vector_memoryview</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">sexp</span><span class="o">.</span><span class="n">SexpVector</span><span class="p">,</span>
+                      <span class="n">sizeof_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cast_str</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">memoryview</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    - sizeof_str: type in a string to use with ffi.sizeof()</span>
+<span class="sd">        (for example &quot;int&quot;)</span>
+<span class="sd">    - cast_str: type in a string to use with memoryview.cast()</span>
+<span class="sd">        (for example &quot;i&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_R_GET_PTR</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">),</span>
+        <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="n">sizeof_str</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+    <span class="n">shape</span> <span class="o">=</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getshape</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
+    <span class="c1"># One could have expected to only need builtin Python</span>
+    <span class="c1"># and do something like</span>
+    <span class="c1"># ```</span>
+    <span class="c1"># mv = memoryview(b).cast(cast_str, shape, order=&#39;F&#39;)</span>
+    <span class="c1"># ```</span>
+    <span class="c1"># but Python does not handle FORTRAN-ordered arrays without having</span>
+    <span class="c1"># to write C extensions. We have to use numpy.</span>
+    <span class="c1"># TODO: Having numpy a requirement just for this is a problem.</span>
+    <span class="c1"># TODO: numpy needed for memoryview</span>
+    <span class="c1">#   (as long as https://bugs.python.org/issue34778 not resolved)</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">cast_str</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
+    <span class="n">mv</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mv</span>
+
+
 <span class="k">class</span> <span class="nc">NULLType</span><span class="p">(</span><span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">na_values</span><span class="o">.</span><span class="n">Singleton</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;A singleton class for R&#39;s NULL.&quot;&quot;&quot;</span>
 
@@ -133,9 +162,6 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39; [</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">typeof</span><span class="p">)</span>
-
     <span class="k">def</span> <span class="nf">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;This is always False.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -148,21 +174,18 @@
     <span class="k">def</span> <span class="nf">rid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span><span class="o">.</span><span class="n">rid</span>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">typeof</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RTYPES</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">RTYPES</span><span class="p">(</span><span class="n">_rinterface</span><span class="o">.</span><span class="n">_TYPEOF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">))</span>
 
-
-<span class="k">class</span> <span class="nc">_MissingArgType</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-
-    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;_sexpobject&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="k">class</span> <span class="nc">_MissingArgType</span><span class="p">(</span><span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">na_values</span><span class="o">.</span><span class="n">Singleton</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">UnmanagedSexpCapsule</span><span class="p">(</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_MissingArg</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39; [</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">typeof</span><span class="p">)</span>
+        <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">(</span>
+                <span class="n">_rinterface</span><span class="o">.</span><span class="n">UnmanagedSexpCapsule</span><span class="p">(</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_MissingArg</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;This is always False.&quot;&quot;&quot;</span>
@@ -171,10 +194,6 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">typeof</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RTYPES</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">RTYPES</span><span class="p">(</span><span class="n">_rinterface</span><span class="o">.</span><span class="n">_TYPEOF</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">))</span>
 
 
 <span class="k">class</span> <span class="nc">SexpSymbol</span><span class="p">(</span><span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">):</span>
@@ -365,7 +384,7 @@
         <span class="sd">&quot;&quot;&quot;See method `keys()`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_EnvironmentIsLocked</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
@@ -387,8 +406,8 @@
 <span class="k">class</span> <span class="nc">NumpyArrayInterface</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Numpy-specific API for accessing the content of a numpy array.</span>
 
-<span class="sd">    This interface implements version 3 of Numpy&#39;s `__array_interface__` and is only</span>
-<span class="sd">    available / possible for some of the R vectors.&quot;&quot;&quot;</span>
+<span class="sd">    This interface implements version 3 of Numpy&#39;s `__array_interface__`</span>
+<span class="sd">    and is only available / possible for some of the R vectors.&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">__array_interface__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -399,25 +418,16 @@
 <span class="sd">        invalid once the area once R frees the object. It is safer to keep</span>
 <span class="sd">        the rpy2 object proxying the R object alive for the duration the</span>
 <span class="sd">        pointer is used in Python / numpy.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">),</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_R_GET_PTR</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">))</span>
+        <span class="n">strides</span> <span class="o">=</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getstrides</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                                            <span class="n">shape</span><span class="p">,</span>
+                                            <span class="bp">self</span><span class="o">.</span><span class="n">_R_SIZEOF_ELT</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s1">&#39;shape&#39;</span><span class="p">:</span> <span class="n">shape</span><span class="p">,</span>
                 <span class="s1">&#39;typestr&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_NP_TYPESTR</span><span class="p">,</span>
-                <span class="s1">&#39;strides&#39;</span><span class="p">:</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getstrides</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">),</span>
-                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_R_GET_PTR</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">),</span>
+                <span class="s1">&#39;strides&#39;</span><span class="p">:</span> <span class="n">strides</span><span class="p">,</span>
+                <span class="s1">&#39;data&#39;</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
                 <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
-
-
-<span class="k">def</span> <span class="nf">_cast_in_byte</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be in range(0, 256)&#39;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be a single character&#39;</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be an integer [0, 255] or a &#39;</span>
-                         <span class="s1">&#39;single byte character&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">x</span>
 
 
 <div class="viewcode-block" id="ByteSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.ByteSexpVector">[docs]</a><span class="k">class</span> <span class="nc">ByteSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">,</span> <span class="n">NumpyArrayInterface</span><span class="p">):</span>
@@ -427,27 +437,41 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">RAWSXP</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;char&#39;</span><span class="p">)</span>
     <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|u1&#39;</span>
 
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_RAW</span>
-    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="n">_cast_in_byte</span>
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_R_VECTOR_ELT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_RAW</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">def</span> <span class="nf">_CAST_IN</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be in range(0, 256)&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be a single character&#39;</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be an integer [0, 255] or a &#39;</span>
+                             <span class="s1">&#39;single byte character&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_R_SET_VECTOR_ELT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="n">openrlib</span><span class="o">.</span><span class="n">_RAW</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+    <span class="k">def</span> <span class="nf">_R_VECTOR_ELT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_R_SET_VECTOR_ELT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">openrlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;ByteSexpVector&#39;</span><span class="p">]:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">RAW_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">RAW_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">res</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">RAW_ELT</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">RAW_ELT</span><span class="p">(</span>
                     <span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span>
                 <span class="p">)</span> <span class="k">for</span> <span class="n">i_c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
                 <span class="p">]</span>
@@ -457,16 +481,16 @@
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span>
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="n">_cast_in_byte</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CAST_IN</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i_c</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))),</span> <span class="n">value</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be in range(0, 256)&#39;</span><span class="p">)</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="n">_cast_in_byte</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CAST_IN</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span></div>
@@ -475,14 +499,15 @@
 <div class="viewcode-block" id="BoolSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.BoolSexpVector">[docs]</a><span class="k">class</span> <span class="nc">BoolSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">,</span> <span class="n">NumpyArrayInterface</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Array of booleans.</span>
 
-<span class="sd">    Note that R in internally storing booleans as integers to</span>
+<span class="sd">    Note that R is internally storing booleans as integers to</span>
 <span class="sd">    allow an additional &quot;NA&quot; value to represent missingness.&quot;&quot;&quot;</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LGLSXP</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;Rboolean&#39;</span><span class="p">)</span>
     <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|i&#39;</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">LOGICAL_ELT</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_LOGICAL_ELT</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_LOGICAL</span>
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">LOGICAL</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_CAST_IN</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -496,11 +521,11 @@
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">elt</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LOGICAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
+            <span class="n">elt</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">LOGICAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Logical</span> <span class="k">if</span> <span class="n">elt</span> <span class="o">==</span> <span class="n">NA_Logical</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">elt</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">res</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LOGICAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
+                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">LOGICAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
                  <span class="k">for</span> <span class="n">i_c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))]</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -512,8 +537,8 @@
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SET_LOGICAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">,</span>
-                                          <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_LOGICAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">,</span>
+                                     <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i_c</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))),</span> <span class="n">value</span><span class="p">):</span>
                 <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_LOGICAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">,</span>
@@ -522,13 +547,8 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
-    <span class="k">def</span> <span class="nf">memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">_LOGICAL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">),</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
-        <span class="n">mv</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mv</span></div>
+    <span class="k">def</span> <span class="nf">memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">memoryview</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">vector_memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="IntSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.IntSexpVector">[docs]</a><span class="k">class</span> <span class="nc">IntSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">,</span> <span class="n">NumpyArrayInterface</span><span class="p">):</span>
@@ -536,20 +556,22 @@
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">INTSXP</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_INTEGER_ELT</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">INTEGER_ELT</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_INTEGER</span>
-    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">int</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
     <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|i&#39;</span>
+
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">INTEGER</span><span class="p">)</span>
+    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;IntSexpVector&#39;</span><span class="p">]:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">INTEGER_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Integer</span><span class="p">:</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Integer</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">INTEGER_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">NA_Integer</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">NA_Integer</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">res</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">INTEGER_ELT</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">INTEGER_ELT</span><span class="p">(</span>
                     <span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span>
                 <span class="p">)</span> <span class="k">for</span> <span class="n">i_c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))]</span>
             <span class="p">)</span>
@@ -573,31 +595,28 @@
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">memoryview</span><span class="p">:</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">_INTEGER</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">),</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
-        <span class="n">mv</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mv</span></div>
+        <span class="k">return</span> <span class="n">vector_memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="FloatSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.FloatSexpVector">[docs]</a><span class="k">class</span> <span class="nc">FloatSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">,</span> <span class="n">NumpyArrayInterface</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">REALSXP</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_REAL</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">REAL_ELT</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_REAL_ELT</span>
-    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">float</span>
-    <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|f&#39;</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
+    <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|d&#39;</span>
+
+    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">REAL</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;FloatSexpVector&#39;</span><span class="p">]:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">REAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">REAL_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">res</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">REAL_ELT</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">REAL_ELT</span><span class="p">(</span>
                     <span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span> <span class="k">for</span> <span class="n">i_c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))]</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -620,41 +639,46 @@
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
     <span class="k">def</span> <span class="nf">memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">memoryview</span><span class="p">:</span>
-        <span class="n">b</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">_REAL</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">),</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
-        <span class="n">shape</span> <span class="o">=</span> <span class="n">bufferprotocol</span><span class="o">.</span><span class="n">getshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
-        <span class="n">mv</span> <span class="o">=</span> <span class="nb">memoryview</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">mv</span></div>
+        <span class="k">return</span> <span class="n">vector_memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;double&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ComplexSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.ComplexSexpVector">[docs]</a><span class="k">class</span> <span class="nc">ComplexSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CPLXSXP</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_COMPLEX</span>
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX</span><span class="p">)</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;Rcomplex&#39;</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_R_VECTOR_ELT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_COMPLEX</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_R_SET_VECTOR_ELT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="n">openrlib</span><span class="o">.</span><span class="n">_COMPLEX</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+        <span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_CAST_IN</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">complex</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s1">&#39;Unable to turn value into an R complex number.&#39;</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                     <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="nb">complex</span><span class="p">,</span> <span class="s1">&#39;ComplexSexpVector&#39;</span><span class="p">]:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">COMPLEX_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
+            <span class="n">_</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX_ELT</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">r</span><span class="p">,</span> <span class="n">_</span><span class="o">.</span><span class="n">i</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">res</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
-                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">COMPLEX_ELT</span><span class="p">(</span>
+                <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX_ELT</span><span class="p">(</span>
                     <span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span> <span class="k">for</span> <span class="n">i_c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))]</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -666,31 +690,43 @@
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">_COMPLEX</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">_</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CAST_IN</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">i_c</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">))),</span> <span class="n">value</span><span class="p">):</span>
-                <span class="n">_</span> <span class="o">=</span> <span class="nb">complex</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">_COMPLEX</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">_</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX</span><span class="p">(</span><span class="n">cdata</span><span class="p">)[</span><span class="n">i_c</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_CAST_IN</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="ListSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.ListSexpVector">[docs]</a><span class="k">class</span> <span class="nc">ListSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;R list.</span>
+
+<span class="sd">    An R list an R vector (array) that is similar to a Python list in</span>
+<span class="sd">    the sense that items in the list can be of any type, whereas most</span>
+<span class="sd">    other R vectors are homogeneous (all items are of the same type).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECSXP</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_VECTOR_PTR</span>
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">_VECTOR_PTR</span><span class="p">)</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECTOR_ELT</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SET_VECTOR_ELT</span>
-    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span></div>
+    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="PairlistSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.PairlistSexpVector">[docs]</a><span class="k">class</span> <span class="nc">PairlistSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;R pairlist.</span>
+
+<span class="sd">    A R pairlist is rarely used outside of R&#39;s internal libraries and</span>
+<span class="sd">    a relatively small number of use cases. It is essentially a LISP-like</span>
+<span class="sd">    list of (name, value) pairs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LISTSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span>
+    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sexp</span><span class="p">:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
@@ -753,6 +789,7 @@
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">EXPRSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECTOR_ELT</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -761,6 +798,7 @@
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LANGSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -801,6 +839,16 @@
 
     <span class="nd">@_cdata_res_to_rinterface</span>
     <span class="k">def</span> <span class="nf">rcall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyvals</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="n">SexpEnvironment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Call/evaluate an R function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">        - keyvals: a sequence of key/value (name/parameter) pairs. A</span>
+<span class="sd">            name/parameter that is None will indicated an unnamed parameter.</span>
+<span class="sd">            Like in R, keys/names do not have to be unique, partial matching</span>
+<span class="sd">            can be used, and named/unnamed parameters can occur at any position</span>
+<span class="sd">            in the sequence.</span>
+<span class="sd">        - environment: a R environment in which to evaluate the function.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: check keyvals are pairs ?</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">environment</span><span class="p">,</span> <span class="n">SexpEnvironment</span><span class="p">)</span>
         <span class="n">error_occured</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;int *&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
@@ -920,7 +968,7 @@
     <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span><span class="p">})</span>
 
 
-<span class="k">def</span> <span class="nf">vector</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">rtype</span><span class="p">:</span> <span class="n">RTYPES</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">vector</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">rtype</span><span class="p">:</span> <span class="n">RTYPES</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SexpVector</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Create an R vector.</span>
 
 <span class="sd">    While the different types of R vectors all have their own class,</span>
@@ -957,13 +1005,33 @@
 <span class="n">NA_Complex</span> <span class="o">=</span> <span class="kc">None</span>
 
 
-<div class="viewcode-block" id="initr"><a class="viewcode-back" href="../../rinterface.html#rpy2.rinterface.initr">[docs]</a><span class="k">def</span> <span class="nf">initr</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">initr_simple</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Initialize R&#39;s embedded C library.&quot;&quot;&quot;</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">embedded</span><span class="o">.</span><span class="n">_initr</span><span class="p">()</span>
     <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">endr</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
     <span class="n">_rinterface</span><span class="o">.</span><span class="n">_register_external_symbols</span><span class="p">()</span>
     <span class="n">_post_initr_setup</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">status</span></div>
+    <span class="k">return</span> <span class="n">status</span>
+
+
+<span class="k">def</span> <span class="nf">initr_checkenv</span><span class="p">():</span>
+    <span class="c1"># Force the internal initialization flag if there is an environment</span>
+    <span class="c1"># variable that indicates that R was alreay initialized in the current</span>
+    <span class="c1"># process.</span>
+
+    <span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">embedded</span><span class="o">.</span><span class="n">is_r_externally_initialized</span><span class="p">():</span>
+        <span class="n">embedded</span><span class="o">.</span><span class="n">setinitialized</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">embedded</span><span class="o">.</span><span class="n">_initr</span><span class="p">()</span>
+        <span class="n">embedded</span><span class="o">.</span><span class="n">set_python_process_info</span><span class="p">()</span>
+    <span class="n">_rinterface</span><span class="o">.</span><span class="n">_register_external_symbols</span><span class="p">()</span>
+    <span class="n">_post_initr_setup</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">status</span>
+
+
+<span class="n">initr</span> <span class="o">=</span> <span class="n">initr_checkenv</span>
 
 
 <span class="k">def</span> <span class="nf">_post_initr_setup</span><span class="p">():</span>
@@ -1055,7 +1123,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

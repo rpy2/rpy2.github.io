@@ -15,6 +15,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -317,7 +318,7 @@ that locked environments should mostly be considered).</p>
 
 <dl class="class">
 <dt id="rpy2.robjects.packages.PackageData">
-<em class="property">class </em><code class="descclassname">rpy2.robjects.packages.</code><code class="descname">PackageData</code><span class="sig-paren">(</span><em>packagename, lib_loc=&lt;rpy2.rinterface.NULLType object&gt; [RTYPES.NILSXP] [RTYPES.NILSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">rpy2.robjects.packages.</code><code class="descname">PackageData</code><span class="sig-paren">(</span><em>packagename, lib_loc=&lt;rpy2.rinterface.NULLType object&gt; [RTYPES.NILSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Datasets in an R package.
 In R datasets can be distributed with a package.</p>
 <p>Datasets can be:</p>
@@ -366,8 +367,8 @@ but this function returns an environment that contains the dataset(s).</p>
 <dl class="class">
 <dt id="rpy2.robjects.packages.SignatureTranslatedPackage">
 <em class="property">class </em><code class="descclassname">rpy2.robjects.packages.</code><code class="descname">SignatureTranslatedPackage</code><span class="sig-paren">(</span><em>env</em>, <em>name</em>, <em>translation={}</em>, <em>exported_names=None</em>, <em>on_conflict='fail'</em>, <em>version=None</em>, <em>symbol_r2python=&lt;function default_symbol_r2python&gt;</em>, <em>symbol_check_after=&lt;function default_symbol_check_after&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#SignatureTranslatedPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.SignatureTranslatedPackage" title="Permalink to this definition">¶</a></dt>
-<dd><p>R package in which the R functions had their signatures 
-‘translated’ (that this the named parameters were made to 
+<dd><p>R package in which the R functions had their signatures
+‘translated’ (that this the named parameters were made to
 to conform Python’s rules for vaiable names).</p>
 </dd></dl>
 
@@ -404,7 +405,7 @@ not found (rather than a traditional <cite>AttributeError</cite>).</p>
 <dd>from <cite>symbol_r2python</cite>.</dd>
 </dl>
 </li>
-<li>data: embed a PackageData objects under the attribute 
+<li>data: embed a PackageData objects under the attribute
 name __rdata__ (default: True)</li>
 </ul>
 <p>Return:</p>
@@ -416,7 +417,7 @@ name __rdata__ (default: True)</li>
 <dl class="function">
 <dt id="rpy2.robjects.packages.isinstalled">
 <code class="descclassname">rpy2.robjects.packages.</code><code class="descname">isinstalled</code><span class="sig-paren">(</span><em>name</em>, <em>lib_loc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#isinstalled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.isinstalled" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find whether an R package is installed 
+<dd><p>Find whether an R package is installed
 :param name: name of an R package
 :param lib_loc: specific location for the R library (default: None)</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -447,12 +448,14 @@ name __rdata__ (default: True)</li>
 <dd><p>Evaluate a string as R code
 :param string: R code
 :type string: a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>
-:param envir: an environment in which the environment should take place (default: R’s global environment)</p>
+:param envir: an environment in which the environment should take</p>
+<blockquote>
+<div>place (default: R’s global environment)</div></blockquote>
 </dd></dl>
 
 <dl class="function">
 <dt id="rpy2.robjects.packages.wherefrom">
-<code class="descclassname">rpy2.robjects.packages.</code><code class="descname">wherefrom</code><span class="sig-paren">(</span><em>symbol: str, startenv=&lt;rpy2.rinterface.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#wherefrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.wherefrom" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">rpy2.robjects.packages.</code><code class="descname">wherefrom</code><span class="sig-paren">(</span><em>symbol: str, startenv: rpy2.rinterface.SexpEnvironment = &lt;rpy2.rinterface.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#wherefrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.wherefrom" title="Permalink to this definition">¶</a></dt>
 <dd><p>For a given symbol, return the environment
 this symbol is first found in, starting from ‘startenv’.</p>
 </dd></dl>
@@ -545,7 +548,7 @@ for more information.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
@@ -72,15 +73,12 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">rpy2.robjects.methods</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">as</span> <span class="nn">conversion</span>
 <span class="kn">from</span> <span class="nn">rpy2.rlike.container</span> <span class="k">import</span> <span class="n">OrdDict</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">WeakPackage</span>
 
 <span class="n">NULL</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">NULL</span>
-
-<span class="c1">#getmethod = robjects.baseenv.get(&quot;getMethod&quot;)</span>
 
 <span class="n">grid</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grid&#39;</span><span class="p">)</span>
 
@@ -96,15 +94,15 @@
 <span class="n">grid_env</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;as.environment&#39;</span><span class="p">](</span><span class="s1">&#39;package:grid&#39;</span><span class="p">)</span>
 
 
-<span class="n">layout</span>  <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_layout</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_layout</span>
 <span class="n">newpage</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_newpage</span>
-<span class="n">grill</span>   <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_grill</span>
-<span class="n">edit</span>    <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_edit</span>
-<span class="n">get</span>     <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_get</span>
-<span class="n">remove</span>  <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_remove</span>
-<span class="n">add</span>     <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_add</span>
-<span class="n">xaxis</span>   <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_xaxis</span>
-<span class="n">yaxis</span>   <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_yaxis</span>
+<span class="n">grill</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_grill</span>
+<span class="n">edit</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_edit</span>
+<span class="n">get</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_get</span>
+<span class="n">remove</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_remove</span>
+<span class="n">add</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_add</span>
+<span class="n">xaxis</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_xaxis</span>
+<span class="n">yaxis</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">grid_yaxis</span>
 
 
 <span class="k">class</span> <span class="nc">Unit</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">RObject</span><span class="p">):</span>
@@ -150,7 +148,7 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_gpar</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_gpar</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
 
 
@@ -177,9 +175,10 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_grob</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="Grob.draw"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Grob.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Draw a graphical object (calling the R function grid::grid.raw())&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="n">recording</span><span class="p">)</span></div></div>
+<div class="viewcode-block" id="Grob.draw"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Grob.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Draw a graphical object (calling the R function</span>
+<span class="sd">        grid::grid.raw())&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_draw</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="n">recording</span><span class="p">)</span></div></div>
 
 
 <span class="n">grob</span> <span class="o">=</span> <span class="n">Grob</span><span class="o">.</span><span class="n">grob</span>
@@ -237,8 +236,10 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_grobtree</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div></div>
 
+
 <span class="k">class</span> <span class="nc">Axis</span><span class="p">(</span><span class="n">GTree</span><span class="p">):</span>
     <span class="k">pass</span>
+
 
 <span class="k">class</span> <span class="nc">XAxis</span><span class="p">(</span><span class="n">Axis</span><span class="p">):</span>
     <span class="n">_xaxis</span> <span class="o">=</span> <span class="n">xaxis</span>
@@ -256,6 +257,7 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_xaxisgrob</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
+
 <span class="k">class</span> <span class="nc">YAxis</span><span class="p">(</span><span class="n">Axis</span><span class="p">):</span>
     <span class="n">_yaxis</span> <span class="o">=</span> <span class="n">yaxis</span>
     <span class="n">_yaxisgrob</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">yaxisGrob</span>
@@ -272,7 +274,7 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_yaxisgrob</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
-        
+
 <div class="viewcode-block" id="Viewport"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport">[docs]</a><span class="k">class</span> <span class="nc">Viewport</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">RObject</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Drawing context.</span>
 <span class="sd">    Viewports can be thought of as nodes in a scene graph. &quot;&quot;&quot;</span>
@@ -286,8 +288,8 @@
     <span class="n">_upviewport</span> <span class="o">=</span> <span class="n">grid_env</span><span class="p">[</span><span class="s1">&#39;upViewport&#39;</span><span class="p">]</span>
     <span class="n">_viewport</span> <span class="o">=</span> <span class="n">grid_env</span><span class="p">[</span><span class="s1">&#39;viewport&#39;</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Viewport.push"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_pushviewport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="n">recording</span><span class="p">)</span></div>
+<div class="viewcode-block" id="Viewport.push"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport.push">[docs]</a>    <span class="k">def</span> <span class="nf">push</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pushviewport</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="n">recording</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Viewport.pop"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport.pop">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
@@ -304,19 +306,19 @@
         <span class="bp">cls</span><span class="o">.</span><span class="n">_plotviewport</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Viewport.down"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport.down">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">strict</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">down</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return the number of Viewports it went down &quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">_downviewport</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">strict</span> <span class="o">=</span> <span class="n">strict</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="n">recording</span><span class="p">)</span></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_downviewport</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="n">recording</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Viewport.seek"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport.seek">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">seek</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">seek</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Seek and return a Viewport given its name &quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">_seek</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="n">recording</span><span class="p">)</span></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_seek</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="n">recording</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Viewport.up"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport.up">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">up</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Go up n viewports &quot;&quot;&quot;</span>
-        <span class="bp">cls</span><span class="o">.</span><span class="n">_downviewport</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">recording</span> <span class="o">=</span> <span class="n">recording</span><span class="p">)</span></div>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_downviewport</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">recording</span><span class="o">=</span><span class="n">recording</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Viewport.viewport"><a class="viewcode-back" href="../../../../graphics.html#rpy2.robjects.lib.grid.Viewport.viewport">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">viewport</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -324,6 +326,7 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_viewport</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div></div>
+
 
 <span class="n">viewport</span> <span class="o">=</span> <span class="n">Viewport</span><span class="o">.</span><span class="n">viewport</span>
 
@@ -350,7 +353,7 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">cls</span> <span class="o">=</span> <span class="n">_grid_dict</span><span class="p">[</span><span class="n">rcls</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
             <span class="n">pyobj</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">pyobj</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
             <span class="k">pass</span>
 
     <span class="k">return</span> <span class="n">pyobj</span>
@@ -360,7 +363,7 @@
     <span class="k">global</span> <span class="n">original_py2rpy</span><span class="p">,</span> <span class="n">original_rpy2py</span>
 
     <span class="c1"># If module is already activated, there is nothing to do</span>
-    <span class="k">if</span> <span class="n">original_py2rpy</span><span class="p">:</span> 
+    <span class="k">if</span> <span class="n">original_py2rpy</span><span class="p">:</span>
         <span class="k">return</span>
 
     <span class="n">original_py2rpy</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span>
@@ -403,7 +406,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

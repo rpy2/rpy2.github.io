@@ -15,6 +15,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <script type="text/javascript" src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -156,10 +157,11 @@ conversion.py2rpy().</p>
 
 <dl class="method">
 <dt id="rpy2.robjects.Vector.sample">
-<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>replace=False</em>, <em>probabilities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#Vector.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Vector.sample" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw a sample of size n from the vector. 
-If ‘replace’ is True, the sampling is done with replacement.
-The optional argument ‘probabilities’ can indicate sampling probabilities.</p>
+<code class="descname">sample</code><span class="sig-paren">(</span><em>n</em>, <em>replace: bool = False</em>, <em>probabilities=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#Vector.sample"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Vector.sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a random sample of size n from the vector.</p>
+<p>If ‘replace’ is True, the sampling is done with replacement.
+The optional argument ‘probabilities’ can indicate sampling
+probabilities.</p>
 </dd></dl>
 
 </dd></dl>
@@ -177,7 +179,7 @@ class <code class="xref py py-class docutils literal notranslate"><span class="p
 <dt id="rpy2.robjects.vectors.BoolVector">
 <em class="property">class </em><code class="descclassname">rpy2.robjects.vectors.</code><code class="descname">BoolVector</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#BoolVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.vectors.BoolVector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.BoolSexpVector" title="rpy2.rinterface.BoolSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.BoolSexpVector</span></code></a></p>
-<p>Vector of boolean (logical) elements 
+<p>Vector of boolean (logical) elements
 BoolVector(seq) -&gt; BoolVector.</p>
 <p>The parameter ‘seq’ can be an instance inheriting from
 rinterface.SexpVector, or an arbitrary Python sequence.
@@ -189,7 +191,7 @@ booleans, or have a bool() representation.</p>
 <dt id="rpy2.robjects.vectors.IntVector">
 <em class="property">class </em><code class="descclassname">rpy2.robjects.vectors.</code><code class="descname">IntVector</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#IntVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.vectors.IntVector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.IntSexpVector" title="rpy2.rinterface.IntSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.IntSexpVector</span></code></a></p>
-<p>Vector of integer elements 
+<p>Vector of integer elements
 IntVector(seq) -&gt; IntVector.</p>
 <p>The parameter ‘seq’ can be an instance inheriting from
 rinterface.SexpVector, or an arbitrary Python sequence.
@@ -243,7 +245,7 @@ strings, or have a str() representation.</p>
 <p>The parameter ‘itemable’ can be:</p>
 <ul class="simple">
 <li>an object with a method <cite>items()</cite>, such for example a dict,
-a rpy2.rlike.container.TaggedList, 
+a rpy2.rlike.container.TaggedList,
 an rpy2.rinterface.SexpVector of type VECSXP.</li>
 <li>an iterable of (name, value) tuples</li>
 </ul>
@@ -393,7 +395,7 @@ as it preserves the integer/string duality.</p>
 <dt id="rpy2.robjects.vectors.FactorVector">
 <em class="property">class </em><code class="descclassname">rpy2.robjects.vectors.</code><code class="descname">FactorVector</code><span class="sig-paren">(</span><em>obj</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#FactorVector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.vectors.FactorVector" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.vectors.IntVector" title="rpy2.robjects.vectors.IntVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.IntVector</span></code></a></p>
-<p>Vector of ‘factors’</p>
+<p>Vector of ‘factors’.</p>
 <dl class="docutils">
 <dt>FactorVector(obj,</dt>
 <dd>levels = rinterface.MissingArg,
@@ -1116,15 +1118,19 @@ here <em>rows_i</em>, is used to take a subset of the <code class="xref py py-cl
 <dt id="rpy2.robjects.vectors.DataFrame.from_csvfile">
 <em class="property">static </em><code class="descname">from_csvfile</code><span class="sig-paren">(</span><em>path, header=True, sep=',', quote='&quot;', dec='.', row_names=&lt;rpy2.rinterface._MissingArgType object&gt; [RTYPES.SYMSXP], col_names=&lt;rpy2.rinterface._MissingArgType object&gt; [RTYPES.SYMSXP], fill=True, comment_char='', na_strings=[], as_is=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#DataFrame.from_csvfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.vectors.DataFrame.from_csvfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an instance from data in a .csv file.</p>
-<p>path         : string with a path 
+<p>path         : string with a path
 header       : boolean (heading line with column names or not)
 sep          : separator character
 quote        : quote character
-row_names    : column name, or column index for column names (warning: indexing starts at one in R)
-fill         : boolean (fill the lines when less entries than columns)
+row_names    : column name, or column index for column names</p>
+<blockquote>
+<div>(warning: indexing starts at one in R)</div></blockquote>
+<p>fill         : boolean (fill the lines when less entries than columns)
 comment_char : comment character
 na_strings   : a list of strings which are interpreted to be NA values
-as_is        : boolean (keep the columns of strings as such, or turn them into factors)</p>
+as_is        : boolean (keep the columns of strings as such, or turn</p>
+<blockquote>
+<div>them into factors)</div></blockquote>
 </dd></dl>
 
 <dl class="method">
@@ -1155,7 +1161,7 @@ as_is        : boolean (keep the columns of strings as such, or turn them into f
 <dl class="attribute">
 <dt id="rpy2.robjects.vectors.DataFrame.nrow">
 <code class="descname">nrow</code><a class="headerlink" href="#rpy2.robjects.vectors.DataFrame.nrow" title="Permalink to this definition">¶</a></dt>
-<dd><p>Number of rows. 
+<dd><p>Number of rows.
 :rtype: integer</p>
 </dd></dl>
 
@@ -1175,7 +1181,7 @@ as_is        : boolean (keep the columns of strings as such, or turn them into f
 <dt id="rpy2.robjects.vectors.DataFrame.to_csvfile">
 <code class="descname">to_csvfile</code><span class="sig-paren">(</span><em>path</em>, <em>quote=True</em>, <em>sep='</em>, <em>'</em>, <em>eol='\n'</em>, <em>na='NA'</em>, <em>dec='.'</em>, <em>row_names=True</em>, <em>col_names=True</em>, <em>qmethod='escape'</em>, <em>append=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#DataFrame.to_csvfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.vectors.DataFrame.to_csvfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save the data into a .csv file.</p>
-<p>path         : string with a path 
+<p>path         : string with a path
 quote        : quote character
 sep          : separator character
 eol          : end-of-line character(s)
@@ -1184,7 +1190,9 @@ dec          : string for decimal separator
 row_names    : boolean (save row names, or not)
 col_names    : boolean (save column names, or not)
 comment_char : method to ‘escape’ special characters
-append       : boolean (append if the file in the path is already existing, or not)</p>
+append       : boolean (append if the file in the path is</p>
+<blockquote>
+<div>already existing, or not)</div></blockquote>
 </dd></dl>
 
 </dd></dl>
@@ -1220,7 +1228,7 @@ append       : boolean (append if the file in the path is already existing, or n
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>

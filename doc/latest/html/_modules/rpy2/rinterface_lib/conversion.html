@@ -15,6 +15,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
     <script type="text/javascript" src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -95,6 +96,12 @@
     <span class="k">return</span> <span class="n">_</span>
 
 
+<span class="k">def</span> <span class="nf">_sexpcapsule_to_rinterface</span><span class="p">(</span><span class="n">scaps</span><span class="p">:</span> <span class="s1">&#39;_rinterface.SexpCapsule&#39;</span><span class="p">):</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">_R_RPY2_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">scaps</span><span class="o">.</span><span class="n">typeof</span><span class="p">,</span> <span class="n">_R_RPY2_DEFAULT_MAP</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">scaps</span><span class="p">)</span>
+
+
+<span class="c1"># TODO: The name of the function is misleading, I think. Consider changing it.</span>
 <span class="k">def</span> <span class="nf">_python_to_cdata</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="n">t</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">_PY_RPY2_MAP</span><span class="p">:</span>
@@ -197,7 +204,7 @@
     <span class="k">elif</span> <span class="n">cast</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cdata</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
-        <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">ae</span><span class="p">:</span>
+        <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not an rpy2 R object and unable &#39;</span>
                              <span class="s1">&#39;to cast it into one: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
@@ -225,7 +232,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
     </div>
   </body>
 </html>
