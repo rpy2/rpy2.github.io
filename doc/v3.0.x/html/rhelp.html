@@ -1,0 +1,303 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>R help &#8212; rpy2 3.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Mapping rpy2 objects to arbitrary python objects" href="robjects_convert.html" />
+    <link rel="prev" title="Vectors and arrays" href="vector.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_convert.html" title="Mapping rpy2 objects to arbitrary python objects"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="vector.html" title="Vectors and arrays"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">R help</a><ul>
+<li><a class="reference internal" href="#querying-on-aliases">Querying on aliases</a></li>
+<li><a class="reference internal" href="#package-documentation">Package documentation</a></li>
+<li><a class="reference internal" href="#documentation-page">Documentation page</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="vector.html"
+                        title="previous chapter">Vectors and arrays</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="robjects_convert.html"
+                        title="next chapter">Mapping rpy2 objects to arbitrary python objects</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/rhelp.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <span class="target" id="module-rpy2.robjects.help"></span><div class="section" id="r-help">
+<h1>R help<a class="headerlink" href="#r-help" title="Permalink to this headline">¶</a></h1>
+<p><cite>R</cite> has a documentation system that ensures that documentation for code
+distributed as packages is installed when packages are installed.
+This documentation can be called and searched from R itself.</p>
+<p>Unlike <cite>Python</cite> docstrings, where the documentation string
+can be found in the special attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">__doc__</span></code>,
+the R documentation lives outside objects in documentation pages.
+Each documentation page is associated at minimum one <cite>alias</cite>, aliases often
+corresponding to the name of an R object defined in a package
+(function, dataset, etc…).</p>
+<p>For example, querying documentation for the R function <cite>sum</cite>
+becomes a matter of finding which documentation page has the alias <cite>sum</cite>,
+and retrieve that page.</p>
+<div class="section" id="querying-on-aliases">
+<h2>Querying on aliases<a class="headerlink" href="#querying-on-aliases" title="Permalink to this headline">¶</a></h2>
+<p>When working with R, a frequent use case for using the documention
+is to query on an alias (a function name, a dataset, or a class name)
+and retrieve the associated documentation.</p>
+<p>While the R packaging system will make checks that any given alias
+is associated with only one page within the same package, it is well
+possible to have several packages defining a documentation page for the
+same alias.</p>
+<p>With rpy2’s interface to the help system, an easy way to retrive
+pages associated with an alias is to
+use the function <a class="reference internal" href="#rpy2.robjects.help.pages" title="rpy2.robjects.help.pages"><code class="xref py py-func docutils literal notranslate"><span class="pre">pages()</span></code></a>, which returns a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>
+of <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal notranslate"><span class="pre">Page</span></code></a> instances.</p>
+<dl class="function">
+<dt id="rpy2.robjects.help.pages">
+<code class="descclassname">rpy2.robjects.help.</code><code class="descname">pages</code><span class="sig-paren">(</span><em>topic</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#pages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.pages" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get help pages corresponding to a given topic.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="package-documentation">
+<h2>Package documentation<a class="headerlink" href="#package-documentation" title="Permalink to this headline">¶</a></h2>
+<p>The documentation for a package is represented with the class
+<a class="reference internal" href="#rpy2.robjects.help.Package" title="rpy2.robjects.help.Package"><code class="xref py py-class docutils literal notranslate"><span class="pre">Package</span></code></a>.</p>
+<dl class="class">
+<dt id="rpy2.robjects.help.Package">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.help.</code><code class="descname">Package</code><span class="sig-paren">(</span><em>package_name</em>, <em>package_path = None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Package" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The R documentation page (aka help) for a package.</p>
+<dl class="method">
+<dt id="rpy2.robjects.help.Package.fetch">
+<code class="descname">fetch</code><span class="sig-paren">(</span><em>alias</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Package.fetch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Package.fetch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch the documentation page associated with a given alias.</p>
+<p>For S4 classes, the class name is <em>often</em> suffixed with ‘-class’.
+For example, the alias to the documentation for the class
+AnnotatedDataFrame in the package Biobase is
+‘AnnotatedDataFrame-class’.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.robjects.help.Package.name">
+<code class="descname">name</code><a class="headerlink" href="#rpy2.robjects.help.Package.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the package as known by R</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="rpy2.robjects.help.Package.package_path">
+<code class="descname">package_path</code><a class="headerlink" href="#rpy2.robjects.help.Package.package_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Path to the installed R package</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.robjects.help</span> <span class="k">as</span> <span class="nn">rh</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base_help</span> <span class="o">=</span> <span class="n">rh</span><span class="o">.</span><span class="n">Package</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">base_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="documentation-page">
+<h2>Documentation page<a class="headerlink" href="#documentation-page" title="Permalink to this headline">¶</a></h2>
+<p>A documentation page is represented as an instance of
+class <a class="reference internal" href="#rpy2.robjects.help.Page" title="rpy2.robjects.help.Page"><code class="xref py py-class docutils literal notranslate"><span class="pre">Page</span></code></a>.</p>
+<dl class="class">
+<dt id="rpy2.robjects.help.Page">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.help.</code><code class="descname">Page</code><span class="sig-paren">(</span><em>struct_rdb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An R documentation page.
+The original R structure is a nested sequence of components,
+corresponding to the latex-like .Rd file</p>
+<p>An help page is divided into sections, the names for the sections
+are the keys for the dict attribute ‘sections’, and a given section
+can be extracted with the square-bracket operator.</p>
+<p>In R, the S3 class ‘Rd’ is the closest entity to this class.</p>
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.arguments">
+<code class="descname">arguments</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the arguments and their description as a list of tuples.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.description">
+<code class="descname">description</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.description"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.description" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the description of the entry</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.iteritems">
+<code class="descname">iteritems</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.iteritems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.iteritems" title="Permalink to this definition">¶</a></dt>
+<dd><p>iterator through the sections names and content
+in the documentation Page.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.seealso">
+<code class="descname">seealso</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.seealso"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.seealso" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the other documentation entries recommended</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.title">
+<code class="descname">title</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.title" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the title</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.to_docstring">
+<code class="descname">to_docstring</code><span class="sig-paren">(</span><em>section_names=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.to_docstring"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.to_docstring" title="Permalink to this definition">¶</a></dt>
+<dd><p>section_names: list of section names to consider. If None
+all sections are used.</p>
+<p>Returns a string that can be used as a Python docstring.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.usage">
+<code class="descname">usage</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.usage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.usage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the usage for the object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.help.Page.value">
+<code class="descname">value</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/help.html#Page.value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.help.Page.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the value returned</p>
+</dd></dl>
+
+</dd></dl>
+
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span> <span class="o">=</span> <span class="n">base_help</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sum&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">hp</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="go">(&#39;title&#39;, &#39;name&#39;, &#39;alias&#39;, &#39;keyword&#39;, &#39;description&#39;, &#39;usage&#39;, &#39;arguments&#39;, &#39;deta</span>
+<span class="go">ils&#39;, &#39;value&#39;, &#39;section&#39;, &#39;references&#39;, &#39;seealso&#39;)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hp</span><span class="o">.</span><span class="n">to_docstring</span><span class="p">((</span><span class="s1">&#39;details&#39;</span><span class="p">,))))</span>
+</pre></div>
+</div>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">details</span>
+<span class="o">-------</span>
+
+
+   <span class="n">This</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">generic</span> <span class="n">function</span><span class="p">:</span> <span class="n">methods</span> <span class="n">can</span> <span class="n">be</span> <span class="n">defined</span> <span class="k">for</span> <span class="n">it</span>
+   <span class="n">directly</span> <span class="ow">or</span> <span class="n">via</span> <span class="n">the</span>  <span class="n">Summary</span>  <span class="n">group</span> <span class="n">generic</span><span class="o">.</span>
+   <span class="n">For</span> <span class="n">this</span> <span class="n">to</span> <span class="n">work</span> <span class="n">properly</span><span class="p">,</span> <span class="n">the</span> <span class="n">arguments</span>   <span class="n">should</span> <span class="n">be</span>
+   <span class="n">unnamed</span><span class="p">,</span> <span class="ow">and</span> <span class="n">dispatch</span> <span class="ow">is</span> <span class="n">on</span> <span class="n">the</span> <span class="n">first</span> <span class="n">argument</span><span class="o">.</span>
+
+   <span class="n">If</span>  <span class="n">na</span><span class="o">.</span><span class="n">rm</span>  <span class="ow">is</span>  <span class="n">FALSE</span>  <span class="n">an</span>  <span class="n">NA</span>
+   <span class="n">value</span> <span class="ow">in</span> <span class="nb">any</span> <span class="n">of</span> <span class="n">the</span> <span class="n">arguments</span> <span class="n">will</span> <span class="n">cause</span>
+   <span class="n">a</span> <span class="n">value</span> <span class="n">of</span>  <span class="n">NA</span>  <span class="n">to</span> <span class="n">be</span> <span class="n">returned</span><span class="p">,</span> <span class="n">otherwise</span>
+   <span class="n">NA</span>  <span class="n">values</span> <span class="n">are</span> <span class="n">ignored</span><span class="o">.</span>
+
+   <span class="n">Logical</span> <span class="n">true</span> <span class="n">values</span> <span class="n">are</span> <span class="n">regarded</span> <span class="k">as</span> <span class="n">one</span><span class="p">,</span> <span class="n">false</span> <span class="n">values</span> <span class="k">as</span> <span class="n">zero</span><span class="o">.</span>
+   <span class="n">For</span> <span class="n">historical</span> <span class="n">reasons</span><span class="p">,</span>  <span class="n">NULL</span>  <span class="ow">is</span> <span class="n">accepted</span> <span class="ow">and</span> <span class="n">treated</span> <span class="k">as</span> <span class="k">if</span> <span class="n">it</span>
+   <span class="n">were</span>  <span class="n">integer</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_convert.html" title="Mapping rpy2 objects to arbitrary python objects"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="vector.html" title="Vectors and arrays"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+    </div>
+  </body>
+</html>
