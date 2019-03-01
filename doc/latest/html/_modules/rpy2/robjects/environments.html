@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.robjects.environments &#8212; rpy2 3.0.0-dev documentation</title>
+    <title>rpy2.robjects.environments &#8212; rpy2 3.0.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
       </ul>
@@ -64,7 +64,8 @@
           <div class="body" role="main">
             
   <h1>Source code for rpy2.robjects.environments</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
+<span></span><span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="k">import</span> <span class="n">RObjectMixin</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">conversion</span>
 
@@ -93,7 +94,7 @@
             <span class="k">pass</span>
         <span class="k">return</span> <span class="n">res</span>
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">robj</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">Environment</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">robj</span><span class="p">)</span>
 
@@ -129,17 +130,17 @@
             <span class="k">pass</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="Environment.keys"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return a tuple listing the keys in the object &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Environment.keys"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.keys">[docs]</a>    <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot; Return an iterator over keys in the environment.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Environment.items"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Environment.items"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Iterate through the symbols and associated objects in</span>
 <span class="sd">            this R environment.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="Environment.values"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.values">[docs]</a>    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Environment.values"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.values">[docs]</a>    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Iterate through the objects in</span>
 <span class="sd">            this R environment.&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -169,7 +170,7 @@
         <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
         <span class="k">return</span> <span class="n">kv</span></div>
 
-<div class="viewcode-block" id="Environment.clear"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Environment.clear"><a class="viewcode-back" href="../../../robjects_environments.html#rpy2.robjects.Environment.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; E.clear() -&gt; None.  Remove all items from D. &quot;&quot;&quot;</span>
         <span class="c1"># FIXME: is there a more efficient implementation (when large</span>
         <span class="c1">#        number of keys) ?</span>
@@ -191,7 +192,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
       </ul>

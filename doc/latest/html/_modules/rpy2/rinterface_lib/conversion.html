@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.rinterface_lib.conversion &#8212; rpy2 3.0.0-dev documentation</title>
+    <title>rpy2.rinterface_lib.conversion &#8212; rpy2 3.0.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -140,6 +140,17 @@
     <span class="k">return</span> <span class="n">s</span>
 
 
+<span class="k">def</span> <span class="nf">_complex_to_sexp</span><span class="p">(</span><span class="n">val</span><span class="p">:</span> <span class="nb">complex</span><span class="p">):</span>
+    <span class="n">rlib</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_protect</span><span class="p">(</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_allocVector</span><span class="p">(</span><span class="n">rlib</span><span class="o">.</span><span class="n">CPLXSXP</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_COMPLEX_ELT</span><span class="p">(</span>
+        <span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+        <span class="n">val</span>
+    <span class="p">)</span>
+    <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_unprotect</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span>
+
+
 <span class="c1"># {</span>
 <span class="c1">#     &#39;ASCII&#39;</span>
 <span class="c1">#     &#39;latin-1&#39;: rlib.cetype_t.CE_LATIN1,</span>
@@ -226,7 +237,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

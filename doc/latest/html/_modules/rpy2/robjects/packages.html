@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.robjects.packages &#8212; rpy2 3.0.0-dev documentation</title>
+    <title>rpy2.robjects.packages &#8212; rpy2 3.0.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
       </ul>
@@ -209,7 +209,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_init_setlist</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datasets</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Data set &quot;</span><span class="si">%s</span><span class="s1">&quot; cannot be found&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Data set &quot;</span><span class="si">%s</span><span class="s1">&quot; cannot be found&#39;</span> <span class="o">%</span> <span class="n">name</span><span class="p">)</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">_new_env</span><span class="p">()</span>
         <span class="n">_data</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="p">)),</span>
               <span class="o">**</span><span class="p">{</span><span class="s1">&#39;package&#39;</span><span class="p">:</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_packagename</span><span class="p">,</span> <span class="p">)),</span>
@@ -335,7 +335,7 @@
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Package</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
-        <span class="k">return</span> <span class="s1">&#39;rpy2.robjects.packages.Package as a &#39;</span> <span class="o">+</span> <span class="n">s</span></div>
+        <span class="k">return</span> <span class="s1">&#39;rpy2.robjects.packages.Package as a </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">s</span></div>
 
 
 <span class="c1"># alias</span>
@@ -591,6 +591,25 @@
         <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">rsame</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">emptyenv</span><span class="p">):</span>
             <span class="k">break</span>
     <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">env</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ParsedCode"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.ParsedCode">[docs]</a><span class="k">class</span> <span class="nc">ParsedCode</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">ExprSexpVector</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="SourceCode"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SourceCode">[docs]</a><span class="k">class</span> <span class="nc">SourceCode</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+
+    <span class="n">_parsed</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parsed</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_parsed</span> <span class="o">=</span> <span class="n">ParsedCode</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parsed</span>
+
+<div class="viewcode-block" id="SourceCode.as_namespace"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SourceCode.as_namespace">[docs]</a>    <span class="k">def</span> <span class="nf">as_namespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Name for the namespace &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">SignatureTranslatedAnonymousPackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                                   <span class="n">name</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -607,7 +626,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
       </ul>

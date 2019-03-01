@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.rinterface &#8212; rpy2 3.0.0-dev documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.0.1 documentation</title>
     <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -171,7 +171,7 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">rid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">rid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span><span class="o">.</span><span class="n">rid</span>
 
 
@@ -241,7 +241,7 @@
     <span class="nd">@_evaluated_promise</span>
     <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
              <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-             <span class="n">wantfun</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
+             <span class="n">wantfun</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;Find an item, starting with this R environment.</span>
 
 <span class="sd">        Raises a `KeyError` if the key cannot be found.</span>
@@ -392,7 +392,7 @@
 <span class="k">class</span> <span class="nc">SexpPromise</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
 
     <span class="nd">@_cdata_res_to_rinterface</span>
-    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;&quot;Evalute the R &quot;promise&quot;.</span>
 
 <span class="sd">        :param:`env` The environment in which to evaluate the</span>
@@ -443,18 +443,19 @@
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">RAW</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_CAST_IN</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_CAST_IN</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">255</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be in range(0, 256)&#39;</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">x</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">bytearray</span><span class="p">)):</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be a single character&#39;</span><span class="p">)</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;byte must be an integer [0, 255] or a &#39;</span>
                              <span class="s1">&#39;single byte character&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">x</span>
+        <span class="k">return</span> <span class="n">res</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_R_VECTOR_ELT</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -944,7 +945,8 @@
 
 <span class="n">conversion</span><span class="o">.</span><span class="n">_PY_RPY2_MAP</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
     <span class="nb">int</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_int_to_sexp</span><span class="p">,</span>
-    <span class="nb">float</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_float_to_sexp</span>
+    <span class="nb">float</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_float_to_sexp</span><span class="p">,</span>
+    <span class="nb">complex</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_complex_to_sexp</span>
     <span class="p">})</span>
 
 <span class="n">conversion</span><span class="o">.</span><span class="n">_PY_R_MAP</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
@@ -963,7 +965,8 @@
     <span class="n">sexp</span><span class="o">.</span><span class="n">CharSexp</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">na_values</span><span class="o">.</span><span class="n">NACharacterType</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
     <span class="c1"># complex</span>
-    <span class="nb">complex</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="nb">complex</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_complex_to_sexp</span><span class="p">,</span>
+    <span class="n">na_values</span><span class="o">.</span><span class="n">NAComplexType</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_complex_to_sexp</span><span class="p">,</span>
     <span class="c1"># None</span>
     <span class="nb">type</span><span class="p">(</span><span class="kc">None</span><span class="p">):</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span><span class="p">})</span>
 
@@ -1078,9 +1081,11 @@
     <span class="n">NA_Real</span> <span class="o">=</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Real</span>
 
     <span class="k">global</span> <span class="n">NA_Complex</span>
-    <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Complex</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
-        <span class="s1">&#39;Rcomplex *&#39;</span><span class="p">,</span>
-        <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NaReal</span><span class="p">,</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NaReal</span><span class="p">])</span>
+    <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Complex</span> <span class="o">=</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NAComplexType</span><span class="p">(</span>
+        <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span>
+            <span class="s1">&#39;Rcomplex *&#39;</span><span class="p">,</span>
+            <span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NaReal</span><span class="p">,</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NaReal</span><span class="p">])</span>
+    <span class="p">)</span>
     <span class="n">NA_Complex</span> <span class="o">=</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Complex</span>
 
 
@@ -1117,7 +1122,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.0.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
