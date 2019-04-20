@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>rpy2.robjects.robject &#8212; rpy2 3.0.1 documentation</title>
+    <title>rpy2.robjects.robject &#8212; rpy2 3.0.2 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
       </ul>
@@ -158,36 +158,13 @@
         <span class="k">return</span> <span class="n">rclasses</span>
 
     <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># TODO: Clean the win32 madness.</span>
-        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
-            <span class="n">tmpf</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w+&quot;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-            <span class="n">tfname</span> <span class="o">=</span> <span class="n">tmpf</span><span class="o">.</span><span class="n">name</span>
-            <span class="n">tmp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__file</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">StrSexpVector</span><span class="p">([</span><span class="n">tfname</span><span class="p">,</span> <span class="p">]),</span>
-                              <span class="nb">open</span><span class="o">=</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">StrSexpVector</span><span class="p">([</span><span class="s1">&#39;r+&#39;</span><span class="p">,</span> <span class="p">]))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__sink</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">with</span> <span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span>
+              <span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">obj_in_module</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="p">,</span>
+                                       <span class="s1">&#39;consolewrite_print&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__show</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__sink</span><span class="p">()</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="n">tmpf</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-            <span class="n">tmpf</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__close</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="k">del</span> <span class="n">tmpf</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">tfname</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">WindowsError</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tfname</span><span class="p">):</span>
-                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Unable to unlink tempfile </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">tfname</span><span class="p">)</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
-
-            <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-            <span class="k">with</span> <span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span>
-                  <span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">obj_in_module</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="p">,</span>
-                                           <span class="s1">&#39;consolewrite_print&#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">)):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__show</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-            <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">s</span>
 
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="p">):</span>
@@ -276,7 +253,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
       </ul>
