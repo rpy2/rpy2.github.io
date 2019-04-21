@@ -654,15 +654,46 @@ used the grammar of graphics) are still specified the usual way.</p>
 <p>The R package <cite>ggplot2</cite> is under active development, and new
 methods (geometry, summary statistics, theme customizations)
 are added regularly. In addition to this there exists a
-dynamic ecosystem of R packages proposing extensions</p>
+dynamic ecosystem of R packages proposing extensions, and
+a user may need R code for ggplot2 not included in our
+module. The following steps should make writing the Python
+wrapper code a very minimal effort in many cases:</p>
+<ol class="arabic">
+<li><p class="first">Identify the matching type of extension in our class diagram for
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> (for example, is this an new
+“geometry”, statistics, coordinates, theme ?). For example the ggplot2
+function <cite>stat_quantile</cite> is a statistics and the best matching class is
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2.Stat</span></code>. The more general ancestor
+class <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2.GBaseObject</span></code> could also be used.</p>
+</li>
+<li><p class="first">Implement a child class that assign to the class attribute
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">_constructor</span></code> the R constructor function. For example
+<cite>stat_quantile</cite>. The Python callable mapping the R constructor
+is then the class method <code class="xref py py-meth docutils literal notranslate"><span class="pre">new()</span></code>. The complete implementation
+for <cite>stat_quantile</cite> is then:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="n">ggplot2_rpack</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">StatQuantile</span><span class="p">(</span><span class="n">Stat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Continuous quantiles &quot;&quot;&quot;</span>
+    <span class="n">_constructor</span> <span class="o">=</span> <span class="n">ggplot2_rpack</span><span class="o">.</span><span class="n">stat_quantile</span>
+
+<span class="n">stat_quantile</span> <span class="o">=</span> <span class="n">StatQuantile</span><span class="o">.</span><span class="n">new</span>
+</pre></div>
+</div>
+<p>The callable <code class="xref py py-func docutils literal notranslate"><span class="pre">stat_quantile()</span></code> can now be used like any
+other ggplot2 statistics in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code>
+(and the object it returns can be added to compose a final
+ggplot figure).</p>
+</li>
+</ol>
 </div>
 <div class="section" id="class-diagram">
 <h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h3>
-<div class="graphviz"><img src="_images/inheritance-144121b2de580d7e026b964826d8a2a1aaf9da0d.png" alt="Inheritance diagram of rpy2.robjects.lib.ggplot2" usemap="#inheritance7deb8dcdff" class="inheritance graphviz" /></div>
-<map id="inheritance7deb8dcdff" name="inheritance7deb8dcdff">
-<area shape="rect" id="node2" href="vector.html#rpy2.robjects.vectors.ListVector" target="_top" title="R list (vector of arbitray elements)" alt="" coords="142,36,169,43"/>
-<area shape="rect" id="node20" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="38,406,71,413"/>
-<area shape="rect" id="node67" href="rinterface.html#rpy2.rinterface.ListSexpVector" target="_top" title="R list." alt="" coords="89,62,126,69"/>
+<div class="graphviz"><img src="_images/inheritance-98947491840f0e1ccd76d334526f18a76cc61921.png" alt="Inheritance diagram of rpy2.robjects.lib.ggplot2.GBaseObject, rpy2.robjects.lib.ggplot2.Coord, rpy2.robjects.lib.ggplot2.Element, rpy2.robjects.lib.ggplot2.Facet, rpy2.robjects.lib.ggplot2.Geom, rpy2.robjects.lib.ggplot2.GGPlot, rpy2.robjects.lib.ggplot2.Scale, rpy2.robjects.lib.ggplot2.Stat, rpy2.robjects.lib.ggplot2.Theme" usemap="#inheritance7c5d834ef1" class="inheritance graphviz" /></div>
+<map id="inheritance7c5d834ef1" name="inheritance7c5d834ef1">
+<area shape="rect" id="node6" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="119,178,225,201"/>
+<area shape="rect" id="node10" href="vector.html#rpy2.robjects.vectors.ListVector" target="_top" title="R list (vector of arbitray elements)" alt="" coords="447,221,531,245"/>
+<area shape="rect" id="node12" href="rinterface.html#rpy2.rinterface.ListSexpVector" target="_top" title="R list." alt="" coords="280,221,397,245"/>
 </map></div>
 </div>
 <div class="section" id="package-grid">
