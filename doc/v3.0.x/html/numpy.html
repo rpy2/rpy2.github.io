@@ -1,0 +1,269 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Numpy &#8212; rpy2 3.0.5 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Low-level interface" href="rinterface.html" />
+    <link rel="prev" title="Interactive work" href="interactive.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rinterface.html" title="Low-level interface"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="interactive.html" title="Interactive work"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.5 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Numpy</a><ul>
+<li><a class="reference internal" href="#high-level-interface">High-level interface</a><ul>
+<li><a class="reference internal" href="#from-rpy2-to-numpy">From <cite>rpy2</cite> to <cite>numpy</cite>:</a></li>
+<li><a class="reference internal" href="#from-numpy-to-rpy2">From <cite>numpy</cite> to <cite>rpy2</cite>:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#low-level-interface">Low-level interface</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="interactive.html"
+                        title="previous chapter">Interactive work</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rinterface.html"
+                        title="next chapter">Low-level interface</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/numpy.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="numpy">
+<h1>Numpy<a class="headerlink" href="#numpy" title="Permalink to this headline">¶</a></h1>
+<p>A popular solution for scientific computing with Python is <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code>
+(previous instances were <code class="xref py py-mod docutils literal notranslate"><span class="pre">Numpy</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">numarray</span></code>).</p>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> has features to ease bidirectional communication with <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<div class="section" id="high-level-interface">
+<h2>High-level interface<a class="headerlink" href="#high-level-interface" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="from-rpy2-to-numpy">
+<h3>From <cite>rpy2</cite> to <cite>numpy</cite>:<a class="headerlink" href="#from-rpy2-to-numpy" title="Permalink to this headline">¶</a></h3>
+<p>R vectors or arrays can be converted to <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> arrays using
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.array()</span></code> or <code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.asarray()</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">ltr</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">letters</span>
+<span class="n">ltr_np</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ltr</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This behavior is inherited from the low-level interface;
+vector-like objects inheriting from <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpVector</span></code></a>
+present an interface recognized by <cite>numpy</cite>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
+<span class="n">ostatus</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;occupationalStatus&#39;</span><span class="p">)[</span><span class="s1">&#39;occupationalStatus&#39;</span><span class="p">]</span>
+<span class="n">ostatus_np</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ostatus</span><span class="p">)</span>
+<span class="n">ostatus_npnc</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">ostatus</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The matrix <em>ostatus</em> is an 8x8 matrix:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ostatus</span><span class="p">)</span>
+<span class="go">      destination</span>
+<span class="go">origin   1   2   3   4   5   6   7   8</span>
+<span class="go">     1  50  19  26   8   7  11   6   2</span>
+<span class="go">     2  16  40  34  18  11  20   8   3</span>
+<span class="go">     3  12  35  65  66  35  88  23  21</span>
+<span class="go">     4  11  20  58 110  40 183  64  32</span>
+<span class="go">     5   2   8  12  23  25  46  28  12</span>
+<span class="go">     6  12  28 102 162  90 554 230 177</span>
+<span class="go">     7   0   6  19  40  21 158 143  71</span>
+<span class="go">     8   0   3  14  32  15 126  91 106</span>
+</pre></div>
+</div>
+<p>Its content has been copied to a numpy array:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_np</span>
+<span class="go">array([[ 50,  19,  26,   8,   7,  11,   6,   2],</span>
+<span class="go">       [ 16,  40,  34,  18,  11,  20,   8,   3],</span>
+<span class="go">       [ 12,  35,  65,  66,  35,  88,  23,  21],</span>
+<span class="go">       [ 11,  20,  58, 110,  40, 183,  64,  32],</span>
+<span class="go">       [  2,   8,  12,  23,  25,  46,  28,  12],</span>
+<span class="go">       [ 12,  28, 102, 162,  90, 554, 230, 177],</span>
+<span class="go">       [  0,   6,  19,  40,  21, 158, 143,  71],</span>
+<span class="go">       [  0,   3,  14,  32,  15, 126,  91, 106]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_np</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="go">50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_np</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_np</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="go">123</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">50</span>
+</pre></div>
+</div>
+<p>On the other hand, <em>ostatus_npnc</em> is a view on <em>ostatus</em>; no copy was made:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_npnc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">456</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">456</span>
+</pre></div>
+</div>
+<p>Since we did modify an actual R dataset for the session, we should restore it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_npnc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+</pre></div>
+</div>
+<p>As we see, <code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.asarray()</span></code>: provides a way to build a <em>view</em> on the underlying
+R array, without making a copy. This will be of particular appeal to developpers whishing
+to mix <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> code, with the <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> objects or the <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> view passed to
+functions, or for interactive users much more familiar with the <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> syntax.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The current interface is relying on the <em>__array_struct__</em> defined
+in numpy.</p>
+<p>Python buffers, as defined in <span class="target" id="index-0"></span><a class="pep reference external" href="https://www.python.org/dev/peps/pep-3118"><strong>PEP 3118</strong></a>, is the way to the future,
+and rpy2 is already offering them… although as a (poorly documented)
+experimental feature.</p>
+</div>
+</div>
+<div class="section" id="from-numpy-to-rpy2">
+<h3>From <cite>numpy</cite> to <cite>rpy2</cite>:<a class="headerlink" href="#from-numpy-to-rpy2" title="Permalink to this headline">¶</a></h3>
+<p>The activation (and deactivation) of the automatic conversion
+of <cite>numpy</cite> objects into <cite>rpy2</cite> objects can be made with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">numpy2ri</span>
+<span class="n">numpy2ri</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+<span class="n">numpy2ri</span><span class="o">.</span><span class="n">deactivate</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In earlier versions of rpy2, the import was all that was needed to
+have the conversion. A side-effect when importing a module can
+lead to problems, and there is now an extra step to make the
+conversion active: call the function <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.numpy2ri.activate()</span></code>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Why make this an optional import, while it could have been included
+in the function <code class="xref py py-func docutils literal notranslate"><span class="pre">py2ri()</span></code> (as done in the original patch
+submitted for that function) ?</p>
+<p>Although both are valid and reasonable options, the design decision
+was taken in order to decouple <cite>rpy2</cite> from <cite>numpy</cite> the most, and
+do not assume that having <cite>numpy</cite> installed automatically
+meant that a programmer wanted to use it.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The module <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy2ri</span></code> is an example of how custom conversion to
+and from <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> can be performed.</p>
+</div>
+</div>
+</div>
+<div class="section" id="low-level-interface">
+<h2>Low-level interface<a class="headerlink" href="#low-level-interface" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpVector</span></code></a> objects are made to
+behave like arrays, as defined in the Python package <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
+<p>The functions <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.asarray()</span></code> can
+be used to construct <cite>numpy</cite> arrays:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rx</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">INTSXP</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rx</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nx_nc</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rx</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>when using <code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.asarray()</span></code>, the data are not copied.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nx_nc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="go">42</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rinterface.html" title="Low-level interface"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="interactive.html" title="Interactive work"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.5 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2019, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

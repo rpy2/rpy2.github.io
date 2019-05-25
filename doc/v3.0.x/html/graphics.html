@@ -1,0 +1,911 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Graphics &#8212; rpy2 3.0.5 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="DataFrames and dplyr" href="lib_dplyr.html" />
+    <link rel="prev" title="Interoperability with pandas" href="pandas.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lib_dplyr.html" title="DataFrames and dplyr"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="pandas.html" title="Interoperability with pandas"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Graphics</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#graphical-devices">Graphical devices</a></li>
+<li><a class="reference internal" href="#getting-ready">Getting ready</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-lattice">Package <em>lattice</em></a><ul>
+<li><a class="reference internal" href="#id2">Introduction</a></li>
+<li><a class="reference internal" href="#scatter-plot">Scatter plot</a></li>
+<li><a class="reference internal" href="#box-plot">Box plot</a></li>
+<li><a class="reference internal" href="#other-plots">Other plots</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-ggplot2">Package <em>ggplot2</em></a><ul>
+<li><a class="reference internal" href="#id3">Introduction</a></li>
+<li><a class="reference internal" href="#plot">Plot</a><ul>
+<li><a class="reference internal" href="#aesthethics-mapping">Aesthethics mapping</a></li>
+<li><a class="reference internal" href="#geometry">Geometry</a></li>
+<li><a class="reference internal" href="#axes">Axes</a></li>
+<li><a class="reference internal" href="#facets">Facets</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#extensions-and-new-features">Extensions and new features</a></li>
+<li><a class="reference internal" href="#class-diagram">Class diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#package-grid">Package <em>grid</em></a><ul>
+<li><a class="reference internal" href="#custom-ggplot2-layout-with-grid">Custom ggplot2 layout with grid</a></li>
+<li><a class="reference internal" href="#classes">Classes</a></li>
+<li><a class="reference internal" href="#id4">Class diagram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="pandas.html"
+                        title="previous chapter">Interoperability with pandas</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lib_dplyr.html"
+                        title="next chapter">DataFrames and dplyr</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/graphics.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="graphics">
+<span id="id1"></span><h1>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>This section shows how to make R graphics from rpy2,
+using some of the different graphics systems available to R users.</p>
+<p>The purpose of this section is to get users going, and be able to figure out
+by reading the R documentation how to perform the same plot in rpy2.</p>
+<span class="target" id="module-rpy2.robjects.lib.grdevices"></span><div class="section" id="graphical-devices">
+<h3>Graphical devices<a class="headerlink" href="#graphical-devices" title="Permalink to this headline">¶</a></h3>
+<p>With <cite>R</cite>, all graphics are plotted into a so-called graphical device.
+Graphical devices can be interactive, like for example <cite>X11</cite>,
+or non-interactive, like <cite>png</cite> or <cite>pdf</cite>. Non-interactive devices
+appear to be files. It is possible to create custom graphical devices
+from Python/rpy2, but this an advanced topic (see <a class="reference internal" href="graphicaldevices.html#graphicaldevices-custom"><span class="std std-ref">Custom graphical devices</span></a>).</p>
+<p>By default an interactive R session will open an interactive device
+when needing one. If a non-interactive graphical device is needed,
+one will have to specify it.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not forget to close a non-interactive device when done.
+This can be required to flush pending data from the buffer.</p>
+</div>
+<p>The module <code class="xref py py-mod docutils literal notranslate"><span class="pre">grdevices</span></code> aims at representing the R package
+grDevices*. Example with the R functions <em>png</em> and <em>dev.off</em>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="n">grdevices</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grDevices&#39;</span><span class="p">)</span>
+
+<span class="n">grdevices</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="s2">&quot;path/to/file.png&quot;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
+<span class="c1"># plotting code here</span>
+<span class="n">grdevices</span><span class="o">.</span><span class="n">dev_off</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The package contains an <code class="xref py py-class docutils literal notranslate"><span class="pre">Environment</span></code> <code class="xref py py-data docutils literal notranslate"><span class="pre">grdevices_env</span></code> that
+can be used to access an object known to belong to that R packages, e.g.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">palette</span> <span class="o">=</span> <span class="n">grdevices</span><span class="o">.</span><span class="n">palette</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">palette</span><span class="p">)</span>
+<span class="go">[1] &quot;black&quot;   &quot;red&quot;     &quot;green3&quot;  &quot;blue&quot;    &quot;cyan&quot;    &quot;magenta&quot; &quot;yellow&quot;</span>
+<span class="go">[8] &quot;gray&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="getting-ready">
+<h3>Getting ready<a class="headerlink" href="#getting-ready" title="Permalink to this headline">¶</a></h3>
+<p>To run examples in this section we first import
+<a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> and define few helper
+functions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2</span> <span class="k">import</span> <span class="n">robjects</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">Formula</span><span class="p">,</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">IntVector</span><span class="p">,</span> <span class="n">FloatVector</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="k">import</span> <span class="n">grid</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib.embedded</span> <span class="k">import</span> <span class="n">RRuntimeError</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="c1"># The R &#39;print&#39; function</span>
+<span class="n">rprint</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;print&quot;</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">grdevices</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grDevices&#39;</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
+
+<span class="n">grid</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="package-lattice">
+<h2>Package <em>lattice</em><a class="headerlink" href="#package-lattice" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Introduction<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Importing the package <cite>lattice</cite> is done the
+same as it is done for other R packages.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lattice</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;lattice&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="scatter-plot">
+<h3>Scatter plot<a class="headerlink" href="#scatter-plot" title="Permalink to this headline">¶</a></h3>
+<p>We use the dataset <em>mtcars</em>, and will use
+the lattice function <em>xyplot</em> to make scatter plots.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xyplot</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">xyplot</span>
+</pre></div>
+</div>
+<p>Lattice is working with formulae (see <a class="reference internal" href="robjects_formulae.html#robjects-formula"><span class="std std-ref">Formulae</span></a>),
+therefore we build one and store values in its environment.
+Making a plot is then a matter of calling
+the function <em>xyplot</em> with the <em>formula</em> as
+as an argument.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">datasets</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
+<span class="n">mtcars</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
+<span class="n">formula</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;mpg ~ wt&#39;</span><span class="p">)</span>
+<span class="n">formula</span><span class="o">.</span><span class="n">getenvironment</span><span class="p">()[</span><span class="s1">&#39;mpg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtcars</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span>
+<span class="n">formula</span><span class="o">.</span><span class="n">getenvironment</span><span class="p">()[</span><span class="s1">&#39;wt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtcars</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">xyplot</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_lattice_xyplot_1.png"><img alt="_images/graphics_lattice_xyplot_1.png" src="_images/graphics_lattice_xyplot_1.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>The display of group information can be done
+simply by using the named parameter groups.
+This will indicate the different groups by
+color-coding.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">xyplot</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">groups</span> <span class="o">=</span> <span class="n">mtcars</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s1">&#39;cyl&#39;</span><span class="p">))</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_lattice_xyplot_2.png"><img alt="_images/graphics_lattice_xyplot_2.png" src="_images/graphics_lattice_xyplot_2.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>An alternative to color-coding is to have
+points is different <em>panels</em>. In lattice,
+this done by specifying it in the formula.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">formula</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;mpg ~ wt | cyl&#39;</span><span class="p">)</span>
+<span class="n">formula</span><span class="o">.</span><span class="n">getenvironment</span><span class="p">()[</span><span class="s1">&#39;mpg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtcars</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span>
+<span class="n">formula</span><span class="o">.</span><span class="n">getenvironment</span><span class="p">()[</span><span class="s1">&#39;wt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtcars</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span>
+<span class="n">formula</span><span class="o">.</span><span class="n">getenvironment</span><span class="p">()[</span><span class="s1">&#39;cyl&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtcars</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s1">&#39;cyl&#39;</span><span class="p">)</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">xyplot</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">layout</span> <span class="o">=</span> <span class="n">IntVector</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_lattice_xyplot_3.png"><img alt="_images/graphics_lattice_xyplot_3.png" src="_images/graphics_lattice_xyplot_3.png" style="width: 456.0px; height: 256.0px;" /></a>
+</div>
+<div class="section" id="box-plot">
+<h3>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">bwplot</span><span class="p">(</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;mpg ~ factor(cyl) | gear&#39;</span><span class="p">),</span>
+                   <span class="n">data</span> <span class="o">=</span> <span class="n">mtcars</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_lattice_bwplot_1.png"><img alt="_images/graphics_lattice_bwplot_1.png" src="_images/graphics_lattice_bwplot_1.png" style="width: 456.0px; height: 256.0px;" /></a>
+</div>
+<div class="section" id="other-plots">
+<h3>Other plots<a class="headerlink" href="#other-plots" title="Permalink to this headline">¶</a></h3>
+<p>The R package lattice contains a number of other plots, which unfortunately cannot all be detailled here.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tmpenv</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;volcano&quot;</span><span class="p">)</span>
+<span class="n">volcano</span> <span class="o">=</span> <span class="n">tmpenv</span><span class="p">[</span><span class="s2">&quot;volcano&quot;</span><span class="p">]</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">wireframe</span><span class="p">(</span><span class="n">volcano</span><span class="p">,</span> <span class="n">shade</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                      <span class="n">zlab</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+                      <span class="n">aspect</span> <span class="o">=</span> <span class="n">FloatVector</span><span class="p">((</span><span class="mf">61.0</span><span class="o">/</span><span class="mi">87</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)),</span>
+                      <span class="n">light_source</span> <span class="o">=</span> <span class="n">IntVector</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)))</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_lattice_wireframe_1.png"><img alt="_images/graphics_lattice_wireframe_1.png" src="_images/graphics_lattice_wireframe_1.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>Splitting the information into different panels can also be specified in the formula. Here we show an artifial
+example where the split is made according to the values plotted on the Z axis.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">reshape2</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;reshape2&#39;</span><span class="p">)</span>
+<span class="n">dataf</span> <span class="o">=</span> <span class="n">reshape2</span><span class="o">.</span><span class="n">melt</span><span class="p">(</span><span class="n">volcano</span><span class="p">)</span>
+<span class="n">dataf</span> <span class="o">=</span> <span class="n">dataf</span><span class="o">.</span><span class="n">cbind</span><span class="p">(</span><span class="n">ct</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">equal_count</span><span class="p">(</span><span class="n">dataf</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">overlap</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">wireframe</span><span class="p">(</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;value ~ Var1 * Var2 | ct&#39;</span><span class="p">),</span> 
+                      <span class="n">data</span> <span class="o">=</span> <span class="n">dataf</span><span class="p">,</span> <span class="n">shade</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                      <span class="n">aspect</span> <span class="o">=</span> <span class="n">FloatVector</span><span class="p">((</span><span class="mf">61.0</span><span class="o">/</span><span class="mi">87</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">)),</span>
+                      <span class="n">light_source</span> <span class="o">=</span> <span class="n">IntVector</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">10</span><span class="p">)))</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_lattice_wireframe_2.png"><img alt="_images/graphics_lattice_wireframe_2.png" src="_images/graphics_lattice_wireframe_2.png" style="width: 456.0px; height: 306.0px;" /></a>
+</div>
+</div>
+<div class="section" id="package-ggplot2">
+<h2>Package <em>ggplot2</em><a class="headerlink" href="#package-ggplot2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>The R package <em>ggplot2</em> implements the Grammar of Graphics.
+While more documentation on the package and its usage with R can be found
+on the <a class="reference external" href="http://had.co.nz/ggplot2/">ggplot2 website</a>, this section will introduce the basic concepts required
+to build plots. Obviously, the <em>R</em> package <em>ggplot2</em> is expected to be installed in the <em>R</em>
+used from <em>rpy2</em>.</p>
+<p>The package is using the <em>grid</em> lower-level plotting infrastructure, that can be accessed
+through the module <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid</span></code>. Whenever separate plots on the same device,
+or arbitrary graphical elements overlaid, or significant plot customization, or editing,
+are needed some knowledge of <em>grid</em> will be required.</p>
+<p>Here again, having data in a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> is expected
+(see <a class="reference internal" href="vector.html#robjects-dataframes"><span class="std std-ref">DataFrame</span></a> for more information on such objects).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects.lib.ggplot2</span> <span class="k">as</span> <span class="nn">ggplot2</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="n">mtcars</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
+
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rnorm</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span>
+<span class="n">dataf_rnorm</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="n">rnorm</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                                  <span class="s1">&#39;other_value&#39;</span><span class="p">:</span> <span class="n">rnorm</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                                  <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">IntVector</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="p">]</span><span class="o">*</span><span class="mi">300</span> <span class="o">+</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="p">]</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="plot">
+<h3>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2mtcars.png"><img alt="_images/graphics_ggplot2mtcars.png" src="_images/graphics_ggplot2mtcars.png" style="width: 306.0px; height: 306.0px;" /></a>
+<div class="section" id="aesthethics-mapping">
+<h4>Aesthethics mapping<a class="headerlink" href="#aesthethics-mapping" title="Permalink to this headline">¶</a></h4>
+<p>An important concept for the grammar of graphics is the
+mapping of variables, or columns in a data frame, to
+graphical representations.</p>
+<p>Like it was shown for <em>lattice</em>, a third variable can be represented
+on the same plot using color encoding, and this is now done by
+specifying that as a mapping (the parameter <em>col</em> when calling
+the constructor for the <code class="xref py py-class docutils literal notranslate"><span class="pre">AesString</span></code>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2mtcarscolcyl.png"><img alt="_images/graphics_ggplot2mtcarscolcyl.png" src="_images/graphics_ggplot2mtcarscolcyl.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>The size of the graphical symbols plotted (here circular dots) can
+also be mapped to a variable:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;factor(carb)&#39;</span><span class="p">,</span>
+                 <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;factor(gear)&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2aescolsize.png"><img alt="_images/graphics_ggplot2aescolsize.png" src="_images/graphics_ggplot2aescolsize.png" style="width: 306.0px; height: 306.0px;" /></a>
+</div>
+<div class="section" id="geometry">
+<h4>Geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">¶</a></h4>
+<p>The <em>geometry</em> is how the data are represented. So far we used a scatter
+plot of points, but there are other ways to represent our data.</p>
+<p>Looking at the distribution of univariate data can be achieved with
+an histogram:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+
+<span class="c1">#pp.plot()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2geomhistogram.png"><img alt="_images/graphics_ggplot2geomhistogram.png" src="_images/graphics_ggplot2geomhistogram.png" style="width: 450.0px; height: 206.0px;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2geomhistogramfillcyl.png"><img alt="_images/graphics_ggplot2geomhistogramfillcyl.png" src="_images/graphics_ggplot2geomhistogramfillcyl.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>Barplot-based representations of several densities on the same
+figure can often be lacking clarity and line-based representation,
+either <code class="xref py py-func docutils literal notranslate"><span class="pre">geom_freqpoly()</span></code> (representation of the frequency as broken
+lines) or <code class="xref py py-func docutils literal notranslate"><span class="pre">geom_density()</span></code> (plot a density estimate),
+can be in better.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(mean)&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2geomfreqpolyfillcyl.png"><img alt="_images/graphics_ggplot2geomfreqpolyfillcyl.png" src="_images/graphics_ggplot2geomfreqpolyfillcyl.png" style="width: 406.0px; height: 206.0px;" /></a>
+<p>Whenever a large number of points are present, it can become interesting
+to represent the density of “dots” on the scatterplot.</p>
+<p>With 2D bins:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_bin2d</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_bin2d&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With a kernel density estimate:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density2d</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_density2d&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>With hexagonal bins:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_hex</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_hex&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2geombin2d.png"><img alt="_images/graphics_ggplot2geombin2d.png" src="_images/graphics_ggplot2geombin2d.png" style="width: 500.0px; height: 175.0px;" /></a>
+<p>Box plot:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2geomboxplot.png"><img alt="_images/graphics_ggplot2geomboxplot.png" src="_images/graphics_ggplot2geomboxplot.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>Boxplots can be used to represent a <em>summary</em> of the data with an emphasis
+on location and spread.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2aescolboxplot.png"><img alt="_images/graphics_ggplot2aescolboxplot.png" src="_images/graphics_ggplot2aescolboxplot.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>Models fitted to the data are also easy to add to a plot:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2addsmooth.png"><img alt="_images/graphics_ggplot2addsmooth.png" src="_images/graphics_ggplot2addsmooth.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>The <em>method</em> can be one of {<em>glm</em>, <em>gam</em>, <em>loess</em>, <em>rlm</em>},
+and formula can be specified to declared the fitting (see example below).</p>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2addsmoothmethods.png"><img alt="_images/graphics_ggplot2addsmoothmethods.png" src="_images/graphics_ggplot2addsmoothmethods.png" style="width: 512.0px; height: 170.0px;" /></a>
+<p>The constructor for <code class="xref py py-class docutils literal notranslate"><span class="pre">GeomSmooth</span></code> also accepts a parameter
+<em>groupr</em> that indicates if the fit should be done according to groups.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;cyl&#39;</span><span class="p">),</span>
+                         <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2smoothbycyl.png"><img alt="_images/graphics_ggplot2smoothbycyl.png" src="_images/graphics_ggplot2smoothbycyl.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>Encoding the information in the column <em>cyl</em> is again
+only a matter of specifying it in the <code class="xref py py-class docutils literal notranslate"><span class="pre">AesString</span></code> mapping.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;cyl&#39;</span><span class="p">),</span>
+                         <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2_smoothbycylwithcolours.png"><img alt="_images/graphics_ggplot2_smoothbycylwithcolours.png" src="_images/graphics_ggplot2_smoothbycylwithcolours.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>As can already be observed in the examples with <code class="xref py py-class docutils literal notranslate"><span class="pre">GeomSmooth</span></code>,
+several <em>geometry</em> objects can be added on the top of each other
+in order to create the final plot. For example, a marginal <em>rug</em>
+can be added to the axis of a regular scatterplot:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_rug</span><span class="p">()</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2geompointandrug.png"><img alt="_images/graphics_ggplot2geompointandrug.png" src="_images/graphics_ggplot2geompointandrug.png" style="width: 306.0px; height: 306.0px;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
+
+<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density2d</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">col</span> <span class="o">=</span> <span class="s1">&#39;..level..&#39;</span><span class="p">))</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;point + density&#39;</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2geompointdensity2d.png"><img alt="_images/graphics_ggplot2geompointdensity2d.png" src="_images/graphics_ggplot2geompointdensity2d.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>Polygons can be used for maps, as shown in the relatively artificial
+example below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">map</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;maps&#39;</span><span class="p">)</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">map_data</span><span class="p">(</span><span class="s1">&#39;france&#39;</span><span class="p">)</span>
+
+<span class="c1"># add a column indicating which region names have an &quot;o&quot;.</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="n">fr</span><span class="o">.</span><span class="n">cbind</span><span class="p">(</span><span class="n">has_o</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">grepl</span><span class="p">(</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">fr</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">),</span>
+                                 <span class="n">ignore_case</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_polygon</span><span class="p">(</span>
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span>
+                          <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;has_o&#39;</span><span class="p">),</span>
+       <span class="n">col</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2map_polygon.png"><img alt="_images/graphics_ggplot2map_polygon.png" src="_images/graphics_ggplot2map_polygon.png" style="width: 306.0px; height: 306.0px;" /></a>
+</div>
+<div class="section" id="axes">
+<h4>Axes<a class="headerlink" href="#axes" title="Permalink to this headline">¶</a></h4>
+<p>Axes can be transformed and configured in various ways.</p>
+<p>A common transformation is the log-transform of the coordinates.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="k">import</span> <span class="n">grid</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">newpage</span><span class="p">()</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="n">layout</span><span class="o">=</span><span class="n">grid</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+
+<span class="n">ggplot2_rpack</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">)</span>
+<span class="n">diamonds</span> <span class="o">=</span> <span class="n">ggplot2_rpack</span><span class="o">.</span><span class="n">__rdata__</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;diamonds&#39;</span><span class="p">)[</span><span class="s1">&#39;diamonds&#39;</span><span class="p">]</span>
+<span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">diamonds</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">trans</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="s2">&quot;log2&quot;</span><span class="p">,</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">)):</span>
+   <span class="c1"># fetch viewport at position col_i+1 on the first row</span>
+   <span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="n">col_i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+   <span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span> <span class="o">+</span> \
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> \
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">coord_trans</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">trans</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">trans</span><span class="p">)</span> <span class="o">+</span> \
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> on axis&quot;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">)</span>   
+   <span class="c1"># plot into the viewport</span>
+   <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+
+   <span class="c1"># fetch viewport at position col_i+1 on the second row</span>
+   <span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="n">col_i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+   <span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(carat)&#39;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(price)&#39;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">)</span> <span class="o">+</span> \
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> \
+       <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(&lt;variable&gt;)&quot;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">)</span>   
+   <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2mtcars_coordtrans.png"><img alt="_images/graphics_ggplot2mtcars_coordtrans.png" src="_images/graphics_ggplot2mtcars_coordtrans.png" style="width: 468.0px; height: 312.0px;" /></a>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The red square is an example of adding graphical
+elements to a ggplot2 figure.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">unit</span><span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="s2">&quot;npc&quot;</span><span class="p">),</span>
+              <span class="n">y</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">unit</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="s2">&quot;npc&quot;</span><span class="p">),</span>
+              <span class="n">width</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">unit</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;npc&quot;</span><span class="p">),</span>
+              <span class="n">height</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">unit</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="s2">&quot;npc&quot;</span><span class="p">),</span>
+              <span class="n">gp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">gpar</span><span class="p">(</span><span class="n">fill</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">),</span>
+              <span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+<span class="n">g</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="facets">
+<h4>Facets<a class="headerlink" href="#facets" title="Permalink to this headline">¶</a></h4>
+<p>Splitting the data into panels, in a similar fashion to what we did
+with <em>lattice</em>, is now a matter of adding <em>facets</em>.
+A central concept to <em>ggplot2</em> is that plot are made of added
+graphical elements, and adding specifications such as “I want my data
+to be split in panel” is then a matter of adding that information
+to an existing plot.</p>
+<p>For example, splitting the plots on the data in column <em>cyl</em>
+is still simply done by adding a <code class="xref py py-class docutils literal notranslate"><span class="pre">FacetGrid</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">facet_grid</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;. ~ cyl&#39;</span><span class="p">))</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;cyl&quot;</span><span class="p">),</span>
+                         <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">,</span>
+                            <span class="n">data</span> <span class="o">=</span> <span class="n">mtcars</span><span class="p">)</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2smoothbycylfacetcyl.png"><img alt="_images/graphics_ggplot2smoothbycylfacetcyl.png" src="_images/graphics_ggplot2smoothbycylfacetcyl.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>The way data are represented (the <em>geometry</em> in the terminology
+used the grammar of graphics) are still specified the usual way.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">facet_grid</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;. ~ cyl&#39;</span><span class="p">))</span>
+
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2histogramfacetcyl.png"><img alt="_images/graphics_ggplot2histogramfacetcyl.png" src="_images/graphics_ggplot2histogramfacetcyl.png" style="width: 306.0px; height: 306.0px;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2_qplot_4.png"><img alt="_images/graphics_ggplot2_qplot_4.png" src="_images/graphics_ggplot2_qplot_4.png" style="width: 306.0px; height: 306.0px;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2_qplot_5.png"><img alt="_images/graphics_ggplot2_qplot_5.png" src="_images/graphics_ggplot2_qplot_5.png" style="width: 306.0px; height: 306.0px;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                         <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2smoothblue.png"><img alt="_images/graphics_ggplot2smoothblue.png" src="_images/graphics_ggplot2smoothblue.png" style="width: 306.0px; height: 306.0px;" /></a>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                         <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2smoothblue.png"><img alt="_images/graphics_ggplot2smoothblue.png" src="_images/graphics_ggplot2smoothblue.png" style="width: 306.0px; height: 306.0px;" /></a>
+</div>
+</div>
+<div class="section" id="extensions-and-new-features">
+<h3>Extensions and new features<a class="headerlink" href="#extensions-and-new-features" title="Permalink to this headline">¶</a></h3>
+<p>The R package <cite>ggplot2</cite> is under active development, and new
+methods (geometry, summary statistics, theme customizations)
+are added regularly. In addition to this there exists a
+dynamic ecosystem of R packages proposing extensions, and
+a user may need R code for ggplot2 not included in our
+module. The following steps should make writing the Python
+wrapper code a very minimal effort in many cases:</p>
+<ol class="arabic">
+<li><p>Identify the matching type of extension in our class diagram for
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> (for example, is this an new
+“geometry”, statistics, coordinates, theme ?). For example the ggplot2
+function <cite>stat_quantile</cite> is a statistics and the best matching class is
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2.Stat</span></code>. The more general ancestor
+class <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2.GBaseObject</span></code> could also be used.</p></li>
+<li><p>Implement a child class that assign to the class attribute
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">_constructor</span></code> the R constructor function. For example
+<cite>stat_quantile</cite>. The Python callable mapping the R constructor
+is then the class method <code class="xref py py-meth docutils literal notranslate"><span class="pre">new()</span></code>. The complete implementation
+for <cite>stat_quantile</cite> is then:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="n">ggplot2_rpack</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">StatQuantile</span><span class="p">(</span><span class="n">Stat</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Continuous quantiles &quot;&quot;&quot;</span>
+    <span class="n">_constructor</span> <span class="o">=</span> <span class="n">ggplot2_rpack</span><span class="o">.</span><span class="n">stat_quantile</span>
+
+<span class="n">stat_quantile</span> <span class="o">=</span> <span class="n">StatQuantile</span><span class="o">.</span><span class="n">new</span>
+</pre></div>
+</div>
+<p>The callable <code class="xref py py-func docutils literal notranslate"><span class="pre">stat_quantile()</span></code> can now be used like any
+other ggplot2 statistics in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code>
+(and the object it returns can be added to compose a final
+ggplot figure).</p>
+</li>
+</ol>
+</div>
+<div class="section" id="class-diagram">
+<h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-98947491840f0e1ccd76d334526f18a76cc61921.png" alt="Inheritance diagram of rpy2.robjects.lib.ggplot2.GBaseObject, rpy2.robjects.lib.ggplot2.Coord, rpy2.robjects.lib.ggplot2.Element, rpy2.robjects.lib.ggplot2.Facet, rpy2.robjects.lib.ggplot2.Geom, rpy2.robjects.lib.ggplot2.GGPlot, rpy2.robjects.lib.ggplot2.Scale, rpy2.robjects.lib.ggplot2.Stat, rpy2.robjects.lib.ggplot2.Theme" usemap="#inheritance7c5d834ef1" class="inheritance graphviz" /></div>
+<map id="inheritance7c5d834ef1" name="inheritance7c5d834ef1">
+<area shape="rect" id="node6" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="119,178,225,201"/>
+<area shape="rect" id="node10" href="vector.html#rpy2.robjects.vectors.ListVector" target="_top" title="R list (vector of arbitray elements)" alt="" coords="447,221,531,245"/>
+<area shape="rect" id="node12" href="rinterface.html#rpy2.rinterface.ListSexpVector" target="_top" title="R list." alt="" coords="280,221,397,245"/>
+</map></div>
+</div>
+<div class="section" id="package-grid">
+<h2>Package <em>grid</em><a class="headerlink" href="#package-grid" title="Permalink to this headline">¶</a></h2>
+<p>The <em>grid</em> package is the underlying plotting environment for <em>lattice</em>
+and <em>ggplot2</em> figures. In few words, it consists in pushing and poping systems
+of coordinates (<em>viewports</em>) into a stack, and plotting graphical elements into them.
+The system can be thought of as a scene graph, with each <em>viewport</em> a node in
+the graph.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="k">import</span> <span class="n">grid</span>
+</pre></div>
+</div>
+<p>Getting a new page is achieved by calling the function <code class="xref py py-func docutils literal notranslate"><span class="pre">grid.newpage()</span></code>.</p>
+<p>Calling <code class="xref py py-func docutils literal notranslate"><span class="pre">layout()</span></code> will create a layout, e.g. create a layout with one row
+and 3 columns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lt</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That layout can be used to construct a viewport:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="n">layout</span> <span class="o">=</span> <span class="n">lt</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The created viewport corresponds to a graphical entity.
+Pushing into the current viewport, can be done by using the class method
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">grid.Viewport.push()</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vp</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">newpage</span><span class="p">()</span>
+<span class="c1"># create a rows/columns layout</span>
+<span class="n">lt</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="n">layout</span> <span class="o">=</span> <span class="n">lt</span><span class="p">)</span>
+<span class="c1"># push it the plotting stack</span>
+<span class="n">vp</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+
+<span class="c1"># create a viewport located at (1,1) in the layout</span>
+<span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="c1"># create a (unit) rectangle in that viewport</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">rect</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+<span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+<span class="c1"># create text in the viewport at (1,2)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;foo&quot;</span><span class="p">,</span> <span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+<span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="c1"># create a (unit) circle in the viewport (1,3)</span>
+<span class="n">grid</span><span class="o">.</span><span class="n">circle</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span><span class="o">.</span><span class="n">draw</span><span class="p">()</span>
+
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_grid.png"><img alt="_images/graphics_grid.png" src="_images/graphics_grid.png" style="width: 306.0px; height: 306.0px;" /></a>
+<div class="section" id="custom-ggplot2-layout-with-grid">
+<h3>Custom ggplot2 layout with grid<a class="headerlink" href="#custom-ggplot2-layout-with-grid" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">newpage</span><span class="p">()</span>
+
+<span class="c1"># create a viewport as the main plot</span>
+<span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> 
+<span class="n">vp</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+
+<span class="n">tmpenv</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;rock&quot;</span><span class="p">)</span>
+<span class="n">rock</span> <span class="o">=</span> <span class="n">tmpenv</span><span class="p">[</span><span class="s2">&quot;rock&quot;</span><span class="p">]</span>
+
+<span class="n">p</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">rock</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;peri&#39;</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">+=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">theme_bw</span><span class="p">()</span>
+<span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+
+<span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.37</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.69</span><span class="p">)</span>
+<span class="n">vp</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">rock</span><span class="p">)</span> <span class="o">+</span> \
+    <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;shape&#39;</span><span class="p">))</span> <span class="o">+</span> \
+    <span class="n">ggplot2</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;axis.text.x&#39;</span><span class="p">:</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span> <span class="o">=</span> <span class="mi">45</span><span class="p">)})</span>
+
+<span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
+
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2withgrid.png"><img alt="_images/graphics_ggplot2withgrid.png" src="_images/graphics_ggplot2withgrid.png" style="width: 306.0px; height: 306.0px;" /></a>
+</div>
+<div class="section" id="classes">
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<dl class="class">
+<dt id="rpy2.robjects.lib.grid.Viewport">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.grid.</code><code class="descname">Viewport</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObject</span></code></p>
+<p>Drawing context.
+Viewports can be thought of as nodes in a scene graph.</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.current">
+<em class="property">classmethod </em><code class="descname">current</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.current"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.current" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the current viewport in the stack.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.default">
+<em class="property">classmethod </em><code class="descname">default</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.default"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.default" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.down">
+<em class="property">classmethod </em><code class="descname">down</code><span class="sig-paren">(</span><em>name</em>, <em>strict=False</em>, <em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.down" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of Viewports it went down</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.pop">
+<em class="property">classmethod </em><code class="descname">pop</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop n viewports from the stack.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="rpy2.robjects.lib.grid.Viewport.push">
+<code class="descname">push</code><span class="sig-paren">(</span><em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.push" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.seek">
+<em class="property">classmethod </em><code class="descname">seek</code><span class="sig-paren">(</span><em>name</em>, <em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.seek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.seek" title="Permalink to this definition">¶</a></dt>
+<dd><p>Seek and return a Viewport given its name</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.up">
+<em class="property">classmethod </em><code class="descname">up</code><span class="sig-paren">(</span><em>n</em>, <em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.up"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go up n viewports</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Viewport.viewport">
+<em class="property">classmethod </em><code class="descname">viewport</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.viewport"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.viewport" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor: create a Viewport</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.grid.Grob">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.grid.</code><code class="descname">Grob</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObject</span></code></p>
+<p>Graphical object</p>
+<dl class="method">
+<dt id="rpy2.robjects.lib.grid.Grob.draw">
+<code class="descname">draw</code><span class="sig-paren">(</span><em>recording=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob.draw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob.draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a graphical object (calling the R function
+grid::grid.raw())</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.Grob.grob">
+<em class="property">classmethod </em><code class="descname">grob</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob.grob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob.grob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor (uses the R function grid::grob())</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="rpy2.robjects.lib.grid.GTree">
+<em class="property">class </em><code class="descclassname">rpy2.robjects.lib.grid.</code><code class="descname">GTree</code><span class="sig-paren">(</span><em>o</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.lib.grid.Grob" title="rpy2.robjects.lib.grid.Grob"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.Grob</span></code></a></p>
+<p>gTree</p>
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.GTree.grobtree">
+<em class="property">classmethod </em><code class="descname">grobtree</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.grobtree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.grobtree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor (uses the R function grid::grobTree())</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="rpy2.robjects.lib.grid.GTree.gtree">
+<em class="property">classmethod </em><code class="descname">gtree</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.gtree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.gtree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor (uses the R function grid::gTree())</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h3>Class diagram<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<div class="graphviz"><img src="_images/inheritance-084b25a6e5613a22d8e36c277a4d380b40fc6b3d.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance graphviz" /></div>
+<map id="inheritancee1ac3c21eb" name="inheritancee1ac3c21eb">
+<area shape="rect" id="node2" href="#rpy2.robjects.lib.grid.GTree" target="_top" title="gTree" alt="" coords="452,32,524,60"/>
+<area shape="rect" id="node4" href="#rpy2.robjects.lib.grid.Grob" target="_top" title="Graphical object" alt="" coords="322,160,394,188"/>
+<area shape="rect" id="node14" href="#rpy2.robjects.lib.grid.Viewport" target="_top" title="Drawing context." alt="" coords="312,316,405,344"/>
+<area shape="rect" id="node9" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Class to provide methods common to all RObject instances." alt="" coords="5,214,131,241"/>
+</map></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="lib_dplyr.html" title="DataFrames and dplyr"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="pandas.html" title="Interoperability with pandas"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.0.5 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2019, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>

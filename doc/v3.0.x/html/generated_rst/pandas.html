@@ -1,0 +1,457 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>R and pandas data frames &#8212; rpy2 3.0.5 documentation</title>
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.0.5 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/rpy2_logo_64x64.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frames</a><ul>
+<li><a class="reference internal" href="#from-pandas-to-r">From <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code></a></li>
+<li><a class="reference internal" href="#from-r-to-pandas">From <code class="docutils literal notranslate"><span class="pre">R</span></code> to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li><a class="reference internal" href="#date-and-time-objects">Date and time objects</a></li>
+</ul>
+</li>
+</ul>
+
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/generated_rst/pandas.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="k">import</span> <span class="n">html</span>
+<span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="r-and-pandas-data-frames">
+<h1><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frames<a class="headerlink" href="#r-and-pandas-data-frames" title="Permalink to this headline">¶</a></h1>
+<p>R <code class="docutils literal notranslate"><span class="pre">data.frame</span></code> and :class:<code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> objects share a lot of
+conceptual similarities, and :mod:<code class="docutils literal notranslate"><span class="pre">pandas</span></code> chose to use the class name
+<code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> after R objects.</p>
+<p>In a nutshell, both are sequences of vectors (or arrays) of consistent
+length or size for the first dimension (the “number of rows”). if coming
+from the database world, an other way to look at them is column-oriented
+data tables, or data table API.</p>
+<p>rpy2 is providing an interface between Python and R, and a convenience
+conversion layer between :class:<code class="docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.DataFrame</span></code> and
+:class:<code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> objects, implemented in
+:mod:<code class="docutils literal notranslate"><span class="pre">rpy2.robjects.pandas2ri</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
+
+<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="n">localconverter</span>
+</pre></div>
+</div>
+<div class="section" id="from-pandas-to-r">
+<h2>From <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code><a class="headerlink" href="#from-pandas-to-r" title="Permalink to this headline">¶</a></h2>
+<p>Pandas data frame:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;int_values&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+                      <span class="s1">&#39;str_values&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;def&#39;</span><span class="p">,</span> <span class="s1">&#39;ghi&#39;</span><span class="p">]})</span>
+
+<span class="n">pd_df</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>int_values</th>
+      <th>str_values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>ghi</td>
+    </tr>
+  </tbody>
+</table>
+</div><p>R data frame converted from a <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frame:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+  <span class="n">r_from_pd_df</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">pd_df</span><span class="p">)</span>
+
+<span class="n">r_from_pd_df</span>
+</pre></div>
+</div>
+<span>R/rpy2 DataFrame (3 x 2)</span>
+<table>
+  <thead>
+    <tr>
+
+      <th>int_values</th>
+
+      <th>str_values</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+      ...
+    </td>
+
+  </tr>
+
+  </tbody>
+</table><p>The conversion is automatically happening when calling R functions. For
+example, when calling the R function <code class="docutils literal notranslate"><span class="pre">base::summary</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+  <span class="n">df_summary</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">pd_df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df_summary</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="s1">&#39;Min.   :1.0  &#39;</span> <span class="s1">&#39;1st Qu.:1.5  &#39;</span> <span class="s1">&#39;Median :2.0  &#39;</span> <span class="s1">&#39;Mean   :2.0  &#39;</span>
+ <span class="s1">&#39;3rd Qu.:2.5  &#39;</span> <span class="s1">&#39;Max.   :3.0  &#39;</span> <span class="s1">&#39;Length:3          &#39;</span> <span class="s1">&#39;Class :character  &#39;</span>
+ <span class="s1">&#39;Mode  :character  &#39;</span> <span class="s1">&#39;NA&#39;</span> <span class="s1">&#39;NA&#39;</span> <span class="s1">&#39;NA&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Note that a <code class="docutils literal notranslate"><span class="pre">ContextManager</span></code> is used to limit the scope of the
+conversion. Without it, rpy2 will not know how to convert a pandas data
+frame:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+  <span class="n">df_summary</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">pd_df</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">NotImplementedError</span> <span class="k">as</span> <span class="n">nie</span><span class="p">:</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;NotImplementedError:&#39;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">nie</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ne">NotImplementedError</span><span class="p">:</span>
+<span class="n">Conversion</span> <span class="s1">&#39;py2rpy&#39;</span> <span class="ow">not</span> <span class="n">defined</span> <span class="k">for</span> <span class="n">objects</span> <span class="n">of</span> <span class="nb">type</span> <span class="s1">&#39;&lt;class &#39;</span><span class="n">pandas</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">DataFrame</span><span class="s1">&#39;&gt;&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-r-to-pandas">
+<h2>From <code class="docutils literal notranslate"><span class="pre">R</span></code> to <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#from-r-to-pandas" title="Permalink to this headline">¶</a></h2>
+<p>Starting from an R data frame this time:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r_df</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;int_values&#39;</span><span class="p">:</span> <span class="n">ro</span><span class="o">.</span><span class="n">IntVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]),</span>
+                     <span class="s1">&#39;str_values&#39;</span><span class="p">:</span> <span class="n">ro</span><span class="o">.</span><span class="n">StrVector</span><span class="p">([</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;def&#39;</span><span class="p">,</span> <span class="s1">&#39;ghi&#39;</span><span class="p">])})</span>
+
+<span class="n">r_df</span>
+</pre></div>
+</div>
+<span>R/rpy2 DataFrame (3 x 2)</span>
+<table>
+  <thead>
+    <tr>
+
+      <th>int_values</th>
+
+      <th>str_values</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+      ...
+    </td>
+
+  </tr>
+
+  </tbody>
+</table><p>It can be converted to a pandas data frame using the same converter:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+  <span class="n">pd_from_r_df</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">r_df</span><span class="p">)</span>
+
+<span class="n">pd_from_r_df</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>int_values</th>
+      <th>str_values</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>abc</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>def</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>ghi</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+<div class="section" id="date-and-time-objects">
+<h2>Date and time objects<a class="headerlink" href="#date-and-time-objects" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Timestamp&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2017-01-01 00:00:00&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+
+<span class="n">pd_df</span>
+</pre></div>
+</div>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>2017-01-01 00:00:00</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2017-01-01 00:00:01</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2017-01-01 00:00:02</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>2017-01-01 00:00:03</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>2017-01-01 00:00:04</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>2017-01-01 00:00:05</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>2017-01-01 00:00:06</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>2017-01-01 00:00:07</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>2017-01-01 00:00:08</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>2017-01-01 00:00:09</td>
+    </tr>
+  </tbody>
+</table>
+</div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+  <span class="n">r_from_pd_df</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">pd_df</span><span class="p">)</span>
+
+<span class="n">r_from_pd_df</span>
+</pre></div>
+</div>
+<span>R/rpy2 DataFrame (10 x 1)</span>
+<table>
+  <thead>
+    <tr>
+
+      <th>Timestamp</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+
+    <td>
+      ...
+    </td>
+
+  </tr>
+
+  </tbody>
+</table><p>The timezone used for conversion is the system’s default timezone unless
+<code class="docutils literal notranslate"><span class="pre">pandas2ri.default_timezone</span></code> is specified… or unless the time zone
+is specified in the original time object:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pd_tz_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
+    <span class="s1">&#39;Timestamp&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2017-01-01 00:00:00&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span>
+                               <span class="n">tz</span><span class="o">=</span><span class="s1">&#39;UTC&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+
+<span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+  <span class="n">r_from_pd_tz_df</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">pd_tz_df</span><span class="p">)</span>
+
+<span class="n">r_from_pd_tz_df</span>
+</pre></div>
+</div>
+<span>R/rpy2 DataFrame (10 x 1)</span>
+<table>
+  <thead>
+    <tr>
+
+      <th>Timestamp</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+
+    <td>
+      ...
+    </td>
+
+  </tr>
+
+  </tbody>
+</table></div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.0.5 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2019, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+    </div>
+  </body>
+</html>
