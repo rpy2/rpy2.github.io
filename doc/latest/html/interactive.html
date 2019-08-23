@@ -4,8 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Interactive work &#8212; rpy2 3.1.0-dev documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -97,8 +96,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -116,10 +113,10 @@
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>This is an experimental package, and some of the ideas experimented
 here have already made it to <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>.</p>
-<p class="last">For interactive work the “R magic” extension to <cite>ipython</cite> is
+<p>For interactive work the “R magic” extension to <cite>ipython</cite> is
 the preferred way / most tested way for interactive work.</p>
 </div>
 <span class="target" id="module-rpy2.ipython"></span></div>
@@ -130,8 +127,8 @@ the preferred way / most tested way for interactive work.</p>
 <p>Magic command interface for interactive work with R in ipython. %R and %%R are
 the line and cell magics, respectively.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">You will need a working copy of R.</p>
+<p class="admonition-title">Note</p>
+<p>You will need a working copy of R.</p>
 </div>
 <div class="section" id="usage">
 <h4>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h4>
@@ -140,10 +137,10 @@ the line and cell magics, respectively.</p>
 <blockquote>
 <div><blockquote>
 <div></div></blockquote>
-<dl class="docutils">
-<dt>%R [-i INPUT] [-o OUTPUT] [-n] [-w WIDTH] [-h HEIGHT] [-p POINTSIZE]</dt>
-<dd>[-b BG] [–noisolation] [-u {px,in,cm,mm}] [-r RES] [-c CONVERTER]
-[code [code …]]</dd>
+<dl class="simple">
+<dt>%R [-i INPUT] [-o OUTPUT] [-n] [-w WIDTH] [-h HEIGHT] [-p POINTSIZE]</dt><dd><p>[-b BG] [–noisolation] [-u {px,in,cm,mm}] [-r RES] [-c CONVERTER]
+[code [code …]]</p>
+</dd>
 </dl>
 </div></blockquote>
 <p>Execute code in R, optionally returning results to the Python runtime.</p>
@@ -204,111 +201,83 @@ the R code in cell.</p>
 </div>
 <p>The return value is determined by these rules:</p>
 <ul class="simple">
-<li>If the cell is not None (i.e., has contents), the magic returns None.</li>
-<li>If the final line results in a NULL value when evaluated
-by rpy2, then None is returned.</li>
-<li>No attempt is made to convert the final value to a structured array.
-Use %Rget to push a structured array.</li>
-<li>If the -n flag is present, there is no return value.</li>
-<li>A trailing ‘;’ will also result in no return value as the last
-value in the line is an empty string.</li>
+<li><p>If the cell is not None (i.e., has contents), the magic returns None.</p></li>
+<li><p>If the final line results in a NULL value when evaluated
+by rpy2, then None is returned.</p></li>
+<li><p>No attempt is made to convert the final value to a structured array.
+Use %Rget to push a structured array.</p></li>
+<li><p>If the -n flag is present, there is no return value.</p></li>
+<li><p>A trailing ‘;’ will also result in no return value as the last
+value in the line is an empty string.</p></li>
 </ul>
-<dl class="docutils">
-<dt>optional arguments:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Names of input variable from <cite>shell.user_ns</cite> to be
+<dl>
+<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></dt>
+<dd><p>Names of input variable from <cite>shell.user_ns</cite> to be
 assigned to R variables of the same names after using
 the Converter self.converter. Multiple names can be
-passed separated only by commas with no whitespace.</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Names of variables to be pushed from rpy2 to
+passed separated only by commas with no whitespace.</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Names of variables to be pushed from rpy2 to
 <cite>shell.user_ns</cite> after executing cell body (rpy2’s
 internal facilities will apply ri2ro as appropriate).
 Multiple names can be passed separated only by commas
-with no whitespace.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-n</span>, <span class="option">--noreturn</span></kbd></td>
-<td>Force the magic to not return anything.</td></tr>
-</tbody>
-</table>
+with no whitespace.</p>
 </dd>
-<dt>Plot:</dt>
-<dd><p class="first">Arguments to plotting device</p>
-<table class="last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-w <var>WIDTH</var></span>, <span class="option">--width <var>WIDTH</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Width of plotting device in R.</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-h <var>HEIGHT</var></span>, <span class="option">--height <var>HEIGHT</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Height of plotting device in R.</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-p <var>POINTSIZE</var></span>, <span class="option">--pointsize <var>POINTSIZE</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Pointsize of plotting device in R.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-b <var>BG</var></span>, <span class="option">--bg <var>BG</var></span></kbd></td>
-<td>Background of plotting device in R.</td></tr>
-</tbody>
-</table>
+<dt><kbd><span class="option">-n</span>, <span class="option">--noreturn</span></kbd></dt>
+<dd><p>Force the magic to not return anything.</p>
 </dd>
-<dt>SVG:</dt>
-<dd><p class="first">SVG specific arguments</p>
-<table class="last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">--noisolation</span></kbd></td>
-<td>Disable SVG isolation in the Notebook. By default,
+</dl>
+</dd>
+<dt>Plot:</dt><dd><p>Arguments to plotting device</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-w <var>WIDTH</var></span>, <span class="option">--width <var>WIDTH</var></span></kbd></dt>
+<dd><p>Width of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-h <var>HEIGHT</var></span>, <span class="option">--height <var>HEIGHT</var></span></kbd></dt>
+<dd><p>Height of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-p <var>POINTSIZE</var></span>, <span class="option">--pointsize <var>POINTSIZE</var></span></kbd></dt>
+<dd><p>Pointsize of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-b <var>BG</var></span>, <span class="option">--bg <var>BG</var></span></kbd></dt>
+<dd><p>Background of plotting device in R.</p>
+</dd>
+</dl>
+</dd>
+<dt>SVG:</dt><dd><p>SVG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--noisolation</span></kbd></dt>
+<dd><p>Disable SVG isolation in the Notebook. By default,
 SVGs are isolated to avoid namespace collisions
 between figures. Disabling SVG isolation allows to
 reference previous figures or share CSS rules across a
-set of SVGs.</td></tr>
-</tbody>
-</table>
+set of SVGs.</p>
 </dd>
-<dt>PNG:</dt>
-<dd><p class="first">PNG specific arguments</p>
-<table class="docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-u <var>&lt;{px,in,cm,mm}&gt;</var></span>, <span class="option">--units <var>&lt;{px,in,cm,mm}&gt;</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Units of png plotting device sent as an argument to
-<em>png</em> in R. One of [“px”, “in”, “cm”, “mm”].</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-r <var>RES</var></span>, <span class="option">--res <var>RES</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Resolution of png plotting device sent as an argument
+</dl>
+</dd>
+<dt>PNG:</dt><dd><p>PNG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-u <var>&lt;{px,in,cm,mm}&gt;</var></span>, <span class="option">--units <var>&lt;{px,in,cm,mm}&gt;</var></span></kbd></dt>
+<dd><p>Units of png plotting device sent as an argument to
+<em>png</em> in R. One of [“px”, “in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">-r <var>RES</var></span>, <span class="option">--res <var>RES</var></span></kbd></dt>
+<dd><p>Resolution of png plotting device sent as an argument
 to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
-[“in”, “cm”, “mm”].</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Name of local converter to use. A converter contains
+[“in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
+<dd><p>Name of local converter to use. A converter contains
 the rules to convert objects back and forth between
 Python and R. If not specified/None, the defaut
 converter for the magic’s module is used (that is
 rpy2’s default converter + numpy converter + pandas
-converter if all three are available).</td></tr>
-</tbody>
-</table>
-<p class="last">code</p>
+converter if all three are available).</p>
+</dd>
+</dl>
+<p>code</p>
 </dd>
 </dl>
 <p><cite>%Rpush</cite></p>
@@ -362,9 +331,9 @@ See the %%R docstring for more examples.</p>
 <h5>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h5>
 <p>Beware that R names can have dots (‘.’) so this is not fool proof.
 To avoid this, don’t name your R objects with dots…</p>
-<dl class="docutils">
-<dt>positional arguments:</dt>
-<dd>outputs</dd>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>outputs</p>
+</dd>
 </dl>
 <p><cite>%Rget</cite></p>
 <blockquote>
@@ -392,9 +361,9 @@ returned rather than pushed to self.shell.user_ns:</p>
       <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;|S1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>positional arguments:</dt>
-<dd>output</dd>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>output</p>
+</dd>
 </dl>
 <dl class="exception">
 <dt id="rpy2.ipython.rmagic.RInterpreterError">
@@ -472,111 +441,83 @@ the R code in cell.</p>
 </div>
 <p>The return value is determined by these rules:</p>
 <ul class="simple">
-<li>If the cell is not None (i.e., has contents), the magic returns None.</li>
-<li>If the final line results in a NULL value when evaluated
-by rpy2, then None is returned.</li>
-<li>No attempt is made to convert the final value to a structured array.
-Use %Rget to push a structured array.</li>
-<li>If the -n flag is present, there is no return value.</li>
-<li>A trailing ‘;’ will also result in no return value as the last
-value in the line is an empty string.</li>
+<li><p>If the cell is not None (i.e., has contents), the magic returns None.</p></li>
+<li><p>If the final line results in a NULL value when evaluated
+by rpy2, then None is returned.</p></li>
+<li><p>No attempt is made to convert the final value to a structured array.
+Use %Rget to push a structured array.</p></li>
+<li><p>If the -n flag is present, there is no return value.</p></li>
+<li><p>A trailing ‘;’ will also result in no return value as the last
+value in the line is an empty string.</p></li>
 </ul>
-<dl class="docutils">
-<dt>optional arguments:</dt>
-<dd><table class="first last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Names of input variable from <cite>shell.user_ns</cite> to be
+<dl>
+<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></dt>
+<dd><p>Names of input variable from <cite>shell.user_ns</cite> to be
 assigned to R variables of the same names after using
 the Converter self.converter. Multiple names can be
-passed separated only by commas with no whitespace.</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Names of variables to be pushed from rpy2 to
+passed separated only by commas with no whitespace.</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Names of variables to be pushed from rpy2 to
 <cite>shell.user_ns</cite> after executing cell body (rpy2’s
 internal facilities will apply ri2ro as appropriate).
 Multiple names can be passed separated only by commas
-with no whitespace.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-n</span>, <span class="option">--noreturn</span></kbd></td>
-<td>Force the magic to not return anything.</td></tr>
-</tbody>
-</table>
+with no whitespace.</p>
 </dd>
-<dt>Plot:</dt>
-<dd><p class="first">Arguments to plotting device</p>
-<table class="last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-w <var>WIDTH</var></span>, <span class="option">--width <var>WIDTH</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Width of plotting device in R.</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-h <var>HEIGHT</var></span>, <span class="option">--height <var>HEIGHT</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Height of plotting device in R.</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-p <var>POINTSIZE</var></span>, <span class="option">--pointsize <var>POINTSIZE</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Pointsize of plotting device in R.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">-b <var>BG</var></span>, <span class="option">--bg <var>BG</var></span></kbd></td>
-<td>Background of plotting device in R.</td></tr>
-</tbody>
-</table>
+<dt><kbd><span class="option">-n</span>, <span class="option">--noreturn</span></kbd></dt>
+<dd><p>Force the magic to not return anything.</p>
 </dd>
-<dt>SVG:</dt>
-<dd><p class="first">SVG specific arguments</p>
-<table class="last docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">--noisolation</span></kbd></td>
-<td>Disable SVG isolation in the Notebook. By default,
+</dl>
+</dd>
+<dt>Plot:</dt><dd><p>Arguments to plotting device</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-w <var>WIDTH</var></span>, <span class="option">--width <var>WIDTH</var></span></kbd></dt>
+<dd><p>Width of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-h <var>HEIGHT</var></span>, <span class="option">--height <var>HEIGHT</var></span></kbd></dt>
+<dd><p>Height of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-p <var>POINTSIZE</var></span>, <span class="option">--pointsize <var>POINTSIZE</var></span></kbd></dt>
+<dd><p>Pointsize of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-b <var>BG</var></span>, <span class="option">--bg <var>BG</var></span></kbd></dt>
+<dd><p>Background of plotting device in R.</p>
+</dd>
+</dl>
+</dd>
+<dt>SVG:</dt><dd><p>SVG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--noisolation</span></kbd></dt>
+<dd><p>Disable SVG isolation in the Notebook. By default,
 SVGs are isolated to avoid namespace collisions
 between figures. Disabling SVG isolation allows to
 reference previous figures or share CSS rules across a
-set of SVGs.</td></tr>
-</tbody>
-</table>
+set of SVGs.</p>
 </dd>
-<dt>PNG:</dt>
-<dd><p class="first">PNG specific arguments</p>
-<table class="docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-u <var>&lt;{px,in,cm,mm}&gt;</var></span>, <span class="option">--units <var>&lt;{px,in,cm,mm}&gt;</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Units of png plotting device sent as an argument to
-<em>png</em> in R. One of [“px”, “in”, “cm”, “mm”].</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-r <var>RES</var></span>, <span class="option">--res <var>RES</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Resolution of png plotting device sent as an argument
+</dl>
+</dd>
+<dt>PNG:</dt><dd><p>PNG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-u <var>&lt;{px,in,cm,mm}&gt;</var></span>, <span class="option">--units <var>&lt;{px,in,cm,mm}&gt;</var></span></kbd></dt>
+<dd><p>Units of png plotting device sent as an argument to
+<em>png</em> in R. One of [“px”, “in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">-r <var>RES</var></span>, <span class="option">--res <var>RES</var></span></kbd></dt>
+<dd><p>Resolution of png plotting device sent as an argument
 to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
-[“in”, “cm”, “mm”].</td></tr>
-<tr><td class="option-group" colspan="2">
-<kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></td>
-</tr>
-<tr><td>&#160;</td><td>Name of local converter to use. A converter contains
+[“in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
+<dd><p>Name of local converter to use. A converter contains
 the rules to convert objects back and forth between
 Python and R. If not specified/None, the defaut
 converter for the magic’s module is used (that is
 rpy2’s default converter + numpy converter + pandas
-converter if all three are available).</td></tr>
-</tbody>
-</table>
-<p class="last">code</p>
+converter if all three are available).</p>
+</dd>
+</dl>
+<p>code</p>
 </dd>
 </dl>
 </dd></dl>
@@ -613,9 +554,9 @@ returned rather than pushed to self.shell.user_ns:</p>
       <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;|S1&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>positional arguments:</dt>
-<dd>output</dd>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>output</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -648,9 +589,9 @@ when the object in R has mixed data types.
 See the %%R docstring for more examples.</p>
 <p>Beware that R names can have dots (‘.’) so this is not fool proof.
 To avoid this, don’t name your R objects with dots…</p>
-<dl class="docutils">
-<dt>positional arguments:</dt>
-<dd>outputs</dd>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>outputs</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -700,11 +641,11 @@ withVisible is a LISPy R function).</p>
 <dt id="rpy2.ipython.rmagic.RMagics.publish_graphics">
 <code class="descname">publish_graphics</code><span class="sig-paren">(</span><em>graph_dir</em>, <em>isolate_svgs=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.publish_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.publish_graphics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap graphic file data for presentation in IPython</p>
-<dl class="docutils">
-<dt>graph_dir <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>Probably provided by some tmpdir call</dd>
-<dt>isolate_svgs <span class="classifier-delimiter">:</span> <span class="classifier">bool</span></dt>
-<dd>Enable SVG namespace isolation in metadata</dd>
+<dl class="simple">
+<dt>graph_dir<span class="classifier">str</span></dt><dd><p>Probably provided by some tmpdir call</p>
+</dd>
+<dt>isolate_svgs<span class="classifier">bool</span></dt><dd><p>Enable SVG namespace isolation in metadata</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -715,12 +656,12 @@ withVisible is a LISPy R function).</p>
 If device == ‘svg’ then the package ‘Cairo’
 must be installed. Because Cairo forces “onefile=TRUE”,
 it is not posible to include multiple plots per cell.</p>
-<dl class="docutils">
-<dt>device <span class="classifier-delimiter">:</span> <span class="classifier">[‘png’, ‘X11’, ‘svg’]</span></dt>
-<dd>Device to be used for plotting.
+<dl class="simple">
+<dt>device<span class="classifier">[‘png’, ‘X11’, ‘svg’]</span></dt><dd><p>Device to be used for plotting.
 Currently only “png” and “X11” are supported,
 with ‘png’ and ‘svg’ being most useful in the notebook,
-and ‘X11’ allowing interactive plots in the terminal.</dd>
+and ‘X11’ allowing interactive plots in the terminal.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -786,8 +727,8 @@ active and will be taken into account at the next sleep cycle.</p>
 <div class="section" id="utilities-for-interactive-work">
 <h2>Utilities for interactive work<a class="headerlink" href="#utilities-for-interactive-work" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This module contains a number of experimental features, some of
+<p class="admonition-title">Note</p>
+<p>This module contains a number of experimental features, some of
 them no longer necessary since the “R magic” extension for ipython.
 They are becoming deprecated, and will removed from the code base
 in future versions.</p>
@@ -844,9 +785,9 @@ or performances for ease-of-use.</p>
 languages and systems as libraries.</p>
 <p>R Packages can be:</p>
 <ul class="simple">
-<li>available in R repositories (public or private)</li>
-<li>installed</li>
-<li>attached (loaded)</li>
+<li><p>available in R repositories (public or private)</p></li>
+<li><p>installed</p></li>
+<li><p>attached (loaded)</p></li>
 </ul>
 <div class="section" id="loading-installed-packages">
 <h4>Loading installed packages<a class="headerlink" href="#loading-installed-packages" title="Permalink to this headline">¶</a></h4>
@@ -911,10 +852,10 @@ package per row (there are many packages in the default CRAN repository).</p>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>Specific repositories can be specified.</p>
 <p>For example with bioconductor.</p>
-<div class="last highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.rinteractive</span> <span class="kn">as</span> <span class="nn">r</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.rinteractive</span> <span class="kn">as</span> <span class="nn">r</span>
 
 <span class="n">bioc_rooturl</span> <span class="o">=</span> <span class="s2">&quot;http://www.bioconductor.org/packages&quot;</span>
 <span class="n">bioc_version</span> <span class="o">=</span> <span class="s2">&quot;2.7&quot;</span>
@@ -930,8 +871,8 @@ package per row (there are many packages in the default CRAN repository).</p>
 <div class="section" id="installing-packages">
 <h4>Installing packages<a class="headerlink" href="#installing-packages" title="Permalink to this headline">¶</a></h4>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">To install a package for repositories, we have to load the package <cite>utils</cite>.
+<p class="admonition-title">Note</p>
+<p>To install a package for repositories, we have to load the package <cite>utils</cite>.
 See Section load-packages for details about loading packages</p>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
@@ -975,7 +916,7 @@ the need to install it again (unless a different version of R is used).</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
     </div>
   </body>
 </html>

@@ -4,8 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Formulae &#8212; rpy2 3.1.0-dev documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -70,8 +69,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -89,10 +86,10 @@
 <p>For tasks such as modelling and plotting, an R formula can be
 a terse, yet readable, way of expressing what is wanted.</p>
 <p>In R, it generally looks like:</p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span>x <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span>
-y <span class="o">&lt;-</span> x <span class="o">+</span> rnorm<span class="p">(</span><span class="m">10</span><span class="p">,</span> sd<span class="o">=</span><span class="m">0.2</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">&lt;-</span> <span class="m">1</span><span class="o">:</span><span class="m">10</span>
+<span class="n">y</span> <span class="o">&lt;-</span> <span class="n">x</span> <span class="o">+</span> <span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="m">0.2</span><span class="p">)</span>
 
-fit <span class="o">&lt;-</span> lm<span class="p">(</span>y <span class="o">~</span> x<span class="p">)</span>
+<span class="n">fit</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>In the call to <cite>lm</cite>, the argument is a <cite>formula</cite>, and it can read like
@@ -136,14 +133,13 @@ function is defined.</p>
 </div>
 <p>Other options are:</p>
 <ul>
-<li><p class="first">Evaluate R code on the fly so we that model fitting function has a symbol
+<li><p>Evaluate R code on the fly so we that model fitting function has a symbol
 in R</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lm(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span><span class="n">fmla</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Evaluate R code where all symbols are defined</p>
-</li>
+<li><p>Evaluate R code where all symbols are defined</p></li>
 </ul>
 <dl class="class">
 <dt id="rpy2.robjects.Formula">
@@ -199,7 +195,7 @@ in R</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
     </div>
   </body>
 </html>

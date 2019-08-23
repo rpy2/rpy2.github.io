@@ -4,8 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Working with R’s OOPs &#8212; rpy2 3.1.0-dev documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -84,8 +83,6 @@
     <form class="search" action="search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -125,8 +122,8 @@ the dispatch being made at run-time from the first argument in the function call
 <em>plot(something)</em> makes R extract the class name of the object something, and see
 if a function <em>plot.&lt;class_of_something&gt;</em> is in the search path.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This rule is not strict as there can exist functions with a <em>dot</em> in their name
+<p class="admonition-title">Note</p>
+<p>This rule is not strict as there can exist functions with a <em>dot</em> in their name
 and the part after the dot not correspond to an S3 class name.</p>
 </div>
 <span class="target" id="module-rpy2.robjects.methods"></span></div>
@@ -145,10 +142,10 @@ at how a class definition in Python can be made to reflect an R S4 class.
 We take the R class <cite>lmList</cite> in the package <cite>lme4</cite> and show how to write
 a Python wrapper for it.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
+<p class="admonition-title">Note</p>
 <p>The information relative to this section is also available
 as a jupyter notebook <a class="reference external" href="_static/notebooks/s4class.ipynb">s4class.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/s4class.html">s4class.html</a> )</p>
-<div class="toctree-wrapper last compound">
+<div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="generated_rst/s4class.html">Basic handling</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generated_rst/s4class.html#mapping-s4-classes-to-python-classes">Mapping S4 classes to Python classes</a><ul>
@@ -163,8 +160,8 @@ as a jupyter notebook <a class="reference external" href="_static/notebooks/s4cl
 <div class="section" id="manual-r-in-python-class-definition">
 <h3>Manual R-in-Python class definition<a class="headerlink" href="#manual-r-in-python-class-definition" title="Permalink to this headline">¶</a></h3>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The R package <cite>lme4</cite> is not distributed with R, and will have to be installed
+<p class="admonition-title">Note</p>
+<p>The R package <cite>lme4</cite> is not distributed with R, and will have to be installed
 for this example to work.</p>
 </div>
 <p>First, a bit of boilerplate code is needed. We
@@ -174,10 +171,11 @@ is defined in the
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> modules and utilities.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">getmethod</span>
 
-<span class="n">lme4</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;lme4&quot;</span><span class="p">)</span>
-<span class="n">getmethod</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">baseenv</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;getMethod&quot;</span><span class="p">)</span>
+<span class="n">lme4</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;lme4&#39;</span><span class="p">)</span>
+<span class="n">utils</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
 
 <span class="n">StrVector</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">StrVector</span>
 </pre></div>
@@ -195,18 +193,16 @@ This is one way to have polymorphic constructors implemented.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LmList</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">RS4</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Reflection of the S4 class &#39;lmList&#39;. &quot;&quot;&quot;</span>
     
-    <span class="n">_coef</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="s2">&quot;coef&quot;</span><span class="p">,</span> 
-                      <span class="n">signature</span> <span class="o">=</span> <span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;lmList&quot;</span><span class="p">,</span> <span class="p">]),</span>
-                      <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;package:lme4&quot;</span><span class="p">)</span>
-    <span class="n">_confint</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="s2">&quot;confint&quot;</span><span class="p">,</span> 
-                         <span class="n">signature</span> <span class="o">=</span> <span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;lmList&quot;</span><span class="p">,</span> <span class="p">]),</span>
-                         <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;package:lme4&quot;</span><span class="p">)</span>
-    <span class="n">_formula</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="s2">&quot;formula&quot;</span><span class="p">,</span> 
-                         <span class="n">signature</span> <span class="o">=</span> <span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;lmList&quot;</span><span class="p">,</span> <span class="p">]),</span>
-                         <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;package:lme4&quot;</span><span class="p">)</span>
-    <span class="n">_lmfit_from_formula</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="s2">&quot;lmList&quot;</span><span class="p">,</span>
-                                    <span class="n">signature</span> <span class="o">=</span> <span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;formula&quot;</span><span class="p">,</span> <span class="s2">&quot;data.frame&quot;</span><span class="p">]),</span>
-                                    <span class="n">where</span> <span class="o">=</span> <span class="s2">&quot;package:lme4&quot;</span><span class="p">)</span>
+    <span class="n">_coef</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">getS3method</span><span class="p">(</span>
+        <span class="s1">&#39;coef&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;lmList4&#39;</span><span class="p">)</span>
+    <span class="n">_confint</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">getS3method</span><span class="p">(</span>
+        <span class="s1">&#39;confint&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;lmList4&#39;</span><span class="p">)</span>
+    <span class="n">_formula</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">getS3method</span><span class="p">(</span>
+        <span class="s1">&#39;formula&#39;</span><span class="p">,</span> 
+        <span class="s1">&#39;lmList4&#39;</span><span class="p">)</span>
+    <span class="n">_lmfit_from_formula</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">lme4</span><span class="o">.</span><span class="n">lmList</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_call_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s2">&quot;call&quot;</span><span class="p">)</span>
@@ -228,25 +224,26 @@ This is one way to have polymorphic constructors implemented.</p>
     
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> 
-                     <span class="n">data</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
-                     <span class="n">family</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
-                     <span class="n">subset</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
-                     <span class="n">weights</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">):</span>
+                     <span class="n">data</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
+                     <span class="n">family</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
+                     <span class="n">subset</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
+                     <span class="n">weights</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Build an LmList from a formula &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">LmList</span><span class="o">.</span><span class="n">_lmfit_from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span>
-                                         <span class="n">family</span> <span class="o">=</span> <span class="n">family</span><span class="p">,</span>
-                                         <span class="n">subset</span> <span class="o">=</span> <span class="n">subset</span><span class="p">,</span>
-                                         <span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">LmList</span><span class="o">.</span><span class="n">_lmfit_from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span>
+                                         <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                                         <span class="n">family</span><span class="o">=</span><span class="n">family</span><span class="p">,</span>
+                                         <span class="n">subset</span><span class="o">=</span><span class="n">subset</span><span class="p">,</span>
+                                         <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">LmList</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 </pre></div>
 </div>
 <p>Creating a instance of <code class="xref py py-class docutils literal notranslate"><span class="pre">LmList</span></code> can now be achieved by specifying
 a model as a <code class="xref py py-class docutils literal notranslate"><span class="pre">Formula</span></code> and a dataset.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sleepstudy</span> <span class="o">=</span> <span class="n">lme4</span><span class="o">.</span><span class="n">sleepstudy</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sleepstudy</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">lme4</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sleepstudy&#39;</span><span class="p">)[</span><span class="s1">&#39;sleepstudy&#39;</span><span class="p">]</span>
 <span class="n">formula</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;Reaction ~ Days | Subject&#39;</span><span class="p">)</span>
 <span class="n">lml1</span> <span class="o">=</span> <span class="n">LmList</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> 
-                           <span class="n">sleepstudy</span><span class="p">)</span>
+                           <span class="n">data</span><span class="o">=</span><span class="n">sleepstudy</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>A drawback of the approach above is that the R “call” is stored,
@@ -256,12 +253,11 @@ is verbose: it comprises the explicit structure of the data frame
 (try to print <em>lml1</em>). This becomes hardly acceptable as datasets grow bigger.
 An alternative to that is to store the columns of the data frame into
 the environment for the <code class="xref py py-class docutils literal notranslate"><span class="pre">Formula</span></code>, as shown below:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sleepstudy</span> <span class="o">=</span> <span class="n">lme4</span><span class="o">.</span><span class="n">sleepstudy</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sleepstudy</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">lme4</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;sleepstudy&#39;</span><span class="p">)[</span><span class="s1">&#39;sleepstudy&#39;</span><span class="p">]</span>
 <span class="n">formula</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;Reaction ~ Days | Subject&#39;</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;Reaction&#39;</span><span class="p">,</span> <span class="s1">&#39;Days&#39;</span><span class="p">,</span> <span class="s1">&#39;Subject&#39;</span><span class="p">):</span>
-    <span class="n">formula</span><span class="o">.</span><span class="n">environment</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">sleepstudy</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="n">varname</span><span class="p">)</span>
 
-<span class="n">lml1</span> <span class="o">=</span> <span class="n">LmList</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">)</span>
+<span class="n">lml1</span> <span class="o">=</span> <span class="n">LmList</span><span class="o">.</span><span class="n">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span>
+                           <span class="n">data</span><span class="o">=</span><span class="n">sleepstudy</span><span class="p">)</span>
 </pre></div>
 </div>
 <dl class="class">
@@ -299,29 +295,29 @@ automatically and reliably requires a bit of work, and we chose to concatenate
 the method name with the type of the parameters in the signature.</p>
 <p>Using the automatic mapping is very simple. One only needs to declare
 a Python class with the following attributes:</p>
-<table border="1" class="docutils">
+<table class="docutils align-center">
 <colgroup>
-<col width="36%" />
-<col width="18%" />
-<col width="46%" />
+<col style="width: 36%" />
+<col style="width: 18%" />
+<col style="width: 46%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>__rname__</td>
-<td>mandatory</td>
-<td>the name of the R class</td>
+<tbody>
+<tr class="row-odd"><td><p>__rname__</p></td>
+<td><p>mandatory</p></td>
+<td><p>the name of the R class</p></td>
 </tr>
-<tr class="row-even"><td>__rpackagename__</td>
-<td>optional</td>
-<td>the R package in which the
-class is declared</td>
+<tr class="row-even"><td><p>__rpackagename__</p></td>
+<td><p>optional</p></td>
+<td><p>the R package in which the
+class is declared</p></td>
 </tr>
-<tr class="row-odd"><td>__attr_translation__</td>
-<td>optional</td>
-<td><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</td>
+<tr class="row-odd"><td><p>__attr_translation__</p></td>
+<td><p>optional</p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</p></td>
 </tr>
-<tr class="row-even"><td>__meth_translation__</td>
-<td>optional</td>
-<td><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</td>
+<tr class="row-even"><td><p>__meth_translation__</p></td>
+<td><p>optional</p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</p></td>
 </tr>
 </tbody>
 </table>
@@ -392,7 +388,7 @@ automatic by adding new rules to the conversion system
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
     </div>
   </body>
 </html>

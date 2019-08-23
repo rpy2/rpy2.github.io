@@ -4,8 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>Introduction to rpy2 &#8212; rpy2 3.1.0-dev documentation</title>
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -87,8 +86,6 @@
     <form class="search" action="../search.html" method="get">
       <input type="text" name="q" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -101,7 +98,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+  <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="k">import</span> <span class="n">html</span>
 <span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
 </pre></div>
@@ -118,7 +115,7 @@ python, making a package or module available is achieved by importing
 it. <code class="docutils literal notranslate"><span class="pre">rpy2</span></code> is just a python package. Most users will interact with R
 using the <code class="docutils literal notranslate"><span class="pre">robjects</span></code> layer, a high-level interface that tries to hide
 R behind a Python-like behavior.</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
 </pre></div>
 </div>
 </div>
@@ -127,7 +124,7 @@ R behind a Python-like behavior.</p>
 <p>R is any data analysis toolbox because of the breadth and depth of the
 packages available.</p>
 <p>For this introduction, we use few popular R packages.</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># R package names</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># R package names</span>
 <span class="n">packnames</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">,</span> <span class="s1">&#39;hexbin&#39;</span><span class="p">)</span>
 
 <span class="c1"># import rpy2&#39;s package module</span>
@@ -142,7 +139,7 @@ packages available.</p>
 <p>Downloading and installing R packages is usually performed by fetching R
 packages from a package repository and installing them locally. We can
 get set with:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">have_tutorial_packages</span><span class="p">:</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">have_tutorial_packages</span><span class="p">:</span>
     <span class="c1"># import R&#39;s utility package</span>
     <span class="n">utils</span> <span class="o">=</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
     <span class="c1"># select a mirror for R packages</span>
@@ -151,7 +148,7 @@ get set with:</p>
 </div>
 <p>We are now ready to install packages using R’s own function
 <code class="docutils literal notranslate"><span class="pre">install.package</span></code>:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">have_tutorial_packages</span><span class="p">:</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">have_tutorial_packages</span><span class="p">:</span>
     <span class="c1"># R vector of strings</span>
     <span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">StrVector</span>
     <span class="c1"># file</span>
@@ -178,18 +175,18 @@ communication channel from Python to R.</p>
 <p>The :meth:<code class="docutils literal notranslate"><span class="pre">__getitem__</span></code> method of :mod:<code class="docutils literal notranslate"><span class="pre">rpy2.robjects.r</span></code>, evaluates
 a variable from the R console.</p>
 <p>Example in R:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">load_ext</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span>
 </pre></div>
 </div>
-<div class="code r highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">R</span>
-<span class="n">pi</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">R</span>
+<span class="kc">pi</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mf">3.141593</span>
 </pre></div>
 </div>
 <p>With :mod:<code class="docutils literal notranslate"><span class="pre">rpy2</span></code>:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span>
 <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -213,15 +210,15 @@ as <code class="docutils literal notranslate"><span class="pre">R</span></code> 
 <p>This can be used to <code class="docutils literal notranslate"><span class="pre">get</span></code> variables, and provide an alternative to the
 method presented above.</p>
 <p>Example in R:</p>
-<div class="code r highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">R</span>
-<span class="n">pi</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">%%</span><span class="n">R</span>
+<span class="kc">pi</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mf">3.141593</span>
 </pre></div>
 </div>
 <p>With <code class="docutils literal notranslate"><span class="pre">rpy2</span></code>:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span>
 <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -230,7 +227,7 @@ method presented above.</p>
 </div>
 <div style="border: solid 1px rgb(50,50,50)"><p>The result is an R vector. The Section <code class="docutils literal notranslate"><span class="pre">introduction-vectors</span></code> will
 provide an explanation for the following behavior:</p>
-</div><div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">piplus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+</div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">piplus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">piplus2</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
 <span class="n">pi0plus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pi0plus2</span><span class="p">)</span>
@@ -245,7 +242,7 @@ provide an explanation for the following behavior:</p>
 the R console. Whenever the <code class="docutils literal notranslate"><span class="pre">R</span></code> code creates variables, those
 variables are “located” in that <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Environment</span></code> by default.</p>
 <p>Example:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">    f &lt;- function(r, verbose=FALSE) {</span>
 <span class="s1">        if (verbose) {</span>
 <span class="s1">            cat(&quot;I am calling f().</span><span class="se">\n</span><span class="s1">&quot;)</span>
@@ -271,25 +268,23 @@ variables are “located” in that <code class="docutils literal notranslate"><
 function <code class="docutils literal notranslate"><span class="pre">f</span></code>. That function <code class="docutils literal notranslate"><span class="pre">f</span></code> is present in the R
 <code class="docutils literal notranslate"><span class="pre">Global</span> <span class="pre">Environement</span></code>, and can be accessed with the <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>
 mechanism outlined above:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r_f</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">r_f</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">r_f</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
 </pre></div>
 </div>
-<pre class="literal-block">
-function (r, verbose = FALSE)
+<pre class="literal-block">function (r, verbose = FALSE)
 {
     if (verbose) {
         cat(&quot;I am calling f().n&quot;)
     }
     2 * pi * r
-}
-</pre>
+}</pre>
 <div style="border: solid 1px rgb(50,50,50)"><p>As shown earlier, an alternative way to get the function is to get it
 from the :class:<code class="docutils literal notranslate"><span class="pre">R</span></code> singleton</p>
 <p><code class="docutils literal notranslate"><span class="pre">&gt;&gt;&gt;</span> <span class="pre">r_f</span> <span class="pre">=</span> <span class="pre">robjects.r['f']</span></code></p>
 </div><p>The function r_f is callable, and can be used like a regular Python
 function.</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">r_f</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">res</span> <span class="o">=</span> <span class="n">r_f</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Jump to Section :ref:<code class="docutils literal notranslate"><span class="pre">robjects-introduction-functions</span></code> for more on
@@ -302,7 +297,7 @@ simple and handy features of :mod:<code class="docutils literal notranslate"><sp
 <p>An R object has a string representation that can be used directly into R
 code to be evaluated.</p>
 <p>Simple example:</p>
-<div class="code highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">letters</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">letters</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span>
 <span class="n">rcode</span> <span class="o">=</span> <span class="s1">&#39;paste(</span><span class="si">%s</span><span class="s1">, collapse=&quot;-&quot;)&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">letters</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rcode</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
@@ -321,12 +316,14 @@ scalars.</p>
 <p>When looking closely at the R object <code class="docutils literal notranslate"><span class="pre">pi</span></code> used previously, we can
 observe that this is in fact a vector of length 1.</p>
 <blockquote>
-<div>len(robjects.r[‘pi’]) 1</div></blockquote>
+<div><p>len(robjects.r[‘pi’]) 1</p>
+</div></blockquote>
 <p>As such, the python method :meth:<code class="docutils literal notranslate"><span class="pre">add</span></code> will result in a concatenation
 (function <code class="docutils literal notranslate"><span class="pre">c()</span></code> in R), as this is the case for regular python lists.</p>
 <p>Accessing the one value in that vector has to be stated explicitly:</p>
 <blockquote>
-<div>robjects.r[‘pi’][0] 3.1415926535897931</div></blockquote>
+<div><p>robjects.r[‘pi’][0] 3.1415926535897931</p>
+</div></blockquote>
 <p>There is much that can be achieved with vectors, having them to behave
 more like Python lists or R vectors. A comprehensive description of the
 behavior of vectors is found in :mod:<code class="docutils literal notranslate"><span class="pre">robjects.vector</span></code>.</p>
@@ -334,17 +331,19 @@ behavior of vectors is found in :mod:<code class="docutils literal notranslate">
 <h2>Creating rpy2 vectors<a class="headerlink" href="#creating-rpy2-vectors" title="Permalink to this headline">¶</a></h2>
 <p>Creating R vectors can be achieved simply:</p>
 <blockquote>
-<div>res = robjects.StrVector([‘abc’, ‘def’])
+<div><p>res = robjects.StrVector([‘abc’, ‘def’])
 print(res.r_repr()) c(“abc”, “def”) res =
 robjects.IntVector([1, 2, 3]) print(res.r_repr()) 1:3 res =
 robjects.FloatVector([1.1, 2.2, 3.3]) print(res.r_repr())
-c(1.1, 2.2, 3.3)</div></blockquote>
+c(1.1, 2.2, 3.3)</p>
+</div></blockquote>
 <p>R matrixes and arrays are just vectors with a <code class="docutils literal notranslate"><span class="pre">dim</span></code> attribute.</p>
 <p>The easiest way to create such objects is to do it through R functions:</p>
 <blockquote>
-<div>v = robjects.FloatVector([1.1, 2.2, 3.3, 4.4, 5.5, 6.6]) m =
+<div><p>v = robjects.FloatVector([1.1, 2.2, 3.3, 4.4, 5.5, 6.6]) m =
 robjects.r<a class="reference external" href="v,%20nrow%20=%202">’matrix’</a> print(m) [,1]
-[,2] [,3][1,] 1.1 3.3 5.5 [2,] 2.2 4.4 6.6</div></blockquote>
+[,2] [,3][1,] 1.1 3.3 5.5 [2,] 2.2 4.4 6.6</p>
+</div></blockquote>
 </div>
 </div>
 <div class="section" id="calling-r-functions">
@@ -352,13 +351,15 @@ robjects.r<a class="reference external" href="v,%20nrow%20=%202">’matrix’</a
 <p>Calling R functions is disappointingly similar to calling Python
 functions:</p>
 <blockquote>
-<div>rsum = robjects.r[‘sum’]
-rsum(robjects.IntVector([1,2,3]))[0] 6L</div></blockquote>
+<div><p>rsum = robjects.r[‘sum’]
+rsum(robjects.IntVector([1,2,3]))[0] 6L</p>
+</div></blockquote>
 <p>Keywords are also working:</p>
 <blockquote>
-<div>rsort = robjects.r[‘sort’] res =
+<div><p>rsort = robjects.r[‘sort’] res =
 rsort(robjects.IntVector([1,2,3]), decreasing=True)
-print(res.r_repr()) c(3L, 2L, 1L)</div></blockquote>
+print(res.r_repr()) c(3L, 2L, 1L)</p>
+</div></blockquote>
 <p>By default, calling R functions return R objects.</p>
 <p>More information on functions is in Section :ref:<code class="docutils literal notranslate"><span class="pre">robjects-functions</span></code>.</p>
 </div>
@@ -371,13 +372,15 @@ function, therefore accessible from rpy2.</p>
 <div class="section" id="help-on-a-topic-within-a-given-package-or-currently-loaded-packages">
 <h2>Help on a topic within a given package, or currently loaded packages<a class="headerlink" href="#help-on-a-topic-within-a-given-package-or-currently-loaded-packages" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div>from rpy2.robjects.packages import importr utils =
+<div><p>from rpy2.robjects.packages import importr utils =
 importr(“utils”) help_doc = utils.help(“help”) help_doc[0]
-‘/where/R/is/installed/library/utils/help/help’</div></blockquote>
+‘/where/R/is/installed/library/utils/help/help’</p>
+</div></blockquote>
 <p>Converting the object returned to a string produces the full help text
 on the topic:</p>
 <blockquote>
-<div>str(help_doc) […long output…]</div></blockquote>
+<div><p>str(help_doc) […long output…]</p>
+</div></blockquote>
 <p>The help message so produced is not a string returned to the console but
 is directly printed by R to the standard output. The call to
 :func:<code class="docutils literal notranslate"><span class="pre">str</span></code> only returns an empty string, and the reason for this is
@@ -391,14 +394,16 @@ representation of R objects is the string representation as given by the
 <div class="section" id="locate-topics-among-available-packages">
 <h2>Locate topics among available packages<a class="headerlink" href="#locate-topics-among-available-packages" title="Permalink to this headline">¶</a></h2>
 <blockquote>
-<div>help_where = utils.help_search(“help”)</div></blockquote>
+<div><p>help_where = utils.help_search(“help”)</p>
+</div></blockquote>
 <p>As before with <code class="docutils literal notranslate"><span class="pre">help</span></code>, the result can be printed / converted to a
 string, giving a similar result to what is obtained from an R session.</p>
 <p>The data structure returned can otherwise be used to access the
 information returned in details.</p>
 <blockquote>
-<div>tuple(help_where) (, , , ) tuple(help_where[3].colnames)
-(‘topic’, ‘title’, ‘Package’, ‘LibPath’)</div></blockquote>
+<div><p>tuple(help_where) (, , , ) tuple(help_where[3].colnames)
+(‘topic’, ‘title’, ‘Package’, ‘LibPath’)</p>
+</div></blockquote>
 <p>However, this is beyond the scope of an introduction, and one should
 master the content of the module :mod:<code class="docutils literal notranslate"><span class="pre">robjects.vector</span></code> before
 anything else.</p>
@@ -429,14 +434,11 @@ presented in this documentation:</p>
 <p>ggplot2smoothbycylwithcolours-begin :end-before: #–
 ggplot2smoothbycylwithcolours-end</p>
 <img alt="generated_rst/_static/graphics_ggplot2_smoothbycylwithcolours.png" src="generated_rst/_static/graphics_ggplot2_smoothbycylwithcolours.png" />
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">scale:</th><td class="field-body">50</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">scale</dt>
+<dd class="field-odd"><p>50</p>
+</dd>
+</dl>
 <p>More about plots and graphics in R, as well as more advanced plots are
 presented in Section :ref:<code class="docutils literal notranslate"><span class="pre">graphics</span></code>.</p>
 <p>By default, the embedded R open an interactive plotting device, that is
@@ -478,7 +480,8 @@ interactive sessions, and users often inspect what a function is
 returning in order to know how to extract information.</p>
 <p>When taking the results from the code above, one could go like:</p>
 <blockquote>
-<div>print(lm_D9.rclass) [1] “lm”</div></blockquote>
+<div><p>print(lm_D9.rclass) [1] “lm”</p>
+</div></blockquote>
 <p>Here the resulting object is a list structure, as either inspecting the
 data structure or reading the R man pages for <code class="docutils literal notranslate"><span class="pre">lm</span></code> would tell us.
 Checking its element names is then trivial:</p>
@@ -493,12 +496,14 @@ Checking its element names is then trivial:</p>
 </div></blockquote>
 <p>And so is extracting a particular element:</p>
 <blockquote>
-<div>print(lm_D9.rx2(‘coefficients’)) (Intercept) groupTrt 5.032
--0.371</div></blockquote>
+<div><p>print(lm_D9.rx2(‘coefficients’)) (Intercept) groupTrt 5.032
+-0.371</p>
+</div></blockquote>
 <p>or</p>
 <blockquote>
-<div>print(lm_D9.rx(‘coefficients’)) $coefficients (Intercept)
-groupTrt 5.032 -0.371</div></blockquote>
+<div><p>print(lm_D9.rx(‘coefficients’)) $coefficients (Intercept)
+groupTrt 5.032 -0.371</p>
+</div></blockquote>
 <p>More about extracting elements from vectors is available at
 :ref:<code class="docutils literal notranslate"><span class="pre">robjects-extracting</span></code>.</p>
 </div>
@@ -512,7 +517,7 @@ groupTrt 5.032 -0.371</div></blockquote>
 values”) biplot(pca, main=”biplot”)</p>
 <p>The :mod:<code class="docutils literal notranslate"><span class="pre">rpy2.robjects</span></code> code can be as close to the R code as
 possible:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>import rpy2.robjects as robjects</p>
@@ -521,7 +526,7 @@ possible:</p>
 main=”Eigen values”) r.biplot(pca, main=”biplot”)</p>
 <p>However, the same example can be made a little tidier (with respect to
 being specific about R functions used)</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>from rpy2.robjects.packages import importr</p>
@@ -533,7 +538,7 @@ graphics.plot(pca, main = “Eigen values”) stats.biplot(pca, main =
 </div>
 <div class="section" id="creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code">
 <h2>Creating an R vector or matrix, and filling its cells using Python code<a class="headerlink" href="#creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span>
 </pre></div>
 </div>
 <p>from rpy2.robjects import NA_Real from rpy2.rlike.container import
@@ -574,7 +579,7 @@ col_i * 100</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.8.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
     </div>
   </body>
 </html>
