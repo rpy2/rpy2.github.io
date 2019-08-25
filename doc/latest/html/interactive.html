@@ -45,9 +45,6 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
-            </a></p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Interactive work</a><ul>
@@ -91,10 +88,10 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -367,17 +364,17 @@ returned rather than pushed to self.shell.user_ns:</p>
 </dl>
 <dl class="exception">
 <dt id="rpy2.ipython.rmagic.RInterpreterError">
-<em class="property">exception </em><code class="descclassname">rpy2.ipython.rmagic.</code><code class="descname">RInterpreterError</code><span class="sig-paren">(</span><em>line</em>, <em>err</em>, <em>stdout</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RInterpreterError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RInterpreterError" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="sig-prename descclassname">rpy2.ipython.rmagic.</code><code class="sig-name descname">RInterpreterError</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">err</em>, <em class="sig-param">stdout</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RInterpreterError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RInterpreterError" title="Permalink to this definition">¶</a></dt>
 <dd><p>An error when running R code in a %%R magic cell.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="rpy2.ipython.rmagic.RMagics">
-<em class="property">class </em><code class="descclassname">rpy2.ipython.rmagic.</code><code class="descname">RMagics</code><span class="sig-paren">(</span><em>shell</em>, <em>converter=&lt;rpy2.robjects.conversion.Converter object&gt;</em>, <em>cache_display_data=False</em>, <em>device='png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.ipython.rmagic.</code><code class="sig-name descname">RMagics</code><span class="sig-paren">(</span><em class="sig-param">shell</em>, <em class="sig-param">converter=&lt;rpy2.robjects.conversion.Converter object&gt;</em>, <em class="sig-param">cache_display_data=False</em>, <em class="sig-param">device='png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics" title="Permalink to this definition">¶</a></dt>
 <dd><p>A set of magics useful for interactive work with R via rpy2.</p>
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.R">
-<code class="descname">R</code><span class="sig-paren">(</span><em>line</em>, <em>cell=None</em>, <em>local_ns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.R"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.R" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">R</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">cell=None</em>, <em class="sig-param">local_ns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.R"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.R" title="Permalink to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span> <span class="n">HEIGHT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">POINTSIZE</span><span class="p">]</span>
        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BG</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">noisolation</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="p">{</span><span class="n">px</span><span class="p">,</span><span class="ow">in</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">mm</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">RES</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span>
        <span class="p">[</span><span class="n">code</span> <span class="p">[</span><span class="n">code</span> <span class="o">...</span><span class="p">]]</span>
@@ -524,13 +521,13 @@ converter if all three are available).</p>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.Rdevice">
-<code class="descname">Rdevice</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rdevice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rdevice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Rdevice</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rdevice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rdevice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the plotting device R uses to one of [‘png’, ‘X11’, ‘svg’].</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.Rget">
-<code class="descname">Rget</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rget" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Rget</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rget" title="Permalink to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rget</span> <span class="n">output</span>
 </pre></div>
 </div>
@@ -562,7 +559,7 @@ returned rather than pushed to self.shell.user_ns:</p>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.Rpull">
-<code class="descname">Rpull</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpull" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Rpull</code><span class="sig-paren">(</span><em class="sig-param">line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpull" title="Permalink to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rpull</span> <span class="p">[</span><span class="n">outputs</span> <span class="p">[</span><span class="n">outputs</span> <span class="o">...</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -597,7 +594,7 @@ To avoid this, don’t name your R objects with dots…</p>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.Rpush">
-<code class="descname">Rpush</code><span class="sig-paren">(</span><em>line</em>, <em>local_ns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpush" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">Rpush</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">local_ns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpush" title="Permalink to this definition">¶</a></dt>
 <dd><p>A line-level magic for R that pushes
 variables from python to rpy2. The line should be made up
 of whitespace separated variable names in the IPython
@@ -619,7 +616,7 @@ namespace:</p>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.eval">
-<code class="descname">eval</code><span class="sig-paren">(</span><em>code</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.eval" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">eval</code><span class="sig-paren">(</span><em class="sig-param">code</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.eval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse and evaluate a line of R code with rpy2.
 Returns the output to R’s stdout() connection,
 the value generated by evaluating the code, and a
@@ -633,13 +630,13 @@ withVisible is a LISPy R function).</p>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.flush">
-<code class="descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.flush" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.flush" title="Permalink to this definition">¶</a></dt>
 <dd><p>Flush R’s stdout cache to a string, returning the string.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.publish_graphics">
-<code class="descname">publish_graphics</code><span class="sig-paren">(</span><em>graph_dir</em>, <em>isolate_svgs=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.publish_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.publish_graphics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">publish_graphics</code><span class="sig-paren">(</span><em class="sig-param">graph_dir</em>, <em class="sig-param">isolate_svgs=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.publish_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.publish_graphics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrap graphic file data for presentation in IPython</p>
 <dl class="simple">
 <dt>graph_dir<span class="classifier">str</span></dt><dd><p>Probably provided by some tmpdir call</p>
@@ -651,7 +648,7 @@ withVisible is a LISPy R function).</p>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.set_R_plotting_device">
-<code class="descname">set_R_plotting_device</code><span class="sig-paren">(</span><em>device</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.set_R_plotting_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.set_R_plotting_device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">set_R_plotting_device</code><span class="sig-paren">(</span><em class="sig-param">device</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.set_R_plotting_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.set_R_plotting_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set which device R should use to produce plots.
 If device == ‘svg’ then the package ‘Cairo’
 must be installed. Because Cairo forces “onefile=TRUE”,
@@ -667,14 +664,14 @@ and ‘X11’ allowing interactive plots in the terminal.</p>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.setup_graphics">
-<code class="descname">setup_graphics</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.setup_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.setup_graphics" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">setup_graphics</code><span class="sig-paren">(</span><em class="sig-param">args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.setup_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.setup_graphics" title="Permalink to this definition">¶</a></dt>
 <dd><p>Setup graphics in preparation for evaluating R code.</p>
 <p>args : argparse bunch (should be whatever the R magic got).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="rpy2.ipython.rmagic.RMagics.write_console_regular">
-<code class="descname">write_console_regular</code><span class="sig-paren">(</span><em>output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.write_console_regular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.write_console_regular" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write_console_regular</code><span class="sig-paren">(</span><em class="sig-param">output</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.write_console_regular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.write_console_regular" title="Permalink to this definition">¶</a></dt>
 <dd><p>A hook to capture R’s stdout in a cache.</p>
 </dd></dl>
 
@@ -682,7 +679,7 @@ and ‘X11’ allowing interactive plots in the terminal.</p>
 
 <dl class="function">
 <dt id="rpy2.ipython.rmagic.load_ipython_extension">
-<code class="descclassname">rpy2.ipython.rmagic.</code><code class="descname">load_ipython_extension</code><span class="sig-paren">(</span><em>ip</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#load_ipython_extension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.load_ipython_extension" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.ipython.rmagic.</code><code class="sig-name descname">load_ipython_extension</code><span class="sig-paren">(</span><em class="sig-param">ip</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#load_ipython_extension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.load_ipython_extension" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load the extension in IPython.</p>
 </dd></dl>
 
@@ -916,7 +913,7 @@ the need to install it again (unless a different version of R is used).</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>

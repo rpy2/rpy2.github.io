@@ -46,9 +46,6 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
-            </a></p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Callbacks</a><ul>
@@ -85,10 +82,10 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -121,7 +118,7 @@ can be defined through callback functions.</p>
 <a class="reference internal" href="#rpy2.rinterface_lib.callbacks.consoleread" title="rpy2.rinterface_lib.callbacks.consoleread"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.callbacks.consoleread()</span></code></a></p>
 <dl class="function">
 <dt id="rpy2.rinterface_lib.callbacks.consoleread">
-<code class="descclassname">rpy2.rinterface_lib.callbacks.</code><code class="descname">consoleread</code><span class="sig-paren">(</span><em>prompt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consoleread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consoleread" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.rinterface_lib.callbacks.</code><code class="sig-name descname">consoleread</code><span class="sig-paren">(</span><em class="sig-param">prompt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consoleread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consoleread" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Any Python function with the same signature can be used instead. For example:</p>
@@ -140,12 +137,12 @@ In R’s C API, there are two functions behind the hood, one for regular
 printing, and one for warnings and errors.</p>
 <dl class="function">
 <dt id="rpy2.rinterface_lib.callbacks.consolewrite_print">
-<code class="descclassname">rpy2.rinterface_lib.callbacks.</code><code class="descname">consolewrite_print</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consolewrite_print" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.rinterface_lib.callbacks.</code><code class="sig-name descname">consolewrite_print</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_print"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consolewrite_print" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="rpy2.rinterface_lib.callbacks.consolewrite_warnerror">
-<code class="descclassname">rpy2.rinterface_lib.callbacks.</code><code class="descname">consolewrite_warnerror</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_warnerror"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consolewrite_warnerror" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.rinterface_lib.callbacks.</code><code class="sig-name descname">consolewrite_warnerror</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_warnerror"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consolewrite_warnerror" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>An example should make it obvious:</p>
@@ -171,7 +168,7 @@ printing, and one for warnings and errors.</p>
 </div>
 <dl class="function">
 <dt>
-<code class="descclassname">rpy2.rinterface_lib.callbacks.</code><code class="descname">consolewrite_print</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_print"><span class="viewcode-link">[source]</span></a></dt>
+<code class="sig-prename descclassname">rpy2.rinterface_lib.callbacks.</code><code class="sig-name descname">consolewrite_print</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_print"><span class="viewcode-link">[source]</span></a></dt>
 <dd></dd></dl>
 
 </div>
@@ -180,7 +177,7 @@ printing, and one for warnings and errors.</p>
 <p>The function “flush console” is called whenever output is sent to the R console.</p>
 <dl class="function">
 <dt id="rpy2.rinterface_lib.callbacks.consoleflush">
-<code class="descclassname">rpy2.rinterface_lib.callbacks.</code><code class="descname">consoleflush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consoleflush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consoleflush" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.rinterface_lib.callbacks.</code><code class="sig-name descname">consoleflush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consoleflush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consoleflush" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
@@ -265,7 +262,7 @@ an <code class="xref py py-class docutils literal notranslate"><span class="pre"
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>

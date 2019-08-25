@@ -47,9 +47,6 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="index.html">
-              <img class="logo" src="_static/rpy2_logo_64x64.png" alt="Logo"/>
-            </a></p>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Functions</a><ul>
@@ -74,10 +71,10 @@
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -285,19 +282,19 @@ to a better compartmentalization of code.</p>
 on the behavior of function can be found in Section <a class="reference internal" href="rinterface.html#rinterface-functions"><span class="std std-ref">Functions</span></a>.</p>
 <dl class="class">
 <dt id="rpy2.robjects.functions.Function">
-<em class="property">class </em><code class="descclassname">rpy2.robjects.functions.</code><code class="descname">Function</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.functions.</code><code class="sig-name descname">Function</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpClosure</span></code></p>
 <p>Python representation of an R function.</p>
 <dl class="method">
 <dt id="rpy2.robjects.functions.Function.formals">
-<code class="descname">formals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.formals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.formals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">formals</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.formals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.formals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the signature of the underlying R function
 (as the R function ‘formals()’ would).</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="rpy2.robjects.functions.Function.rcall">
-<code class="descname">rcall</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.rcall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.rcall" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">rcall</code><span class="sig-paren">(</span><em class="sig-param">*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.rcall"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.rcall" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper around the parent method
 rpy2.rinterface.SexpClosure.rcall().</p>
 </dd></dl>
@@ -306,7 +303,7 @@ rpy2.rinterface.SexpClosure.rcall().</p>
 
 <dl class="class">
 <dt id="rpy2.robjects.functions.SignatureTranslatedFunction">
-<em class="property">class </em><code class="descclassname">rpy2.robjects.functions.</code><code class="descname">SignatureTranslatedFunction</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#SignatureTranslatedFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.SignatureTranslatedFunction" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.functions.</code><code class="sig-name descname">SignatureTranslatedFunction</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#SignatureTranslatedFunction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.functions.SignatureTranslatedFunction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.functions.Function" title="rpy2.robjects.functions.Function"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.functions.Function</span></code></a></p>
 <p>Python representation of an R function, where
 the names in named argument are translated to valid
@@ -344,7 +341,7 @@ argument names in Python.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>

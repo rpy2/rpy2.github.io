@@ -38,14 +38,11 @@
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../../../index.html">
-              <img class="logo" src="../../../_static/rpy2_logo_64x64.png" alt="Logo"/>
-            </a></p>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -70,23 +67,10 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">from</span> <span class="nn">_rinterface_cffi</span> <span class="k">import</span> <span class="n">ffi</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">ffi_proxy</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">conversion</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-
-<span class="n">READCONSOLE_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;int(char *, unsigned char *, int, int)&#39;</span>
-<span class="n">RESETCONSOLE_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(void)&#39;</span>
-<span class="n">WRITECONSOLE_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(char *, int)&#39;</span>
-<span class="n">WRITECONSOLE_EX_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(char *, int, int)&#39;</span>
-<span class="n">SHOWMESSAGE_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(char *)&#39;</span>
-<span class="n">CHOOSEFILE_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;int(int, char *, int)&#39;</span>
-<span class="n">CLEANUP_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(SA_TYPE, int, int)&#39;</span>
-<span class="n">SHOWFILE_SIGNATURE</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;int(int, const char **, const char **, &#39;</span>
-                      <span class="s1">&#39;    const char *, Rboolean, const char *)&#39;</span><span class="p">)</span>
-<span class="n">PROCESSEVENT_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(void)&#39;</span>
-<span class="n">BUSY_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(int)&#39;</span>
-<span class="n">CALLBACK_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;void(void)&#39;</span>
-<span class="n">YESNOCANCEL_SIGNATURE</span> <span class="o">=</span> <span class="s1">&#39;int(char *)&#39;</span>  <span class="c1"># TODO: should be const char *</span>
 
 
 <span class="c1"># TODO: rename to &quot;replace_in_module&quot;</span>
@@ -107,7 +91,9 @@
 <span class="n">_FLUSHCONSOLE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[flush console]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="s1">&#39;void (void)&#39;</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consoleflush_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consoleflush</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">consoleflush</span><span class="p">()</span>
@@ -123,7 +109,9 @@
 <span class="n">_READCONSOLE_INTERNAL_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;Internal rpy2 error with callback: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">READCONSOLE_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consoleread_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consoleread</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">addtohistory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="n">success</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
@@ -164,7 +152,9 @@
 <span class="n">_RESETCONSOLE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[reset console]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">RESETCONSOLE_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consolereset_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consolereset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">consolereset</span><span class="p">()</span>
@@ -185,7 +175,9 @@
 <span class="n">_WRITECONSOLE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[write to console]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">WRITECONSOLE_EX_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consolewrite_ex_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consolewrite_ex</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">otype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str_with_maxlen</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -205,7 +197,10 @@
 <span class="n">_SHOWMESSAGE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[show message]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">SHOWMESSAGE_SIGNATURE</span><span class="p">)</span>
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_showmessage_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_showmessage</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -221,7 +216,9 @@
 <span class="n">_CHOOSEFILE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[choose file]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">CHOOSEFILE_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_choosefile_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_choosefile</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">choosefile</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
@@ -253,7 +250,9 @@
                                     <span class="s1">&#39;showing files for R: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">SHOWFILE_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_showfiles_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_showfiles</span><span class="p">(</span><span class="n">nfiles</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">wtitle</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">pager</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="n">filenames</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">headers_str</span> <span class="o">=</span> <span class="p">[]</span>
@@ -291,7 +290,9 @@
 <span class="n">_CLEANUP_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[cleanup]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">CLEANUP_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_cleanup_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">)</span>
@@ -306,7 +307,9 @@
 <span class="n">_PROCESSEVENTS_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[processevents]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">PROCESSEVENT_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_processevents_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_processevents</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">processevents</span><span class="p">()</span>
@@ -321,7 +324,9 @@
 <span class="n">_BUSY_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[busy]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">BUSY_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_busy_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_busy</span><span class="p">(</span><span class="n">which</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">busy</span><span class="p">(</span><span class="n">which</span><span class="p">)</span>
@@ -336,7 +341,9 @@
 <span class="n">_CALLBACK_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[callback]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">CALLBACK_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_callback_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">callback</span><span class="p">()</span>
@@ -351,7 +358,9 @@
 <span class="n">_YESNOCANCEL_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[yesnocancel]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-<span class="nd">@ffi</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">YESNOCANCEL_SIGNATURE</span><span class="p">)</span>
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_yesnocancel_def</span><span class="p">,</span>
+                    <span class="n">ffi</span><span class="p">,</span>
+                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_yesnocancel</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
@@ -381,7 +390,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.0.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
     </div>
   </body>
 </html>

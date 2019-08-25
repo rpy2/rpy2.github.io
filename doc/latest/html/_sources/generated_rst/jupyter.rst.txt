@@ -1,0 +1,568 @@
+
+.. code:: 
+
+    from functools import partial
+    from rpy2.ipython import html
+    html.html_rdataframe=partial(html.html_rdataframe, table_class="docutils")
+
+Notebooka.
+==========
+
+Data Import
+-----------
+
+We choose to use an external dataset to demonstrate how R's own data
+import features can be used.
+
+.. code:: 
+
+    from rpy2.robjects.packages import importr
+    utils = importr('utils')
+    
+    dataf = utils.read_csv('https://raw.githubusercontent.com/jakevdp/PythonDataScienceHandbook/'
+                           'master/notebooks/data/california_cities.csv')
+    dataf
+
+
+
+
+.. raw:: html
+
+    
+            <span>R/rpy2 DataFrame (482 x 14)</span>
+            <table>
+              <thead>
+                <tr>
+                  
+                  <th>X</th>
+                  
+                  <th>city</th>
+                  
+                  <th>latd</th>
+                  
+                  <th>...</th>
+                  
+                  <th>area_land_km2</th>
+                  
+                  <th>area_water_km2</th>
+                  
+                  <th>area_water_percent</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+              
+              <tr>
+                
+                <td>
+                  0
+                </td>
+                
+                <td>
+                  Adela...
+                </td>
+                
+                <td>
+                  34.576111
+                </td>
+                
+                <td>
+                  ...
+                </td>
+                
+                <td>
+                  145.062000
+                </td>
+                
+                <td>
+                  0.046000
+                </td>
+                
+                <td>
+                  0.030000
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  1
+                </td>
+                
+                <td>
+                  Agour...
+                </td>
+                
+                <td>
+                  34.153333
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  20.184000
+                </td>
+                
+                <td>
+                  0.076000
+                </td>
+                
+                <td>
+                  0.370000
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  2
+                </td>
+                
+                <td>
+                  Alameda
+                </td>
+                
+                <td>
+                  37.756111
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  27.482000
+                </td>
+                
+                <td>
+                  31.983000
+                </td>
+                
+                <td>
+                  53.790000
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  3
+                </td>
+                
+                <td>
+                  Albany
+                </td>
+                
+                <td>
+                  37.886944
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  4.632000
+                </td>
+                
+                <td>
+                  9.524000
+                </td>
+                
+                <td>
+                  67.280000
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  ...
+                </td>
+                
+                <td>
+                  ...
+                </td>
+                
+                <td>
+                  ...
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  ...
+                </td>
+                
+                <td>
+                  ...
+                </td>
+                
+                <td>
+                  ...
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  478
+                </td>
+                
+                <td>
+                  Yreka
+                </td>
+                
+                <td>
+                  41.726667
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  25.847000
+                </td>
+                
+                <td>
+                  0.188000
+                </td>
+                
+                <td>
+                  0.720000
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  479
+                </td>
+                
+                <td>
+                  YubaC...
+                </td>
+                
+                <td>
+                  39.134722
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  37.758000
+                </td>
+                
+                <td>
+                  0.201000
+                </td>
+                
+                <td>
+                  0.530000
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  480
+                </td>
+                
+                <td>
+                  Yucaipa
+                </td>
+                
+                <td>
+                  34.030278
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  72.231000
+                </td>
+                
+                <td>
+                  0.013000
+                </td>
+                
+                <td>
+                  0.020000
+                </td>
+                
+              </tr>
+              
+              <tr>
+                
+                <td>
+                  481
+                </td>
+                
+                <td>
+                  Yucca...
+                </td>
+                
+                <td>
+                  34.133333
+                </td>
+                
+                <td>
+                  
+                </td>
+                
+                <td>
+                  103.639000
+                </td>
+                
+                <td>
+                  0.000000
+                </td>
+                
+                <td>
+                  0.000000
+                </td>
+                
+              </tr>
+              
+              </tbody>
+            </table>
+        
+
+
+
+Graphics
+--------
+
+R has arguably some the best static visualizations, often looking more
+polished than other visualization systems and this without the need to
+spend much effort with them.
+
+Using ``ggplot2``
+~~~~~~~~~~~~~~~~~
+
+.. code:: 
+
+    import rpy2.robjects.lib.ggplot2 as gp
+
+Calling ``ggplot2`` looks pretty much like it would in R, which allows
+one to use the all available documentation and examples available for
+the R package. Remember that this is not a reimplementation of ggplot2
+with inevitable differences and delay for having the latest changes: the
+R package itself is generating the figures.
+
+.. code:: 
+
+    p = (gp.ggplot(dataf) +
+         gp.aes_string(x='longd',
+                       y='latd',
+                       color='population_total',
+                       size='area_total_km2') +
+         gp.geom_point() +
+         gp.scale_color_continuous(trans='log10'))
+
+.. code:: 
+
+    from rpy2.ipython.ggplot import image_png
+    image_png(p)
+
+
+
+
+.. image:: jupyter_files/jupyter_7_0.png
+
+
+
+The figure can be customized to get closer to what we want.
+
+.. code:: 
+
+    from rpy2.robjects.vectors import IntVector
+    p = (gp.ggplot(dataf) +
+         gp.aes_string(x='longd',
+                       y='latd',
+                       color='population_total',
+                       size='area_total_km2') +
+         gp.geom_point(alpha=0.5) +
+         # Axis definitions.
+         gp.scale_x_continuous('Longitude') +
+         gp.scale_y_continuous('Latitude') +
+         # Custom size range.
+         gp.scale_size(range = IntVector([1, 18])) +
+         # Transform for pop -> color mapping
+         gp.scale_color_continuous(trans='log10') +
+         # Title.
+         gp.ggtitle('California Cities: Area and Population') +
+         # Plot theme and text size.
+         gp.theme_light(base_size=16))
+    image_png(p)
+
+
+
+
+.. image:: jupyter_files/jupyter_9_0.png
+
+
+
+Using ``ggplot2`` extensions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To use the viridis color scale, we just need to import the corresponding
+R package, and write 3 lines of Python to extend ``rpy2``'s ggplot2
+wrapper with a new color scale.
+
+.. code:: 
+
+    viridis = importr('viridis')
+    class ScaleColorViridis(gp.ScaleColour):
+        _constructor = viridis.scale_color_viridis
+    scale_color_viridis = ScaleColorViridis.new
+
+That new color scale can be used as any other scale already present in
+``ggplot2``:
+
+.. code:: 
+
+    p = (gp.ggplot(dataf) +
+         gp.aes_string(x='longd',
+                       y='latd',
+                       color='population_total',
+                       size='area_total_km2') +
+         gp.geom_point(alpha=0.5) +
+         gp.scale_x_continuous('Longitude') +
+         gp.scale_y_continuous('Latitude') +
+         gp.scale_size(range = IntVector([1, 18])) +
+         scale_color_viridis(trans='log10') +
+         gp.ggtitle('California Cities: Area and Population') +
+         gp.theme_light(base_size=16))
+    image_png(p)
+
+
+
+
+.. image:: jupyter_files/jupyter_13_0.png
+
+
+
+So far we have shown that using ``ggplot2`` can be done from Python as
+if it was just an other Python library for visualization, but R can also
+be used in cells.
+
+First the so-called "R magic" extension should be loaded.
+
+.. code:: 
+
+    %load_ext rpy2.ipython
+
+From now on, code cells starting with ``%%R`` will see their content
+evaluated as R code. If the R code is generating figures, they will be
+displayed along with the rest of the output.
+
+.. code:: r
+
+    %%R
+    R.version.string
+
+
+.. parsed-literal::
+
+    [1] "R version 3.6.1 Patched (2019-07-12 r76828)"
+
+
+.. code:: r
+
+    %%R -i dataf
+    
+    require(dplyr)
+    glimpse(dataf)
+
+
+.. parsed-literal::
+
+    R[write to console]: Loading required package: dplyr
+    
+    R[write to console]: 
+    Attaching package: ‘dplyr’
+    
+    
+    R[write to console]: The following objects are masked from ‘package:stats’:
+    
+        filter, lag
+    
+    
+    R[write to console]: The following objects are masked from ‘package:base’:
+    
+        intersect, setdiff, setequal, union
+    
+    
+
+
+.. parsed-literal::
+
+    Observations: 482
+    Variables: 14
+    $ X                  [3m[90m<int>[39m[23m 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+    $ city               [3m[90m<fct>[39m[23m Adelanto, AgouraHills, Alameda, Albany, Alhambra, …
+    $ latd               [3m[90m<dbl>[39m[23m 34.57611, 34.15333, 37.75611, 37.88694, 34.08194, …
+    $ longd              [3m[90m<dbl>[39m[23m -117.4328, -118.7617, -122.2744, -122.2978, -118.1…
+    $ elevation_m        [3m[90m<dbl>[39m[23m 875, 281, NA, NA, 150, 127, 1332, 280, 14, 48, 132…
+    $ elevation_ft       [3m[90m<dbl>[39m[23m 2871, 922, 33, 43, 492, 417, 4370, 919, 46, 157, 4…
+    $ population_total   [3m[90m<int>[39m[23m 31765, 20330, 75467, 18969, 83089, 47823, 2827, 18…
+    $ area_total_sq_mi   [3m[90m<dbl>[39m[23m 56.027, 7.822, 22.960, 5.465, 7.632, 7.472, 2.449,…
+    $ area_land_sq_mi    [3m[90m<dbl>[39m[23m 56.009, 7.793, 10.611, 1.788, 7.631, 7.472, 2.435,…
+    $ area_water_sq_mi   [3m[90m<dbl>[39m[23m 0.018, 0.029, 12.349, 3.677, 0.001, 0.000, 0.014, …
+    $ area_total_km2     [3m[90m<dbl>[39m[23m 145.107, 20.260, 59.465, 14.155, 19.766, 19.352, 6…
+    $ area_land_km2      [3m[90m<dbl>[39m[23m 145.062, 20.184, 27.482, 4.632, 19.763, 19.352, 6.…
+    $ area_water_km2     [3m[90m<dbl>[39m[23m 0.046, 0.076, 31.983, 9.524, 0.003, 0.000, 0.036, …
+    $ area_water_percent [3m[90m<dbl>[39m[23m 0.03, 0.37, 53.79, 67.28, 0.01, 0.00, 0.57, 0.00, …
+
+
+The data frame called ``dataf`` in our Python notebook was already bound
+to the name ``dataf`` in the R main namespace (``GlobalEnv`` in the R
+lingo) in our previous cell. We can just use it in subsequent cells.
+
+.. code:: r
+
+    %%R -w 800
+    
+    cat("Running an R code cell.\n")
+    
+    p <- ggplot(dataf) +
+         aes_string(x = 'longd',
+                    y = 'latd',
+                    color = 'population_total',
+                    size = 'area_total_km2') +
+         # TODO: alpha appears broken here.
+         geom_point() +
+         scale_x_continuous('Longitude') +
+         scale_y_continuous('Latitude') +
+         scale_size(range = c(1, 18)) +
+         scale_color_viridis(trans='log10') +
+         ggtitle('California Cities: Area and Population') +
+         theme_light(base_size=16)
+    print(p)
+
+
+.. parsed-literal::
+
+    Running an R code cell.
+
+
+
+.. image:: jupyter_files/jupyter_20_1.png
+
