@@ -1,5 +1,4 @@
-
-.. code:: 
+.. code:: ipython3
 
     from functools import partial
     from rpy2.ipython import html
@@ -22,7 +21,7 @@ conversion layer between :class:``rpy2.robjects.vectors.DataFrame`` and
 :class:``pandas.DataFrame`` objects, implemented in
 :mod:``rpy2.robjects.pandas2ri``.
 
-.. code:: 
+.. code:: ipython3
 
     import pandas as pd
     import rpy2.robjects as ro
@@ -36,7 +35,7 @@ From ``pandas`` to ``R``
 
 Pandas data frame:
 
-.. code:: 
+.. code:: ipython3
 
     pd_df = pd.DataFrame({'int_values': [1,2,3],
                           'str_values': ['abc', 'def', 'ghi']})
@@ -94,7 +93,7 @@ Pandas data frame:
 
 R data frame converted from a ``pandas`` data frame:
 
-.. code:: 
+.. code:: ipython3
 
     with localconverter(ro.default_converter + pandas2ri.converter):
       r_from_pd_df = ro.conversion.py2rpy(pd_df)
@@ -107,41 +106,41 @@ R data frame converted from a ``pandas`` data frame:
 .. raw:: html
 
     
-            <span>R/rpy2 DataFrame (3 x 2)</span>
-            <table>
-              <thead>
-                <tr>
-                  
-                  <th>int_values</th>
-                  
-                  <th>str_values</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-              
-              <tr>
-                
-                <td>
-                  ...
-                </td>
-                
-                <td>
-                  ...
-                </td>
-                
-              </tr>
-              
-              </tbody>
-            </table>
-        
+    <span>R/rpy2 DataFrame (3 x 2)</span>
+    <table>
+      <thead>
+        <tr>
+    
+          <th>int_values</th>
+    
+          <th>str_values</th>
+    
+        </tr>
+      </thead>
+      <tbody>
+    
+      <tr>
+    
+        <td>
+          ...
+        </td>
+    
+        <td>
+          ...
+        </td>
+    
+      </tr>
+    
+      </tbody>
+    </table>
+
 
 
 
 The conversion is automatically happening when calling R functions. For
 example, when calling the R function ``base::summary``:
 
-.. code:: 
+.. code:: ipython3
 
     base = importr('base')
     
@@ -161,7 +160,7 @@ Note that a ``ContextManager`` is used to limit the scope of the
 conversion. Without it, rpy2 will not know how to convert a pandas data
 frame:
 
-.. code:: 
+.. code:: ipython3
 
     try:
       df_summary = base.summary(pd_df)
@@ -181,7 +180,7 @@ From ``R`` to ``pandas``
 
 Starting from an R data frame this time:
 
-.. code:: 
+.. code:: ipython3
 
     r_df = ro.DataFrame({'int_values': ro.IntVector([1,2,3]),
                          'str_values': ro.StrVector(['abc', 'def', 'ghi'])})
@@ -194,40 +193,40 @@ Starting from an R data frame this time:
 .. raw:: html
 
     
-            <span>R/rpy2 DataFrame (3 x 2)</span>
-            <table>
-              <thead>
-                <tr>
-                  
-                  <th>int_values</th>
-                  
-                  <th>str_values</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-              
-              <tr>
-                
-                <td>
-                  ...
-                </td>
-                
-                <td>
-                  ...
-                </td>
-                
-              </tr>
-              
-              </tbody>
-            </table>
-        
+    <span>R/rpy2 DataFrame (3 x 2)</span>
+    <table>
+      <thead>
+        <tr>
+    
+          <th>int_values</th>
+    
+          <th>str_values</th>
+    
+        </tr>
+      </thead>
+      <tbody>
+    
+      <tr>
+    
+        <td>
+          ...
+        </td>
+    
+        <td>
+          ...
+        </td>
+    
+      </tr>
+    
+      </tbody>
+    </table>
+
 
 
 
 It can be converted to a pandas data frame using the same converter:
 
-.. code:: 
+.. code:: ipython3
 
     with localconverter(ro.default_converter + pandas2ri.converter):
       pd_from_r_df = ro.conversion.rpy2py(r_df)
@@ -286,7 +285,7 @@ It can be converted to a pandas data frame using the same converter:
 Date and time objects
 ---------------------
 
-.. code:: 
+.. code:: ipython3
 
     pd_df = pd.DataFrame({
         'Timestamp': pd.date_range('2017-01-01 00:00:00', periods=10, freq='s')
@@ -367,7 +366,7 @@ Date and time objects
 
 
 
-.. code:: 
+.. code:: ipython3
 
     with localconverter(ro.default_converter + pandas2ri.converter):
       r_from_pd_df = ro.conversion.py2rpy(pd_df)
@@ -380,28 +379,28 @@ Date and time objects
 .. raw:: html
 
     
-            <span>R/rpy2 DataFrame (10 x 1)</span>
-            <table>
-              <thead>
-                <tr>
-                  
-                  <th>Timestamp</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-              
-              <tr>
-                
-                <td>
-                  ...
-                </td>
-                
-              </tr>
-              
-              </tbody>
-            </table>
-        
+    <span>R/rpy2 DataFrame (10 x 1)</span>
+    <table>
+      <thead>
+        <tr>
+    
+          <th>Timestamp</th>
+    
+        </tr>
+      </thead>
+      <tbody>
+    
+      <tr>
+    
+        <td>
+          ...
+        </td>
+    
+      </tr>
+    
+      </tbody>
+    </table>
+
 
 
 
@@ -409,7 +408,7 @@ The timezone used for conversion is the system's default timezone unless
 ``pandas2ri.default_timezone`` is specified... or unless the time zone
 is specified in the original time object:
 
-.. code:: 
+.. code:: ipython3
 
     pd_tz_df = pd.DataFrame({
         'Timestamp': pd.date_range('2017-01-01 00:00:00', periods=10, freq='s',
@@ -427,27 +426,27 @@ is specified in the original time object:
 .. raw:: html
 
     
-            <span>R/rpy2 DataFrame (10 x 1)</span>
-            <table>
-              <thead>
-                <tr>
-                  
-                  <th>Timestamp</th>
-                  
-                </tr>
-              </thead>
-              <tbody>
-              
-              <tr>
-                
-                <td>
-                  ...
-                </td>
-                
-              </tr>
-              
-              </tbody>
-            </table>
-        
+    <span>R/rpy2 DataFrame (10 x 1)</span>
+    <table>
+      <thead>
+        <tr>
+    
+          <th>Timestamp</th>
+    
+        </tr>
+      </thead>
+      <tbody>
+    
+      <tr>
+    
+        <td>
+          ...
+        </td>
+    
+      </tr>
+    
+      </tbody>
+    </table>
+
 
 

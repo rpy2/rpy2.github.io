@@ -19,7 +19,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Numpy" href="numpy.html" />
-    <link rel="prev" title="DataFrames and dplyr" href="lib_dplyr.html" />
+    <link rel="prev" title="Graphics" href="graphics.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
     <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
@@ -38,7 +38,7 @@
           <a href="numpy.html" title="Numpy"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="lib_dplyr.html" title="DataFrames and dplyr"
+          <a href="graphics.html" title="Graphics"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.1.0-dev documentation</a> &#187;</li> 
       </ul>
@@ -75,8 +75,8 @@
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="lib_dplyr.html"
-                        title="previous chapter">DataFrames and dplyr</a></p>
+  <p class="topless"><a href="graphics.html"
+                        title="previous chapter">Graphics</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="numpy.html"
                         title="next chapter">Numpy</a></p>
@@ -135,7 +135,8 @@ the line and cell magics, respectively.</p>
 <div><blockquote>
 <div></div></blockquote>
 <dl class="simple">
-<dt>%R [-i INPUT] [-o OUTPUT] [-n] [-w WIDTH] [-h HEIGHT] [-p POINTSIZE]</dt><dd><p>[-b BG] [–noisolation] [-u {px,in,cm,mm}] [-r RES] [-c CONVERTER]
+<dt>%R [-i INPUT] [-o OUTPUT] [-n] [-w WIDTH] [-h HEIGHT] [-p POINTSIZE]</dt><dd><p>[-b BG] [–noisolation] [-u {px,in,cm,mm}] [-r RES]
+[–type {cairo,cairo-png,Xlib,quartz}] [-c CONVERTER]
 [code [code …]]</p>
 </dd>
 </dl>
@@ -265,6 +266,9 @@ set of SVGs.</p>
 to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
 [“in”, “cm”, “mm”].</p>
 </dd>
+<dt><kbd><span class="option">--type <var>&lt;{cairo,cairo-png,Xlib,quartz}&gt;</var></span></kbd></dt>
+<dd><p>Type device used to generate the figure.</p>
+</dd>
 <dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
 <dd><p>Name of local converter to use. A converter contains
 the rules to convert objects back and forth between
@@ -376,7 +380,8 @@ returned rather than pushed to self.shell.user_ns:</p>
 <dt id="rpy2.ipython.rmagic.RMagics.R">
 <code class="sig-name descname">R</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">cell=None</em>, <em class="sig-param">local_ns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.R"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.R" title="Permalink to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span> <span class="n">HEIGHT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">POINTSIZE</span><span class="p">]</span>
-       <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BG</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">noisolation</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="p">{</span><span class="n">px</span><span class="p">,</span><span class="ow">in</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">mm</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">RES</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span>
+       <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BG</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">noisolation</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="p">{</span><span class="n">px</span><span class="p">,</span><span class="ow">in</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">mm</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">RES</span><span class="p">]</span>
+       <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="p">{</span><span class="n">cairo</span><span class="p">,</span><span class="n">cairo</span><span class="o">-</span><span class="n">png</span><span class="p">,</span><span class="n">Xlib</span><span class="p">,</span><span class="n">quartz</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span>
        <span class="p">[</span><span class="n">code</span> <span class="p">[</span><span class="n">code</span> <span class="o">...</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -504,6 +509,9 @@ set of SVGs.</p>
 <dd><p>Resolution of png plotting device sent as an argument
 to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
 [“in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">--type <var>&lt;{cairo,cairo-png,Xlib,quartz}&gt;</var></span></kbd></dt>
+<dd><p>Type device used to generate the figure.</p>
 </dd>
 <dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
 <dd><p>Name of local converter to use. A converter contains
@@ -906,7 +914,7 @@ the need to install it again (unless a different version of R is used).</p>
           <a href="numpy.html" title="Numpy"
              >next</a> |</li>
         <li class="right" >
-          <a href="lib_dplyr.html" title="DataFrames and dplyr"
+          <a href="graphics.html" title="Graphics"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.1.0-dev documentation</a> &#187;</li> 
       </ul>

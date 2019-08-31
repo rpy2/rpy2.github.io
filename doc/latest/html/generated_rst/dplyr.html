@@ -62,7 +62,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+  <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="k">import</span> <span class="n">html</span>
 <span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
 </pre></div>
@@ -71,7 +71,7 @@
 <h1>dplyr in Python<a class="headerlink" href="#dplyr-in-python" title="Permalink to this headline">¶</a></h1>
 <p>We need 2 things for this:</p>
 <p>1- A data frame (using one of R’s demo datasets).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
 <span class="n">datasets</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
 <span class="n">mtcars_env</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)</span>
 <span class="n">mtcars</span> <span class="o">=</span> <span class="n">mtcars_env</span><span class="p">[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
@@ -80,16 +80,16 @@
 <p>In addition to that, and because this tutorial is in a notebook, we
 initialize HTML rendering for R objects (pretty display of R data
 frames).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.ipython.html</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.ipython.html</span>
 <span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>2- dplyr</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">import</span> <span class="n">DataFrame</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">import</span> <span class="n">DataFrame</span>
 </pre></div>
 </div>
 <p>With this we have the choice of chaining (D3-style)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="o">.</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="o">.</span>
          <span class="nb">filter</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">)</span><span class="o">.</span>
          <span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">)</span><span class="o">.</span>
          <span class="n">group_by</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">)</span><span class="o">.</span>
@@ -124,7 +124,7 @@ frames).</p>
     </tr>
   </tbody>
 </table><p>or with pipes (magrittr style).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># currently no longer working</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># currently no longer working</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">import</span> <span class="p">(</span><span class="nb">filter</span><span class="p">,</span>
                                      <span class="n">mutate</span><span class="p">,</span>
                                      <span class="n">group_by</span><span class="p">,</span>
@@ -146,7 +146,7 @@ writing <code class="docutils literal notranslate"><span class="pre">mean(powert
 <p>Using a Python function is not too difficult though. We can just call
 Python back from R. To achieve this we simply use the decorator
 <code class="docutils literal notranslate"><span class="pre">rternalize</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a python function, and make</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a python function, and make</span>
 <span class="c1"># it a function R can use through `rternalize`</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="k">import</span> <span class="n">rternalize</span>
 <span class="nd">@rternalize</span>
@@ -201,10 +201,10 @@ Python back from R. To achieve this we simply use the decorator
   </tbody>
 </table><p>It is also possible to carry this out without having to place the custom
 function in R’s global environment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">del</span><span class="p">(</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;mean_np&#39;</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">del</span><span class="p">(</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;mean_np&#39;</span><span class="p">])</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">import</span> <span class="n">StringInEnv</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">import</span> <span class="n">StringInEnv</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">Environment</span>
 <span class="n">my_env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
 <span class="n">my_env</span><span class="p">[</span><span class="s1">&#39;mean_np&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_np</span>
@@ -253,7 +253,7 @@ function in R’s global environment.</p>
 <p>The seamless translation of transformations to SQL whenever the data are
 in a table can be used directly. Since we are lifting the original
 implementation of <code class="docutils literal notranslate"><span class="pre">dplyr</span></code>, it <em>just works</em>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">import</span> <span class="n">dplyr</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">import</span> <span class="n">dplyr</span>
 <span class="c1"># in-memory SQLite database broken in dplyr&#39;s src_sqlite</span>
 <span class="c1"># db = dplyr.src_sqlite(&quot;:memory:&quot;)</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
@@ -271,7 +271,7 @@ implementation of <code class="docutils literal notranslate"><span class="pre">d
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[90m# Source:   lazy query [?? x 2][39m
-[90m# Database: sqlite 3.29.0 [/tmp/tmpmsgm4wqg][39m
+[90m# Database: sqlite 3.29.0 [/tmp/tmp_y626iuh][39m
    gear mean_ptw
   [3m[90m&lt;dbl&gt;[39m[23m    [3m[90m&lt;dbl&gt;[39m[23m
 [90m1[39m     4    [4m1[24m237.
@@ -280,7 +280,7 @@ implementation of <code class="docutils literal notranslate"><span class="pre">d
 </div>
 <p>Since we are manipulating R objects, anything available to R is also
 available to us. If we want to see the SQL code generated that’s:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">silent</span> <span class="o">=</span> <span class="n">dplyr</span><span class="o">.</span><span class="n">show_query</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">silent</span> <span class="o">=</span> <span class="n">dplyr</span><span class="o">.</span><span class="n">show_query</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
 </div>
 <pre class="literal-block">&lt;SQL&gt;
@@ -293,7 +293,7 @@ GROUP BY <cite>gear</cite></pre>
 <p>The conversion rules in rpy2 make the above easily applicable to pandas
 data frames, completing the “lexical loan” of the dplyr vocabulary from
 R.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">default_converter</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="n">localconverter</span>
 
@@ -311,7 +311,7 @@ R.</p>
 <p>Using a local converter lets us also go from the pandas data frame to
 our dplyr-augmented R data frame and use the dplyr transformations on
 it.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
     <span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd_mtcars</span><span class="p">)</span><span class="o">.</span>
              <span class="nb">filter</span><span class="p">(</span><span class="s1">&#39;gear&gt;=3&#39;</span><span class="p">)</span><span class="o">.</span>
              <span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">)</span><span class="o">.</span>

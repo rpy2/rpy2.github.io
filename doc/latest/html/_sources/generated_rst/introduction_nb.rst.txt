@@ -1,5 +1,4 @@
-
-.. code:: 
+.. code:: ipython3
 
     from functools import partial
     from rpy2.ipython import html
@@ -21,7 +20,7 @@ it. ``rpy2`` is just a python package. Most users will interact with R
 using the ``robjects`` layer, a high-level interface that tries to hide
 R behind a Python-like behavior.
 
-.. code:: 
+.. code:: ipython3
 
     import rpy2.robjects as robjects
 
@@ -33,7 +32,7 @@ packages available.
 
 For this introduction, we use few popular R packages.
 
-.. code:: 
+.. code:: ipython3
 
     # R package names
     packnames = ('ggplot2', 'hexbin')
@@ -50,7 +49,7 @@ Downloading and installing R packages is usually performed by fetching R
 packages from a package repository and installing them locally. We can
 get set with:
 
-.. code:: 
+.. code:: ipython3
 
     if not have_tutorial_packages:
         # import R's utility package
@@ -61,7 +60,7 @@ get set with:
 We are now ready to install packages using R's own function
 ``install.package``:
 
-.. code:: 
+.. code:: ipython3
 
     if not have_tutorial_packages:
         # R vector of strings
@@ -97,7 +96,7 @@ a variable from the R console.
 
 Example in R:
 
-.. code:: 
+.. code:: ipython3
 
     %load_ext rpy2.ipython
 
@@ -114,7 +113,7 @@ Example in R:
 
 With :mod:``rpy2``:
 
-.. code:: 
+.. code:: ipython3
 
     pi = robjects.r['pi']
     pi[0]
@@ -205,7 +204,7 @@ Example in R:
 
 With ``rpy2``:
 
-.. code:: 
+.. code:: ipython3
 
     pi = robjects.r('pi')
     pi[0]
@@ -230,7 +229,7 @@ provide an explanation for the following behavior:
 
    </div>
 
-.. code:: 
+.. code:: ipython3
 
     piplus2 = robjects.r('pi') + 2
     print(piplus2.r_repr())
@@ -251,7 +250,7 @@ variables are "located" in that ``Global Environment`` by default.
 
 Example:
 
-.. code:: 
+.. code:: ipython3
 
     robjects.r('''
     	f <- function(r, verbose=FALSE) {
@@ -269,19 +268,19 @@ Example:
 .. raw:: html
 
     
-            <span>FloatVector with 1 elements.</span>
-            <table>
-            <tbody>
-              <tr>
-              
-                <td>
-                18.849556
-                </td>
-              
-              </tr>
-            </tbody>
-            </table>
-            
+    <span>FloatVector with 1 elements.</span>
+    <table>
+    <tbody>
+      <tr>
+    
+        <td>
+        18.849556
+        </td>
+    
+      </tr>
+    </tbody>
+    </table>
+
 
 
 
@@ -290,7 +289,7 @@ function ``f``. That function ``f`` is present in the R
 ``Global Environement``, and can be accessed with the ``__getitem__``
 mechanism outlined above:
 
-.. code:: 
+.. code:: ipython3
 
     r_f = robjects.globalenv['f']
     print(r_f.r_repr())
@@ -323,7 +322,7 @@ from the :class:``R`` singleton
 The function r\_f is callable, and can be used like a regular Python
 function.
 
-.. code:: 
+.. code:: ipython3
 
     res = r_f(3)
 
@@ -341,7 +340,7 @@ code to be evaluated.
 
 Simple example:
 
-.. code:: 
+.. code:: ipython3
 
     letters = robjects.r['letters']
     rcode = 'paste(%s, collapse="-")' %(letters.r_repr())

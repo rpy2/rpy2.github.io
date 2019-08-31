@@ -910,7 +910,7 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">datetime</span><span class="p">):</span>
             <span class="n">init_param</span> <span class="o">=</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">sexp_from_datetime</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s1">&#39;All elements must inherit from time.struct_time or &#39;</span>
                 <span class="s1">&#39;datetime.datetime.&#39;</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">init_param</span><span class="p">)</span>
@@ -1007,10 +1007,11 @@
         <span class="k">return</span> <span class="n">res</span>
 
     <span class="k">def</span> <span class="nf">__dim_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="c1"># TODO: R will create a copy of the object upon assignment</span>
+        <span class="c1">#   of a new dimension attribute.</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Not yet implemented&quot;</span><span class="p">)</span>
         <span class="n">value</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dim_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-        <span class="c1"># TODO: not properly done</span>
-        <span class="k">raise</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Not yet implemented&quot;</span><span class="p">))</span>
 
     <span class="n">dim</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__dim_get</span><span class="p">,</span> <span class="n">__dim_set</span><span class="p">,</span>
                    <span class="s2">&quot;Get or set the dimension of the array.&quot;</span><span class="p">)</span>
@@ -1393,17 +1394,18 @@
                      <span class="n">as_is</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create an instance from data in a .csv file.</span>
 
-<span class="sd">        path         : string with a path</span>
-<span class="sd">        header       : boolean (heading line with column names or not)</span>
-<span class="sd">        sep          : separator character</span>
-<span class="sd">        quote        : quote character</span>
-<span class="sd">        row_names    : column name, or column index for column names</span>
-<span class="sd">          (warning: indexing starts at one in R)</span>
-<span class="sd">        fill         : boolean (fill the lines when less entries than columns)</span>
-<span class="sd">        comment_char : comment character</span>
-<span class="sd">        na_strings   : a list of strings which are interpreted to be NA values</span>
-<span class="sd">        as_is        : boolean (keep the columns of strings as such, or turn</span>
-<span class="sd">          them into factors)</span>
+<span class="sd">        :param path: string with a path</span>
+<span class="sd">        :param header: boolean (heading line with column names or not)</span>
+<span class="sd">        :param sep: separator character</span>
+<span class="sd">        :param quote: quote character</span>
+<span class="sd">        :param row_names: column name, or column index for column names</span>
+<span class="sd">           (warning: indexing starts at one in R)</span>
+<span class="sd">        :param fill: boolean (fill the lines when less entries than columns)</span>
+<span class="sd">        :param comment_char: comment character</span>
+<span class="sd">        :param na_strings: a list of strings which are interpreted to be NA</span>
+<span class="sd">           values</span>
+<span class="sd">        :param as_is: boolean (keep the columns of strings as such, or turn</span>
+<span class="sd">           them into factors)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
         <span class="n">header</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>

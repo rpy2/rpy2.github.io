@@ -115,6 +115,7 @@
 <span class="kn">import</span> <span class="nn">rpy2.rinterface_lib.callbacks</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpacks</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="k">import</span> <span class="n">grdevices</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="p">(</span><span class="n">Converter</span><span class="p">,</span>
                                       <span class="n">localconverter</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -477,7 +478,7 @@
             <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">units</span> <span class="o">!=</span> <span class="s2">&quot;px&quot;</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">args</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="mi">72</span>
 
-        <span class="n">plot_arg_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pointsize&#39;</span><span class="p">,</span> <span class="s1">&#39;bg&#39;</span><span class="p">]</span>
+        <span class="n">plot_arg_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pointsize&#39;</span><span class="p">,</span> <span class="s1">&#39;bg&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;png&#39;</span><span class="p">:</span>
             <span class="n">plot_arg_names</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">]</span>
 
@@ -497,8 +498,8 @@
 
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;png&#39;</span><span class="p">:</span>
                 <span class="c1"># Note: that %% is to pass into R for interpolation there</span>
-                <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/Rplots</span><span class="si">%%</span><span class="s2">03d.png&quot;</span> <span class="o">%</span> <span class="n">tmpd_fix_slashes</span><span class="p">,</span>
-                         <span class="o">**</span><span class="n">argdict</span><span class="p">)</span>
+                <span class="n">grdevices</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/Rplots</span><span class="si">%%</span><span class="s2">03d.png&quot;</span> <span class="o">%</span> <span class="n">tmpd_fix_slashes</span><span class="p">,</span>
+                              <span class="o">**</span><span class="n">argdict</span><span class="p">)</span>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;svg&#39;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">cairo</span><span class="o">.</span><span class="n">CairoSVG</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/Rplot.svg&quot;</span> <span class="o">%</span> <span class="n">tmpd_fix_slashes</span><span class="p">,</span>
                                     <span class="o">**</span><span class="n">argdict</span><span class="p">)</span>
@@ -630,6 +631,12 @@
 <span class="s2">        Resolution of png plotting device sent as an argument to *png* in R.</span>
 <span class="s2">        Defaults to 72 if *units* is one of [&quot;in&quot;, &quot;cm&quot;, &quot;mm&quot;].&quot;&quot;&quot;</span><span class="p">)</span>
         <span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;--type&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cairo&#39;</span><span class="p">,</span> <span class="s1">&#39;cairo-png&#39;</span><span class="p">,</span> <span class="s1">&#39;Xlib&#39;</span><span class="p">,</span> <span class="s1">&#39;quartz&#39;</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Type device used to generate the figure.</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">))</span>
     <span class="nd">@argument</span><span class="p">(</span>
         <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--converter&#39;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>

@@ -92,8 +92,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consoleflush_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consoleflush</span><span class="p">():</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">consoleflush</span><span class="p">()</span>
@@ -110,8 +109,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consoleread_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consoleread</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">addtohistory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="n">success</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">try</span><span class="p">:</span>
@@ -153,8 +151,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consolereset_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consolereset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">consolereset</span><span class="p">()</span>
@@ -176,8 +173,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consolewrite_ex_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_consolewrite_ex</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">otype</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str_with_maxlen</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">n</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -197,10 +193,8 @@
 <span class="n">_SHOWMESSAGE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[show message]: </span><span class="si">%s</span><span class="s1">&#39;</span>
 
 
-
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_showmessage_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_showmessage</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -217,8 +211,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_choosefile_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_choosefile</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">choosefile</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
@@ -251,8 +244,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_showfiles_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_showfiles</span><span class="p">(</span><span class="n">nfiles</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">wtitle</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">pager</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
     <span class="n">filenames</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">headers_str</span> <span class="o">=</span> <span class="p">[]</span>
@@ -291,8 +283,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_cleanup_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">)</span>
@@ -308,8 +299,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_processevents_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_processevents</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">processevents</span><span class="p">()</span>
@@ -325,8 +315,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_busy_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_busy</span><span class="p">(</span><span class="n">which</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">busy</span><span class="p">(</span><span class="n">which</span><span class="p">)</span>
@@ -342,8 +331,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_callback_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">callback</span><span class="p">()</span>
@@ -359,8 +347,7 @@
 
 
 <span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_yesnocancel_def</span><span class="p">,</span>
-                    <span class="n">ffi</span><span class="p">,</span>
-                    <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">ABI</span><span class="p">)</span>
+                    <span class="n">ffi</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_yesnocancel</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">q</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
