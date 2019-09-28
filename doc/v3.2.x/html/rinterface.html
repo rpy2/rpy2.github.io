@@ -462,10 +462,10 @@ R events in a thread (see Section <a class="reference internal" href="interactiv
 level can quickly result in an embedded R crashing. Since we are using R’s C API
 and Python can do multithreading, getting to such software failure will not be too hard.
 However, multithreading should not be considered impossible, or even very difficult to
-achieved when applying the one guideline below.</p>
+achieve when applying the one guideline below.</p>
 <p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> has a lock that can be used as a context manager. Interactions with R
-that a code author knows should never be interrupted by thread can simply be wrapped
-in locked block as follows:</p>
+that a code author knows should never be interrupted by thread switching can simply
+be wrapped in a thread-locked block as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">openrlib</span>
 
 <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
@@ -478,7 +478,7 @@ in locked block as follows:</p>
 API in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> code base
 (e.g., when a protection/unprotection stack is used for R objects transiently
 protected from garbage collection, or when the embedded R is initialized) but
-can be safely reused by higher level code.</p>
+can be safely reused and nested in higher level code.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Web Server Gateway Interfaces (WSGIs) for Python scripts can use multithreading
