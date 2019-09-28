@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>rpy2.rinterface_lib.conversion &#8212; rpy2 3.2.0 documentation</title>
+    <title>rpy2.rinterface_lib.conversion &#8212; rpy2 3.3.0 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -62,14 +62,26 @@
 <span class="c1"># TODO: rename the module with a prefix _ to indicate that this should</span>
 <span class="c1">#   not be used outside of rpy2&#39;s own code</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Dict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">Type</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">openrlib</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">_rinterface_capi</span> <span class="k">as</span> <span class="n">_rinterface</span>
 
 <span class="n">ffi</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span>
-<span class="n">_R_RPY2_MAP</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">_R_RPY2_DEFAULT_MAP</span> <span class="o">=</span> <span class="kc">None</span>
 
-<span class="n">_PY_RPY2_MAP</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">_R_RPY2_MAP</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<span class="k">class</span> <span class="nc">DummyMissingRpy2Map</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;The default object mapper class is no set.&#39;</span><span class="p">)</span>
+
+
+<span class="n">_R_RPY2_DEFAULT_MAP</span> <span class="o">=</span> <span class="n">DummyMissingRpy2Map</span>
+
+<span class="c1"># TODO: shouldn&#39;t the second type strictly inherit from an rpy2</span>
+<span class="c1"># R object ?</span>
+<span class="n">_PY_RPY2_MAP</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 
 <span class="k">def</span> <span class="nf">_cdata_to_rinterface</span><span class="p">(</span><span class="n">cdata</span><span class="p">):</span>
@@ -162,13 +174,13 @@
     <span class="k">return</span> <span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char[]&#39;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_cchar_to_str</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_cchar_to_str</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="c1"># TODO: use isStrinb and installTrChar</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">s</span>
 
 
-<span class="k">def</span> <span class="nf">_cchar_to_str_with_maxlen</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_cchar_to_str_with_maxlen</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="c1"># TODO: use isStrinb and installTrChar</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">maxlen</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">s</span>
@@ -234,7 +246,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.2.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
