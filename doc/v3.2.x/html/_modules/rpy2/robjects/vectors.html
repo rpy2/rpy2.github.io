@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>rpy2.robjects.vectors &#8212; rpy2 3.2.5 documentation</title>
+    <title>rpy2.robjects.vectors &#8212; rpy2 3.2.7 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.2.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.2.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
       </ul>
@@ -982,20 +982,23 @@
 <div class="viewcode-block" id="POSIXct.iter_localized_datetime"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.iter_localized_datetime">[docs]</a>    <span class="k">def</span> <span class="nf">iter_localized_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Iterator yielding localized Python datetime objects.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">tzone_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;tzone&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">r_tzone_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;tzone&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">LookupError</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;R object inheriting from &quot;POSIXct&quot; but without &#39;</span>
                           <span class="s1">&#39;attribute &quot;tzone&quot;.&#39;</span><span class="p">)</span>
-            <span class="n">tzone_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-        <span class="k">if</span> <span class="n">tzone_name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">r_tzone_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">r_tzone_name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
             <span class="c1"># R is implicitly using the local timezone, while Python</span>
             <span class="c1"># time libraries will assume UTC.</span>
-            <span class="n">tzone</span> <span class="o">=</span> <span class="n">get_timezone</span><span class="p">()</span>
+            <span class="n">r_tzone</span> <span class="o">=</span> <span class="n">get_timezone</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">tzone</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">tzone_name</span><span class="p">)</span>
+            <span class="n">r_tzone</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">r_tzone_name</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="p">(</span><span class="kc">None</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-                   <span class="k">else</span> <span class="n">tzone</span><span class="o">.</span><span class="n">localize</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span></div></div>
+            <span class="k">yield</span> <span class="p">(</span>
+                <span class="kc">None</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r_tzone</span><span class="p">)</span>
+            <span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="Array"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Array">[docs]</a><span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">Vector</span><span class="p">):</span>
@@ -1538,7 +1541,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.2.5 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.2.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
       </ul>
