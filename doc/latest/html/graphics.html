@@ -312,9 +312,9 @@ are needed some knowledge of <em>grid</em> will be required.</p>
 <h3>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">())</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -331,9 +331,9 @@ specifying that as a mapping (the parameter <em>col</em> when calling
 the constructor for the <code class="xref py py-class docutils literal notranslate"><span class="pre">AesString</span></code>).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">())</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -341,10 +341,10 @@ the constructor for the <code class="xref py py-class docutils literal notransla
 <a class="reference internal image-reference" href="_images/graphics_ggplot2mtcarscolcyl.png"><img alt="_images/graphics_ggplot2mtcarscolcyl.png" src="_images/graphics_ggplot2mtcarscolcyl.png" style="width: 306.0px; height: 306.0px;" /></a>
 <p>The size of the graphical symbols plotted (here circular dots) can
 also be mapped to a variable:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;factor(carb)&#39;</span><span class="p">,</span>
-                 <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;factor(gear)&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="s1">&#39;factor(carb)&#39;</span><span class="p">,</span>
+                         <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s1">&#39;factor(gear)&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">())</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -359,9 +359,9 @@ plot of points, but there are other ways to represent our data.</p>
 an histogram:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">bins</span> <span class="o">=</span> <span class="mi">30</span><span class="p">))</span>
 
 <span class="c1">#pp.plot()</span>
 </pre></div>
@@ -369,9 +369,9 @@ an histogram:</p>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2geomhistogram.png"><img alt="_images/graphics_ggplot2geomhistogram.png" src="_images/graphics_ggplot2geomhistogram.png" style="width: 450.0px; height: 206.0px;" /></a>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">))</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -382,9 +382,9 @@ figure can often be lacking clarity and line-based representation,
 either <code class="xref py py-func docutils literal notranslate"><span class="pre">geom_freqpoly()</span></code> (representation of the frequency as broken
 lines) or <code class="xref py py-func docutils literal notranslate"><span class="pre">geom_density()</span></code> (plot a density estimate),
 can be in better.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(mean)&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(mean)&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">))</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2geomfreqpolyfillcyl.png"><img alt="_images/graphics_ggplot2geomfreqpolyfillcyl.png" src="_images/graphics_ggplot2geomfreqpolyfillcyl.png" style="width: 406.0px; height: 206.0px;" /></a>
@@ -393,30 +393,30 @@ to represent the density of “dots” on the scatterplot.</p>
 <p>With 2D bins:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_bin2d</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_bin2d&#39;</span><span class="p">)</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_bin2d</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_bin2d&#39;</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>With a kernel density estimate:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density2d</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_density2d&#39;</span><span class="p">)</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density2d</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_density2d&#39;</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>With hexagonal bins:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_hex</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_hex&#39;</span><span class="p">)</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_hex</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;geom_hex&#39;</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -424,9 +424,9 @@ to represent the density of “dots” on the scatterplot.</p>
 <p>Box plot:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">())</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -436,19 +436,19 @@ to represent the density of “dots” on the scatterplot.</p>
 on location and spread.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">()</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_boxplot</span><span class="p">())</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2aescolboxplot.png"><img alt="_images/graphics_ggplot2aescolboxplot.png" src="_images/graphics_ggplot2aescolboxplot.png" style="width: 306.0px; height: 306.0px;" /></a>
 <p>Models fitted to the data are also easy to add to a plot:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 
 </pre></div>
@@ -459,22 +459,22 @@ and formula can be specified to declared the fitting (see example below).</p>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2addsmoothmethods.png"><img alt="_images/graphics_ggplot2addsmoothmethods.png" src="_images/graphics_ggplot2addsmoothmethods.png" style="width: 512.0px; height: 170.0px;" /></a>
 <p>The constructor for <code class="xref py py-class docutils literal notranslate"><span class="pre">GeomSmooth</span></code> also accepts a parameter
 <em>groupr</em> that indicates if the fit should be done according to groups.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;cyl&#39;</span><span class="p">),</span>
-                         <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;cyl&#39;</span><span class="p">),</span>
+                          <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2smoothbycyl.png"><img alt="_images/graphics_ggplot2smoothbycyl.png" src="_images/graphics_ggplot2smoothbycyl.png" style="width: 306.0px; height: 306.0px;" /></a>
 <p>Encoding the information in the column <em>cyl</em> is again
 only a matter of specifying it in the <code class="xref py py-class docutils literal notranslate"><span class="pre">AesString</span></code> mapping.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;cyl&#39;</span><span class="p">),</span>
-                         <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;cyl&#39;</span><span class="p">),</span>
+                          <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -485,10 +485,10 @@ in order to create the final plot. For example, a marginal <em>rug</em>
 can be added to the axis of a regular scatterplot:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_rug</span><span class="p">()</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_rug</span><span class="p">())</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -496,11 +496,11 @@ can be added to the axis of a regular scatterplot:</p>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2geompointandrug.png"><img alt="_images/graphics_ggplot2geompointandrug.png" src="_images/graphics_ggplot2geompointandrug.png" style="width: 306.0px; height: 306.0px;" /></a>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">dataf_rnorm</span><span class="p">)</span>
 
-<span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density2d</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">col</span> <span class="o">=</span> <span class="s1">&#39;..level..&#39;</span><span class="p">))</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;point + density&#39;</span><span class="p">)</span>
+<span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;value&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;other_value&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.3</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_density2d</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">col</span> <span class="o">=</span> <span class="s1">&#39;..level..&#39;</span><span class="p">))</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s1">&#39;point + density&#39;</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -513,11 +513,11 @@ example below:</p>
 <span class="c1"># add a column indicating which region names have an &quot;o&quot;.</span>
 <span class="n">fr</span> <span class="o">=</span> <span class="n">fr</span><span class="o">.</span><span class="n">cbind</span><span class="p">(</span><span class="n">has_o</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">grepl</span><span class="p">(</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">fr</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;region&quot;</span><span class="p">),</span>
                                  <span class="n">ignore_case</span> <span class="o">=</span> <span class="kc">True</span><span class="p">))</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_polygon</span><span class="p">(</span>
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span>
-                          <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;has_o&#39;</span><span class="p">),</span>
-       <span class="n">col</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">)</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">fr</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_polygon</span><span class="p">(</span>
+        <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;long&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span>
+                           <span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;has_o&#39;</span><span class="p">),</span>
+        <span class="n">col</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">))</span>
 <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -538,20 +538,20 @@ example below:</p>
 <span class="k">for</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">trans</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="s2">&quot;log2&quot;</span><span class="p">,</span> <span class="s2">&quot;sqrt&quot;</span><span class="p">)):</span>
    <span class="c1"># fetch viewport at position col_i+1 on the first row</span>
    <span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="n">col_i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
-   <span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span> <span class="o">+</span> \
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> \
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">coord_trans</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">trans</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">trans</span><span class="p">)</span> <span class="o">+</span> \
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> on axis&quot;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">)</span>   
+   <span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+         <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;carat&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;price&#39;</span><span class="p">)</span> <span class="o">+</span>
+         <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+         <span class="n">ggplot2</span><span class="o">.</span><span class="n">coord_trans</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="n">trans</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">trans</span><span class="p">)</span> <span class="o">+</span>
+         <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> on axis&quot;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">))</span>
    <span class="c1"># plot into the viewport</span>
    <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
 
    <span class="c1"># fetch viewport at position col_i+1 on the second row</span>
    <span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;layout.pos.col&#39;</span><span class="p">:</span><span class="n">col_i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;layout.pos.row&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-   <span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(carat)&#39;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(price)&#39;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">)</span> <span class="o">+</span> \
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> \
-       <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(&lt;variable&gt;)&quot;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">)</span>   
+   <span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+         <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(carat)&#39;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">(price)&#39;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">)</span> <span class="o">+</span>
+         <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span>
+         <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggtitle</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">(&lt;variable&gt;)&quot;</span> <span class="o">%</span> <span class="n">trans</span><span class="p">))</span>
    <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
 
 </pre></div>
@@ -583,13 +583,13 @@ to be split in panel” is then a matter of adding that information
 to an existing plot.</p>
 <p>For example, splitting the plots on the data in column <em>cyl</em>
 is still simply done by adding a <code class="xref py py-class docutils literal notranslate"><span class="pre">FacetGrid</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">facet_grid</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;. ~ cyl&#39;</span><span class="p">))</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;cyl&quot;</span><span class="p">),</span>
-                         <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">,</span>
-                            <span class="n">data</span> <span class="o">=</span> <span class="n">mtcars</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">facet_grid</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;. ~ cyl&#39;</span><span class="p">))</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;cyl&quot;</span><span class="p">),</span>
+                          <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;lm&quot;</span><span class="p">,</span>
+                          <span class="n">data</span> <span class="o">=</span> <span class="n">mtcars</span><span class="p">))</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
@@ -597,46 +597,46 @@ is still simply done by adding a <code class="xref py py-class docutils literal 
 <a class="reference internal image-reference" href="_images/graphics_ggplot2smoothbycylfacetcyl.png"><img alt="_images/graphics_ggplot2smoothbycylfacetcyl.png" src="_images/graphics_ggplot2smoothbycylfacetcyl.png" style="width: 306.0px; height: 306.0px;" /></a>
 <p>The way data are represented (the <em>geometry</em> in the terminology
 used the grammar of graphics) are still specified the usual way.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">facet_grid</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;. ~ cyl&#39;</span><span class="p">))</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_histogram</span><span class="p">(</span><span class="n">binwidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">facet_grid</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;. ~ cyl&#39;</span><span class="p">)))</span>
 
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2histogramfacetcyl.png"><img alt="_images/graphics_ggplot2histogramfacetcyl.png" src="_images/graphics_ggplot2histogramfacetcyl.png" style="width: 306.0px; height: 306.0px;" /></a>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">30</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2_qplot_4.png"><img alt="_images/graphics_ggplot2_qplot_4.png" src="_images/graphics_ggplot2_qplot_4.png" style="width: 306.0px; height: 306.0px;" /></a>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">15</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_abline</span><span class="p">(</span><span class="n">intercept</span> <span class="o">=</span> <span class="mi">15</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2_qplot_5.png"><img alt="_images/graphics_ggplot2_qplot_5.png" src="_images/graphics_ggplot2_qplot_5.png" style="width: 306.0px; height: 306.0px;" /></a>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
-                         <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                          <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2smoothblue.png"><img alt="_images/graphics_ggplot2smoothblue.png" src="_images/graphics_ggplot2smoothblue.png" style="width: 306.0px; height: 306.0px;" /></a>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="n">gp</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span> \
-     <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
-                         <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">stat_smooth</span><span class="p">(</span><span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;blue&#39;</span><span class="p">,</span>
+                          <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">))</span>
 <span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -750,16 +750,16 @@ Pushing into the current viewport, can be done by using the class method
 <span class="n">tmpenv</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;rock&quot;</span><span class="p">)</span>
 <span class="n">rock</span> <span class="o">=</span> <span class="n">tmpenv</span><span class="p">[</span><span class="s2">&quot;rock&quot;</span><span class="p">]</span>
 
-<span class="n">p</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">rock</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;peri&#39;</span><span class="p">))</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">rock</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;peri&#39;</span><span class="p">)))</span>
 <span class="n">p</span> <span class="o">+=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">theme_bw</span><span class="p">()</span>
 <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
 
 <span class="n">vp</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">viewport</span><span class="p">(</span><span class="n">width</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mf">0.6</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.37</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.69</span><span class="p">)</span>
 <span class="n">vp</span><span class="o">.</span><span class="n">push</span><span class="p">()</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">rock</span><span class="p">)</span> <span class="o">+</span> \
-    <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;shape&#39;</span><span class="p">))</span> <span class="o">+</span> \
-    <span class="n">ggplot2</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;axis.text.x&#39;</span><span class="p">:</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span> <span class="o">=</span> <span class="mi">45</span><span class="p">)})</span>
+<span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">rock</span><span class="p">)</span> <span class="o">+</span>
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="s1">&#39;area&#39;</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="s1">&#39;shape&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="n">ggplot2</span><span class="o">.</span><span class="n">theme</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;axis.text.x&#39;</span><span class="p">:</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">element_text</span><span class="p">(</span><span class="n">angle</span> <span class="o">=</span> <span class="mi">45</span><span class="p">)}))</span>
 
 <span class="n">p</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">vp</span> <span class="o">=</span> <span class="n">vp</span><span class="p">)</span>
 
@@ -902,7 +902,7 @@ grid::grid.raw())</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

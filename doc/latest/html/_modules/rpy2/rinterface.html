@@ -102,7 +102,9 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;text must be a string.&#39;</span><span class="p">)</span>
     <span class="n">robj</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_parse</span><span class="p">(</span><span class="n">robj</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_parse</span><span class="p">(</span><span class="n">robj</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">rmemory</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
 
 
 <span class="k">def</span> <span class="nf">evalr</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">maxlines</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
@@ -367,7 +369,7 @@
     <span class="k">def</span> <span class="nf">enclos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="s1">&#39;SexpEnvironment&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">SexpEnvironment</span><span class="p">)</span>
         <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SET_ENCLOS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
-                                 <span class="n">value</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">cdata</span><span class="p">)</span>
+                                 <span class="n">value</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;Generator over the keys (symbols) in the environment.&quot;&quot;&quot;</span>
@@ -1150,7 +1152,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

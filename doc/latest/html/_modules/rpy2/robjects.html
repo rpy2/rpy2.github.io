@@ -67,15 +67,18 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">import</span> <span class="nn">array</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
+<span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
 <span class="kn">import</span> <span class="nn">rpy2.rlike.container</span> <span class="k">as</span> <span class="nn">rlc</span>
 
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="k">import</span> <span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">RObject</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects.functions</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.environments</span> <span class="k">import</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">methods_env</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="k">import</span> <span class="n">RS4</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">conversion</span>
@@ -169,7 +172,7 @@
             <span class="bp">cls</span> <span class="o">=</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">IntVector</span><span class="p">,</span>
                                        <span class="n">vectors</span><span class="o">.</span><span class="n">IntMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">IntArray</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">obj</span><span class="o">.</span><span class="n">typeof</span> <span class="o">==</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">REALSXP</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;POSIXct&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">vectors</span><span class="o">.</span><span class="n">POSIXct</span><span class="o">.</span><span class="n">isrinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
             <span class="bp">cls</span> <span class="o">=</span> <span class="n">vectors</span><span class="o">.</span><span class="n">POSIXct</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">cls</span> <span class="o">=</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">,</span>
@@ -270,9 +273,82 @@
     <span class="k">return</span> <span class="n">Environment</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 
+<span class="k">class</span> <span class="nc">NameClassMap</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Map a name (R class name) to a Python class.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">defaultcls</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_default</span> <span class="o">=</span> <span class="n">defaultcls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span>
+
+    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+    <span class="k">def</span> <span class="nf">find_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find the first mapping key in a sequence of names (keys).&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">k</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find the first mapping in a sequence of names (keys).&quot;&quot;&quot;</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_key</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">k</span><span class="p">:</span>
+            <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">cls</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+
+
+<span class="k">class</span> <span class="nc">NameClassMapContext</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nameclassmap</span><span class="p">:</span> <span class="n">NameClassMap</span><span class="p">,</span>
+                 <span class="n">d</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nameclassmap</span> <span class="o">=</span> <span class="n">nameclassmap</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_keep</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">nameclassmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nameclassmap</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">nameclassmap</span><span class="p">:</span>
+                <span class="n">restore</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">orig_v</span> <span class="o">=</span> <span class="n">nameclassmap</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">restore</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">orig_v</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_keep</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">restore</span><span class="p">,</span> <span class="n">orig_v</span><span class="p">))</span>
+            <span class="n">nameclassmap</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+        <span class="n">nameclassmap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nameclassmap</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">restore</span><span class="p">,</span> <span class="n">orig_v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_keep</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">restore</span><span class="p">:</span>
+                <span class="n">nameclassmap</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_v</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">del</span><span class="p">(</span><span class="n">nameclassmap</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+
+<span class="n">_rs4_map</span> <span class="o">=</span> <span class="n">NameClassMap</span><span class="p">(</span><span class="n">RS4</span><span class="p">)</span>
+
+<span class="n">rs4map_context</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="n">NameClassMapContext</span><span class="p">,</span> <span class="n">_rs4_map</span><span class="p">)</span>
+
+
 <span class="nd">@default_converter</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SexpS4</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_rpy2py_sexps4</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">RS4</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">_rs4_map</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;extends&#39;</span><span class="p">](</span><span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">))</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 
 <span class="nd">@default_converter</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SexpExtPtr</span><span class="p">)</span>
@@ -408,7 +484,7 @@
 
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">rinterface</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
+            <span class="n">rinterface</span><span class="o">.</span><span class="n">initr_simple</span><span class="p">()</span>
             <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
 
@@ -477,7 +553,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

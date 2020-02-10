@@ -67,7 +67,8 @@
 
 <span class="n">ffi</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span>
 
-<span class="n">_options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rpy2&#39;</span><span class="p">,</span> <span class="s1">&#39;--quiet&#39;</span><span class="p">,</span> <span class="s1">&#39;--no-save&#39;</span><span class="p">)</span>
+<span class="n">_options</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rpy2&#39;</span><span class="p">,</span> <span class="s1">&#39;--quiet&#39;</span><span class="p">,</span> <span class="s1">&#39;--no-save&#39;</span><span class="p">)</span>  <span class="c1"># type: typing.Tuple[str, ...]</span>
+<span class="n">_DEFAULT_C_STACK_LIMIT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">=</span> <span class="mh">0x00</span>
 <span class="n">rstart</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -153,8 +154,10 @@
 
 
 <span class="c1"># TODO: can init_once() be used here ?</span>
-<span class="k">def</span> <span class="nf">_initr</span><span class="p">(</span><span class="n">interactive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-           <span class="n">_want_setcallbacks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">_initr</span><span class="p">(</span>
+        <span class="n">interactive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">_want_setcallbacks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">_c_stack_limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">_DEFAULT_C_STACK_LIMIT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
 
     <span class="n">rlib</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
     <span class="n">ffi_proxy</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi_proxy</span>
@@ -174,14 +177,14 @@
         <span class="n">options_c</span> <span class="o">=</span> <span class="p">[</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char[]&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ASCII&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">_options</span><span class="p">]</span>
         <span class="n">n_options</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">options_c</span><span class="p">)</span>
         <span class="n">n_options_c</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">n_options</span><span class="p">)</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_initialize_R</span><span class="p">(</span><span class="n">n_options_c</span><span class="p">,</span>
-                                      <span class="n">options_c</span><span class="p">)</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_initEmbeddedR</span><span class="p">(</span><span class="n">n_options_c</span><span class="p">,</span>
+                                       <span class="n">options_c</span><span class="p">)</span>
         <span class="n">setinitialized</span><span class="p">()</span>
 
         <span class="c1"># global rstart</span>
         <span class="c1"># rstart = ffi.new(&#39;Rstart&#39;)</span>
 
-        <span class="c1"># rstart.R_Interactive = interactive</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">R_Interactive</span> <span class="o">=</span> <span class="n">interactive</span>
 
         <span class="c1"># TODO: Conditional definition in C code</span>
         <span class="c1">#   (Aqua, TERM, and TERM not &quot;dumb&quot;)</span>
@@ -197,9 +200,8 @@
                              <span class="n">callback_funcs</span><span class="p">,</span> <span class="n">callback_symbol</span><span class="p">)</span>
 
         <span class="c1"># TODO: still needed ?</span>
-        <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-
-        <span class="n">rlib</span><span class="o">.</span><span class="n">setup_Rmainloop</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">_c_stack_limit</span><span class="p">:</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="n">_c_stack_limit</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">status</span>
 
@@ -295,7 +297,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

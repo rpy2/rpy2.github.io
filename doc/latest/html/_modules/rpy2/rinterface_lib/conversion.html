@@ -57,7 +57,7 @@
           <div class="body" role="main">
             
   <h1>Source code for rpy2.rinterface_lib.conversion</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Conversion between Python objects, C objects, and R objects.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Mapping between Python objects, C objects, and R objects.&quot;&quot;&quot;</span>
 
 <span class="c1"># TODO: rename the module with a prefix _ to indicate that this should</span>
 <span class="c1">#   not be used outside of rpy2&#39;s own code</span>
@@ -69,7 +69,7 @@
 
 <span class="n">ffi</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span>
 
-<span class="n">_R_RPY2_MAP</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">_R_RPY2_MAP</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[int, Type]</span>
 
 
 <span class="k">class</span> <span class="nc">DummyMissingRpy2Map</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -81,7 +81,7 @@
 
 <span class="c1"># TODO: shouldn&#39;t the second type strictly inherit from an rpy2</span>
 <span class="c1"># R object ?</span>
-<span class="n">_PY_RPY2_MAP</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Type</span><span class="p">,</span> <span class="n">Type</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">_PY_RPY2_MAP</span> <span class="o">=</span> <span class="p">{}</span>  <span class="c1"># type: Dict[Type, Type]</span>
 
 
 <span class="k">def</span> <span class="nf">_cdata_to_rinterface</span><span class="p">(</span><span class="n">cdata</span><span class="p">):</span>
@@ -215,20 +215,20 @@
 <span class="n">_PY_R_MAP</span> <span class="o">=</span> <span class="p">{}</span>
 
 
-<span class="c1"># TODO: Do special values such as NAs need to be cast into a SEXP when</span>
+<span class="c1"># TODO: Do special values such as NAs need to be mapped into a SEXP when</span>
 <span class="c1">#   a scalar ?</span>
 <span class="k">def</span> <span class="nf">_get_cdata</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="n">cast</span> <span class="o">=</span> <span class="n">_PY_R_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">cast</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">_PY_R_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+    <span class="k">if</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
         <span class="n">cdata</span> <span class="o">=</span> <span class="n">obj</span>
-    <span class="k">elif</span> <span class="n">cast</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="bp">cls</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cdata</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not an rpy2 R object and unable &#39;</span>
-                             <span class="s1">&#39;to cast it into one: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+                             <span class="s1">&#39;to map it into one: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">repr</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">cdata</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">cdata</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">cdata</span>
 </pre></div>
 
@@ -252,7 +252,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.0.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>
