@@ -1,0 +1,545 @@
+.. code:: ipython3
+
+    from functools import partial
+    from rpy2.ipython import html
+    html.html_rdataframe=partial(html.html_rdataframe, table_class="docutils")
+
+
+.. parsed-literal::
+
+    /home/laurent/Desktop/software/python/py36_env/lib/python3.6/site-packages/rpy2-3.3.0.dev0-py3.6-linux-x86_64.egg/rpy2/robjects/pandas2ri.py:14: FutureWarning: pandas.core.index is deprecated and will be removed in a future version.  The public classes are available in the top-level namespace.
+      from pandas.core.index import Index as PandasIndex
+
+
+Data Import
+===========
+
+We choose to use an external dataset to demonstrate how R's own data
+import features can be used.
+
+.. code:: ipython3
+
+    from rpy2.robjects.packages import importr
+    utils = importr('utils')
+    
+    dataf = utils.read_csv('https://raw.githubusercontent.com/jakevdp/PythonDataScienceHandbook/'
+                           'master/notebooks/data/california_cities.csv')
+
+The objects returned by R's own ``read.csv()`` function (note that the R
+function in the R package ``utils`` is called ``read.csv()`` while the
+Python function is called ``read_csv()`` - ``rpy2`` converts R symbols
+with dots to underscores for Python).
+
+``rpy2`` provides customization to display R objects such as data frames
+in HTML in a notebook. That customization is enabled as follows:
+
+.. code:: ipython3
+
+    import rpy2.ipython.html
+    rpy2.ipython.html.init_printing()
+
+.. code:: ipython3
+
+    dataf
+
+
+
+
+.. raw:: html
+
+    
+    <emph>DataFrame</emph> with 482 rows and
+      14 columns:
+    <table class="docutils">
+      <thead>
+        <tr class="rpy2_names">
+          <th></th>
+          <th></th>
+          <th>X</th>
+          <th>city</th>
+          <th>latd</th>
+          <th>longd</th>
+          <th>...</th>
+          <th>area_water_km2</th>
+          <th>area_water_percent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="rpy2_rowname">0</td>
+            <td class="rpy2_names">1</td>
+          <td>0</td>
+          <td>Adelanto</td>
+          <td>34.57611111111112</td>
+          <td>-117.43277777777779</td>
+           <td>...</td>
+          <td>0.046</td>
+          <td>0.03</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">1</td>
+            <td class="rpy2_names">2</td>
+          <td>1</td>
+          <td>AgouraHills</td>
+          <td>34.15333333333333</td>
+          <td>-118.76166666666667</td>
+           <td>...</td>
+          <td>0.076</td>
+          <td>0.37</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">2</td>
+            <td class="rpy2_names">3</td>
+          <td>2</td>
+          <td>Alameda</td>
+          <td>37.75611111111111</td>
+          <td>-122.27444444444444</td>
+           <td>...</td>
+          <td>31.983</td>
+          <td>53.79</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">3</td>
+            <td class="rpy2_names">4</td>
+          <td>3</td>
+          <td>Albany</td>
+          <td>37.886944444444445</td>
+          <td>-122.29777777777778</td>
+           <td>...</td>
+          <td>9.524</td>
+          <td>67.28</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">4</td>
+            <td class="rpy2_names">5</td>
+          <td>4</td>
+          <td>Alhambra</td>
+          <td>34.081944444444446</td>
+          <td>-118.135</td>
+           <td>...</td>
+          <td>0.003</td>
+          <td>0.01</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">5</td>
+            <td class="rpy2_names">6</td>
+          <td>5</td>
+          <td>AlisoViejo</td>
+          <td>33.575</td>
+          <td>-117.72555555555556</td>
+           <td>...</td>
+          <td>0.0</td>
+          <td>0.0</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">6</td>
+            <td class="rpy2_names">7</td>
+          <td>6</td>
+          <td>Alturas</td>
+          <td>41.48722222222222</td>
+          <td>-120.5425</td>
+           <td>...</td>
+          <td>0.036000000000000004</td>
+          <td>0.57</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">7</td>
+            <td class="rpy2_names">8</td>
+          <td>7</td>
+          <td>AmadorCity</td>
+          <td>38.419444444444444</td>
+          <td>-120.82416666666666</td>
+           <td>...</td>
+          <td>0.0</td>
+          <td>0.0</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">...</td>
+            <td class="rpy2_names">...</td>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+          <td>...</td>
+           <td>...</td>
+          <td>...</td>
+          <td>...</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">480</td>
+            <td class="rpy2_names">481</td>
+          <td>480</td>
+          <td>Yucaipa</td>
+          <td>34.030277777777776</td>
+          <td>-117.04861111111111</td>
+           <td>...</td>
+          <td>0.013000000000000001</td>
+          <td>0.02</td>
+        </tr>
+        <tr>
+          <td class="rpy2_rowname">481</td>
+            <td class="rpy2_names">482</td>
+          <td>481</td>
+          <td>YuccaValley</td>
+          <td>34.13333333333333</td>
+          <td>-116.41666666666667</td>
+           <td>...</td>
+          <td>0.0</td>
+          <td>0.0</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+.. code:: ipython3
+
+    dataf.colnames
+
+
+
+
+.. raw:: html
+
+    
+    <emph>StrVector</emph> with 14 elements:
+    <table class="rpy2_table">
+    <thead>
+    </thead>
+    <tbody>
+    <tr>
+      <td>X</td>
+      <td>city</td>
+      <td>latd</td>
+      <td>longd</td>
+      <td>elevation_m</td>
+      <td>elevation_ft</td>
+      <td>population_total</td>
+      <td>area_total_sq_mi</td>
+      <td>...</td>
+          <td>area_water_km2</td>
+          <td>area_water_percent</td>
+    </tr>
+    </tbody>
+    </table>
+
+
+
+.. code:: ipython3
+
+    stats = importr('stats')
+    base = importr('base')
+    stats.lm('elevation_m ~ latd + longd', data=dataf)
+
+
+
+
+.. raw:: html
+
+    
+    <emph>ListVector</emph> with 13 elements:
+    <table class="rpy2_table">
+    <thead>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rpy2_rowname">0</td>
+        <td class="rpy2_names">coefficients</td>
+        <td>(Intercep...</td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">1</td>
+        <td class="rpy2_names">residuals</td>
+        <td>        ...</td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">2</td>
+        <td class="rpy2_names">effects</td>
+        <td> ...</td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">3</td>
+        <td class="rpy2_names">rank</td>
+        <td>[1] 3
+    </td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">4</td>
+        <td class="rpy2_names">fitted.values</td>
+        <td>        ...</td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">5</td>
+        <td class="rpy2_names">assign</td>
+        <td>[1] 0 1 2
+    </td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">6</td>
+        <td class="rpy2_names">qr</td>
+        <td>$qr
+        ...</td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">7</td>
+        <td class="rpy2_names">df.residual</td>
+        <td>[1] 431
+    </td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">...</td>
+        <td class="rpy2_names">...</td>
+        <td>...</td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">11</td>
+        <td class="rpy2_names">terms</td>
+        <td>elevation...</td>
+      </tr>
+      <tr>
+        <td class="rpy2_rowname">12</td>
+        <td class="rpy2_names">model</td>
+        <td>   ...</td>
+      </tr>
+    </tr>
+    </tbody>
+    </table>
+
+
+
+Graphics
+========
+
+R has arguably some the best static visualizations, often looking more
+polished than other visualization systems and this without the need to
+spend much effort on them.
+
+Using ``ggplot2``
+-----------------
+
+Among R visulization pacakges, ``ggplot2`` has emerged as something
+Python users wished so much they had that various projects to try port
+it to Python are regularly started.
+
+However, the best way to have ``ggplot2`` might be to use ``ggplot2``
+from Python.
+
+.. code:: ipython3
+
+    import rpy2.robjects.lib.ggplot2 as gp
+
+Calling ``ggplot2`` looks pretty much like it would in R, which allows
+one to use the all available documentation and examples available for
+the R package. Remember that this is not a reimplementation of ggplot2
+with inevitable differences and delay for having the latest changes: the
+R package itself is generating the figures.
+
+.. code:: ipython3
+
+    p = (gp.ggplot(dataf) +
+         gp.aes_string(x='longd',
+                       y='latd',
+                       color='population_total',
+                       size='area_total_km2') +
+         gp.geom_point() +
+         gp.scale_color_continuous(trans='log10'))
+
+Plotting the resulting R/ggplot2 object into the output cell of a
+notebook, is just function call away.
+
+.. code:: ipython3
+
+    from rpy2.ipython.ggplot import image_png
+    image_png(p)
+
+
+
+
+.. image:: jupyter_files/jupyter_13_0.png
+
+
+
+All features from ``ggplot2`` should be present. A more complex example
+to get the figure we want is:
+
+.. code:: ipython3
+
+    from rpy2.robjects.vectors import IntVector
+    p = (gp.ggplot(dataf) +
+         gp.aes_string(x='longd',
+                       y='latd',
+                       color='population_total',
+                       size='area_total_km2') +
+         gp.geom_point(alpha=0.5) +
+         # Axis definitions.
+         gp.scale_x_continuous('Longitude') +
+         gp.scale_y_continuous('Latitude') +
+         # Custom size range.
+         gp.scale_size(range=IntVector([1, 18])) +
+         # Transform for pop -> color mapping
+         gp.scale_color_continuous(trans='log10') +
+         # Title.
+         gp.ggtitle('California Cities: Area and Population') +
+         # Plot theme and text size.
+         gp.theme_light(base_size=16))
+    image_png(p)
+
+
+
+
+.. image:: jupyter_files/jupyter_15_0.png
+
+
+
+Using ``ggplot2`` extensions
+----------------------------
+
+There existing additional R packages extending ``ggplot2``, and while it
+would be impossible for the rpy2 to provide wrapper for all of them the
+wrapper for ``ggplot2`` is based on class hierarchies that should make
+the use of such extensions really easy.
+
+For example, to use the viridis color scale, we just need to import the
+corresponding R package, and write 3 lines of Python to extend
+``rpy2``'s ggplot2 wrapper with a new color scale. A clas diagram with
+the classes in the rpy2 wrapper for ggplot2 is available in the rpy2
+documentation.
+
+.. code:: ipython3
+
+    viridis = importr('viridis')
+    class ScaleColorViridis(gp.ScaleColour):
+        _constructor = viridis.scale_color_viridis
+    scale_color_viridis = ScaleColorViridis.new
+
+That new color scale can then be used as any other scale already present
+in ``ggplot2``:
+
+.. code:: ipython3
+
+    p = (gp.ggplot(dataf) +
+         gp.aes_string(x='longd',
+                       y='latd',
+                       color='population_total',
+                       size='area_total_km2') +
+         gp.geom_point(alpha=0.5) +
+         gp.scale_x_continuous('Longitude') +
+         gp.scale_y_continuous('Latitude') +
+         gp.scale_size(range=IntVector([1, 18])) +
+         scale_color_viridis(trans='log10') +
+         gp.ggtitle('California Cities: Area and Population') +
+         gp.theme_light(base_size=16))
+    image_png(p)
+
+
+
+
+.. image:: jupyter_files/jupyter_19_0.png
+
+
+
+So far we have shown that using ``ggplot2`` can be done from Python as
+if it was just an other Python library for visualization, but R can also
+be used in cells.
+
+First the so-called "R magic" extension should be loaded.
+
+.. code:: ipython3
+
+    %load_ext rpy2.ipython
+
+From now on, code cells starting with ``%%R`` will see their content
+evaluated as R code. If the R code is generating figures, they will be
+displayed along with the rest of the output.
+
+.. code:: r
+
+    %%R
+    R.version.string
+
+
+.. parsed-literal::
+
+    [1] "R version 3.6.1 Patched (2019-09-06 r77160)"
+
+
+.. code:: r
+
+    %%R -i dataf
+    
+    require(dplyr)
+    glimpse(dataf)
+
+
+.. parsed-literal::
+
+    R[write to console]: Loading required package: dplyr
+    
+    R[write to console]: 
+    Attaching package: ‘dplyr’
+    
+    
+    R[write to console]: The following objects are masked from ‘package:stats’:
+    
+        filter, lag
+    
+    
+    R[write to console]: The following objects are masked from ‘package:base’:
+    
+        intersect, setdiff, setequal, union
+    
+    
+
+
+.. parsed-literal::
+
+    Observations: 482
+    Variables: 14
+    $ X                  [3m[90m<int>[39m[23m 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
+    $ city               [3m[90m<fct>[39m[23m Adelanto, AgouraHills, Alameda, Albany, Alhambra, …
+    $ latd               [3m[90m<dbl>[39m[23m 34.57611, 34.15333, 37.75611, 37.88694, 34.08194, …
+    $ longd              [3m[90m<dbl>[39m[23m -117.4328, -118.7617, -122.2744, -122.2978, -118.1…
+    $ elevation_m        [3m[90m<dbl>[39m[23m 875, 281, NA, NA, 150, 127, 1332, 280, 14, 48, 132…
+    $ elevation_ft       [3m[90m<dbl>[39m[23m 2871, 922, 33, 43, 492, 417, 4370, 919, 46, 157, 4…
+    $ population_total   [3m[90m<int>[39m[23m 31765, 20330, 75467, 18969, 83089, 47823, 2827, 18…
+    $ area_total_sq_mi   [3m[90m<dbl>[39m[23m 56.027, 7.822, 22.960, 5.465, 7.632, 7.472, 2.449,…
+    $ area_land_sq_mi    [3m[90m<dbl>[39m[23m 56.009, 7.793, 10.611, 1.788, 7.631, 7.472, 2.435,…
+    $ area_water_sq_mi   [3m[90m<dbl>[39m[23m 0.018, 0.029, 12.349, 3.677, 0.001, 0.000, 0.014, …
+    $ area_total_km2     [3m[90m<dbl>[39m[23m 145.107, 20.260, 59.465, 14.155, 19.766, 19.352, 6…
+    $ area_land_km2      [3m[90m<dbl>[39m[23m 145.062, 20.184, 27.482, 4.632, 19.763, 19.352, 6.…
+    $ area_water_km2     [3m[90m<dbl>[39m[23m 0.046, 0.076, 31.983, 9.524, 0.003, 0.000, 0.036, …
+    $ area_water_percent [3m[90m<dbl>[39m[23m 0.03, 0.37, 53.79, 67.28, 0.01, 0.00, 0.57, 0.00, …
+
+
+The data frame called ``dataf`` in our Python notebook was already bound
+to the name ``dataf`` in the R main namespace (``GlobalEnv`` in the R
+lingo) in our previous cell. We can just use it in subsequent cells.
+
+.. code:: r
+
+    %%R -w 800 --type=cairo
+    
+    cat("Running an R code cell.\n")
+    
+    p <- ggplot(dataf) +
+         aes_string(x = 'longd',
+                    y = 'latd',
+                    color = 'population_total',
+                    size = 'area_total_km2') +
+         geom_point(alpha = 0.5) +
+         scale_x_continuous('Longitude') +
+         scale_y_continuous('Latitude') +
+         scale_size(range = c(1, 18)) +
+         scale_color_viridis(trans='log10') +
+         ggtitle('California Cities: Area and Population') +
+         theme_light(base_size=16)
+    print(p)
+
+
+.. parsed-literal::
+
+    Running an R code cell.
+
+
+
+.. image:: jupyter_files/jupyter_26_1.png
+

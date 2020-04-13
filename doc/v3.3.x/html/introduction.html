@@ -1,0 +1,786 @@
+
+
+<!doctype html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Introduction to rpy2 &#8212; rpy2 3.3.0 documentation</title>
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Using rpy2 in notebooks" href="notebooks.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="notebooks.html" title="Using rpy2 in notebooks"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="getting-started.html" accesskey="U">Getting started</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction to rpy2</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#r-packages">R packages</a><ul>
+<li><a class="reference internal" href="#importing-packages">Importing packages</a></li>
+<li><a class="reference internal" href="#installing-packages">Installing packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-r-instance">The <cite>r</cite> instance</a><ul>
+<li><a class="reference internal" href="#getting-r-objects">Getting R objects</a></li>
+<li><a class="reference internal" href="#evaluating-r-code">Evaluating R code</a></li>
+<li><a class="reference internal" href="#interpolating-r-objects-into-r-code-strings">Interpolating R objects into R code strings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#r-vectors">R vectors</a><ul>
+<li><a class="reference internal" href="#creating-rpy2-vectors">Creating rpy2 vectors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#calling-r-functions">Calling R functions</a></li>
+<li><a class="reference internal" href="#getting-help">Getting help</a><ul>
+<li><a class="reference internal" href="#help-on-a-topic-within-a-given-package-or-currently-loaded-packages">Help on a topic within a given package, or currently loaded packages</a></li>
+<li><a class="reference internal" href="#locate-topics-among-available-packages">Locate topics among available packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#graphics-and-plots">Graphics and plots</a></li>
+<li><a class="reference internal" href="#linear-models">Linear models</a></li>
+<li><a class="reference internal" href="#principal-component-analysis">Principal component analysis</a></li>
+<li><a class="reference internal" href="#creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code">Creating an R vector or matrix, and filling its cells using Python code</a></li>
+<li><a class="reference internal" href="#one-more-example">One more example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">Overview</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="notebooks.html"
+                        title="next chapter">Using rpy2 in notebooks</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/introduction.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction-to-rpy2">
+<h1>Introduction to rpy2<a class="headerlink" href="#introduction-to-rpy2" title="Permalink to this headline">¶</a></h1>
+<p>This introduction is intended for new users, or users who never consulted
+the documentation but encountered blockers after guessing successfully
+their first steps through the API.</p>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<p>It is assumed here that the rpy2 package has been properly installed.
+This will be the case if working out of one of the Docker containers available,
+of if the instructions were followed (see <a class="reference internal" href="overview.html#install-installation"><span class="std std-ref">Installation</span></a>).</p>
+<p><cite>rpy2</cite> is like any other python package binding to a C library. Its top
+level can be imported, and the version obtained.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2</span>
+<span class="k">print</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The rpy2 version is rather important when reporting an issue with rpy2,
+or in your own code if trying to assess whether rpy2 is matching the
+expected version.</p>
+<p>A utility module is included to report what rpy2’s environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python -m rpy2.situation
+</pre></div>
+</div>
+<p>If unable to run python from the command line, or unsure about about to do
+it, the same information can be obtained from a Python terminal (or notebook).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.situation</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">situation</span><span class="o">.</span><span class="n">iter_info</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> is providing  2 levels of interface with R:
+- low-level (<a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>, and <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2:rinterface_lib</span></code>)
+- high-level (<a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>)</p>
+<p>The high-level interface is trying to make the use of R as natural as
+possible for a Python user (something sometimes referred to as
+“pythonic”), and this introduction only covers that interface.</p>
+<p>Importing the top-level sub-package is also initializing and starting
+R embedded in the current Python process:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="kn">as</span> <span class="nn">robjects</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="r-packages">
+<h2>R packages<a class="headerlink" href="#r-packages" title="Permalink to this headline">¶</a></h2>
+<p>R is arguably one of the best data analysis toolboxes because of the
+breadth and depth of its packages.</p>
+<div class="section" id="importing-packages">
+<h3>Importing packages<a class="headerlink" href="#importing-packages" title="Permalink to this headline">¶</a></h3>
+<p>Importing R packages is often the first step when running R code, and
+<cite>rpy2</cite> is providing a function <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.importr" title="rpy2.robjects.packages.importr"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.packages.importr()</span></code></a>
+that makes that step very similar to importing Python packages.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="c1"># import R&#39;s &quot;base&quot; package</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="c1"># import R&#39;s &quot;utils&quot; package</span>
+<span class="n">utils</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In essence, that step is importing the R package in the embedded R,
+and is exposing all R objects in that package as Python objects.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There is a twist though. R object names can contain a <cite>“.”</cite> (dot)
+while in Python the dot means “attribute in a namespace”. Because
+of this, <cite>importr</cite> is trying to translate <cite>“.”</cite> into <cite>“_”</cite>. The details
+will not be necessary in most of the cases, but when they do the
+documentation for <a class="reference internal" href="robjects_rpackages.html#robjects-packages"><span class="std std-ref">R packages</span></a> should be consulted.</p>
+</div>
+</div>
+<div class="section" id="installing-packages">
+<h3>Installing packages<a class="headerlink" href="#installing-packages" title="Permalink to this headline">¶</a></h3>
+<p>Knowing how to install R packages is an important skill to have,
+although not always a mandatory one if working out of an R installation
+designed to meet all reasonable needs for a task or a project.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Package installation is presented early in the introduction,
+but this subsection
+can be skipped if difficulties such as an absence of internet connection,
+an uncooperative proxy (or proxy maintainer),
+or insufficient write priviledges to install
+the package are met.</p>
+</div>
+<p>Downloading and installing R packages is usually performed by fetching
+R packages from a package repository and installing them locally.
+Capabilities to do this are provided by R libraries, and when in Python
+we can simply use them using rpy2. An interface to the R features is
+provided in <a class="reference internal" href="robjects_rpackages.html#module-rpy2.robjects.packages" title="rpy2.robjects.packages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.packages</span></code></a> (where the function <code class="xref py py-func docutils literal notranslate"><span class="pre">importr()</span></code>
+introduced above is defined).</p>
+<p>Getting ready to install packages from the first mirror known to R is done
+with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># import rpy2&#39;s package module</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">as</span> <span class="nn">rpackages</span>
+
+<span class="c1"># import R&#39;s utility package</span>
+<span class="n">utils</span> <span class="o">=</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
+
+<span class="c1"># select a mirror for R packages</span>
+<span class="n">utils</span><span class="o">.</span><span class="n">chooseCRANmirror</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># select the first mirror in the list</span>
+</pre></div>
+</div>
+<p>We are now ready to install packages using R’s own function <cite>install.package</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># R package names</span>
+<span class="n">packnames</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">,</span> <span class="s1">&#39;hexbin&#39;</span><span class="p">)</span>
+
+<span class="c1"># R vector of strings</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="kn">import</span> <span class="n">StrVector</span>
+
+<span class="c1"># Selectively install what needs to be install.</span>
+<span class="c1"># We are fancy, just because we can.</span>
+<span class="n">names_to_install</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">packnames</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">isinstalled</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">names_to_install</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">utils</span><span class="o">.</span><span class="n">install_packages</span><span class="p">(</span><span class="n">StrVector</span><span class="p">(</span><span class="n">names_to_install</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The code above can be part of Python code you distribute if you are relying
+on CRAN packages not distributed with R by default.</p>
+<p>More documentation about the handling of R packages in <cite>rpy2</cite> can be found
+Section <a class="reference internal" href="robjects_rpackages.html#robjects-packages"><span class="std std-ref">R packages</span></a>.</p>
+</div>
+</div>
+<div class="section" id="the-r-instance">
+<h2>The <cite>r</cite> instance<a class="headerlink" href="#the-r-instance" title="Permalink to this headline">¶</a></h2>
+<p>We mentioned earlier that <cite>rpy2</cite> is running an embedded R. This is may be
+a little abstract, so there is an object <code class="xref py py-data docutils literal notranslate"><span class="pre">rpy2.robjects.r</span></code> to make
+it tangible.</p>
+<p>This object can be used as rudimentary communication channel between
+Python and R,
+similar to the way one would interact with a subprocess yet more efficient,
+better integrated with Python, and easier to use.</p>
+<div class="section" id="getting-r-objects">
+<h3>Getting R objects<a class="headerlink" href="#getting-r-objects" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> method of <code class="xref py py-data docutils literal notranslate"><span class="pre">rpy2.robjects.r</span></code>,
+gets the R object associated with a given symbol, just
+as typing that symbol name in the R console would do it
+(see the note below for details).</p>
+<p>Example in R:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="kc">pi</span>
+<span class="n">[1]</span> <span class="m">3.141593</span>
+</pre></div>
+</div>
+<p>With <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">3.14159265358979</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Under the hood, the variable <cite>pi</cite> is gotten by default from the
+R <em>base</em> package, unless an other variable with the name <cite>pi</cite> was
+created in R’s <cite>.globalEnv</cite>.</p>
+<p>Whenever one wishes to be specific about where the symbol
+should be looked for (which should be most of the time),
+it possible to wrap R packages in Python namespace objects
+(see <a class="reference internal" href="robjects_rpackages.html#robjects-packages"><span class="std std-ref">R packages</span></a>).</p>
+<p>For more details on environments, see Section
+<a class="reference internal" href="robjects_environments.html#robjects-environments"><span class="std std-ref">Environments</span></a>.</p>
+<p>Also, note that <em>pi</em> is not a scalar but a vector of length 1</p>
+</div>
+</div>
+<div class="section" id="evaluating-r-code">
+<h3>Evaluating R code<a class="headerlink" href="#evaluating-r-code" title="Permalink to this headline">¶</a></h3>
+<p>The object <code class="xref py py-data docutils literal notranslate"><span class="pre">r</span></code> is also callable, and the string passed in
+a call is evaluated as <cite>R</cite> code.</p>
+<p>The simplest such strings would be the name of an R object,
+and this provide an alternative to
+the method <cite>__getitem__</cite> described earlier.</p>
+<p>Example in R:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="kc">pi</span>
+<span class="n">[1]</span> <span class="m">3.141593</span>
+</pre></div>
+</div>
+<p>With <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code>:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">3.14159265358979</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The result is an R vector. The Section
+<a class="reference internal" href="#introduction-vectors"><span class="std std-ref">R vectors</span></a> below will provide explanation
+for the following behavior:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">piplus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">piplus2</span><span class="o">.</span><span class="n">r_repr</span><span class="p">()</span>
+<span class="go">c(3.14159265358979, 2)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pi0plus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">pi0plus2</span><span class="p">)</span>
+<span class="go">5.1415926535897931</span>
+</pre></div>
+</div>
+</div>
+<p>More complex strings are R expressions of arbitrary complexity,
+or even sequences of expressions (snippets of R code).
+Their evaluation is performed in what is known to R users as the
+<cite>Global Environment</cite>, that is the place one starts at when in
+the R console. Whenever the <cite>R</cite> code creates variables, those
+variables are “located” in that <cite>Global Environment</cite> by default.</p>
+<p>For example, the string below returns the value 18.85.</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">robjects.r</span><span class="p">(</span><span class="s">&#39;&#39;&#39;</span>
+<span class="s">        # create a function `f`</span>
+<span class="s">        f &lt;- function(r, verbose=FALSE) {</span>
+<span class="s">            if (verbose) {</span>
+<span class="s">                cat(&quot;I am calling f().\n&quot;)</span>
+<span class="s">            }</span>
+<span class="s">            2 * pi * r</span>
+<span class="s">        }</span>
+<span class="s">        # call the function `f` with argument value 3</span>
+<span class="s">        f(3)</span>
+<span class="s">        &#39;&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>That string is a snippet of R code (complete with comments) that
+first creates an R function, then binds it to the symbol <cite>f</cite> (in R),
+finally calls that function <cite>f</cite>. The results of the call (what the
+R function <cite>f</cite> is returns) is returned to Python.</p>
+<p>Since that function <cite>f</cite> is now present in the R <cite>Global Environment</cite>,
+it can be accessed with the <cite>__getitem__</cite> mechanism outlined above:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r_f</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r_f</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="go">function (r, verbose = FALSE)</span>
+<span class="go">{</span>
+<span class="go">    if (verbose) {</span>
+<span class="go">        cat(&quot;I am calling f().\n&quot;)</span>
+<span class="go">    }</span>
+<span class="go">    2 * pi * r</span>
+<span class="go">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As shown earlier, an alternative way to get the function
+is to get it from the <code class="xref py py-class docutils literal notranslate"><span class="pre">R</span></code> singleton</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r_f</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<p>The function r_f is callable, and can be used like a regular Python function.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">r_f</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Jump to Section <a class="reference internal" href="#robjects-introduction-functions"><span class="std std-ref">Calling R functions</span></a> for more on calling
+functions.</p>
+</div>
+<div class="section" id="interpolating-r-objects-into-r-code-strings">
+<h3>Interpolating R objects into R code strings<a class="headerlink" href="#interpolating-r-objects-into-r-code-strings" title="Permalink to this headline">¶</a></h3>
+<p>Against the first impression one may get from the title
+of this section, simple and handy features of <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> are
+presented here.</p>
+<p>An R object has a string representation that can be used
+directly into R code to be evaluated.</p>
+<p>Simple example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">letters</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rcode</span> <span class="o">=</span> <span class="s1">&#39;paste(</span><span class="si">%s</span><span class="s1">, collapse=&quot;-&quot;)&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">letters</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rcode</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="go">&quot;a-b-c-d-e-f-g-h-i-j-k-l-m-n-o-p-q-r-s-t-u-v-w-x-y-z&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="r-vectors">
+<span id="introduction-vectors"></span><h2>R vectors<a class="headerlink" href="#r-vectors" title="Permalink to this headline">¶</a></h2>
+<p>In <cite>R</cite>, data are mostly represented by vectors, even when looking
+like scalars.</p>
+<p>When looking closely at the R object <cite>pi</cite> used previously,
+we can observe that this is in fact a vector of length 1.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">])</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>As such, the python method <code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code> will result in a concatenation
+(function <cite>c()</cite> in R), as this is the case for regular python lists.</p>
+<p>Accessing the one value in that vector has to be stated
+explicitly:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">3.1415926535897931</span>
+</pre></div>
+</div>
+<p>There is much that can be achieved with vectors, having them to behave
+more like Python lists or R vectors.
+A comprehensive description of the behavior of vectors is found in
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">robjects.vector</span></code>.</p>
+<div class="section" id="creating-rpy2-vectors">
+<h3>Creating rpy2 vectors<a class="headerlink" href="#creating-rpy2-vectors" title="Permalink to this headline">¶</a></h3>
+<p>Creating R vectors can be achieved simply:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">StrVector</span><span class="p">([</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;def&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="go">c(&quot;abc&quot;, &quot;def&quot;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="go">1:3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">([</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="go">c(1.1, 2.2, 3.3)</span>
+</pre></div>
+</div>
+<p>R matrixes and arrays are just vectors with a <cite>dim</cite> attribute.</p>
+<p>The easiest way to create such objects is to do it through
+R functions:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">([</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">2.2</span><span class="p">,</span> <span class="mf">3.3</span><span class="p">,</span> <span class="mf">4.4</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">,</span> <span class="mf">6.6</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;matrix&#39;</span><span class="p">](</span><span class="n">v</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="go">     [,1] [,2] [,3]</span>
+<span class="go">[1,]  1.1  3.3  5.5</span>
+<span class="go">[2,]  2.2  4.4  6.6</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="calling-r-functions">
+<span id="robjects-introduction-functions"></span><h2>Calling R functions<a class="headerlink" href="#calling-r-functions" title="Permalink to this headline">¶</a></h2>
+<p>Calling R functions is disappointingly similar to calling
+Python functions:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rsum</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;sum&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rsum</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]))[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">6L</span>
+</pre></div>
+</div>
+<p>Keywords are also working:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rsort</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;sort&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">rsort</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]),</span> <span class="n">decreasing</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<span class="go">c(3L, 2L, 1L)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, calling R functions returns R objects.</p>
+</div>
+<p>More information on functions is in Section <a class="reference internal" href="robjects_functions.html#robjects-functions"><span class="std std-ref">Functions</span></a>.</p>
+</div>
+<div class="section" id="getting-help">
+<h2>Getting help<a class="headerlink" href="#getting-help" title="Permalink to this headline">¶</a></h2>
+<p>R has a builtin help system that, just like the pydoc strings are used frequently
+in python during interactive sessions, is used very frequently by R programmmers.
+This help system is accessible from an R function, therefore accessible from rpy2.</p>
+<div class="section" id="help-on-a-topic-within-a-given-package-or-currently-loaded-packages">
+<h3>Help on a topic within a given package, or currently loaded packages<a class="headerlink" href="#help-on-a-topic-within-a-given-package-or-currently-loaded-packages" title="Permalink to this headline">¶</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">help_doc</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">help</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">help_doc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">&#39;/where/R/is/installed/library/utils/help/help&#39;</span>
+</pre></div>
+</div>
+<p>Converting the object returned to a string produces the full help text
+on the topic:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">help_doc</span><span class="p">)</span>
+<span class="go">[...long output...]</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The help message so produced is not a string returned to the console
+but is directly printed by R to the standard output. The call to
+<code class="xref py py-func docutils literal notranslate"><span class="pre">str()</span></code> only returns an empty string, and the reason for this is
+somewhat involved for an introductory documentation.
+This behaviour is rooted in <strong class="program">R</strong> itself and in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> the
+string representation of R objects is the string representation as
+given by the <strong class="program">R</strong> console,
+which in that case takes a singular route.</p>
+<p>For a Python friendly help to the R help system, consider the module
+<a class="reference internal" href="rhelp.html#module-rpy2.robjects.help" title="rpy2.robjects.help: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.help</span></code></a>.</p>
+</div>
+</div>
+<div class="section" id="locate-topics-among-available-packages">
+<h3>Locate topics among available packages<a class="headerlink" href="#locate-topics-among-available-packages" title="Permalink to this headline">¶</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">help_where</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">help_search</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>As before with <cite>help</cite>, the result can be printed / converted to a string,
+giving a similar result to what is obtained from an R session.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The data structure returned can otherwise be used to access the information
+returned in details.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">help_where</span><span class="p">)</span>
+<span class="go">(&lt;StrVector - Python:0x1f9a968 / R:0x247f908&gt;,</span>
+<span class="go"> &lt;StrVector - Python:0x1f9a990 / R:0x25079d0&gt;,</span>
+<span class="go"> &lt;StrVector - Python:0x1f9a9b8 / R:0x247f928&gt;,</span>
+<span class="go"> &lt;Matrix - Python:0x1f9a850 / R:0x1ec0390&gt;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">help_where</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">colnames</span><span class="p">)</span>
+<span class="go">(&#39;topic&#39;, &#39;title&#39;, &#39;Package&#39;, &#39;LibPath&#39;)</span>
+</pre></div>
+</div>
+<p>However, this is beyond the scope of an introduction, and one should
+master the content of the module <code class="xref py py-mod docutils literal notranslate"><span class="pre">robjects.vector</span></code> before anything else.</p>
+</div>
+</div>
+</div>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<p>This section demonstrates some of the features of
+rpy2.</p>
+<div class="section" id="graphics-and-plots">
+<h3>Graphics and plots<a class="headerlink" href="#graphics-and-plots" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="kn">as</span> <span class="nn">robjects</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">X11</span><span class="p">()</span>
+
+<span class="n">r</span><span class="o">.</span><span class="n">layout</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">]),</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">runif</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">y</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s2">&quot;runif&quot;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s2">&quot;foo/bar&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Setting dynamically the number of arguments in a function call can be
+done the usual way in python.</p>
+<p>There are several ways to plot data in <cite>R</cite>, some of which are
+presented in this documentation:</p>
+<p>The general setup is repeated here:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2</span> <span class="k">import</span> <span class="n">robjects</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">Formula</span><span class="p">,</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">IntVector</span><span class="p">,</span> <span class="n">FloatVector</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="k">import</span> <span class="n">grid</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib.embedded</span> <span class="k">import</span> <span class="n">RRuntimeError</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="c1"># The R &#39;print&#39; function</span>
+<span class="n">rprint</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;print&quot;</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">grdevices</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grDevices&#39;</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
+
+<span class="n">grid</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The setup specific to ggplot2 is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects.lib.ggplot2</span> <span class="k">as</span> <span class="nn">ggplot2</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="n">mtcars</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
+
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;wt&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;mpg&#39;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s1">&#39;factor(cyl)&#39;</span><span class="p">)</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_point</span><span class="p">()</span> <span class="o">+</span>
+      <span class="n">ggplot2</span><span class="o">.</span><span class="n">geom_smooth</span><span class="p">(</span><span class="n">ggplot2</span><span class="o">.</span><span class="n">aes_string</span><span class="p">(</span><span class="n">group</span> <span class="o">=</span> <span class="s1">&#39;cyl&#39;</span><span class="p">),</span>
+                          <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;lm&#39;</span><span class="p">))</span>
+<span class="n">pp</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="_images/graphics_ggplot2_smoothbycylwithcolours.png"><img alt="_images/graphics_ggplot2_smoothbycylwithcolours.png" src="_images/graphics_ggplot2_smoothbycylwithcolours.png" style="width: 306.0px; height: 306.0px;" /></a>
+<p>More about plots and graphics in R, as well as more advanced
+plots are presented in Section <a class="reference internal" href="graphics.html#graphics"><span class="std std-ref">Graphics</span></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>By default, the embedded R open an interactive plotting device,
+that is a window in which the plot is located.
+Processing interactive events on that devices, such as resizing or closing
+the window must be explicitly required
+(see Section <a class="reference internal" href="rinterface.html#rinterface-interactive-processevents"><span class="std std-ref">Processing interactive events</span></a>).</p>
+</div>
+</div>
+<div class="section" id="linear-models">
+<h3>Linear models<a class="headerlink" href="#linear-models" title="Permalink to this headline">¶</a></h3>
+<p>The R code is:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">ctl</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">4.17</span><span class="p">,</span><span class="m">5.58</span><span class="p">,</span><span class="m">5.18</span><span class="p">,</span><span class="m">6.11</span><span class="p">,</span><span class="m">4.50</span><span class="p">,</span><span class="m">4.61</span><span class="p">,</span><span class="m">5.17</span><span class="p">,</span><span class="m">4.53</span><span class="p">,</span><span class="m">5.33</span><span class="p">,</span><span class="m">5.14</span><span class="p">)</span>
+<span class="n">trt</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">4.81</span><span class="p">,</span><span class="m">4.17</span><span class="p">,</span><span class="m">4.41</span><span class="p">,</span><span class="m">3.59</span><span class="p">,</span><span class="m">5.87</span><span class="p">,</span><span class="m">3.83</span><span class="p">,</span><span class="m">6.03</span><span class="p">,</span><span class="m">4.89</span><span class="p">,</span><span class="m">4.32</span><span class="p">,</span><span class="m">4.69</span><span class="p">)</span>
+<span class="n">group</span> <span class="o">&lt;-</span> <span class="nf">gl</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">10</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Ctl&quot;</span><span class="p">,</span><span class="s">&quot;Trt&quot;</span><span class="p">))</span>
+<span class="n">weight</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="n">ctl</span><span class="p">,</span> <span class="n">trt</span><span class="p">)</span>
+
+<span class="nf">anova</span><span class="p">(</span><span class="n">lm.D9</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">weight</span> <span class="o">~</span> <span class="n">group</span><span class="p">))</span>
+
+<span class="nf">summary</span><span class="p">(</span><span class="n">lm.D90</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">weight</span> <span class="o">~</span> <span class="n">group</span> <span class="o">-</span> <span class="m">1</span><span class="p">))</span><span class="c1"># omitting intercept</span>
+</pre></div>
+</div>
+<p>One way to achieve the same with <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> is</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">FloatVector</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="n">ctl</span> <span class="o">=</span> <span class="n">FloatVector</span><span class="p">([</span><span class="mf">4.17</span><span class="p">,</span><span class="mf">5.58</span><span class="p">,</span><span class="mf">5.18</span><span class="p">,</span><span class="mf">6.11</span><span class="p">,</span><span class="mf">4.50</span><span class="p">,</span><span class="mf">4.61</span><span class="p">,</span><span class="mf">5.17</span><span class="p">,</span><span class="mf">4.53</span><span class="p">,</span><span class="mf">5.33</span><span class="p">,</span><span class="mf">5.14</span><span class="p">])</span>
+<span class="n">trt</span> <span class="o">=</span> <span class="n">FloatVector</span><span class="p">([</span><span class="mf">4.81</span><span class="p">,</span><span class="mf">4.17</span><span class="p">,</span><span class="mf">4.41</span><span class="p">,</span><span class="mf">3.59</span><span class="p">,</span><span class="mf">5.87</span><span class="p">,</span><span class="mf">3.83</span><span class="p">,</span><span class="mf">6.03</span><span class="p">,</span><span class="mf">4.89</span><span class="p">,</span><span class="mf">4.32</span><span class="p">,</span><span class="mf">4.69</span><span class="p">])</span>
+<span class="n">group</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">gl</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Ctl&quot;</span><span class="p">,</span><span class="s2">&quot;Trt&quot;</span><span class="p">])</span>
+<span class="n">weight</span> <span class="o">=</span> <span class="n">ctl</span> <span class="o">+</span> <span class="n">trt</span>
+
+<span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
+<span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
+<span class="n">lm_D9</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="s2">&quot;weight ~ group&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">lm_D9</span><span class="p">))</span>
+
+<span class="c1"># omitting the intercept</span>
+<span class="n">lm_D90</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="s2">&quot;weight ~ group - 1&quot;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">lm_D90</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>This way to perform a linear fit it matching precisely the way in R presented
+above, but there are other ways (see Section <a class="reference internal" href="robjects_formulae.html#robjects-formula"><span class="std std-ref">Formulae</span></a>
+for storing the variables directly in the lookup environment of the formula).</p>
+<p>Q: Now how to extract data from the resulting objects ?</p>
+<p>A: Well, it all depends on the object. R is very much designed
+for interactive sessions, and users often inspect what a
+function is returning in order to know how to extract information.</p>
+<p>When taking the results from the code above, one could go like:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lm_D9</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
+<span class="go">[1] &quot;lm&quot;</span>
+</pre></div>
+</div>
+<p>Here the resulting object is a list structure, as either inspecting
+the data structure or reading the R man pages for <cite>lm</cite> would tell us.
+Checking its element names is then trivial:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lm_D9</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+<span class="go"> [1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;</span>
+<span class="go"> [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;</span>
+<span class="go"> [9] &quot;contrasts&quot;     &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;</span>
+<span class="go">[13] &quot;model&quot;</span>
+</pre></div>
+</div>
+<p>And so is extracting a particular element:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lm_D9</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s1">&#39;coefficients&#39;</span><span class="p">))</span>
+<span class="go">(Intercept)    groupTrt</span>
+<span class="go">      5.032      -0.371</span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">lm_D9</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="s1">&#39;coefficients&#39;</span><span class="p">))</span>
+<span class="go">$coefficients</span>
+<span class="go">(Intercept)    groupTrt</span>
+<span class="go">      5.032      -0.371</span>
+</pre></div>
+</div>
+<p>More about extracting elements from vectors is available
+at <a class="reference internal" href="vector.html#robjects-extracting"><span class="std std-ref">Extracting items</span></a>.</p>
+</div>
+<div class="section" id="principal-component-analysis">
+<h3>Principal component analysis<a class="headerlink" href="#principal-component-analysis" title="Permalink to this headline">¶</a></h3>
+<p>The R code is</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">m</span> <span class="o">&lt;-</span> <span class="nf">matrix</span><span class="p">(</span><span class="nf">rnorm</span><span class="p">(</span><span class="m">100</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="m">5</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">&lt;-</span> <span class="nf">princomp</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Eigen values&quot;</span><span class="p">)</span>
+<span class="nf">biplot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;biplot&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> code can be as close to the
+R code as possible:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">princomp</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s2">&quot;Eigen values&quot;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">.</span><span class="n">biplot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s2">&quot;biplot&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>However, the same example can be made a little tidier
+(with respect to being specific about R functions used)</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+
+<span class="n">base</span>     <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="n">stats</span>    <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">ncol</span> <span class="o">=</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">princomp</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="s2">&quot;Eigen values&quot;</span><span class="p">)</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">biplot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span> <span class="o">=</span> <span class="s2">&quot;biplot&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code">
+<h3>Creating an R vector or matrix, and filling its cells using Python code<a class="headerlink" href="#creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">NA_Real</span>
+<span class="kn">from</span> <span class="nn">rpy2.rlike.container</span> <span class="k">import</span> <span class="n">TaggedList</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="c1"># create a numerical matrix of size 100x10 filled with NAs</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">NA_Real</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="c1"># fill the matrix</span>
+<span class="k">for</span> <span class="n">row_i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">col_i</span> <span class="ow">in</span> <span class="n">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">m</span><span class="o">.</span><span class="n">rx</span><span class="p">[</span><span class="n">TaggedList</span><span class="p">((</span><span class="n">row_i</span><span class="p">,</span> <span class="p">),</span> <span class="p">(</span><span class="n">col_i</span><span class="p">,</span> <span class="p">))]</span> <span class="o">=</span> <span class="n">row_i</span> <span class="o">+</span> <span class="n">col_i</span> <span class="o">*</span> <span class="mi">100</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>None
+</pre></div>
+</div>
+</div>
+<div class="section" id="one-more-example">
+<h3>One more example<a class="headerlink" href="#one-more-example" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">short demo.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
+<span class="n">grdevices</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grDevices&#39;</span><span class="p">)</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span> <span class="nn">array</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">grdevices</span><span class="o">.</span><span class="n">X11</span><span class="p">()</span>
+
+<span class="n">graphics</span><span class="o">.</span><span class="n">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ylab</span> <span class="o">=</span> <span class="s2">&quot;foo/bar&quot;</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s2">&quot;red&quot;</span><span class="p">)</span>
+
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;ylab&#39;</span><span class="p">:</span><span class="s2">&quot;foo/bar&quot;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">:</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s1">&#39;col&#39;</span><span class="p">:</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="s1">&#39;log&#39;</span><span class="p">:</span><span class="s2">&quot;x&quot;</span><span class="p">}</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">pca</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">princomp</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s2">&quot;Eigen values&quot;</span><span class="p">)</span>
+<span class="n">stats</span><span class="o">.</span><span class="n">biplot</span><span class="p">(</span><span class="n">pca</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s2">&quot;biplot&quot;</span><span class="p">)</span>
+
+
+
+
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="notebooks.html" title="Using rpy2 in notebooks"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="overview.html" title="Overview"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="getting-started.html" >Getting started</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+    </div>
+  </body>
+</html>
