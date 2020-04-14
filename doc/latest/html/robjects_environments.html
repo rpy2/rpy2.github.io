@@ -5,24 +5,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Environments &#8212; rpy2 3.3.0 documentation</title>
+    <title>Environments &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Functions" href="robjects_functions.html" />
     <link rel="prev" title="R objects" href="robjects_robjects.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="robjects_robjects.html" title="R objects"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li> 
       </ul>
@@ -69,7 +69,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -89,7 +89,7 @@ dictionnary.</p>
 <p>Assigning a value to a symbol in an environment has been
 made as simple as assigning a value to a key in a Python
 dictionary:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">globalenv</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">globalenv</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">globalenv</span><span class="p">))</span>
 </pre></div>
@@ -99,7 +99,7 @@ such as the Global Environment, as this can hide other objects
 with an identical name.
 The following example should make one measure that this can mean
 trouble if no care is taken:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;pi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;pi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
 <span class="go">[1] 123</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -112,7 +112,7 @@ trouble if no care is taken:</p>
 <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpEnvironment</span></code>.</p>
 <p>An environment is also iter-able, returning all the symbols
 (keys) it contains:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">baseenv</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">baseenv</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">env</span><span class="p">]</span>
 <span class="go">&lt;a long list returned&gt;</span>
 </pre></div>
@@ -126,7 +126,7 @@ dedicated to model R packages (see <a class="reference internal" href="robjects_
 <dl class="class">
 <dt id="rpy2.robjects.Environment">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.</code><code class="sig-name descname">Environment</code><span class="sig-paren">(</span><em class="sig-param">o=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Environment" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpEnvironment</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.sexp.SexpEnvironment</span></code></p>
 <p>An R environement, implementing Python’s mapping interface.</p>
 <dl class="method">
 <dt id="rpy2.robjects.Environment.clear">
@@ -135,7 +135,7 @@ dedicated to model R packages (see <a class="reference internal" href="robjects_
 
 <dl class="method">
 <dt id="rpy2.robjects.Environment.find">
-<code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="sig-param">item</em>, <em class="sig-param">wantfun=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.find"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Environment.find" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">find</code><span class="sig-paren">(</span><em class="sig-param">item: str</em>, <em class="sig-param">wantfun: bool = False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.find"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Environment.find" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find an item, starting with this R environment.</p>
 <p>Raises a <cite>KeyError</cite> if the key cannot be found.</p>
 <p>This method is called <cite>find</cite> because it is somewhat different
@@ -154,7 +154,7 @@ the first key found.</p>
 
 <dl class="method">
 <dt id="rpy2.robjects.Environment.items">
-<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Generator<a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Environment.items" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">items</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Generator[[Tuple[str, rpy2.rinterface_lib.sexp.Sexp], None], None]<a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Environment.items" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate through the symbols and associated objects in
 this R environment.</p>
 </dd></dl>
@@ -180,7 +180,7 @@ d is returned if given, otherwise KeyError is raised.</p>
 
 <dl class="method">
 <dt id="rpy2.robjects.Environment.values">
-<code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Generator<a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Environment.values" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">values</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Generator[[rpy2.rinterface_lib.sexp.Sexp, None], None]<a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.Environment.values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Iterate through the objects in
 this R environment.</p>
 </dd></dl>
@@ -210,14 +210,14 @@ this R environment.</p>
         <li class="right" >
           <a href="robjects_robjects.html" title="R objects"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

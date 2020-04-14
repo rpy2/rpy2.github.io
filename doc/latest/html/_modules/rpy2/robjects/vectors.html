@@ -5,22 +5,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>rpy2.robjects.vectors &#8212; rpy2 3.3.0 documentation</title>
+    <title>rpy2.robjects.vectors &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../../_static/language_data.js"></script>
-    <script type="text/javascript" src="../../../_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
       </ul>
@@ -48,7 +48,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -61,6 +61,7 @@
 <span></span><span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="k">import</span> <span class="n">RObjectMixin</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="k">import</span> <span class="n">sexp</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">conversion</span>
 
 <span class="kn">import</span> <span class="nn">rpy2.rlike.container</span> <span class="k">as</span> <span class="nn">rlc</span>
@@ -73,6 +74,7 @@
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">pytz</span>
 <span class="kn">import</span> <span class="nn">tzlocal</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">struct_time</span><span class="p">,</span> <span class="n">mktime</span><span class="p">,</span> <span class="n">tzname</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="k">import</span> <span class="n">attrgetter</span>
@@ -80,7 +82,7 @@
 
 <span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="k">import</span> <span class="p">(</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">ListSexpVector</span><span class="p">,</span> <span class="n">StrSexpVector</span><span class="p">,</span>
                              <span class="n">IntSexpVector</span><span class="p">,</span> <span class="n">ByteSexpVector</span><span class="p">,</span> <span class="n">BoolSexpVector</span><span class="p">,</span>
-                             <span class="n">ComplexSexpVector</span><span class="p">,</span>
+                             <span class="n">ComplexSexpVector</span><span class="p">,</span> <span class="n">PairlistSexpVector</span><span class="p">,</span>
                              <span class="n">FloatSexpVector</span><span class="p">,</span> <span class="n">NA_Real</span><span class="p">,</span> <span class="n">NA_Integer</span><span class="p">,</span>
                              <span class="n">NA_Character</span><span class="p">,</span> <span class="n">NA_Logical</span><span class="p">,</span> <span class="n">NULL</span><span class="p">,</span> <span class="n">MissingArg</span><span class="p">)</span>
 
@@ -643,12 +645,17 @@
             <span class="k">yield</span> <span class="n">levels</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div></div>
 
 
+<span class="k">class</span> <span class="nc">PairlistVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">PairlistSexpVector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;R pairlist vector.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
 <div class="viewcode-block" id="ListVector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.ListVector">[docs]</a><span class="k">class</span> <span class="nc">ListVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">ListSexpVector</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; R list (vector of arbitray elements)</span>
 
-<span class="sd">    ListVector(itemable) -&gt; ListVector.</span>
+<span class="sd">    ListVector(iterable) -&gt; ListVector.</span>
 
-<span class="sd">    The parameter &#39;itemable&#39; can be:</span>
+<span class="sd">    The parameter &#39;iterable&#39; can be:</span>
 
 <span class="sd">    - an object with a method `items()`, such for example a dict,</span>
 <span class="sd">      a rpy2.rlike.container.TaggedList,</span>
@@ -777,11 +784,6 @@
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">DateVector</span><span class="p">(</span><span class="n">FloatVector</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Vector of dates &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
-
-
 <span class="k">class</span> <span class="nc">POSIXt</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; POSIX time vector. This is an abstract class. &quot;&quot;&quot;</span>
 
@@ -882,6 +884,36 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">timezone</span> <span class="o">=</span> <span class="n">tzlocal</span><span class="o">.</span><span class="n">get_localzone</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">timezone</span>
+
+
+<span class="k">class</span> <span class="nc">DateVector</span><span class="p">(</span><span class="n">FloatVector</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Representation of dates as number of days since 1/1/1970.</span>
+
+<span class="sd">    Date(seq) -&gt; Date.</span>
+
+<span class="sd">    The constructor accepts either an R vector floats</span>
+<span class="sd">    or a sequence (an object with the Python</span>
+<span class="sd">    sequence interface) of time.struct_time objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seq</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create a POSIXct from either an R vector or a sequence</span>
+<span class="sd">        of Python datetime.date objects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">Sexp</span><span class="p">):</span>
+            <span class="n">init_param</span> <span class="o">=</span> <span class="n">seq</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">date</span><span class="p">):</span>
+            <span class="n">init_param</span> <span class="o">=</span> <span class="n">DateVector</span><span class="o">.</span><span class="n">sexp_from_date</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s1">&#39;Unable to create an R Date vector from objects of type </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">seq</span><span class="p">))</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">init_param</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">sexp_from_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">seq</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">FloatVector</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">toordinal</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">]))</span>
 
 
 <div class="viewcode-block" id="POSIXct"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct">[docs]</a><span class="k">class</span> <span class="nc">POSIXct</span><span class="p">(</span><span class="n">POSIXt</span><span class="p">,</span> <span class="n">FloatVector</span><span class="p">):</span>
@@ -1021,10 +1053,10 @@
         <span class="n">value</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_dim_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-    <span class="n">dim</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__dim_get</span><span class="p">,</span> <span class="n">__dim_set</span><span class="p">,</span>
+    <span class="n">dim</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__dim_get</span><span class="p">,</span> <span class="n">__dim_set</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="s2">&quot;Get or set the dimension of the array.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__dimnames_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__dimnames_get</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Return a list of name vectors</span>
 <span class="sd">        (like the R function &#39;dimnames&#39; does).&quot;&quot;&quot;</span>
 
@@ -1225,15 +1257,16 @@
 <span class="sd">        &lt;/table&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">stringsasfactor</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">stringsasfactor</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">checknames</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create a new data frame.</span>
 
 <span class="sd">        :param obj: object inheriting from rpy2.rinterface.SexpVector,</span>
-<span class="sd">                    or inheriting from TaggedList</span>
-<span class="sd">                    or a mapping name -&gt; value</span>
+<span class="sd">            or inheriting from TaggedList or a mapping name -&gt; value</span>
 <span class="sd">        :param stringsasfactors: Boolean indicating whether vectors</span>
-<span class="sd">                    of strings should be turned to vectors. Note</span>
-<span class="sd">                    that factors will not be turned to string vectors.</span>
+<span class="sd">            of strings should be turned to vectors. Note that factors</span>
+<span class="sd">            will not be turned to string vectors.</span>
+<span class="sd">        :param checknames: Boolean indicating whether column names</span>
+<span class="sd">            should be transformed to R syntactically valid names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">typeof</span> <span class="o">!=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">VECSXP</span><span class="p">:</span>
@@ -1277,7 +1310,8 @@
                           <span class="s1">&#39;conflicting with named parameter &#39;</span>
                           <span class="s1">&#39;in underlying R function &quot;data.frame()&quot;.&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">kv</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;stringsAsFactors&#39;</span><span class="p">,</span> <span class="n">stringsasfactor</span><span class="p">))</span>
+            <span class="n">kv</span><span class="o">.</span><span class="n">extend</span><span class="p">(((</span><span class="s1">&#39;stringsAsFactors&#39;</span><span class="p">,</span> <span class="n">stringsasfactor</span><span class="p">),</span>
+                       <span class="p">(</span><span class="s1">&#39;check.names&#39;</span><span class="p">,</span> <span class="n">checknames</span><span class="p">)))</span>
 
         <span class="c1"># Call R&#39;s data frame constructor</span>
         <span class="n">kv</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">kv</span><span class="p">)</span>
@@ -1392,8 +1426,8 @@
         <span class="n">res</span> <span class="o">=</span> <span class="n">utils_ri</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataFrame.from_csvfile"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.from_csvfile">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_csvfile</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
+<div class="viewcode-block" id="DataFrame.from_csvfile"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.from_csvfile">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_csvfile</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
                      <span class="n">quote</span><span class="o">=</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
                      <span class="n">row_names</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
                      <span class="n">col_names</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
@@ -1437,8 +1471,7 @@
                                      <span class="s1">&#39;comment.char&#39;</span><span class="p">:</span> <span class="n">comment_char</span><span class="p">,</span>
                                      <span class="s1">&#39;na.strings&#39;</span><span class="p">:</span> <span class="n">na_strings</span><span class="p">,</span>
                                      <span class="s1">&#39;as.is&#39;</span><span class="p">:</span> <span class="n">as_is</span><span class="p">})</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">res</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="DataFrame.to_csvfile"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.to_csvfile">[docs]</a>    <span class="k">def</span> <span class="nf">to_csvfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">quote</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
                    <span class="n">eol</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="s1">&#39;NA&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
@@ -1541,14 +1574,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

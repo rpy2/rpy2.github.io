@@ -5,24 +5,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Numpy &#8212; rpy2 3.3.0 documentation</title>
+    <title>Numpy &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Low-level interface" href="rinterface.html" />
     <link rel="prev" title="Interactive work" href="interactive.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="interactive.html" title="Interactive work"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -80,7 +80,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -119,7 +119,7 @@ present an interface recognized by <cite>numpy</cite>.</p>
 </pre></div>
 </div>
 <p>The matrix <em>ostatus</em> is an 8x8 matrix:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ostatus</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ostatus</span><span class="p">)</span>
 <span class="go">      destination</span>
 <span class="go">origin   1   2   3   4   5   6   7   8</span>
 <span class="go">     1  50  19  26   8   7  11   6   2</span>
@@ -133,7 +133,7 @@ present an interface recognized by <cite>numpy</cite>.</p>
 </pre></div>
 </div>
 <p>Its content has been copied to a numpy array:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_np</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_np</span>
 <span class="go">array([[ 50,  19,  26,   8,   7,  11,   6,   2],</span>
 <span class="go">       [ 16,  40,  34,  18,  11,  20,   8,   3],</span>
 <span class="go">       [ 12,  35,  65,  66,  35,  88,  23,  21],</span>
@@ -152,13 +152,13 @@ present an interface recognized by <cite>numpy</cite>.</p>
 </pre></div>
 </div>
 <p>On the other hand, <em>ostatus_npnc</em> is a view on <em>ostatus</em>; no copy was made:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_npnc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">456</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_npnc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">456</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">456</span>
 </pre></div>
 </div>
 <p>Since we did modify an actual R dataset for the session, we should restore it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_npnc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ostatus_npnc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50</span>
 </pre></div>
 </div>
 <p>As we see, <code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.asarray()</span></code>: provides a way to build a <em>view</em> on the underlying
@@ -213,7 +213,7 @@ and from <a class="reference internal" href="robjects.html#module-rpy2.robjects"
 behave like arrays, as defined in the Python package <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code>.</p>
 <p>The functions <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.array()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.asarray()</span></code> can
 be used to construct <cite>numpy</cite> arrays:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rx</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">INTSXP</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nx</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rx</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nx_nc</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">rx</span><span class="p">)</span>
@@ -223,7 +223,7 @@ be used to construct <cite>numpy</cite> arrays:</p>
 <p class="admonition-title">Note</p>
 <p>when using <code class="xref py py-meth docutils literal notranslate"><span class="pre">numpy.asarray()</span></code>, the data are not copied.</p>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 <span class="go">3</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">nx_nc</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">42</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rx</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
@@ -255,12 +255,12 @@ be used to construct <cite>numpy</cite> arrays:</p>
         <li class="right" >
           <a href="interactive.html" title="Interactive work"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

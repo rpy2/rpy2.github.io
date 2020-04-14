@@ -5,24 +5,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>R packages &#8212; rpy2 3.3.0 documentation</title>
+    <title>R packages &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Working with R’s OOPs" href="robjects_oop.html" />
     <link rel="prev" title="Formulae" href="robjects_formulae.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="robjects_formulae.html" title="Formulae"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li> 
       </ul>
@@ -84,7 +84,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -109,7 +109,7 @@ the package to the R <cite>search path</cite>).</p>
 <p>The object <code class="xref py py-obj docutils literal notranslate"><span class="pre">utils</span></code> is now a namespace object, in the sense that
 its <code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code> contains keys corresponding to the R symbols.
 For example the R function <em>data()</em> can be accessed like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span><span class="o">.</span><span class="n">data</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span><span class="o">.</span><span class="n">data</span>
 <span class="go">&lt;SignatureTranslatedFunction - Python:0x913754c / R:0x943bdf8&gt;</span>
 </pre></div>
 </div>
@@ -162,14 +162,14 @@ up to you. One way is to do:</p>
 R symbols can use a lot more characters illegal in Python symbols.
 Those more exotic symbols can be accessed through <code class="xref py py-attr docutils literal notranslate"><span class="pre">__dict__</span></code>.</p>
 <p>Example:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;?&#39;</span><span class="p">]</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">[</span><span class="s1">&#39;?&#39;</span><span class="p">]</span>
 <span class="go">&lt;Function - Python:0x913796c / R:0x9366fac&gt;</span>
 </pre></div>
 </div>
 <p>In addition to the translation of robjects symbols,
 objects that are R functions see their named arguments translated as similar way
 (with ‘.’ becoming ‘_’ in Python).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base</span><span class="o">.</span><span class="n">scan</span><span class="o">.</span><span class="n">_prm_translate</span>
 <span class="go">{&#39;blank_lines_skip&#39;: &#39;blank.lines.skip&#39;,</span>
 <span class="go"> &#39;comment_char&#39;: &#39;comment.char&#39;,</span>
@@ -246,7 +246,7 @@ to be what it really is.</p>
 </div>
 <p>The object <cite>stringr_c</cite> encapsulates the funtions defined in the R file
 into something like what the rpy2 <cite>importr</cite> is returning.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">stringr_c</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">stringr_c</span><span class="p">)</span>
 <span class="go">rpy2.robjects.packages.SignatureTranslatedAnonymousPackage</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">stringr_c</span><span class="o">.</span><span class="n">_rpy2r</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">[&#39;str_join&#39;, &#39;str_c&#39;]</span>
@@ -254,7 +254,7 @@ into something like what the rpy2 <cite>importr</cite> is returning.</p>
 </div>
 <p>Unlike the R code first shown, this is not writing anything into the
 the R global environment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">globalenv</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">globalenv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">globalenv</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">()</span>
 </pre></div>
@@ -310,7 +310,7 @@ that locked environments should mostly be considered).</p>
 
 <dl class="class">
 <dt id="rpy2.robjects.packages.PackageData">
-<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">PackageData</code><span class="sig-paren">(</span><em class="sig-param">packagename, lib_loc=&lt;rpy2.rinterface.NULLType object&gt; [RTYPES.NILSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">PackageData</code><span class="sig-paren">(</span><em class="sig-param">packagename, lib_loc=&lt;rpy2.rinterface_lib.sexp.NULLType object&gt; [RTYPES.NILSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Datasets in an R package.
 In R datasets can be distributed with a package.</p>
 <p>Datasets can be:</p>
@@ -455,7 +455,7 @@ name __rdata__ (default: True)</p></li>
 
 <dl class="function">
 <dt id="rpy2.robjects.packages.reval">
-<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">reval</code><span class="sig-paren">(</span><em class="sig-param">string, envir=&lt;rpy2.rinterface.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#reval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.reval" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">reval</code><span class="sig-paren">(</span><em class="sig-param">string, envir=&lt;rpy2.rinterface_lib.sexp.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#reval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.reval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate a string as R code
 :param string: R code
 :type string: a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>
@@ -467,7 +467,7 @@ name __rdata__ (default: True)</p></li>
 
 <dl class="function">
 <dt id="rpy2.robjects.packages.wherefrom">
-<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">wherefrom</code><span class="sig-paren">(</span><em class="sig-param">symbol: str, startenv: rpy2.rinterface.SexpEnvironment = &lt;rpy2.rinterface.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#wherefrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.wherefrom" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">wherefrom</code><span class="sig-paren">(</span><em class="sig-param">symbol: str, startenv: rpy2.rinterface_lib.sexp.SexpEnvironment = &lt;rpy2.rinterface_lib.sexp.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#wherefrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.wherefrom" title="Permalink to this definition">¶</a></dt>
 <dd><p>For a given symbol, return the environment
 this symbol is first found in, starting from ‘startenv’.</p>
 </dd></dl>
@@ -481,7 +481,7 @@ is resolved can be of much importance in R, as the number of packages
 attached grows and the use of the namespace accessors “::” and “:::”
 is not so frequent.</p>
 <p>The function <a class="reference internal" href="#rpy2.robjects.packages.wherefrom" title="rpy2.robjects.packages.wherefrom"><code class="xref py py-func docutils literal notranslate"><span class="pre">wherefrom()</span></code></a> offers a way to find it:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpacks</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpacks</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">rpacks</span><span class="o">.</span><span class="n">wherefrom</span><span class="p">(</span><span class="s1">&#39;lm&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">&#39;package:stats&#39;</span>
@@ -553,14 +553,14 @@ for more information.</p>
         <li class="right" >
           <a href="robjects_formulae.html" title="Formulae"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

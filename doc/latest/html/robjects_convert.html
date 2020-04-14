@@ -5,24 +5,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Mapping rpy2 objects to arbitrary python objects &#8212; rpy2 3.3.0 documentation</title>
+    <title>Mapping rpy2 objects to arbitrary python objects &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Graphics" href="graphics.html" />
     <link rel="prev" title="R help" href="rhelp.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="rhelp.html" title="R help"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li> 
       </ul>
     </div>
@@ -84,7 +84,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -224,7 +224,7 @@ of writing a new function <cite>rpy2py</cite> that handles this, as shown below:
 </pre></div>
 </div>
 <p>Then we can test it with:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">pi</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">pi</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
 <span class="go">&lt;type &#39;float&#39;&gt;</span>
 </pre></div>
@@ -249,7 +249,10 @@ dedicated system.</p>
 <span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
 
 <span class="c1"># Map the R/S4 class &#39;lmerMod&#39; to our Python class LMER.</span>
-<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">rs4map_context</span><span class="p">({</span><span class="s1">&#39;lmerMod&#39;</span><span class="p">:</span> <span class="n">LMER</span><span class="p">}):</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rclass_map_context</span><span class="p">(</span>
+    <span class="n">rinterface</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;lmerMod&#39;</span><span class="p">:</span> <span class="n">LMER</span><span class="p">}</span>
+<span class="p">):</span>
     <span class="n">res2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -263,11 +266,16 @@ matching Python-defined class. For example, the R/S4 class <cite>lmerMod</cite> 
     <span class="sd">&quot;&quot;&quot;Custom class.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
-<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">rs4map_context</span><span class="p">({</span><span class="s1">&#39;merMod&#39;</span><span class="p">:</span> <span class="n">MER</span><span class="p">}):</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rclass_map_context</span><span class="p">(</span>
+    <span class="n">rinterface</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;merMod&#39;</span><span class="p">:</span> <span class="n">MER</span><span class="p">}</span>
+<span class="p">):</span>
     <span class="n">res3</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">rs4map_context</span><span class="p">({</span><span class="s1">&#39;lmerMod&#39;</span><span class="p">:</span> <span class="n">LMER</span><span class="p">,</span>
-                              <span class="s1">&#39;merMod&#39;</span><span class="p">:</span> <span class="n">MER</span><span class="p">}):</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rclass_map_context</span><span class="p">(</span>
+    <span class="n">rinterface</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;lmerMod&#39;</span><span class="p">:</span> <span class="n">LMER</span><span class="p">,</span>
+     <span class="s1">&#39;merMod&#39;</span><span class="p">:</span> <span class="n">MER</span><span class="p">}):</span>
     <span class="n">res4</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -299,13 +307,13 @@ is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be 
         <li class="right" >
           <a href="rhelp.html" title="R help"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

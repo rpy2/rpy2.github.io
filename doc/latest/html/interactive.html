@@ -5,24 +5,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Interactive work &#8212; rpy2 3.3.0 documentation</title>
+    <title>Interactive work &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Numpy" href="numpy.html" />
     <link rel="prev" title="Graphics" href="graphics.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="graphics.html" title="Graphics"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -96,7 +96,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -136,7 +136,7 @@ the line and cell magics, respectively.</p>
 <div></div></blockquote>
 <dl class="simple">
 <dt>%R [-i INPUT] [-o OUTPUT] [-n] [-w WIDTH] [-h HEIGHT] [-p POINTSIZE]</dt><dd><p>[-b BG] [–noisolation] [-u {px,in,cm,mm}] [-r RES]
-[–type {cairo,cairo-png,Xlib,quartz}] [-c CONVERTER]
+[–type {cairo,cairo-png,Xlib,quartz}] [-c CONVERTER] [-d DISPLAY]
 [code [code …]]</p>
 </dd>
 </dl>
@@ -277,6 +277,15 @@ converter for the magic’s module is used (that is
 rpy2’s default converter + numpy converter + pandas
 converter if all three are available).</p>
 </dd>
+<dt><kbd><span class="option">-d <var>DISPLAY</var></span>, <span class="option">--display <var>DISPLAY</var></span></kbd></dt>
+<dd><p>Name of function to use to display the output of an R
+cell (the last object or function call that does not
+have a left-hand side assignment). That function will
+have the signature <cite>(robject, args)</cite> where <cite>robject</cite>
+is the R objects that is an output of the cell, and
+<cite>args</cite> a namespace with all parameters passed to the
+cell.</p>
+</dd>
 </dl>
 <p>code</p>
 </dd>
@@ -381,7 +390,7 @@ returned rather than pushed to self.shell.user_ns:</p>
 <code class="sig-name descname">R</code><span class="sig-paren">(</span><em class="sig-param">line</em>, <em class="sig-param">cell=None</em>, <em class="sig-param">local_ns=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.R"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.R" title="Permalink to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span> <span class="n">HEIGHT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">POINTSIZE</span><span class="p">]</span>
        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BG</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">noisolation</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="p">{</span><span class="n">px</span><span class="p">,</span><span class="ow">in</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">mm</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">RES</span><span class="p">]</span>
-       <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="p">{</span><span class="n">cairo</span><span class="p">,</span><span class="n">cairo</span><span class="o">-</span><span class="n">png</span><span class="p">,</span><span class="n">Xlib</span><span class="p">,</span><span class="n">quartz</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span>
+       <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="p">{</span><span class="n">cairo</span><span class="p">,</span><span class="n">cairo</span><span class="o">-</span><span class="n">png</span><span class="p">,</span><span class="n">Xlib</span><span class="p">,</span><span class="n">quartz</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">DISPLAY</span><span class="p">]</span>
        <span class="p">[</span><span class="n">code</span> <span class="p">[</span><span class="n">code</span> <span class="o">...</span><span class="p">]]</span>
 </pre></div>
 </div>
@@ -520,6 +529,15 @@ Python and R. If not specified/None, the defaut
 converter for the magic’s module is used (that is
 rpy2’s default converter + numpy converter + pandas
 converter if all three are available).</p>
+</dd>
+<dt><kbd><span class="option">-d <var>DISPLAY</var></span>, <span class="option">--display <var>DISPLAY</var></span></kbd></dt>
+<dd><p>Name of function to use to display the output of an R
+cell (the last object or function call that does not
+have a left-hand side assignment). That function will
+have the signature <cite>(robject, args)</cite> where <cite>robject</cite>
+is the R objects that is an output of the cell, and
+<cite>args</cite> a namespace with all parameters passed to the
+cell.</p>
 </dd>
 </dl>
 <p>code</p>
@@ -699,11 +717,11 @@ and ‘X11’ allowing interactive plots in the terminal.</p>
 <span id="interactive-reventloop"></span><h2>R event loop<a class="headerlink" href="#r-event-loop" title="Permalink to this headline">¶</a></h2>
 <p>In order to perform operations like refreshing interactive graphical
 devices, R need to process the events triggering the refresh.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.interactive</span> <span class="k">import</span> <span class="n">process_revents</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.interactive</span> <span class="k">import</span> <span class="n">process_revents</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">IntVector</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;graphics&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">)),</span> <span class="n">ylab</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
@@ -711,21 +729,21 @@ devices, R need to process the events triggering the refresh.</p>
 </div>
 <p>Now the R graphical device is updated when resized.
 Should one wish to stop processing the events:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </pre></div>
 </div>
 <p>The processing can be resumed, stopped again, and this repeated <em>ad libitum</em>.</p>
 <p>The frequency with which the processing of R events is performed can be roughly
 controlled. The thread is put to sleep for an arbitray duration between
 each processing of R events.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">EventProcessor</span><span class="o">.</span><span class="n">interval</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">EventProcessor</span><span class="o">.</span><span class="n">interval</span>
 <span class="go">0.2</span>
 </pre></div>
 </div>
 <p>This value can be changed and set to an other value if more or less frequent
 processing is wished. This can be done while the threaded processing is
 active and will be taken into account at the next sleep cycle.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">EventProcessor</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="mf">1.0</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">EventProcessor</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="mf">1.0</span>
 </pre></div>
 </div>
 <dl class="function">
@@ -759,7 +777,7 @@ help strings or function signatures have made those valuable tools.</p>
 <p>The package <a class="reference internal" href="#module-rpy2.interactive" title="rpy2.interactive"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.interactive</span></code></a> aims at interactive users, but can be used
 in non-interactive code as well. It is trading flexibility
 or performances for ease-of-use.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
@@ -776,7 +794,7 @@ or performances for ease-of-use.</p>
 </div>
 <div class="section" id="r-vectors">
 <h3>R vectors<a class="headerlink" href="#r-vectors" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="go">&lt;IntVector - Python:0x935774c / R:0xa22b440&gt;</span>
 <span class="go">[       0,        1,        2, ...,        7,        8,        9]</span>
@@ -786,7 +804,7 @@ or performances for ease-of-use.</p>
 </pre></div>
 </div>
 <p>In R, there are no scalars.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">pi</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">pi</span>
 <span class="go">&lt;FloatVector - Python:0xa1d7a0c / R:0x9de02a8&gt;</span>
 <span class="go">[3.141593]</span>
 </pre></div>
@@ -811,7 +829,7 @@ languages and systems as libraries.</p>
 operation in R, and since R is typically distributed
 with <em>recommended</em> packages one can immediately start playing with.</p>
 <p>Loading installed R packages can be done through the function <code class="xref py py-func docutils literal notranslate"><span class="pre">importr()</span></code>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">)</span>
 <span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;cluster&#39; (built-in)&gt;</span>
@@ -819,20 +837,20 @@ with <em>recommended</em> packages one can immediately start playing with.</p>
 </div>
 <p>The function returns a package object, and also adds a reference to it
 in <code class="xref py py-attr docutils literal notranslate"><span class="pre">r.packages.packages</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span><span class="o">.</span><span class="n">cluster</span>
 <span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;cluster&#39; (built-in)&gt;</span>
 </pre></div>
 </div>
 <p>All objects in the R package <em>cluster</em> can subsequently be accessed
 through that namespace object. For example, for the function barplot:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">silhouette</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">silhouette</span>
 <span class="go">&lt;SignatureTranslatedFunction - Python:0x24f9418 / R:0x2f5b008&gt;</span>
 </pre></div>
 </div>
 <p>Similarly, other packages such as <em>nlme</em>, and <em>datasets</em>
 can be loaded.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;nlme&quot;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;nlme&quot;</span><span class="p">)</span>
 <span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;stats&#39; (built-in)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
 <span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;datasets&#39; (built-in)&gt;</span>
@@ -848,7 +866,7 @@ a graphical example:</p>
 <div class="section" id="available-packages">
 <h4>Available packages<a class="headerlink" href="#available-packages" title="Permalink to this headline">¶</a></h4>
 <p>R has a function to list the available packages.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
@@ -857,11 +875,11 @@ a graphical example:</p>
 </div>
 <p>The object returned is a <a class="reference internal" href="vector.html#rpy2.robjects.vectors.Matrix" title="rpy2.robjects.vectors.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Matrix</span></code></a>, with one
 package per row (there are many packages in the default CRAN repository).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
 <span class="go">(2692, 13)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">colnames</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">colnames</span><span class="p">)</span>
 <span class="go">(&#39;Package&#39;, &#39;Version&#39;, &#39;Priority&#39;, &#39;Depends&#39;, &#39;Imports&#39;, &#39;LinkingTo&#39;, &#39;Suggests&#39;, &#39;Enhances&#39;, &#39;OS_type&#39;, &#39;License&#39;, &#39;Archs&#39;, &#39;File&#39;, &#39;Repository&#39;)</span>
 </pre></div>
 </div>
@@ -889,7 +907,7 @@ package per row (there are many packages in the default CRAN repository).</p>
 <p>To install a package for repositories, we have to load the package <cite>utils</cite>.
 See Section load-packages for details about loading packages</p>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
@@ -925,12 +943,12 @@ the need to install it again (unless a different version of R is used).</p>
         <li class="right" >
           <a href="graphics.html" title="Graphics"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>

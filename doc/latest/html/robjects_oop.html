@@ -5,24 +5,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Working with R’s OOPs &#8212; rpy2 3.3.0 documentation</title>
+    <title>Working with R’s OOPs &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
-    <script type="text/javascript" src="_static/bizstyle.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Basic handling" href="generated_rst/s4class.html" />
     <link rel="prev" title="R packages" href="robjects_rpackages.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="robjects_rpackages.html" title="R packages"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li> 
       </ul>
@@ -83,7 +83,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
 
@@ -101,14 +101,14 @@ ecosystem of alternative implementations of objects, like aroma, or proto.</p>
 <h2>S3 objects<a class="headerlink" href="#s3-objects" title="Permalink to this headline">¶</a></h2>
 <p>S3 objects are default R objects (i.e., not S4 instances) for which
 an attribute “class” has been added.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
 <span class="go">(&#39;integer&#39;,)</span>
 </pre></div>
 </div>
 <p>Making the object x an instance of a class <em>pair</em>, itself inheriting from
 <em>integer</em> is only a matter of setting the attribute:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">rclass</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">StrVector</span><span class="p">((</span><span class="s2">&quot;pair&quot;</span><span class="p">,</span> <span class="s2">&quot;integer&quot;</span><span class="p">))</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">rclass</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">StrVector</span><span class="p">((</span><span class="s2">&quot;pair&quot;</span><span class="p">,</span> <span class="s2">&quot;integer&quot;</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
 <span class="go">(&#39;pair&#39;, &#39;integer&#39;)</span>
 </pre></div>
@@ -345,7 +345,7 @@ R package).</p>
 <dl class="class">
 <dt id="rpy2.robjects.methods.RS4Auto_Type">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.methods.</code><code class="sig-name descname">RS4Auto_Type</code><span class="sig-paren">(</span><em class="sig-param">sexp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4Auto_Type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4Auto_Type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">type</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABCMeta" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABCMeta</span></code></a></p>
 <p>This type (metaclass) takes an R S4 class
 and create a Python class out of it,
 copying the R documention page into the Python docstring.
@@ -385,14 +385,14 @@ automatic by adding new rules to the conversion system
         <li class="right" >
           <a href="robjects_rpackages.html" title="R packages"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
     </div>
   </body>
 </html>
