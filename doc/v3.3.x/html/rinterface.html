@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Low-level interface &#8212; rpy2 3.3.1 documentation</title>
+    <title>Low-level interface &#8212; rpy2 3.3.2 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="numpy.html" title="Numpy"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.2 documentation</a> &#187;</li> 
       </ul>
     </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -75,7 +75,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#r-arrays-vectors-inherit-from-sexpvector">R arrays (vectors) inherit from <code class="xref py py-class docutils literal notranslate"><span class="pre">SexpVector</span></code></a><ul>
-<li><a class="reference internal" href="#id1">Overview</a></li>
+<li><a class="reference internal" href="#id3">Overview</a></li>
 <li><a class="reference internal" href="#r-types">R types</a></li>
 <li><a class="reference internal" href="#indexing">Indexing</a></li>
 <li><a class="reference internal" href="#common-attributes">Common attributes</a></li>
@@ -95,7 +95,7 @@
 </li>
 <li><a class="reference internal" href="#class-diagram">Class diagram</a></li>
 <li><a class="reference internal" href="#misc-variables">Misc. variables</a><ul>
-<li><a class="reference internal" href="#index-18">R types</a><ul>
+<li><a class="reference internal" href="#index-19">R types</a><ul>
 <li><a class="reference internal" href="#vector-types">Vector types</a></li>
 <li><a class="reference internal" href="#function-types">Function types</a></li>
 <li><a class="reference internal" href="#other-types">Other types</a></li>
@@ -370,7 +370,7 @@ is wanted.</p>
 
 </div>
 <div class="section" id="calling-python-functions-from-r">
-<h3>Calling Python functions from R<a class="headerlink" href="#calling-python-functions-from-r" title="Permalink to this headline">¶</a></h3>
+<span id="index-8"></span><h3>Calling Python functions from R<a class="headerlink" href="#calling-python-functions-from-r" title="Permalink to this headline">¶</a></h3>
 <p>As could be expected from R’s functional roots,
 functions are first-class objects.
 This means that the use of callback functions as passed as parameters
@@ -414,8 +414,12 @@ that is a object that can be used by R as a function.</p>
 <dl class="function">
 <dt id="rpy2.rinterface.rternalize">
 <code class="sig-prename descclassname">rpy2.rinterface.</code><code class="sig-name descname">rternalize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#rternalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.rinterface.rternalize" title="Permalink to this definition">¶</a></dt>
-<dd><p>Takes an arbitrary Python function and wrap it
-in such a way that it can be called from the R side.</p>
+<dd><p>Make a Python function callable from R.</p>
+<p>Takes an arbitrary Python function and wrap it in such a way that
+it can be called from the R side.</p>
+<p><a href="#id1"><span class="problematic" id="id2">:param:`function`</span></a> A Python callable object.
+:return: A wrapped R object that can be use like any other rpy2
+object.</p>
 </dd></dl>
 
 </div>
@@ -601,9 +605,9 @@ R objects between rpy2 objects.</p>
 </div>
 </div>
 <div class="section" id="r-arrays-vectors-inherit-from-sexpvector">
-<span id="index-8"></span><h3>R arrays (vectors) inherit from <a class="reference internal" href="#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SexpVector</span></code></a><a class="headerlink" href="#r-arrays-vectors-inherit-from-sexpvector" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id1">
-<h4>Overview<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h4>
+<span id="index-9"></span><h3>R arrays (vectors) inherit from <a class="reference internal" href="#rpy2.rinterface.SexpVector" title="rpy2.rinterface.SexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">SexpVector</span></code></a><a class="headerlink" href="#r-arrays-vectors-inherit-from-sexpvector" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h4>Overview<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h4>
 <p>In R there are no scalars, only arrays (called “vectors” when unidimensional).
 Anything like a one-value variable is in fact a vector of
 length 1.</p>
@@ -632,7 +636,7 @@ length 1.</p>
 to map R types to child classes of <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.sexp.SexpVector</span></code>, as shown
 in the inheritance diagram below, with the <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> array interface implemented for
 some of them.</p>
-<div class="figure align-default" id="id3">
+<div class="figure align-default" id="id5">
 <div class="graphviz"><img src="_images/inheritance-79850b088aeb11d7bbf54d8089a4b9284b05e604.png" alt="Inheritance diagram of rpy2.rinterface.SexpVector, rpy2.rinterface.IntSexpVector, rpy2.rinterface.FloatSexpVector, rpy2.rinterface.ByteSexpVector, rpy2.rinterface.ComplexSexpVector, rpy2.rinterface.StrSexpVector, rpy2.rinterface.ListSexpVector, rpy2.rinterface.PairlistSexpVector, rpy2.rinterface.ExprSexpVector, rpy2.rinterface.LangSexpVector, rpy2.rinterface.BoolSexpVector" usemap="#inheritance81c5674d37" class="inheritance graphviz" /></div>
 <map id="inheritance81c5674d37" name="inheritance81c5674d37">
 <area shape="rect" id="node1" href="#rpy2.rinterface.BoolSexpVector" target="_top" title="Array of booleans." alt="" coords="537,5,685,33"/>
@@ -643,11 +647,11 @@ some of them.</p>
 <area shape="rect" id="node9" href="#rpy2.rinterface.LangSexpVector" target="_top" title="LangSexpVector" alt="" coords="535,317,687,345"/>
 <area shape="rect" id="node10" href="#rpy2.rinterface.ListSexpVector" target="_top" title="R list." alt="" coords="541,369,681,397"/>
 <area shape="rect" id="node11" href="#rpy2.rinterface.PairlistSexpVector" target="_top" title="R pairlist." alt="" coords="529,421,694,449"/>
-</map><p class="caption"><span class="caption-text">C-level R array objects</span><a class="headerlink" href="#id3" title="Permalink to this image">¶</a></p>
+</map><p class="caption"><span class="caption-text">C-level R array objects</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="indexing">
-<span id="index-9"></span><h4>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h4>
+<span id="index-10"></span><h4>Indexing<a class="headerlink" href="#indexing" title="Permalink to this headline">¶</a></h4>
 <p>The indexing is working like it would on regular <cite>Python</cite>
 tuples or lists.
 The indexing starts at 0 (zero), which differs from <strong class="program">R</strong>,
@@ -663,7 +667,7 @@ the constructor <code class="xref py py-func docutils literal notranslate"><span
 </div>
 <div class="section" id="common-attributes">
 <h4>Common attributes<a class="headerlink" href="#common-attributes" title="Permalink to this headline">¶</a></h4>
-<p class="rubric" id="index-10">Names</p>
+<p class="rubric" id="index-11">Names</p>
 <p>In R, vectors can be named, that is each value in the vector
 can be given a name (that is be associated a string).
 The names are added to the other as an attribute (conveniently
@@ -678,11 +682,11 @@ called <cite>names</cite>), and can be accessed as such:</p>
 <p>Elements in a name vector do not have to be unique. A Python
 counterpart is provided as <a class="reference internal" href="rlike.html#rpy2.rlike.container.TaggedList" title="rpy2.rlike.container.TaggedList"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rlike.container.TaggedList</span></code></a>.</p>
 </div>
-<p class="rubric" id="index-11">Dim and dimnames</p>
+<p class="rubric" id="index-12">Dim and dimnames</p>
 <p>In the case of an <cite>array</cite>, the names across the
 respective dimensions of the object are accessible
 through the slot named <cite>dimnames</cite>.</p>
-<p class="rubric" id="index-12">Missing values</p>
+<p class="rubric" id="index-13">Missing values</p>
 <div class="admonition note" id="missing-values">
 <p class="admonition-title">Note</p>
 <p>R also has the notion of missing parameters in function calls.
@@ -837,7 +841,7 @@ list of (name, value) pairs.</p>
 </div>
 </div>
 <div class="section" id="sexpenvironment">
-<span id="rinterface-sexpenvironment"></span><span id="index-13"></span><h3><code class="xref py py-class docutils literal notranslate"><span class="pre">SexpEnvironment</span></code><a class="headerlink" href="#sexpenvironment" title="Permalink to this headline">¶</a></h3>
+<span id="rinterface-sexpenvironment"></span><span id="index-14"></span><h3><code class="xref py py-class docutils literal notranslate"><span class="pre">SexpEnvironment</span></code><a class="headerlink" href="#sexpenvironment" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="getitem-setitem-delitem">
 <h4><code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> / <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setitem__()</span></code> / <code class="xref py py-meth docutils literal notranslate"><span class="pre">__delitem__()</span></code><a class="headerlink" href="#getitem-setitem-delitem" title="Permalink to this headline">¶</a></h4>
 <p>The <em>[</em> operator will only look for a symbol in the environment
@@ -1035,7 +1039,7 @@ LookupError: The object has no such attribute.
 </div>
 </div>
 <div class="section" id="functions">
-<span id="rinterface-functions"></span><span id="index-14"></span><h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
+<span id="rinterface-functions"></span><span id="index-15"></span><h3>Functions<a class="headerlink" href="#functions" title="Permalink to this headline">¶</a></h3>
 <p class="rubric">A function with a context</p>
 <p>In R terminology, a closure is a function (with its enclosing
 environment). That enclosing environment can be thought of as
@@ -1068,7 +1072,7 @@ to:</p>
 <li><p>use the special syntax <cite>**kwargs</cite> on a dictionary with the named parameters</p></li>
 <li><p>use the method <code class="xref py py-meth docutils literal notranslate"><span class="pre">rcall()</span></code>.</p></li>
 </ul>
-<p class="rubric" id="index-15">Order for named parameters</p>
+<p class="rubric" id="index-16">Order for named parameters</p>
 <p>One point where function calls in R can differ from the ones in
 Python is that
 all parameters in R are passed in the order they are in the call
@@ -1090,7 +1094,7 @@ permits calling a function the same way it would in R. For example:</p>
 <span class="go">[&#39;x&#39;, &#39;&#39;, &#39;y&#39;]</span>
 </pre></div>
 </div>
-<p class="rubric" id="index-16">closureEnv</p>
+<p class="rubric" id="index-17">closureEnv</p>
 <p>In the example below, we inspect the environment for the
 function <em>plot</em>, that is the namespace for the
 package <em>graphics</em>.</p>
@@ -1217,7 +1221,7 @@ and methods to R.</p>
 </map></div>
 <div class="section" id="misc-variables">
 <h2>Misc. variables<a class="headerlink" href="#misc-variables" title="Permalink to this headline">¶</a></h2>
-<dl class="simple" id="index-17">
+<dl class="simple" id="index-18">
 <dt>R_HOME</dt><dd><p>R HOME</p>
 </dd>
 <dt><code class="xref py py-const docutils literal notranslate"><span class="pre">R_LEN_T_MAX</span></code></dt><dd><p>largest usable integer for indexing R vectors</p>
@@ -1225,8 +1229,8 @@ and methods to R.</p>
 <dt><code class="xref py py-const docutils literal notranslate"><span class="pre">TRUE</span></code>/<code class="xref py py-const docutils literal notranslate"><span class="pre">FALSE</span></code></dt><dd><p>R’s TRUE and FALSE</p>
 </dd>
 </dl>
-<div class="section" id="index-18">
-<span id="id2"></span><h3>R types<a class="headerlink" href="#index-18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="index-19">
+<span id="id4"></span><h3>R types<a class="headerlink" href="#index-19" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="vector-types">
 <h4>Vector types<a class="headerlink" href="#vector-types" title="Permalink to this headline">¶</a></h4>
 <dl class="simple">
@@ -1304,7 +1308,7 @@ and methods to R.</p>
         <li class="right" >
           <a href="numpy.html" title="Numpy"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.2 documentation</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

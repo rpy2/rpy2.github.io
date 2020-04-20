@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>rpy2.rinterface &#8212; rpy2 3.3.1 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.3.2 documentation</title>
     <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.3.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>
@@ -919,8 +919,15 @@
 
 
 <div class="viewcode-block" id="rternalize"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.rternalize">[docs]</a><span class="k">def</span> <span class="nf">rternalize</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SexpClosure</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; Takes an arbitrary Python function and wrap it</span>
-<span class="sd">    in such a way that it can be called from the R side. &quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot; Make a Python function callable from R.</span>
+
+<span class="sd">    Takes an arbitrary Python function and wrap it in such a way that</span>
+<span class="sd">    it can be called from the R side.</span>
+
+<span class="sd">    :param:`function` A Python callable object.</span>
+<span class="sd">    :return: A wrapped R object that can be use like any other rpy2</span>
+<span class="sd">    object.&quot;&quot;&quot;</span>
+
     <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="n">rpy_fun</span> <span class="o">=</span> <span class="n">SexpExtPtr</span><span class="o">.</span><span class="n">from_pyobject</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="c1"># TODO: this is a hack. Find a better way.</span>
@@ -960,7 +967,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.3.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>

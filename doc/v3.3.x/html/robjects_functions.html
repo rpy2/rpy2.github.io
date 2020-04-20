@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Functions &#8212; rpy2 3.3.1 documentation</title>
+    <title>Functions &#8212; rpy2 3.3.2 documentation</title>
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="robjects_environments.html" title="Environments"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li> 
       </ul>
@@ -53,6 +53,7 @@
 <li><a class="reference internal" href="#callable">Callable</a></li>
 <li><a class="reference internal" href="#rcall"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rcall()</span></code></a></li>
 <li><a class="reference internal" href="#docstrings">Docstrings</a></li>
+<li><a class="reference internal" href="#automagic-python-functions">Automagic Python functions</a></li>
 </ul>
 </li>
 </ul>
@@ -311,6 +312,23 @@ argument names in Python.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="automagic-python-functions">
+<h2>Automagic Python functions<a class="headerlink" href="#automagic-python-functions" title="Permalink to this headline">¶</a></h2>
+<p>Genuine Python functions can also be dynamically created from R functions, complete
+with matching signatures.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">r_func_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">function(x, y=FALSE, z=&quot;abc&quot;) {</span>
+<span class="s2">  TRUE</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">r_func</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">r_func_code</span><span class="p">)</span>
+
+<span class="n">py_func</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">wrap_r_function</span><span class="p">(</span><span class="n">r_func</span><span class="p">,</span> <span class="s1">&#39;py_func&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The resulting object <code class="xref py py-func docutils literal notranslate"><span class="pre">py_func()</span></code> is a Python function of signature
+<cite>(x, y=False, z=’abc’)</cite>.</p>
+</div>
 </div>
 
 
@@ -334,7 +352,7 @@ argument names in Python.</p>
         <li class="right" >
           <a href="robjects_environments.html" title="Environments"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li> 
       </ul>
