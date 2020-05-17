@@ -589,11 +589,13 @@
                     <span class="p">))</span>
                 <span class="n">res_name</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                     <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_allocVector</span><span class="p">(</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">STRSXP</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-                <span class="n">rlib</span><span class="o">.</span><span class="n">SET_STRING_ELT</span><span class="p">(</span>
-                    <span class="n">res_name</span><span class="p">,</span>
-                    <span class="mi">0</span><span class="p">,</span>
-                    <span class="n">rlib</span><span class="o">.</span><span class="n">PRINTNAME</span><span class="p">(</span><span class="n">rlib</span><span class="o">.</span><span class="n">TAG</span><span class="p">(</span><span class="n">item_cdata</span><span class="p">)))</span>
-                <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_namesgets</span><span class="p">(</span><span class="n">res_cdata</span><span class="p">,</span> <span class="n">res_name</span><span class="p">)</span>
+                <span class="n">item_cdata_name</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">PRINTNAME</span><span class="p">(</span><span class="n">rlib</span><span class="o">.</span><span class="n">TAG</span><span class="p">(</span><span class="n">item_cdata</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_TYPEOF</span><span class="p">(</span><span class="n">item_cdata_name</span><span class="p">)</span> <span class="o">!=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">NILSXP</span><span class="p">:</span>
+                    <span class="n">rlib</span><span class="o">.</span><span class="n">SET_STRING_ELT</span><span class="p">(</span>
+                        <span class="n">res_name</span><span class="p">,</span>
+                        <span class="mi">0</span><span class="p">,</span>
+                        <span class="n">item_cdata_name</span><span class="p">)</span>
+                    <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_namesgets</span><span class="p">(</span><span class="n">res_cdata</span><span class="p">,</span> <span class="n">res_name</span><span class="p">)</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cdata_to_rinterface</span><span class="p">(</span><span class="n">res_cdata</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">iter_indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="o">*</span><span class="n">i</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
@@ -861,7 +863,7 @@
 
 <span class="k">def</span> <span class="nf">initr_checkenv</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
     <span class="c1"># Force the internal initialization flag if there is an environment</span>
-    <span class="c1"># variable that indicates that R was alreay initialized in the current</span>
+    <span class="c1"># variable that indicates that R was already initialized in the current</span>
     <span class="c1"># process.</span>
 
     <span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>

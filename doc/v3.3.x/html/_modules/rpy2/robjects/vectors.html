@@ -74,8 +74,7 @@
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">pytz</span>
 <span class="kn">import</span> <span class="nn">tzlocal</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">from</span> <span class="nn">time</span> <span class="k">import</span> <span class="n">struct_time</span><span class="p">,</span> <span class="n">mktime</span><span class="p">,</span> <span class="n">tzname</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="k">import</span> <span class="n">attrgetter</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -1011,6 +1010,17 @@
         <span class="sd">&quot;&quot;&quot;Is an R object an instance of POSIXct.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;POSIXct&#39;</span></div>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_datetime_from_timestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Platform-dependent conversion from timestamp to datetime&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;nt&#39;</span> <span class="ow">or</span> <span class="n">ts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dt_utc</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span> <span class="o">+</span>
+                      <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">ts</span><span class="p">))</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">dt_utc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">tz</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">utcoffset</span><span class="p">()</span>
+
 <div class="viewcode-block" id="POSIXct.iter_localized_datetime"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.iter_localized_datetime">[docs]</a>    <span class="k">def</span> <span class="nf">iter_localized_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Iterator yielding localized Python datetime objects.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1029,7 +1039,7 @@
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">yield</span> <span class="p">(</span>
                 <span class="kc">None</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-                <span class="k">else</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r_tzone</span><span class="p">)</span>
+                <span class="k">else</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">_datetime_from_timestamp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r_tzone</span><span class="p">)</span>
             <span class="p">)</span></div></div>
 
 

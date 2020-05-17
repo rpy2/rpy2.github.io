@@ -92,7 +92,16 @@
           <div class="body" role="main">
             
   <div class="section" id="interoperability-with-pandas">
-<h1>Interoperability with pandas<a class="headerlink" href="#interoperability-with-pandas" title="Permalink to this headline">¶</a></h1>
+<span id="robjects-pandas"></span><h1>Interoperability with pandas<a class="headerlink" href="#interoperability-with-pandas" title="Permalink to this headline">¶</a></h1>
+<p>This section of the documentation is focused on the practical use of the conversion
+helper for <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code>. The conversion from and to <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>
+can create nonnegligible overhead as the C level representations for the underlying
+arrays may differ between Python and R, and this create the need to copy data from
+one representation to the other. This is the case for arrays of strings for example.
+The use of a local converter to limit the scope of conversions, as shown here, is
+recommended.</p>
+<p>For more information about the conversion mechanism, check the more general documentation
+about <a class="reference internal" href="robjects_convert.html#module-rpy2.robjects.conversion" title="rpy2.robjects.conversion: Converting rpy2 proxies for R objects into Python objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.conversion</span></code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This section is available as a jupyter notebook <a class="reference external" href="_static/notebooks/pandas.ipynb">pandas.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/pandas.html">pandas.html</a>)</p>
