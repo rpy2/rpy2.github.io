@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block page_title %}{{ page_title }}{% endblock %}
+
+{% block main %} 
+      <div>
+        <h1>Documentation for {{ project }}</h1>
+        <p class="lead">Documentation is available for the following versions of the code.</p>
+
+	<ul class="list-group">
+	  {% for label, url in doc_versions %}
+	  <li class="list-group-item"><a href="{{ url }}">{{ label }}</a></li>
+	  {% endfor %}
+	</ul>
+      </div>
+{% endblock %}
