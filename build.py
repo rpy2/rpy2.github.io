@@ -9,11 +9,12 @@ PROJECTS = (
     LabelURL('Documentation', 'rpy2_doc.html'),
     LabelURL('Docker', 'https://github.com/rpy2/rpy2-docker'),
     LabelURL('MyBinder', 'https://github.com/rpy2/rpy2-mybinder'),
-    LabelURL('R6', 'https://github.com/rpy2/rpy2-R6'),
+    LabelURL('R6', 'r6_doc.html'),
     LabelURL('Matrix', 'https://github.com/rpy2/rpy2-Matrix')
 )
 DOC_PARAMS = (
-    ('rpy2_doc.html', 'rpy2',
+    ('rpy2_doc.html', 'Documentation',
+     LabelURL('rpy2', 'https://github.com/rpy2/rpy2'),
      (
          LabelURL('dev', 'doc/latest/html/index.html'),
          LabelURL('3.3.x', 'doc/v3.3.x/html/index.html'),
@@ -23,7 +24,8 @@ DOC_PARAMS = (
          LabelURL('2.9.x', 'doc/v2.9.x/html/index.html')
      )
     ),
-    ('r6_doc.html', 'rpy2-R6',
+    ('r6_doc.html', 'R6',
+     LabelURL('rpy2-R6', 'https://github.com/rpy2/rpy2-R6'),
      (LabelURL('dev', 'https://rpy2.github.io/rpy2-R6/version/master/html/index.html'),)
     )
 )
@@ -48,9 +50,11 @@ with open(os.path.join('docs', 'index.html'), 'w') as fh:
 
 # render documentation pages
 template = env.get_template('doc.html')
-for output, page_title, lst_versions in DOC_PARAMS:
-    render = template.render(page_title=page_title,
-                             project=page_title,
+for output, active_label, project, lst_versions in DOC_PARAMS:
+    render = template.render(page_title=project.label,
+                             active_label=active_label,
+                             project=project.label,
+                             project_url=project.url,
                              doc_versions=lst_versions,
                              projects=PROJECTS)
     with open(os.path.join('docs', output), 'w') as fh:
