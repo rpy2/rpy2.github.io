@@ -23,7 +23,8 @@ DOC_PARAMS = (
          LabelURL('2.9.x', 'doc/v2.9.x/html/index.html')
      )
     ),
-    ('r6_doc.html', 'rpy2-R6', (LabelURL('dev', '#'),)
+    ('r6_doc.html', 'rpy2-R6',
+     (LabelURL('dev', 'https://rpy2.github.io/rpy2-R6/version/master/html/index.html'),)
     )
 )
 
