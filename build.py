@@ -65,7 +65,7 @@ render = template.render(page_title=project.label,
                          menu=MENU)
 with open(os.path.join('docs', output), 'w') as fh:
     fh.write(render)
-        
+
 template = env.get_template('doc_subproject.html')
 for output, active_label, project, lst_versions in DOC_SUBPROJECT_PARAMS:
     render = template.render(page_title=project.label,
