@@ -14,7 +14,7 @@ MENU = (
 SUBPROJECTS = (
     (LabelURL('R6', 'r6_doc.html'),
      'Map the R package for Object-Oriented Programming for R of the same name.'),
-    (LabelURL('Matrix', 'https://github.com/rpy2/rpy2-Matrix'),
+    (LabelURL('Matrix', 'matrix_doc.html'),
      'Map the R package Matrix.')
 )
 DOC_PARAMS = ('doc.html', 'Documentation',
@@ -33,6 +33,10 @@ DOC_SUBPROJECT_PARAMS = (
     ('r6_doc.html', 'R6',
      LabelURL('rpy2-R6', 'https://github.com/rpy2/rpy2-R6'),
      (LabelURL('dev', 'https://rpy2.github.io/rpy2-R6/version/master/html/index.html'),)
+    ),
+    ('matrix_doc.html', 'R6',
+     LabelURL('rpy2-R6', 'https://github.com/rpy2/rpy2-Matrix'),
+     (LabelURL('dev', 'https://rpy2.github.io/rpy2-Matrix/version/master/html/index.html'),)
     ),
 )
 
