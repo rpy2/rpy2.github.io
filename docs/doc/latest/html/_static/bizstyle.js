@@ -36,6 +36,6 @@ $(window).resize(function(){
         $("li.nav-item-0 a").text("Top");
     }
     else {
-        $("li.nav-item-0 a").text("rpy2 3.3.1 documentation");
+        $("li.nav-item-0 a").text("rpy2 3.4.0-dev documentation");
     }
 });
