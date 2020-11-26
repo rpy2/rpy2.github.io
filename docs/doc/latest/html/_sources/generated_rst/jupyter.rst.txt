@@ -321,6 +321,16 @@ from Python.
 
     import rpy2.robjects.lib.ggplot2 as gp
 
+R lets is function parameters be unevaluated language objects, which is
+fairly different from Python's immediate evaluation. ``rpy2`` has a
+utility code to create such R language objects from Python strings. It
+can then become very easy to mix Python and R, with R like a
+domain-specific language used from Python.
+
+.. code:: ipython3
+
+    from rpy2.robjects import rl
+
 Calling ``ggplot2`` looks pretty much like it would in R, which allows
 one to use the all available documentation and examples available for
 the R package. Remember that this is not a reimplementation of ggplot2
@@ -330,10 +340,10 @@ R package itself is generating the figures.
 .. code:: ipython3
 
     p = (gp.ggplot(dataf) +
-         gp.aes_string(x='longd',
-                       y='latd',
-                       color='population_total',
-                       size='area_total_km2') +
+         gp.aes(x=rl('longd'),
+                y=rl('latd'),
+                color=rl('population_total'),
+                size=rl('area_total_km2')) +
          gp.geom_point() +
          gp.scale_color_continuous(trans='log10'))
 
@@ -348,7 +358,7 @@ notebook, is just function call away.
 
 
 
-.. image:: jupyter_files/jupyter_13_0.png
+.. image:: jupyter_files/jupyter_15_0.png
 
 
 
@@ -359,10 +369,10 @@ to get the figure we want is:
 
     from rpy2.robjects.vectors import IntVector
     p = (gp.ggplot(dataf) +
-         gp.aes_string(x='longd',
-                       y='latd',
-                       color='population_total',
-                       size='area_total_km2') +
+         gp.aes(x=rl('longd'),
+                y=rl('latd'),
+                color=rl('population_total'),
+                size=rl('area_total_km2')) +
          gp.geom_point(alpha=0.5) +
          # Axis definitions.
          gp.scale_x_continuous('Longitude') +
@@ -380,7 +390,7 @@ to get the figure we want is:
 
 
 
-.. image:: jupyter_files/jupyter_15_0.png
+.. image:: jupyter_files/jupyter_17_0.png
 
 
 
@@ -411,10 +421,10 @@ in ``ggplot2``:
 .. code:: ipython3
 
     p = (gp.ggplot(dataf) +
-         gp.aes_string(x='longd',
-                       y='latd',
-                       color='population_total',
-                       size='area_total_km2') +
+         gp.aes(x=rl('longd'),
+                y=rl('latd'),
+                color=rl('population_total'),
+                size=rl('area_total_km2')) +
          gp.geom_point(alpha=0.5) +
          gp.scale_x_continuous('Longitude') +
          gp.scale_y_continuous('Latitude') +
@@ -427,7 +437,7 @@ in ``ggplot2``:
 
 
 
-.. image:: jupyter_files/jupyter_19_0.png
+.. image:: jupyter_files/jupyter_21_0.png
 
 
 
@@ -515,14 +525,14 @@ lingo) in our previous cell. We can just use it in subsequent cells.
     cat("Running an R code cell.\n")
     
     p <- ggplot(dataf) +
-         aes_string(x = 'longd',
-                    y = 'latd',
-                    color = 'population_total',
-                    size = 'area_total_km2') +
-         geom_point(alpha = 0.5) +
+         aes(x=rl('longd'),
+             y= rl('latd'),
+             color=rl('population_total'),
+             size=rl('area_total_km2')) +
+         geom_point(alpha=0.5) +
          scale_x_continuous('Longitude') +
          scale_y_continuous('Latitude') +
-         scale_size(range = c(1, 18)) +
+         scale_size(range=c(1, 18)) +
          scale_color_viridis(trans='log10') +
          ggtitle('California Cities: Area and Population') +
          theme_light(base_size=16)
@@ -534,6 +544,18 @@ lingo) in our previous cell. We can just use it in subsequent cells.
     Running an R code cell.
 
 
+.. parsed-literal::
 
-.. image:: jupyter_files/jupyter_26_1.png
+    R[write to console]: Error in rl("longd") : could not find function "rl"
+    
+    R[write to console]: In addition: 
+    R[write to console]: There were 12 warnings (use warnings() to see them)
+    R[write to console]: 
+    
+
+
+.. parsed-literal::
+
+    
+    Error in rl("longd") : could not find function "rl"
 

@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Import &#8212; rpy2 3.4.0-dev documentation</title>
+    <title>Using rpy2 in notebooks &#8212; rpy2 3.4.0-dev documentation</title>
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -19,6 +19,8 @@
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="R and pandas data frames" href="pandas.html" />
+    <link rel="prev" title="Introduction to rpy2" href="../introduction.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
@@ -33,8 +35,15 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="pandas.html" title="R and pandas data frames"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../introduction.html" title="Introduction to rpy2"
+             accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.4.0-dev documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Data Import</a></li> 
+          <li class="nav-item nav-item-1"><a href="../getting-started.html" accesskey="U">Getting started</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using rpy2 in notebooks</a></li> 
       </ul>
     </div>  
 
@@ -43,13 +52,27 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+  <div class="section" id="using-rpy2-in-notebooks">
+<h1>Using rpy2 in notebooks<a class="headerlink" href="#using-rpy2-in-notebooks" title="Permalink to this headline">¶</a></h1>
+<p><cite>rpy2</cite> is designed to play well with notebooks. While the target
+notebook is jupyter, it used in other notebook systems (some of
+them are based on <a class="reference external" href="https://jupyter.org/">Jupyter</a>, or are managed Jupyter notebook systems).
+For example <a class="reference external" href="https://research.google.com/colaboratory/faq.html">Google’s Colab</a>,
+<a class="reference external" href="https://docs.databricks.com/notebooks/index.html">Databricks notebooks</a>, <a class="reference external" href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html">AWS SageMaker</a>, <a class="reference external" href="https://notebooks.azure.com/">Azure Notebooks</a>,
+<a class="reference external" href="https://cloud.google.com/ai-platform-notebooks">Google Cloud AI Platform Notebooks</a>, or Coursera Notebooks.</p>
+<p>This section shows how <cite>rpy2</cite> can be used to add everything R can offer
+to Python notebooks.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section is available as a jupyter notebook <a class="reference external" href="_static/notebooks/jupyter.ipynb">jupyter.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/jupyter.html">jupyter.html</a>)</p>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="kn">import</span> <span class="n">html</span>
 <span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="data-import">
-<h1>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h1>
+<h2>Data Import<a class="headerlink" href="#data-import" title="Permalink to this headline">¶</a></h2>
 <p>We choose to use an external dataset to demonstrate how R’s own data
 import features can be used.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
@@ -307,12 +330,12 @@ in HTML in a notebook. That customization is enabled as follows:</p>
 </tbody>
 </table></div>
 <div class="section" id="graphics">
-<h1>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h1>
+<h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
 <p>R has arguably some the best static visualizations, often looking more
 polished than other visualization systems and this without the need to
 spend much effort on them.</p>
 <div class="section" id="using-ggplot2">
-<h2>Using <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code><a class="headerlink" href="#using-ggplot2" title="Permalink to this headline">¶</a></h2>
+<h3>Using <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code><a class="headerlink" href="#using-ggplot2" title="Permalink to this headline">¶</a></h3>
 <p>Among R visulization pacakges, <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> has emerged as something
 Python users wished so much they had that various projects to try port
 it to Python are regularly started.</p>
@@ -376,7 +399,7 @@ to get the figure we want is:</p>
 <img alt="../_images/jupyter_17_0.png" src="../_images/jupyter_17_0.png" />
 </div>
 <div class="section" id="using-ggplot2-extensions">
-<h2>Using <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> extensions<a class="headerlink" href="#using-ggplot2-extensions" title="Permalink to this headline">¶</a></h2>
+<h3>Using <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> extensions<a class="headerlink" href="#using-ggplot2-extensions" title="Permalink to this headline">¶</a></h3>
 <p>There existing additional R packages extending <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code>, and while it
 would be impossible for the rpy2 to provide wrapper for all of them the
 wrapper for <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> is based on class hierarchies that should make
@@ -504,6 +527,7 @@ lingo) in our previous cell. We can just use it in subsequent cells.</p>
 </div>
 </div>
 </div>
+</div>
 
 
             <div class="clearer"></div>
@@ -514,18 +538,27 @@ lingo) in our previous cell. We can just use it in subsequent cells.</p>
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Data Import</a></li>
+<li><a class="reference internal" href="#">Using rpy2 in notebooks</a><ul>
+<li><a class="reference internal" href="#data-import">Data Import</a></li>
 <li><a class="reference internal" href="#graphics">Graphics</a><ul>
 <li><a class="reference internal" href="#using-ggplot2">Using <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code></a></li>
 <li><a class="reference internal" href="#using-ggplot2-extensions">Using <code class="docutils literal notranslate"><span class="pre">ggplot2</span></code> extensions</a></li>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
 
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../introduction.html"
+                        title="previous chapter">Introduction to rpy2</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="pandas.html"
+                        title="next chapter"><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frames</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/generated_rst/jupyter.rst.txt"
+      <li><a href="../_sources/generated_rst/notebooks.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -552,8 +585,15 @@ lingo) in our previous cell. We can just use it in subsequent cells.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
+        <li class="right" >
+          <a href="pandas.html" title="R and pandas data frames"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../introduction.html" title="Introduction to rpy2"
+             >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.4.0-dev documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Data Import</a></li> 
+          <li class="nav-item nav-item-1"><a href="../getting-started.html" >Getting started</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using rpy2 in notebooks</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
