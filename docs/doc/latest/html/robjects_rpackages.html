@@ -2,12 +2,13 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>R packages &#8212; rpy2 3.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +21,7 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Working with R’s OOPs" href="robjects_oop.html" />
     <link rel="prev" title="Formulae" href="robjects_formulae.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -42,51 +43,10 @@
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">R packages</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">R packages</a><ul>
-<li><a class="reference internal" href="#importing-r-packages">Importing R packages</a></li>
-<li><a class="reference internal" href="#importing-arbitrary-r-code-as-a-package">Importing arbitrary R code as a package</a><ul>
-<li><a class="reference internal" href="#r-namespaces">R namespaces</a></li>
-<li><a class="reference internal" href="#module-rpy2.robjects.packages">Class diagram</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#finding-where-an-r-symbol-is-coming-from">Finding where an R symbol is coming from</a></li>
-<li><a class="reference internal" href="#installing-removing-r-packages">Installing/removing R packages</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="robjects_formulae.html"
-                        title="previous chapter">Formulae</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="robjects_oop.html"
-                        title="next chapter">Working with R’s OOPs</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/robjects_rpackages.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -195,11 +155,11 @@ If you are given various R files, it is possible to wrap all
 of them into their own package-like structure, making concerns such conflicting
 names in the respective files unnecessary.</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">square</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">return</span><span class="p">(</span><span class="n">x^2</span><span class="p">)</span>
+    <span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="n">cube</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">return</span><span class="p">(</span><span class="n">x^3</span><span class="p">)</span>
+    <span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">3</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -254,7 +214,7 @@ into something like what the rpy2 <cite>importr</cite> is returning.</p>
 </div>
 <p>Unlike the R code first shown, this is not writing anything into the
 the R global environment.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">globalenv</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">globalenv</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">globalenv</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="go">()</span>
 </pre></div>
@@ -278,29 +238,29 @@ no matter they are exported or not.</p>
 </div>
 <div class="section" id="module-rpy2.robjects.packages">
 <span id="class-diagram"></span><h3>Class diagram<a class="headerlink" href="#module-rpy2.robjects.packages" title="Permalink to this headline">¶</a></h3>
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.InstalledPackage">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">InstalledPackage</code><span class="sig-paren">(</span><em class="sig-param">env</em>, <em class="sig-param">name</em>, <em class="sig-param">translation={}</em>, <em class="sig-param">exported_names=None</em>, <em class="sig-param">on_conflict='fail'</em>, <em class="sig-param">version=None</em>, <em class="sig-param">symbol_r2python=&lt;function default_symbol_r2python&gt;</em>, <em class="sig-param">symbol_resolve=&lt;function default_symbol_resolve&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#InstalledPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.InstalledPackage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.InstalledPackages">
-<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">InstalledPackages</code><span class="sig-paren">(</span><em class="sig-param">lib_loc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#InstalledPackages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.InstalledPackages" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">InstalledPackages</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lib_loc</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#InstalledPackages"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.InstalledPackages" title="Permalink to this definition">¶</a></dt>
 <dd><p>R packages installed.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.InstalledSTPackage">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">InstalledSTPackage</code><span class="sig-paren">(</span><em class="sig-param">env</em>, <em class="sig-param">name</em>, <em class="sig-param">translation={}</em>, <em class="sig-param">exported_names=None</em>, <em class="sig-param">on_conflict='fail'</em>, <em class="sig-param">version=None</em>, <em class="sig-param">symbol_r2python=&lt;function default_symbol_r2python&gt;</em>, <em class="sig-param">symbol_resolve=&lt;function default_symbol_resolve&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#InstalledSTPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.InstalledSTPackage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="rpy2.robjects.packages.LibraryError">
 <em class="property">exception </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">LibraryError</code><a class="reference internal" href="_modules/rpy2/robjects/packages.html#LibraryError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.LibraryError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Error occuring when importing an R library</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.Package">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">Package</code><span class="sig-paren">(</span><em class="sig-param">env</em>, <em class="sig-param">name</em>, <em class="sig-param">translation={}</em>, <em class="sig-param">exported_names=None</em>, <em class="sig-param">on_conflict='fail'</em>, <em class="sig-param">version=None</em>, <em class="sig-param">symbol_r2python=&lt;function default_symbol_r2python&gt;</em>, <em class="sig-param">symbol_resolve=&lt;function default_symbol_resolve&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#Package"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.Package" title="Permalink to this definition">¶</a></dt>
 <dd><p>Models an R package
@@ -308,7 +268,7 @@ no matter they are exported or not.</p>
 that locked environments should mostly be considered).</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.PackageData">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">PackageData</code><span class="sig-paren">(</span><em class="sig-param">packagename, lib_loc=&lt;rpy2.rinterface_lib.sexp.NULLType object&gt; [RTYPES.NILSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Datasets in an R package.
@@ -322,16 +282,16 @@ In R datasets can be distributed with a package.</p>
 of the code and are evaluated/loaded lazily.</p>
 <p>The lazy aspect has been conserved and the dataset are only loaded
 or generated when called through the method ‘fetch()’.</p>
-<dl class="method">
+<dl class="py method">
 <dt id="rpy2.robjects.packages.PackageData.fetch">
-<code class="sig-name descname">fetch</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData.fetch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData.fetch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fetch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData.fetch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData.fetch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch the dataset (loads it or evaluates the R associated
 with it.</p>
 <p>In R, datasets are loaded into the global environment by default
 but this function returns an environment that contains the dataset(s).</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="rpy2.robjects.packages.PackageData.names">
 <code class="sig-name descname">names</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageData.names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageData.names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Names of the datasets</p>
@@ -339,35 +299,35 @@ but this function returns an environment that contains the dataset(s).</p>
 
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="rpy2.robjects.packages.PackageNotInstalledError">
 <em class="property">exception </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">PackageNotInstalledError</code><a class="reference internal" href="_modules/rpy2/robjects/packages.html#PackageNotInstalledError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.PackageNotInstalledError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Error occuring because the R package to import is not installed.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.ParsedCode">
-<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">ParsedCode</code><span class="sig-paren">(</span><em class="sig-param">obj: Union[rpy2.rinterface_lib._rinterface_capi.SexpCapsule, collections.abc.Sized]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#ParsedCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.ParsedCode" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">ParsedCode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>rpy2.rinterface_lib._rinterface_capi.SexpCapsule<span class="p">, </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized" title="(in Python v3.9)">collections.abc.Sized</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#ParsedCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.ParsedCode" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="rpy2.robjects.packages.STAP">
 <code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">STAP</code><a class="headerlink" href="#rpy2.robjects.packages.STAP" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <a class="reference internal" href="#rpy2.robjects.packages.SignatureTranslatedAnonymousPackage" title="rpy2.robjects.packages.SignatureTranslatedAnonymousPackage"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.packages.SignatureTranslatedAnonymousPackage</span></code></a></p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="rpy2.robjects.packages.STP">
 <code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">STP</code><a class="headerlink" href="#rpy2.robjects.packages.STP" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <a class="reference internal" href="#rpy2.robjects.packages.SignatureTranslatedPackage" title="rpy2.robjects.packages.SignatureTranslatedPackage"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.packages.SignatureTranslatedPackage</span></code></a></p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.SignatureTranslatedAnonymousPackage">
-<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">SignatureTranslatedAnonymousPackage</code><span class="sig-paren">(</span><em class="sig-param">string</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#SignatureTranslatedAnonymousPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.SignatureTranslatedAnonymousPackage" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">SignatureTranslatedAnonymousPackage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em>, <em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#SignatureTranslatedAnonymousPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.SignatureTranslatedAnonymousPackage" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.SignatureTranslatedPackage">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">SignatureTranslatedPackage</code><span class="sig-paren">(</span><em class="sig-param">env</em>, <em class="sig-param">name</em>, <em class="sig-param">translation={}</em>, <em class="sig-param">exported_names=None</em>, <em class="sig-param">on_conflict='fail'</em>, <em class="sig-param">version=None</em>, <em class="sig-param">symbol_r2python=&lt;function default_symbol_r2python&gt;</em>, <em class="sig-param">symbol_resolve=&lt;function default_symbol_resolve&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#SignatureTranslatedPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.SignatureTranslatedPackage" title="Permalink to this definition">¶</a></dt>
 <dd><p>R package in which the R functions had their signatures
@@ -375,18 +335,18 @@ but this function returns an environment that contains the dataset(s).</p>
 to conform Python’s rules for vaiable names).</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.SourceCode">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">SourceCode</code><a class="reference internal" href="_modules/rpy2/robjects/packages.html#SourceCode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.SourceCode" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><dl class="py method">
 <dt id="rpy2.robjects.packages.SourceCode.as_namespace">
-<code class="sig-name descname">as_namespace</code><span class="sig-paren">(</span><em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#SourceCode.as_namespace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.SourceCode.as_namespace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">as_namespace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#SourceCode.as_namespace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.SourceCode.as_namespace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name for the namespace</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="rpy2.robjects.packages.WeakPackage">
 <em class="property">class </em><code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">WeakPackage</code><span class="sig-paren">(</span><em class="sig-param">env</em>, <em class="sig-param">name</em>, <em class="sig-param">translation={}</em>, <em class="sig-param">exported_names=None</em>, <em class="sig-param">on_conflict='fail'</em>, <em class="sig-param">version=None</em>, <em class="sig-param">symbol_r2python=&lt;function default_symbol_r2python&gt;</em>, <em class="sig-param">symbol_resolve=&lt;function default_symbol_resolve&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#WeakPackage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.WeakPackage" title="Permalink to this definition">¶</a></dt>
 <dd><p>‘Weak’ R package, with which looking for symbols results in
@@ -394,13 +354,13 @@ a warning (and a None returned) whenever the desired symbol is
 not found (rather than a traditional <cite>AttributeError</cite>).</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rpy2.robjects.packages.data">
-<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">data</code><span class="sig-paren">(</span><em class="sig-param">package</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.data" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">package</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the PackageData for the given package.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rpy2.robjects.packages.importr">
 <code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">importr</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">lib_loc=None</em>, <em class="sig-param">robject_translations={}</em>, <em class="sig-param">signature_translation=True</em>, <em class="sig-param">suppress_messages=True</em>, <em class="sig-param">on_conflict='fail'</em>, <em class="sig-param">symbol_r2python=&lt;function default_symbol_r2python&gt;</em>, <em class="sig-param">symbol_resolve=&lt;function default_symbol_resolve&gt;</em>, <em class="sig-param">data=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#importr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.importr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Import an R package.</p>
@@ -428,44 +388,44 @@ name __rdata__ (default: True)</p></li>
 </ul>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rpy2.robjects.packages.isinstalled">
-<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">isinstalled</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">lib_loc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#isinstalled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.isinstalled" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">isinstalled</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">lib_loc</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#isinstalled"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.isinstalled" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find whether an R package is installed
 :param name: name of an R package
 :param lib_loc: specific location for the R library (default: None)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p>a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rpy2.robjects.packages.no_warnings">
-<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">no_warnings</code><span class="sig-paren">(</span><em class="sig-param">func</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#no_warnings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.no_warnings" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">no_warnings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#no_warnings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.no_warnings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator to run R functions without warning.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rpy2.robjects.packages.quiet_require">
-<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">quiet_require</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">lib_loc=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#quiet_require"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.quiet_require" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">quiet_require</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">lib_loc</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#quiet_require"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.quiet_require" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an R package /quietly/ (suppressing messages to the console).</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rpy2.robjects.packages.reval">
 <code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">reval</code><span class="sig-paren">(</span><em class="sig-param">string, envir=&lt;rpy2.rinterface_lib.sexp.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#reval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.reval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate a string as R code
 :param string: R code
-:type string: a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>
+:type string: a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>
 :param envir: an environment in which the environment should take</p>
 <blockquote>
 <div><p>place (default: R’s global environment)</p>
 </div></blockquote>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="rpy2.robjects.packages.wherefrom">
 <code class="sig-prename descclassname">rpy2.robjects.packages.</code><code class="sig-name descname">wherefrom</code><span class="sig-paren">(</span><em class="sig-param">symbol: str, startenv: rpy2.rinterface_lib.sexp.SexpEnvironment = &lt;rpy2.rinterface_lib.sexp.SexpEnvironment object&gt; [RTYPES.ENVSXP]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#wherefrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.robjects.packages.wherefrom" title="Permalink to this definition">¶</a></dt>
 <dd><p>For a given symbol, return the environment
@@ -502,7 +462,7 @@ Section <a class="reference internal" href="rinterface.html#rinterface-sexpenvir
 <p>Installing those packages can be done within R, or using R on the command line.
 The R documentation should be consulted when doing so.</p>
 <p>It also possible to install R packages from Python/rpy2, and a non interactive way.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">as</span> <span class="nn">rpackages</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpackages</span>
 <span class="n">utils</span> <span class="o">=</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
 
 <span class="n">utils</span><span class="o">.</span><span class="n">chooseCRANmirror</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># select the first mirror in the list</span>
@@ -533,7 +493,50 @@ for more information.</p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">R packages</a><ul>
+<li><a class="reference internal" href="#importing-r-packages">Importing R packages</a></li>
+<li><a class="reference internal" href="#importing-arbitrary-r-code-as-a-package">Importing arbitrary R code as a package</a><ul>
+<li><a class="reference internal" href="#r-namespaces">R namespaces</a></li>
+<li><a class="reference internal" href="#module-rpy2.robjects.packages">Class diagram</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#finding-where-an-r-symbol-is-coming-from">Finding where an R symbol is coming from</a></li>
+<li><a class="reference internal" href="#installing-removing-r-packages">Installing/removing R packages</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="robjects_formulae.html"
+                        title="previous chapter">Formulae</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="robjects_oop.html"
+                        title="next chapter">Working with R’s OOPs</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects_rpackages.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -555,12 +558,13 @@ for more information.</p>
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">R packages</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>

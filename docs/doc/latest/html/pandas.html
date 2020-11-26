@@ -2,12 +2,13 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Interoperability with pandas &#8212; rpy2 3.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +21,7 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="DataFrames and dplyr" href="lib_dplyr.html" />
     <link rel="prev" title="Using rpy2 in notebooks" href="notebooks.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -42,49 +43,10 @@
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="getting-started.html" >Getting started</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="notebooks.html" accesskey="U">Using rpy2 in notebooks</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="notebooks.html" accesskey="U">Using rpy2 in notebooks</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Interoperability with pandas</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Interoperability with pandas</a><ul>
-<li><a class="reference internal" href="#r-and-pandas-data-frames"><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frames</a><ul>
-<li><a class="reference internal" href="#from-pandas-to-r">From <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code></a></li>
-<li><a class="reference internal" href="#from-r-to-pandas">From <code class="docutils literal notranslate"><span class="pre">R</span></code> to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
-<li><a class="reference internal" href="#date-and-time-objects">Date and time objects</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="notebooks.html"
-                        title="previous chapter">Using rpy2 in notebooks</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="lib_dplyr.html"
-                        title="next chapter">DataFrames and dplyr</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/pandas.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -92,13 +54,22 @@
           <div class="body" role="main">
             
   <div class="section" id="interoperability-with-pandas">
-<h1>Interoperability with pandas<a class="headerlink" href="#interoperability-with-pandas" title="Permalink to this headline">¶</a></h1>
+<span id="robjects-pandas"></span><h1>Interoperability with pandas<a class="headerlink" href="#interoperability-with-pandas" title="Permalink to this headline">¶</a></h1>
+<p>This section of the documentation is focused on the practical use of the conversion
+helper for <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code>. The conversion from and to <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>
+can create nonnegligible overhead as the C level representations for the underlying
+arrays may differ between Python and R, and this create the need to copy data from
+one representation to the other. This is the case for arrays of strings for example.
+The use of a local converter to limit the scope of conversions, as shown here, is
+recommended.</p>
+<p>For more information about the conversion mechanism, check the more general documentation
+about <a class="reference internal" href="robjects_convert.html#module-rpy2.robjects.conversion" title="rpy2.robjects.conversion: Converting rpy2 proxies for R objects into Python objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.conversion</span></code></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This section is available as a jupyter notebook <a class="reference external" href="_static/notebooks/pandas.ipynb">pandas.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/pandas.html">pandas.html</a>)</p>
 </div>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">partial</span>
-<span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="k">import</span> <span class="n">html</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="kn">import</span> <span class="n">html</span>
 <span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -117,10 +88,10 @@ conversion layer between :class:<code class="docutils literal notranslate"><span
 :mod:<code class="docutils literal notranslate"><span class="pre">rpy2.robjects.pandas2ri</span></code>.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
 
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="n">localconverter</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">localconverter</span>
 </pre></div>
 </div>
 <div class="section" id="from-pandas-to-r">
@@ -455,7 +426,48 @@ is specified in the original time object:</p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Interoperability with pandas</a><ul>
+<li><a class="reference internal" href="#r-and-pandas-data-frames"><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frames</a><ul>
+<li><a class="reference internal" href="#from-pandas-to-r">From <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code></a></li>
+<li><a class="reference internal" href="#from-r-to-pandas">From <code class="docutils literal notranslate"><span class="pre">R</span></code> to <code class="docutils literal notranslate"><span class="pre">pandas</span></code></a></li>
+<li><a class="reference internal" href="#date-and-time-objects">Date and time objects</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="notebooks.html"
+                        title="previous chapter">Using rpy2 in notebooks</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="lib_dplyr.html"
+                        title="next chapter">DataFrames and dplyr</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/pandas.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -477,12 +489,13 @@ is specified in the original time object:</p>
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="getting-started.html" >Getting started</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="notebooks.html" >Using rpy2 in notebooks</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="notebooks.html" >Using rpy2 in notebooks</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Interoperability with pandas</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>

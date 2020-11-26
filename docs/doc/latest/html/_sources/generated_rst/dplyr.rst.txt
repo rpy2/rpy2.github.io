@@ -32,18 +32,37 @@ frames).
 .. code:: ipython3
 
     from rpy2.robjects.lib.dplyr import DataFrame
+    from rpy2.robjects import rl
+
+
+.. parsed-literal::
+
+    /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/rpy2-3.4.0.dev0-py3.8-linux-x86_64.egg/rpy2/robjects/packages.py:365: UserWarning: The symbol 'union' is not in this R namespace/package.
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/rpy2-3.4.0.dev0-py3.8-linux-x86_64.egg/rpy2/robjects/packages.py:365: UserWarning: The symbol 'intersect' is not in this R namespace/package.
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.8.6/x64/lib/python3.8/site-packages/rpy2-3.4.0.dev0-py3.8-linux-x86_64.egg/rpy2/robjects/packages.py:365: UserWarning: The symbol 'setdiff' is not in this R namespace/package.
+      warnings.warn(
+
 
 With this we have the choice of chaining (D3-style)
 
 .. code:: ipython3
 
-    dataf = (DataFrame(mtcars).
-             filter('gear>3').
-             mutate(powertoweight='hp*36/wt').
-             group_by('gear').
-             summarize(mean_ptw='mean(powertoweight)'))
+    dataf = (
+        DataFrame(mtcars)
+        .filter(rl('gear>3'))
+        .mutate(powertoweight=rl('hp*36/wt'))
+        .group_by(rl('gear'))
+        .summarize(mean_ptw=rl('mean(powertoweight)'))
+    )
     
     dataf
+
+
+.. parsed-literal::
+
+    `summarise()` ungrouping output (override with `.groups` argument)
 
 
 
@@ -92,16 +111,17 @@ or with pipes (magrittr style).
     
     if False:
         dataf = (DataFrame(mtcars) >>
-                 filter('gear>3') >>
-                 mutate(powertoweight='hp*36/wt') >>
-                 group_by('gear') >>
-                 summarize(mean_ptw='mean(powertoweight)'))
+                 filter(rl('gear>3')) >>
+                 mutate(powertoweight=rl('hp*36/wt')) >>
+                 group_by(rl('gear')) >>
+                 summarize(mean_ptw=rl('mean(powertoweight)')))
     
         dataf
 
-The strings passed to the dplyr function are evaluated as expression,
-just like this is happening when using dplyr in R. This means that when
-writing ``mean(powertoweight)`` the R function ``mean()`` is used.
+The function ``rl`` creates unevaluated R language objects, which are
+then consummed by the ``dplyr`` function, just like it would be
+happening when using ``dplyr`` in R itself. This means that when writing
+``mean(powertoweight)`` the R function ``mean()`` is used.
 
 Using a Python function is not too difficult though. We can just call
 Python back from R. To achieve this we simply use the decorator
@@ -124,14 +144,21 @@ Python back from R. To achieve this we simply use the decorator
     
     # Write a dplyr chain of operations,
     # using our Python function `mean_np`
-    dataf = (DataFrame(mtcars).
-             filter('gear>3').
-             mutate(powertoweight='hp*36/wt').
-             group_by('gear').
-             summarize(mean_ptw='mean(powertoweight)',
-                       mean_np_ptw='mean_np(powertoweight)'))
+    dataf = (
+        DataFrame(mtcars)
+        .filter(rl('gear>3'))
+        .mutate(powertoweight=rl('hp*36/wt'))
+        .group_by(rl('gear'))
+        .summarize(mean_ptw=rl('mean(powertoweight)'),
+                   mean_np_ptw=rl('mean_np(powertoweight)'))
+    )
     
     dataf
+
+
+.. parsed-literal::
+
+    `summarise()` ungrouping output (override with `.groups` argument)
 
 
 
@@ -172,28 +199,47 @@ Python back from R. To achieve this we simply use the decorator
 
 
 It is also possible to carry this out without having to place the custom
-function in R's global environment.
+function in R's global environment, although this is not
+straightforward.
 
 .. code:: ipython3
 
+    # First we delete our Python callback in globalenv to
+    # ensure that we are picking up our callback in our
+    # specific environment rather than this one.
     del(globalenv['mean_np'])
-
-.. code:: ipython3
-
-    from rpy2.robjects.lib.dplyr import StringInEnv
+    
     from rpy2.robjects import Environment
     my_env = Environment()
     my_env['mean_np'] = mean_np
     
-    dataf = (DataFrame(mtcars).
-             filter('gear>3').
-             mutate(powertoweight='hp*36/wt').
-             group_by('gear').
-             summarize(mean_ptw='mean(powertoweight)',
-                       mean_np_ptw=StringInEnv('mean_np(powertoweight)',
-                                               my_env)))
+    
+    # Create an rlang "quosure" object within
+    # a given environment. We use the R package
+    # rlang used by dplyr.
+    from rpy2.robjects.lib.dplyr import rlang
+    
+    myquo = rlang.quo.rcall(
+        [(None, rl('mean_np(rlang::enexpr(powertoweight))'))],
+        environment=my_env
+    )
+    
+    dataf = (
+        DataFrame(mtcars)
+        .filter(rl('gear>3'))
+        .mutate(powertoweight=rl('hp*36/wt'))
+        .group_by(rl('gear'))
+        .summarize(
+            mean_ptw=rl('mean(powertoweight)'),
+            mean_np_ptw=myquo)
+    )
     
     dataf
+
+
+.. parsed-literal::
+
+    `summarise()` ungrouping output (override with `.groups` argument)
 
 
 
@@ -250,11 +296,11 @@ implementation of ``dplyr``, it *just works*.
         db = dplyr.src_sqlite(db_fh.name)
         # copy the table to that database
         dataf_db = DataFrame(mtcars).copy_to(db, name="mtcars")
-        res = (dataf_db.
-               filter('gear>3').
-               mutate(powertoweight='hp*36/wt').
-               group_by('gear').
-               summarize(mean_ptw='mean(powertoweight)'))
+        res = (dataf_db
+               .filter(rl('gear>3'))
+               .mutate(powertoweight=rl('hp*36/wt'))
+               .group_by(rl('gear'))
+               .summarize(mean_ptw=rl('mean(powertoweight)')))
         print(res)
     # 
 
@@ -262,7 +308,7 @@ implementation of ``dplyr``, it *just works*.
 .. parsed-literal::
 
     [90m# Source:   lazy query [?? x 2][39m
-    [90m# Database: sqlite 3.30.1 [/tmp/tmpcjlavzwj][39m
+    [90m# Database: sqlite 3.33.0 [/tmp/tmpj17fjm13][39m
        gear mean_ptw
       [3m[90m<dbl>[39m[23m    [3m[90m<dbl>[39m[23m
     [90m1[39m     4    [4m1[24m237.
@@ -283,9 +329,8 @@ available to us. If we want to see the SQL code generated that's:
     <SQL>
     SELECT `gear`, AVG(`powertoweight`) AS `mean_ptw`
     FROM (SELECT `mpg`, `cyl`, `disp`, `hp`, `drat`, `wt`, `qsec`, `vs`, `am`, `gear`, `carb`, `hp` * 36.0 / `wt` AS `powertoweight`
-    FROM (SELECT *
     FROM `mtcars`
-    WHERE (`gear` > 3.0)))
+    WHERE (`gear` > 3.0))
     GROUP BY `gear`
 
 
@@ -319,11 +364,11 @@ it.
 .. code:: ipython3
 
     with localconverter(default_converter + pandas2ri.converter) as cv:
-        dataf = (DataFrame(pd_mtcars).
-                 filter('gear>=3').
-                 mutate(powertoweight='hp*36/wt').
-                 group_by('gear').
-                 summarize(mean_ptw='mean(powertoweight)'))
+        dataf = (DataFrame(pd_mtcars)
+                 .filter(rl('gear>=3'))
+                 .mutate(powertoweight=rl('hp*36/wt'))
+                 .group_by(rl('gear'))
+                 .summarize(mean_ptw=rl('mean(powertoweight)')))
     
     dataf
 

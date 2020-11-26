@@ -2,12 +2,13 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rpy2.ipython.rmagic &#8212; rpy2 3.3.1 documentation</title>
-    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -18,7 +19,7 @@
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -33,23 +34,10 @@
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -104,9 +92,9 @@
 <span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="k">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">stat</span>
-<span class="kn">from</span> <span class="nn">shutil</span> <span class="k">import</span> <span class="n">rmtree</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">stat</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
 
 <span class="c1"># numpy and rpy2 imports</span>
@@ -115,11 +103,11 @@
 <span class="kn">import</span> <span class="nn">rpy2.rinterface_lib.callbacks</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpacks</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="k">import</span> <span class="n">grdevices</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="p">(</span><span class="n">Converter</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="kn">import</span> <span class="n">grdevices</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Converter</span><span class="p">,</span>
                                       <span class="n">localconverter</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="k">import</span> <span class="n">converter</span> <span class="k">as</span> <span class="n">template_converter</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">converter</span> <span class="k">as</span> <span class="n">template_converter</span>
 
 <span class="c1"># Try loading pandas and numpy, emitting a warning if either cannot be</span>
 <span class="c1"># loaded.</span>
@@ -145,23 +133,23 @@
 
 <span class="c1"># IPython imports.</span>
 
-<span class="kn">from</span> <span class="nn">IPython.core</span> <span class="k">import</span> <span class="n">displaypub</span>
-<span class="kn">from</span> <span class="nn">IPython.core.magic</span> <span class="k">import</span> <span class="p">(</span><span class="n">Magics</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">IPython.core</span> <span class="kn">import</span> <span class="n">displaypub</span>
+<span class="kn">from</span> <span class="nn">IPython.core.magic</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Magics</span><span class="p">,</span>
                                 <span class="n">magics_class</span><span class="p">,</span>
                                 <span class="n">line_cell_magic</span><span class="p">,</span>
                                 <span class="n">line_magic</span><span class="p">,</span>
                                 <span class="n">needs_local_scope</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">IPython.core.magic_arguments</span> <span class="k">import</span> <span class="p">(</span><span class="n">argument</span><span class="p">,</span>
+<span class="kn">from</span> <span class="nn">IPython.core.magic_arguments</span> <span class="kn">import</span> <span class="p">(</span><span class="n">argument</span><span class="p">,</span>
                                           <span class="n">argument_group</span><span class="p">,</span>
                                           <span class="n">magic_arguments</span><span class="p">,</span>
                                           <span class="n">parse_argstring</span><span class="p">)</span>
 
 
 <span class="k">if</span> <span class="n">numpy</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">numpy2ri</span>
+    <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">numpy2ri</span>
     <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
     <span class="k">if</span> <span class="n">pandas</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">pandas2ri</span>
+        <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
         <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span>
 
 
@@ -176,12 +164,12 @@
                            <span class="s1">&#39;R error message: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">rstdout_prefix</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">R stdout:</span><span class="se">\n</span><span class="s1">&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">stdout</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">stdout</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">line</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">err</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg_prefix_template</span> <span class="o">%</span>
              <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">err</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">err</span><span class="p">):</span>
@@ -222,7 +210,7 @@
     <span class="sd">&quot;&quot;&quot;A set of magics useful for interactive work with R via rpy2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shell</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="n">converter</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shell</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="n">converter</span><span class="p">,</span>
                  <span class="n">cache_display_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
@@ -898,7 +886,22 @@
     <span class="n">ip</span><span class="o">.</span><span class="n">register_magics</span><span class="p">(</span><span class="n">RMagics</span><span class="p">)</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -913,12 +916,13 @@
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>

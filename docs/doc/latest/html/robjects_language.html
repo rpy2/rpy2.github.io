@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Object serialization &#8212; rpy2 3.3.1 documentation</title>
+    <title>R language &#8212; rpy2 3.3.1 documentation</title>
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -19,8 +19,8 @@
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="R language" href="robjects_language.html" />
-    <link rel="prev" title="Basic handling" href="generated_rst/s4class.html" />
+    <link rel="next" title="Vectors and arrays" href="vector.html" />
+    <link rel="prev" title="Object serialization" href="robjects_serialization.html" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
@@ -36,15 +36,15 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="robjects_language.html" title="R language"
+          <a href="vector.html" title="Vectors and arrays"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="generated_rst/s4class.html" title="Basic handling"
+          <a href="robjects_serialization.html" title="Object serialization"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Object serialization</a></li> 
+        <li class="nav-item nav-item-this"><a href="">R language</a></li> 
       </ul>
     </div>  
 
@@ -53,24 +53,31 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="object-serialization">
-<h1>Object serialization<a class="headerlink" href="#object-serialization" title="Permalink to this headline">¶</a></h1>
-<p>The R objects in rpy2 are implementing the pickle protocol in Python,
-giving access to Python’s pickling (serialize objects to disk,
-and restore them from their serialized form).</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
-<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
-
-<span class="n">x</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">StrVector</span><span class="p">((</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">))</span>
-
-<span class="n">x_serialized</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
-
-<span class="n">x_again</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">x_serialized</span><span class="p">)</span>
+  <div class="section" id="r-language">
+<span id="robjects-language"></span><span id="index-0"></span><h1>R language<a class="headerlink" href="#r-language" title="Permalink to this headline">¶</a></h1>
+<p>Beside its syntax, R differs from Python in the way expressions are evaluated.
+In R the evaluation is deferred until the result of the expression is needed,
+while in Python the evaluation when the execution is going through the expression.</p>
+<p>For example, this means that expression that arguments to R functions will see their
+evaluation deferred until when the code in the body of the function is evaluated.
+The R package <cite>dplyr</cite> relies on this feature heavily. One can write</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1">## data is a data frame with a column called &quot;x&quot;.</span>
+<span class="c1">## To filter rows with positive values in column &quot;x&quot; we can do:</span>
+<span class="nf">filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="m">0</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>This is also giving access to Python code using the pickling system
-communicate objects across networks or processes such as
-<a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#module-multiprocessing" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code></a> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">pyspark</span></code>.</p>
+<p>and just works because the expression <cite>x &gt; 0</cite> is carefully evaluated within
+the context of the data frame <cite>data</cite>. At the moment of the call <cite>x &gt; 0</cite> is
+otherwise only an unevaluated language object.</p>
+<p>In rpy2, the class <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.language.LangVector</span></code> represents such objects.
+The constructor that builds them from strings is <code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.language.LangVector.from_string()</span></code>,
+and is otherwise aliased as <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.rl()</span></code></p>
+<p>Should you find yourself unsure about how to represent a particular R idiom in Python,
+you can create a language object from a string with what the R code would be. This approach
+can sometimes be the easiest way to use R packages that rely on a lot of seemingly magic
+with unevaluated expression. That’s the case for a lot of packages in the R “tidyverse”
+(<cite>dplyr</cite>, <cite>tidyr</cite>, <cite>ggplot2</cite>, etc…). The documentation for the rpy2 mapping for <cite>dplyr</cite>
+shows many examples (see Section <a class="reference internal" href="lib_dplyr.html#robjects-lib-dplyr"><span class="std std-ref">dplyr</span></a>).</p>
 </div>
 
 
@@ -81,15 +88,15 @@ communicate objects across networks or processes such as
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="generated_rst/s4class.html"
-                        title="previous chapter">Basic handling</a></p>
+  <p class="topless"><a href="robjects_serialization.html"
+                        title="previous chapter">Object serialization</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="robjects_language.html"
-                        title="next chapter">R language</a></p>
+  <p class="topless"><a href="vector.html"
+                        title="next chapter">Vectors and arrays</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/robjects_serialization.rst.txt"
+      <li><a href="_sources/robjects_language.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -117,15 +124,15 @@ communicate objects across networks or processes such as
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="robjects_language.html" title="R language"
+          <a href="vector.html" title="Vectors and arrays"
              >next</a> |</li>
         <li class="right" >
-          <a href="generated_rst/s4class.html" title="Basic handling"
+          <a href="robjects_serialization.html" title="Object serialization"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Object serialization</a></li> 
+        <li class="nav-item nav-item-this"><a href="">R language</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

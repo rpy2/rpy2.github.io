@@ -2,12 +2,13 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Introduction to rpy2 &#8212; rpy2 3.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +21,7 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Using rpy2 in notebooks" href="notebooks.html" />
     <link rel="prev" title="Overview" href="overview.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -41,73 +42,10 @@
           <a href="overview.html" title="Overview"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="getting-started.html" accesskey="U">Getting started</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="getting-started.html" accesskey="U">Getting started</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Introduction to rpy2</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Introduction to rpy2</a><ul>
-<li><a class="reference internal" href="#getting-started">Getting started</a></li>
-<li><a class="reference internal" href="#r-packages">R packages</a><ul>
-<li><a class="reference internal" href="#importing-packages">Importing packages</a></li>
-<li><a class="reference internal" href="#installing-packages">Installing packages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#the-r-instance">The <cite>r</cite> instance</a><ul>
-<li><a class="reference internal" href="#getting-r-objects">Getting R objects</a></li>
-<li><a class="reference internal" href="#evaluating-r-code">Evaluating R code</a></li>
-<li><a class="reference internal" href="#interpolating-r-objects-into-r-code-strings">Interpolating R objects into R code strings</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#r-vectors">R vectors</a><ul>
-<li><a class="reference internal" href="#creating-rpy2-vectors">Creating rpy2 vectors</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#calling-r-functions">Calling R functions</a></li>
-<li><a class="reference internal" href="#getting-help">Getting help</a><ul>
-<li><a class="reference internal" href="#help-on-a-topic-within-a-given-package-or-currently-loaded-packages">Help on a topic within a given package, or currently loaded packages</a></li>
-<li><a class="reference internal" href="#locate-topics-among-available-packages">Locate topics among available packages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#examples">Examples</a><ul>
-<li><a class="reference internal" href="#graphics-and-plots">Graphics and plots</a></li>
-<li><a class="reference internal" href="#linear-models">Linear models</a></li>
-<li><a class="reference internal" href="#principal-component-analysis">Principal component analysis</a></li>
-<li><a class="reference internal" href="#creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code">Creating an R vector or matrix, and filling its cells using Python code</a></li>
-<li><a class="reference internal" href="#one-more-example">One more example</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="overview.html"
-                        title="previous chapter">Overview</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="notebooks.html"
-                        title="next chapter">Using rpy2 in notebooks</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/introduction.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -127,7 +65,7 @@ of if the instructions were followed (see <a class="reference internal" href="ov
 <p><cite>rpy2</cite> is like any other python package binding to a C library. Its top
 level can be imported, and the version obtained.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2</span>
-<span class="k">print</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -143,7 +81,7 @@ expected version.</p>
 it, the same information can be obtained from a Python terminal (or notebook).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.situation</span>
 <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">situation</span><span class="o">.</span><span class="n">iter_info</span><span class="p">():</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -155,7 +93,7 @@ possible for a Python user (something sometimes referred to as
 “pythonic”), and this introduction only covers that interface.</p>
 <p>Importing the top-level sub-package is also initializing and starting
 R embedded in the current Python process:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="kn">as</span> <span class="nn">robjects</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
 </pre></div>
 </div>
 </div>
@@ -210,7 +148,7 @@ introduced above is defined).</p>
 <p>Getting ready to install packages from the first mirror known to R is done
 with:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># import rpy2&#39;s package module</span>
-<span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">as</span> <span class="nn">rpackages</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpackages</span>
 
 <span class="c1"># import R&#39;s utility package</span>
 <span class="n">utils</span> <span class="o">=</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
@@ -256,7 +194,7 @@ as typing that symbol name in the R console would do it
 (see the note below for details).</p>
 <p>Example in R:</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="kc">pi</span>
-<span class="n">[1]</span> <span class="m">3.141593</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">3.141593</span>
 </pre></div>
 </div>
 <p>With <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code>:</p>
@@ -288,7 +226,7 @@ and this provide an alternative to
 the method <cite>__getitem__</cite> described earlier.</p>
 <p>Example in R:</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="kc">pi</span>
-<span class="n">[1]</span> <span class="m">3.141593</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">3.141593</span>
 </pre></div>
 </div>
 <p>With <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code>:</p>
@@ -458,7 +396,7 @@ in python during interactive sessions, is used very frequently by R programmmers
 This help system is accessible from an R function, therefore accessible from rpy2.</p>
 <div class="section" id="help-on-a-topic-within-a-given-package-or-currently-loaded-packages">
 <h3>Help on a topic within a given package, or currently loaded packages<a class="headerlink" href="#help-on-a-topic-within-a-given-package-or-currently-loaded-packages" title="Permalink to this headline">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">help_doc</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">help</span><span class="p">(</span><span class="s2">&quot;help&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">help_doc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -516,7 +454,7 @@ master the content of the module <code class="xref py py-mod docutils literal no
 rpy2.</p>
 <div class="section" id="graphics-and-plots">
 <h3>Graphics and plots<a class="headerlink" href="#graphics-and-plots" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="kn">as</span> <span class="nn">robjects</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span>
 
@@ -534,12 +472,12 @@ done the usual way in python.</p>
 <p>There are several ways to plot data in <cite>R</cite>, some of which are
 presented in this documentation:</p>
 <p>The general setup is repeated here:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2</span> <span class="k">import</span> <span class="n">robjects</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">Formula</span><span class="p">,</span> <span class="n">Environment</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">import</span> <span class="n">IntVector</span><span class="p">,</span> <span class="n">FloatVector</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="k">import</span> <span class="n">grid</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
-<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib.embedded</span> <span class="k">import</span> <span class="n">RRuntimeError</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2</span> <span class="kn">import</span> <span class="n">robjects</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">Formula</span><span class="p">,</span> <span class="n">Environment</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="kn">import</span> <span class="n">IntVector</span><span class="p">,</span> <span class="n">FloatVector</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="kn">import</span> <span class="n">grid</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib.embedded</span> <span class="kn">import</span> <span class="n">RRuntimeError</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="c1"># The R &#39;print&#39; function</span>
@@ -556,7 +494,7 @@ presented in this documentation:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span><span class="o">,</span> <span class="nn">datetime</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects.lib.ggplot2</span> <span class="k">as</span> <span class="nn">ggplot2</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 <span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
 
 <span class="n">mtcars</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
@@ -610,11 +548,11 @@ the window must be explicitly required
 <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">weight</span>
 <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
 <span class="n">lm_D9</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="s2">&quot;weight ~ group&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">lm_D9</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">anova</span><span class="p">(</span><span class="n">lm_D9</span><span class="p">))</span>
 
 <span class="c1"># omitting the intercept</span>
 <span class="n">lm_D90</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="s2">&quot;weight ~ group - 1&quot;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">lm_D90</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">lm_D90</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>This way to perform a linear fit it matching precisely the way in R presented
@@ -678,7 +616,7 @@ R code as possible:</p>
 </div>
 <p>However, the same example can be made a little tidier
 (with respect to being specific about R functions used)</p>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 
 <span class="n">base</span>     <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
 <span class="n">stats</span>    <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
@@ -693,9 +631,9 @@ R code as possible:</p>
 </div>
 <div class="section" id="creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code">
 <h3>Creating an R vector or matrix, and filling its cells using Python code<a class="headerlink" href="#creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">NA_Real</span>
-<span class="kn">from</span> <span class="nn">rpy2.rlike.container</span> <span class="k">import</span> <span class="n">TaggedList</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">NA_Real</span>
+<span class="kn">from</span> <span class="nn">rpy2.rlike.container</span> <span class="kn">import</span> <span class="n">TaggedList</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 
 <span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
 
@@ -719,7 +657,7 @@ R code as possible:</p>
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 <span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
 <span class="n">grdevices</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grDevices&#39;</span><span class="p">)</span>
 <span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
@@ -754,7 +692,72 @@ R code as possible:</p>
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction to rpy2</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#r-packages">R packages</a><ul>
+<li><a class="reference internal" href="#importing-packages">Importing packages</a></li>
+<li><a class="reference internal" href="#installing-packages">Installing packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-r-instance">The <cite>r</cite> instance</a><ul>
+<li><a class="reference internal" href="#getting-r-objects">Getting R objects</a></li>
+<li><a class="reference internal" href="#evaluating-r-code">Evaluating R code</a></li>
+<li><a class="reference internal" href="#interpolating-r-objects-into-r-code-strings">Interpolating R objects into R code strings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#r-vectors">R vectors</a><ul>
+<li><a class="reference internal" href="#creating-rpy2-vectors">Creating rpy2 vectors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#calling-r-functions">Calling R functions</a></li>
+<li><a class="reference internal" href="#getting-help">Getting help</a><ul>
+<li><a class="reference internal" href="#help-on-a-topic-within-a-given-package-or-currently-loaded-packages">Help on a topic within a given package, or currently loaded packages</a></li>
+<li><a class="reference internal" href="#locate-topics-among-available-packages">Locate topics among available packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#graphics-and-plots">Graphics and plots</a></li>
+<li><a class="reference internal" href="#linear-models">Linear models</a></li>
+<li><a class="reference internal" href="#principal-component-analysis">Principal component analysis</a></li>
+<li><a class="reference internal" href="#creating-an-r-vector-or-matrix-and-filling-its-cells-using-python-code">Creating an R vector or matrix, and filling its cells using Python code</a></li>
+<li><a class="reference internal" href="#one-more-example">One more example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="overview.html"
+                        title="previous chapter">Overview</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="notebooks.html"
+                        title="next chapter">Using rpy2 in notebooks</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/introduction.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -775,12 +778,13 @@ R code as possible:</p>
           <a href="overview.html" title="Overview"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
-          <li class="nav-item nav-item-1"><a href="getting-started.html" >Getting started</a> &#187;</li> 
+          <li class="nav-item nav-item-1"><a href="getting-started.html" >Getting started</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Introduction to rpy2</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>

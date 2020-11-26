@@ -2,12 +2,13 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rpy2.robjects.robject &#8212; rpy2 3.3.1 documentation</title>
-    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -18,7 +19,7 @@
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -34,23 +35,10 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.robjects.robject</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -65,7 +53,7 @@
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface_lib.callbacks</span>
 
-<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">conversion</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">conversion</span>
 
 <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">initr_simple</span><span class="p">()</span>
 
@@ -81,18 +69,18 @@
 
     <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_robj&#39;</span><span class="p">,</span> <span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robj</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robj</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_robj</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">proxy</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_robj</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">rpy2_value</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_robj</span><span class="o">.</span><span class="n">do_slot_assign</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">rpy2_value</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_robj</span><span class="o">.</span><span class="n">list_attrs</span><span class="p">())</span>
 
     <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -141,7 +129,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__slots</span> <span class="o">=</span> <span class="n">RSlots</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__slots</span>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">rclasses</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;R object with classes: </span><span class="si">{}</span><span class="s1"> mapped to:&#39;</span>
                         <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">rclass</span><span class="p">)))</span>
@@ -151,7 +139,7 @@
                          <span class="nb">repr</span><span class="p">(</span><span class="nb">super</span><span class="p">())))</span>
         <span class="k">return</span> <span class="n">rclasses</span>
 
-    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">with</span> <span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span>
@@ -222,7 +210,7 @@
 <div class="viewcode-block" id="RObject"><a class="viewcode-back" href="../../../robjects_robjects.html#rpy2.robjects.robject.RObject">[docs]</a><span class="k">class</span> <span class="nc">RObject</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Base class for all non-vector R objects. &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;_sexp&#39;</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -233,7 +221,22 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">RObject</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -249,12 +252,13 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.robjects.robject</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>

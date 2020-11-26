@@ -2,12 +2,13 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Porting code to rpy2 &#8212; rpy2 3.3.1 documentation</title>
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -20,7 +21,7 @@
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="High-level interface" href="high-level.html" />
     <link rel="prev" title="DataFrames and dplyr" href="lib_dplyr.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -40,67 +41,10 @@
         <li class="right" >
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Porting code to rpy2</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Porting code to rpy2</a><ul>
-<li><a class="reference internal" href="#from-r">From R</a></li>
-<li><a class="reference internal" href="#from-rpy">From rpy</a><ul>
-<li><a class="reference internal" href="#compatibility-layer">Compatibility layer</a></li>
-<li><a class="reference internal" href="#faithful-example">Faithful example</a><ul>
-<li><a class="reference internal" href="#setting-up">Setting up</a></li>
-<li><a class="reference internal" href="#importing-the-data">Importing the data</a></li>
-<li><a class="reference internal" href="#summary">Summary</a></li>
-<li><a class="reference internal" href="#stem-and-leaf-plot">Stem-and-leaf plot</a></li>
-<li><a class="reference internal" href="#histogram">Histogram</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#from-rpy2-2-0-x">From rpy2-2.0.x</a><ul>
-<li><a class="reference internal" href="#camelcase">Camelcase</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#r-prefixed-class-names">R-prefixed class names</a><ul>
-<li><a class="reference internal" href="#namespace-for-r-packages">Namespace for R packages</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#parameter-names-in-function-call">Parameter names in function call</a></li>
-<li><a class="reference internal" href="#missing-values">Missing values</a></li>
-<li><a class="reference internal" href="#graphics">Graphics</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="lib_dplyr.html"
-                        title="previous chapter">DataFrames and dplyr</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="high-level.html"
-                        title="next chapter">High-level interface</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/porting-to-rpy2.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -158,7 +102,7 @@ R’s own collection of datasets:</p>
 <h4>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edsummary</span> <span class="o">=</span> <span class="n">r_base</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">faithful_data</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;eruptions&quot;</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">edsummary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-   <span class="k">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%.3f</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+   <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%.3f</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
@@ -166,7 +110,7 @@ R’s own collection of datasets:</p>
 <h4>Stem-and-leaf plot<a class="headerlink" href="#stem-and-leaf-plot" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Stem-and-leaf plot of Old Faithful eruption duration data&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Stem-and-leaf plot of Old Faithful eruption duration data&quot;</span><span class="p">)</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">faithful_data</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;eruptions&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -178,7 +122,7 @@ R’s own collection of datasets:</p>
 <span class="n">grdevices</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="s1">&#39;faithful_histogram.png&#39;</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="mi">733</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">550</span><span class="p">)</span>
 <span class="n">ed</span> <span class="o">=</span> <span class="n">faithful_data</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;eruptions&quot;</span><span class="p">)</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ed</span><span class="p">,</span> <span class="n">r_base</span><span class="o">.</span><span class="n">seq</span><span class="p">(</span><span class="mf">1.6</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span>
-              <span class="n">prob</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s2">&quot;lightblue&quot;</span><span class="p">,</span>
+              <span class="n">prob</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="s2">&quot;lightblue&quot;</span><span class="p">,</span>
               <span class="n">main</span> <span class="o">=</span> <span class="s2">&quot;Old Faithful eruptions&quot;</span><span class="p">,</span> <span class="n">xlab</span> <span class="o">=</span> <span class="s2">&quot;Eruption duration (seconds)&quot;</span><span class="p">)</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">lines</span><span class="p">(</span><span class="n">stats</span><span class="o">.</span><span class="n">density</span><span class="p">(</span><span class="n">ed</span><span class="p">,</span><span class="n">bw</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">col</span> <span class="o">=</span> <span class="s2">&quot;orange&quot;</span><span class="p">)</span>
 <span class="n">graphics</span><span class="o">.</span><span class="n">rug</span><span class="p">(</span><span class="n">ed</span><span class="p">)</span>
@@ -206,7 +150,7 @@ R’s own collection of datasets:</p>
 
 <span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
 
-<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;do.points&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+<span class="n">params</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;do.points&#39;</span> <span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
           <span class="s1">&#39;verticals&#39;</span> <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
           <span class="s1">&#39;main&#39;</span> <span class="p">:</span> <span class="s2">&quot;Empirical cumulative distribution function of &quot;</span> <span class="o">+</span> \
                     <span class="s2">&quot;Old Faithful eruptions longer than 3 seconds&quot;</span><span class="p">}</span>
@@ -314,7 +258,7 @@ For example, <cite>RVector</cite> became <cite>Vector</cite>, <cite>RDataFrame</
 <h3>Namespace for R packages<a class="headerlink" href="#namespace-for-r-packages" title="Permalink to this headline">¶</a></h3>
 <p>The function <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.importr" title="rpy2.robjects.packages.importr"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.packages.importr()</span></code></a> should be used to import an R package
 name space as a Python-friendly object</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">import</span> <span class="n">importr</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;base&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">base</span><span class="o">.</span><span class="n">letters</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="go">&#39;a&#39;</span>
@@ -346,7 +290,66 @@ the generation of graphics (even) easier (see Section <a class="reference intern
 </div>
 
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Porting code to rpy2</a><ul>
+<li><a class="reference internal" href="#from-r">From R</a></li>
+<li><a class="reference internal" href="#from-rpy">From rpy</a><ul>
+<li><a class="reference internal" href="#compatibility-layer">Compatibility layer</a></li>
+<li><a class="reference internal" href="#faithful-example">Faithful example</a><ul>
+<li><a class="reference internal" href="#setting-up">Setting up</a></li>
+<li><a class="reference internal" href="#importing-the-data">Importing the data</a></li>
+<li><a class="reference internal" href="#summary">Summary</a></li>
+<li><a class="reference internal" href="#stem-and-leaf-plot">Stem-and-leaf plot</a></li>
+<li><a class="reference internal" href="#histogram">Histogram</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#from-rpy2-2-0-x">From rpy2-2.0.x</a><ul>
+<li><a class="reference internal" href="#camelcase">Camelcase</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#r-prefixed-class-names">R-prefixed class names</a><ul>
+<li><a class="reference internal" href="#namespace-for-r-packages">Namespace for R packages</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#parameter-names-in-function-call">Parameter names in function call</a></li>
+<li><a class="reference internal" href="#missing-values">Missing values</a></li>
+<li><a class="reference internal" href="#graphics">Graphics</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lib_dplyr.html"
+                        title="previous chapter">DataFrames and dplyr</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="high-level.html"
+                        title="next chapter">High-level interface</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/porting-to-rpy2.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -366,12 +369,13 @@ the generation of graphics (even) easier (see Section <a class="reference intern
         <li class="right" >
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li> 
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.3.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Porting code to rpy2</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>

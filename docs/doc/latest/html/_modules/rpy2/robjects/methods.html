@@ -2,12 +2,13 @@
 
 <!doctype html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rpy2.robjects.methods &#8212; rpy2 3.3.1 documentation</title>
-    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
     <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
@@ -18,7 +19,7 @@
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <!--[if lt IE 9]>
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
@@ -34,23 +35,10 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.robjects.methods</a></li> 
       </ul>
-    </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -59,12 +47,12 @@
             
   <h1>Source code for rpy2.robjects.methods</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">abc</span>
-<span class="kn">from</span> <span class="nn">types</span> <span class="k">import</span> <span class="n">SimpleNamespace</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="k">import</span> <span class="n">RObjectMixin</span>
+<span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="kn">import</span> <span class="n">RObjectMixin</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
-<span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="k">import</span> <span class="n">StrSexpVector</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">help</span> <span class="k">as</span> <span class="n">rhelp</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="k">import</span> <span class="n">conversion</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="kn">import</span> <span class="n">StrSexpVector</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">help</span> <span class="k">as</span> <span class="n">rhelp</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">conversion</span>
 
 <span class="n">_get_exported_value</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;::&#39;</span><span class="p">]</span>
 <span class="n">getmethod</span> <span class="o">=</span> <span class="n">_get_exported_value</span><span class="p">(</span><span class="s1">&#39;methods&#39;</span><span class="p">,</span> <span class="s1">&#39;getMethod&#39;</span><span class="p">)</span>
@@ -141,7 +129,7 @@
 
 <span class="k">class</span> <span class="nc">RS4_Type</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">):</span>
 
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cls_rname</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__rname__&#39;</span><span class="p">]</span>
@@ -189,7 +177,7 @@
 <span class="sd">    attributes: __rname__, __rpackagename__, __attr__translation,</span>
 <span class="sd">    __meth_translation__.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">):</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">cls_rname</span> <span class="o">=</span> <span class="n">cls_dict</span><span class="p">[</span><span class="s1">&#39;__rname__&#39;</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
@@ -296,7 +284,7 @@
                     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Duplicated attribute/method name.&quot;</span><span class="p">)</span>
                 <span class="n">cls_dict</span><span class="p">[</span><span class="n">meth_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">meth</span>
 
-        <span class="k">return</span> <span class="nb">type</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">set_accessors</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">acs</span><span class="p">):</span>
@@ -371,7 +359,22 @@
 <span class="p">)</span>
 </pre></div>
 
+            <div class="clearer"></div>
           </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -387,12 +390,13 @@
              >modules</a> |</li>
         <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.3.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
-          <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li> 
+          <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.robjects.methods</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
     </div>
   </body>
 </html>
