@@ -55,11 +55,12 @@
   <div class="section" id="using-rpy2-in-notebooks">
 <h1>Using rpy2 in notebooks<a class="headerlink" href="#using-rpy2-in-notebooks" title="Permalink to this headline">¶</a></h1>
 <p><cite>rpy2</cite> is designed to play well with notebooks. While the target
-notebook is jupyter, it used in other notebook systems (some of
-them are based on <a class="reference external" href="https://jupyter.org/">Jupyter</a>, or are managed Jupyter notebook systems).
-For example <a class="reference external" href="https://research.google.com/colaboratory/faq.html">Google’s Colab</a>,
+notebook is jupyter, it is used in other notebook systems (some of
+them are based on <a class="reference external" href="https://jupyter.org/">Jupyter</a>, or are managed Jupyter notebook systems).</p>
+<p>rpy2 is working, and is sometimes available by default, with
+<a class="reference external" href="https://research.google.com/colaboratory/faq.html">Google’s Colab</a>,
 <a class="reference external" href="https://docs.databricks.com/notebooks/index.html">Databricks notebooks</a>, <a class="reference external" href="https://docs.aws.amazon.com/sagemaker/latest/dg/nbi.html">AWS SageMaker</a>, <a class="reference external" href="https://notebooks.azure.com/">Azure Notebooks</a>,
-<a class="reference external" href="https://cloud.google.com/ai-platform-notebooks">Google Cloud AI Platform Notebooks</a>, or Coursera Notebooks.</p>
+or <a class="reference external" href="https://cloud.google.com/ai-platform-notebooks">Google Cloud AI Platform Notebooks</a>.</p>
 <p>This section shows how <cite>rpy2</cite> can be used to add everything R can offer
 to Python notebooks.</p>
 <div class="admonition note">
@@ -498,10 +499,10 @@ lingo) in our previous cell. We can just use it in subsequent cells.</p>
 <span class="nf">cat</span><span class="p">(</span><span class="s">&quot;Running an R code cell.\n&quot;</span><span class="p">)</span>
 
 <span class="n">p</span> <span class="o">&lt;-</span> <span class="nf">ggplot</span><span class="p">(</span><span class="n">dataf</span><span class="p">)</span> <span class="o">+</span>
-     <span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="nf">rl</span><span class="p">(</span><span class="s">&#39;longd&#39;</span><span class="p">),</span>
-         <span class="n">y</span><span class="o">=</span> <span class="nf">rl</span><span class="p">(</span><span class="s">&#39;latd&#39;</span><span class="p">),</span>
-         <span class="n">color</span><span class="o">=</span><span class="nf">rl</span><span class="p">(</span><span class="s">&#39;population_total&#39;</span><span class="p">),</span>
-         <span class="n">size</span><span class="o">=</span><span class="nf">rl</span><span class="p">(</span><span class="s">&#39;area_total_km2&#39;</span><span class="p">))</span> <span class="o">+</span>
+     <span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">longd</span><span class="p">,</span>
+         <span class="n">y</span><span class="o">=</span><span class="n">latd</span><span class="p">,</span>
+         <span class="n">color</span><span class="o">=</span><span class="n">population_total</span><span class="p">,</span>
+         <span class="n">size</span><span class="o">=</span><span class="n">area_total_km2</span><span class="p">)</span> <span class="o">+</span>
      <span class="nf">geom_point</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">)</span> <span class="o">+</span>
      <span class="nf">scale_x_continuous</span><span class="p">(</span><span class="s">&#39;Longitude&#39;</span><span class="p">)</span> <span class="o">+</span>
      <span class="nf">scale_y_continuous</span><span class="p">(</span><span class="s">&#39;Latitude&#39;</span><span class="p">)</span> <span class="o">+</span>
@@ -515,16 +516,7 @@ lingo) in our previous cell. We can just use it in subsequent cells.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Running</span> <span class="n">an</span> <span class="n">R</span> <span class="n">code</span> <span class="n">cell</span><span class="o">.</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">R</span><span class="p">[</span><span class="n">write</span> <span class="n">to</span> <span class="n">console</span><span class="p">]:</span> <span class="n">Error</span> <span class="ow">in</span> <span class="n">rl</span><span class="p">(</span><span class="s2">&quot;longd&quot;</span><span class="p">)</span> <span class="p">:</span> <span class="n">could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">function</span> <span class="s2">&quot;rl&quot;</span>
-
-<span class="n">R</span><span class="p">[</span><span class="n">write</span> <span class="n">to</span> <span class="n">console</span><span class="p">]:</span> <span class="n">In</span> <span class="n">addition</span><span class="p">:</span>
-<span class="n">R</span><span class="p">[</span><span class="n">write</span> <span class="n">to</span> <span class="n">console</span><span class="p">]:</span> <span class="n">There</span> <span class="n">were</span> <span class="mi">12</span> <span class="n">warnings</span> <span class="p">(</span><span class="n">use</span> <span class="n">warnings</span><span class="p">()</span> <span class="n">to</span> <span class="n">see</span> <span class="n">them</span><span class="p">)</span>
-<span class="n">R</span><span class="p">[</span><span class="n">write</span> <span class="n">to</span> <span class="n">console</span><span class="p">]:</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Error</span> <span class="ow">in</span> <span class="n">rl</span><span class="p">(</span><span class="s2">&quot;longd&quot;</span><span class="p">)</span> <span class="p">:</span> <span class="n">could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">function</span> <span class="s2">&quot;rl&quot;</span>
-</pre></div>
-</div>
+<img alt="../_images/jupyter_28_1.png" src="../_images/jupyter_28_1.png" />
 </div>
 </div>
 </div>

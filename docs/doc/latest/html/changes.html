@@ -96,8 +96,11 @@ to send SIGINT to a Python process (issue #723)</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.sitation</span></code> is now working when the environment variable
 <cite>R_HOME</cite> is set even though R is not in the <cite>PATH</cite> or in the Windows
 registry (issue #744).</p></li>
-<li><p>Handling an R language objects could result in a segfault when it
+<li><p>Handling an R language objects could result in a segfault when its
 R class was queried (issue #749).</p></li>
+<li><p>The conversion of R string arrays to <cite>numpy</cite> arrays was leaving
+R’s <cite>NA</cite> value as R NA objects. NAs in this type of arrays are now
+turned to <cite>None</cite> in the resulting <cite>numpy</cite> array (issue #751).</p></li>
 </ul>
 </div>
 </div>
