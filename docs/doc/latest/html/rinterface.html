@@ -141,9 +141,10 @@ Those two objects could be accessed from Python using their names.</p>
 <span class="n">hyp</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Two environments are provided as <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpEnvironment</span></code></p>
+<p>By default R starts with two environments: <cite>baseenv</cite> and <cite>globalenv</cite>.
+Both are instances of class <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpEnvironment</span></code> in rpy2.</p>
 <p class="rubric" id="index-6">globalenv</p>
-<p>The global environment can be seen as the root (or topmost) environment,
+<p>The global environment (<cite>globalenv</cite>) can be seen as the root (or topmost) environment,
 and is in fact a list, that is a sequence, of environments.</p>
 <p>When an R library (package in R’s terminology) is loaded,
 is it added to the existing sequence of environments. Unless
@@ -151,7 +152,7 @@ specified, it is inserted in second position. The first position
 being always attributed to the global environment.
 The library is said to be attached to the current search path.</p>
 <p class="rubric" id="index-7">baseenv</p>
-<p>The base package has a namespace, that can be accessed as an environment.</p>
+<p>The base package has a namespace (<cite>baseenv</cite>), that can be accessed as an environment.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Depending on what is in <cite>globalenv</cite> and on the attached packages, base

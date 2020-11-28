@@ -162,6 +162,87 @@ this R environment.</p>
 
 </dd></dl>
 
+<div class="section" id="environments-as-temporary-local-contexts">
+<h2>Environments as (temporary) local contexts<a class="headerlink" href="#environments-as-temporary-local-contexts" title="Permalink to this headline">¶</a></h2>
+<p>Environments are like nested boxed, each with an arbritrary number of
+symbols (the objects names) bound to objects (the actual code or data
+associated with the symbol). The topmost environment is <cite>globalenv</cite>
+(<cite>.GlobalEnv</cite> in R).</p>
+<p>When looking for a symbol, R will normally start looking for it in a starting
+environment, and if it does not find it it will look for it the
+enclosing (parent) environment. This is will repeat until the symbol
+is found or <cite>globalenv</cite> is reached and there is no more environment to search.</p>
+<p>The evaluation of R code can be given a starting environment, and this
+can be an alternative from cluttering <cite>globalenv</cite>.</p>
+<p>To illustrate this, we have an R code that adds one to
+a value <cite>y</cite> it has to find somewhere in its evaluation context.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;y + 1&#39;</span><span class="p">)</span>
+<span class="go">RRuntimeError: Error in (function (expr, envir = parent.frame(), enclos = if (is.list(envir) ||  :</span>
+<span class="go">  object &#39;y&#39; not found</span>
+</pre></div>
+</div>
+<p>Evaluating that code when no <cite>y</cite> can be found results in an
+error message.</p>
+<p>Adding a <cite>y</cite> to <cite>globalenv</cite> solves the issue:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;y + 1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="go">[1] 3</span>
+</pre></div>
+</div>
+<p>This is happening because <cite>globalenv</cite> is the environment where our function
+was defined (its closure).</p>
+<p>However, we could also an other environment.</p>
+<p>There as several mechanisms to do that, and one them is to use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.environments.local_context()</span></code> (also available
+as <cite>:func:`rpy2.robjects.local_context</cite>). It provides an easy way to
+temporarily set evaluation contexts.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rsrc</span> <span class="o">=</span> <span class="s1">&#39;y + 1&#39;</span>
+<span class="k">if</span> <span class="s1">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">:</span>
+    <span class="k">del</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">local_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">lc_a</span><span class="p">:</span>
+    <span class="n">lc_a</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In local context a:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rsrc</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">local_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">lc_b</span><span class="p">:</span>
+        <span class="n">lc_b</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In local context b (masking a):&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rsrc</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Back to local context a:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rsrc</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The result is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="n">local</span> <span class="n">context</span> <span class="n">a</span><span class="p">:</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mi">3</span>
+
+<span class="n">In</span> <span class="n">local</span> <span class="n">context</span> <span class="n">b</span> <span class="p">(</span><span class="n">masking</span> <span class="n">a</span><span class="p">):</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mi">4</span>
+
+<span class="n">Back</span> <span class="n">to</span> <span class="n">local</span> <span class="n">context</span> <span class="n">a</span><span class="p">:</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Being able to do this is particularly helpful with R functions that like to report the full data
+content when anonymous objects are used. This is the case for a lot of the statistical modeling
+code in R’s standard library. A local context can help with binding the object to a symbol
+while R code is evaluated.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.rl()</span></code> will turn a string into an unevaluated R language
+object. To know more, see Section <a class="reference internal" href="robjects_language.html#robjects-language"><span class="std std-ref">R language</span></a>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">rl</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">mtcars</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">local_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">lc</span><span class="p">:</span>
+    <span class="n">lc</span><span class="p">[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtcars</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="s1">&#39;mpg ~ gear&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -171,6 +252,14 @@ this R environment.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Environments</a><ul>
+<li><a class="reference internal" href="#environments-as-temporary-local-contexts">Environments as (temporary) local contexts</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="robjects_robjects.html"
                         title="previous chapter">R objects</a></p>

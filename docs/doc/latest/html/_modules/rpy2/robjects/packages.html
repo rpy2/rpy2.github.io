@@ -47,6 +47,7 @@
             
   <h1>Source code for rpy2.robjects.packages</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">ModuleType</span>
 <span class="kn">from</span> <span class="nn">warnings</span> <span class="kn">import</span> <span class="n">warn</span>
@@ -112,19 +113,19 @@
 <span class="c1"># FIXME: should this be part of the API for rinterface ?</span>
 <span class="c1">#        (may be it is already the case and there is code</span>
 <span class="c1">#        duplicaton ?)</span>
-<div class="viewcode-block" id="reval"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.reval">[docs]</a><span class="k">def</span> <span class="nf">reval</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">envir</span><span class="o">=</span><span class="n">_globalenv</span><span class="p">):</span>
+<div class="viewcode-block" id="reval"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.reval">[docs]</a><span class="k">def</span> <span class="nf">reval</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+          <span class="n">envir</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Evaluate a string as R code</span>
 <span class="sd">    :param string: R code</span>
 <span class="sd">    :type string: a :class:`str`</span>
-<span class="sd">    :param envir: an environment in which the environment should take</span>
-<span class="sd">      place (default: R&#39;s global environment)</span>
+<span class="sd">    :param envir: Optional environment to evaluate the R code.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">_reval</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">envir</span><span class="o">=</span><span class="n">envir</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="quiet_require"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.quiet_require">[docs]</a><span class="k">def</span> <span class="nf">quiet_require</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">lib_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="quiet_require"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.quiet_require">[docs]</a><span class="k">def</span> <span class="nf">quiet_require</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lib_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Load an R package /quietly/ (suppressing messages to the console). &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">lib_loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">lib_loc</span> <span class="o">=</span> <span class="s2">&quot;NULL&quot;</span>

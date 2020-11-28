@@ -46,6 +46,7 @@
             
   <h1>Source code for rpy2.rinterface</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">signal</span>
@@ -79,6 +80,50 @@
 <span class="n">R_NilValue</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span>
 
 <span class="n">endr</span> <span class="o">=</span> <span class="n">embedded</span><span class="o">.</span><span class="n">endr</span>
+
+<span class="n">_evaluation_context</span> <span class="o">=</span> <span class="n">globalenv</span>
+
+
+<span class="k">def</span> <span class="nf">get_evaluation_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SexpEnvironment</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Get the frame (environment) in which R code is currently evaluated.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_evaluation_context</span>
+
+
+<span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">local_context</span><span class="p">(</span>
+        <span class="n">env</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_rlock</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">SexpEnvironment</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Local context for the evaluation of R code.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    - env: an environment to use as a context. If not specified (None, the</span>
+<span class="sd">      default), a child environment to the current context is created.</span>
+<span class="sd">    - use_rlock: whether to use a threading lock (see the documentation about</span>
+<span class="sd">      &quot;rlock&quot;. The default is True.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    Yield the environment (passed to env, or created).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">global</span> <span class="n">_evaluation_context</span>
+
+    <span class="n">parent_frame</span> <span class="o">=</span> <span class="n">_evaluation_context</span>
+    <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;new.env&#39;</span><span class="p">](</span>
+            <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;parent.frame&#39;</span><span class="p">]()</span>
+            <span class="k">if</span> <span class="n">parent_frame</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="k">else</span> <span class="n">parent_frame</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">use_rlock</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+                <span class="n">_evaluation_context</span> <span class="o">=</span> <span class="n">env</span>
+                <span class="k">yield</span> <span class="n">env</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_evaluation_context</span> <span class="o">=</span> <span class="n">env</span>
+            <span class="k">yield</span> <span class="n">env</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">_evaluation_context</span> <span class="o">=</span> <span class="n">parent_frame</span>
 
 
 <span class="k">def</span> <span class="nf">_sigint_handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
@@ -213,7 +258,7 @@
 <span class="sd">        :param:`env` The environment in which to evaluate the</span>
 <span class="sd">          promise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">env</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">env</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">env</span> <span class="o">=</span> <span class="n">globalenv</span>
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
 
@@ -667,30 +712,36 @@
             <span class="n">call_r</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                 <span class="n">_rinterface</span><span class="o">.</span><span class="n">build_rcall</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span>
                                         <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
+            <span class="n">call_context</span> <span class="o">=</span> <span class="n">_evaluation_context</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                 <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_tryEval</span><span class="p">(</span>
                     <span class="n">call_r</span><span class="p">,</span>
-                    <span class="n">globalenv</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
-                    <span class="n">error_occured</span><span class="p">))</span>
+                    <span class="n">call_context</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                    <span class="n">error_occured</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="n">error_occured</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
                 <span class="k">raise</span> <span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">(</span><span class="n">_rinterface</span><span class="o">.</span><span class="n">_geterrmessage</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">res</span>
 
     <span class="nd">@_cdata_res_to_rinterface</span>
-    <span class="k">def</span> <span class="nf">rcall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyvals</span><span class="p">,</span> <span class="n">environment</span><span class="p">:</span> <span class="n">SexpEnvironment</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">rcall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keyvals</span><span class="p">,</span>
+              <span class="n">environment</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Call/evaluate an R function.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">        - keyvals: a sequence of key/value (name/parameter) pairs. A</span>
-<span class="sd">            name/parameter that is None will indicated an unnamed parameter.</span>
-<span class="sd">            Like in R, keys/names do not have to be unique, partial matching</span>
-<span class="sd">            can be used, and named/unnamed parameters can occur at any position</span>
-<span class="sd">            in the sequence.</span>
-<span class="sd">        - environment: a R environment in which to evaluate the function.</span>
+<span class="sd">          name/parameter that is None will indicated an unnamed parameter.</span>
+<span class="sd">          Like in R, keys/names do not have to be unique, partial matching</span>
+<span class="sd">          can be used, and named/unnamed parameters can occur at any position</span>
+<span class="sd">          in the sequence.</span>
+<span class="sd">        - environment: an optional R environment to evaluate the function.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: check keyvals are pairs ?</span>
+        <span class="k">if</span> <span class="n">environment</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">environment</span> <span class="o">=</span> <span class="n">_evaluation_context</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">environment</span><span class="p">,</span> <span class="n">SexpEnvironment</span><span class="p">)</span>
         <span class="n">error_occured</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;int *&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
             <span class="n">call_r</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                 <span class="n">_rinterface</span><span class="o">.</span><span class="n">build_rcall</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="p">[],</span>

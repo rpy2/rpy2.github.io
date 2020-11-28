@@ -46,7 +46,8 @@
           <div class="body" role="main">
             
   <h1>Source code for rpy2.robjects.environments</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">typing</span>
+<span></span><span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="kn">import</span> <span class="n">RObjectMixin</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">conversion</span>
@@ -163,6 +164,29 @@
         <span class="c1">#        number of keys) ?</span>
         <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">del</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">])</span></div></div>
+
+
+<span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+<span class="k">def</span> <span class="nf">local_context</span><span class="p">(</span>
+        <span class="n">env</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">use_rlock</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="n">Environment</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Local context for the evaluation of R code.</span>
+
+<span class="sd">    This is a wrapper around the rpy2.rinterface function with the</span>
+<span class="sd">    same name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">    - env: an environment to use as a context. If not specified (None, the</span>
+<span class="sd">      default), a child environment to the current context is created.</span>
+<span class="sd">    - use_rlock: whether to use a threading lock (see the documentation about</span>
+<span class="sd">      &quot;rlock&quot;. The default is True.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">    Yield the environment (passed to env, or created).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">local_context</span><span class="p">(</span><span class="n">env</span><span class="o">=</span><span class="n">env</span><span class="p">,</span> <span class="n">use_rlock</span><span class="o">=</span><span class="n">use_rlock</span><span class="p">)</span> <span class="k">as</span> <span class="n">lc</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">Environment</span><span class="p">(</span><span class="n">lc</span><span class="p">)</span>
 </pre></div>
 
             <div class="clearer"></div>

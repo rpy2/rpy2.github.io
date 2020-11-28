@@ -184,10 +184,11 @@
 
 <div class="viewcode-block" id="Function.rcall"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function.rcall">[docs]</a>    <span class="k">def</span> <span class="nf">rcall</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
               <span class="n">keyvals</span><span class="p">,</span>
-              <span class="n">environment</span><span class="p">:</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
+              <span class="n">environment</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot; Wrapper around the parent method</span>
 <span class="sd">        rpy2.rinterface.SexpClosure.rcall(). &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Function</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">keyvals</span><span class="p">,</span> <span class="n">environment</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Function</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">keyvals</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
@@ -468,7 +469,7 @@
                         <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="n">r_ellipsis</span><span class="p">])</span> <span class="o">+</span>
                         <span class="nb">list</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">[</span><span class="nb">min</span><span class="p">(</span><span class="n">r_ellipsis</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):])</span> <span class="o">+</span>
                         <span class="nb">list</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="n">r_func</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">new_args</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">globalenv</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">r_func</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">new_args</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">value</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">def</span> <span class="nf">wrapped_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
