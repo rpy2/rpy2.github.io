@@ -1,6 +1,7 @@
 import collections
 import jinja2
 import os
+import references
 import shutil
 
 
@@ -52,13 +53,16 @@ for d in ('css', 'images'):
 env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 
 # render main page
+print('Rendering index.html')
 template = env.get_template('index.html')
-render = template.render(menu=MENU)
+render = template.render(menu=MENU,
+                         references=references.REFERENCES)
 with open(os.path.join('docs', 'index.html'), 'w') as fh:
     fh.write(render)
 
 
 # render documentation pages
+print('Rendering doc.html')
 template = env.get_template('doc.html')
 output, active_label, project, lst_versions = DOC_PARAMS
 render = template.render(page_title=project.label,
@@ -70,6 +74,7 @@ render = template.render(page_title=project.label,
 with open(os.path.join('docs', output), 'w') as fh:
     fh.write(render)
 
+    print('Rendering doc_subproject.html')
 template = env.get_template('doc_subproject.html')
 for output, active_label, project, lst_versions in DOC_SUBPROJECT_PARAMS:
     render = template.render(page_title=project.label,
