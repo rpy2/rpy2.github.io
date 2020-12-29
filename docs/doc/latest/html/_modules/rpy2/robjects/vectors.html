@@ -15,7 +15,6 @@
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/language_data.js"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -902,6 +901,11 @@
     <span class="k">def</span> <span class="nf">sexp_from_date</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">seq</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">FloatVector</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">toordinal</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">]))</span>
 
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">isrinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Return whether an R object an instance of Date.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Date&#39;</span>
+
 
 <div class="viewcode-block" id="POSIXct"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct">[docs]</a><span class="k">class</span> <span class="nc">POSIXct</span><span class="p">(</span><span class="n">POSIXt</span><span class="p">,</span> <span class="n">FloatVector</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Representation of dates as seconds since Epoch.</span>
@@ -1595,7 +1599,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.3.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
     </div>
   </body>
 </html>
