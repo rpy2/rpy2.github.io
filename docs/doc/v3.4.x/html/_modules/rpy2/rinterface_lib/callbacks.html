@@ -1,0 +1,427 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rpy2.rinterface_lib.callbacks &#8212; rpy2 3.4.0 documentation</title>
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.callbacks</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for rpy2.rinterface_lib.callbacks</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Callbacks available from R&#39;s C-API.</span>
+
+<span class="sd">The callbacks make available in R&#39;s C-API can be specified as</span>
+<span class="sd">Python functions, with the module providing the adapter code</span>
+<span class="sd">that makes it possible.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">openrlib</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">ffi_proxy</span>
+<span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">conversion</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">_CCHAR_ENCODING</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+
+
+<span class="c1"># TODO: rename to &quot;replace_in_module&quot;</span>
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">obj_in_module</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">):</span>
+    <span class="n">obj_orig</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">obj_orig</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="consoleflush"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.consoleflush">[docs]</a><span class="k">def</span> <span class="nf">consoleflush</span><span class="p">():</span>
+    <span class="k">pass</span></div>
+
+
+<span class="n">_FLUSHCONSOLE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[flush console]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consoleflush_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_consoleflush</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">consoleflush</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_FLUSHCONSOLE_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="consoleread"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.consoleread">[docs]</a><span class="k">def</span> <span class="nf">consoleread</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Read input for the R console.</span>
+
+<span class="sd">    :param prompt: The message prompted.</span>
+<span class="sd">    :return: A string with the input returned by the user.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span></div>
+
+
+<span class="n">_READCONSOLE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[read into console]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+<span class="n">_READCONSOLE_INTERNAL_EXCEPTION_LOG</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Internal rpy2 error with &#39;</span>
+                                       <span class="s1">&#39;_consoleread callback: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consoleread_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_consoleread</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">addtohistory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="n">success</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+        <span class="n">reply</span> <span class="o">=</span> <span class="n">consoleread</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_READCONSOLE_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">success</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">success</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># TODO: Should the coding be dynamically extracted from</span>
+        <span class="c1"># elsewhere ?</span>
+        <span class="n">reply_b</span> <span class="o">=</span> <span class="n">reply</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+        <span class="n">reply_n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">reply_b</span><span class="p">))</span>
+        <span class="n">pybuf</span> <span class="o">=</span> <span class="nb">bytearray</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="n">pybuf</span><span class="p">[:</span><span class="n">reply_n</span><span class="p">]</span> <span class="o">=</span> <span class="n">reply_b</span><span class="p">[:</span><span class="n">reply_n</span><span class="p">]</span>
+        <span class="n">pybuf</span><span class="p">[</span><span class="n">reply_n</span><span class="p">]</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">pybuf</span><span class="p">[</span><span class="n">reply_n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">memmove</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span>
+                             <span class="n">pybuf</span><span class="p">,</span>
+                             <span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">reply_n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">success</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">success</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_READCONSOLE_INTERNAL_EXCEPTION_LOG</span><span class="p">,</span>
+                     <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">success</span>
+
+
+<span class="k">def</span> <span class="nf">consolereset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="n">_RESETCONSOLE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[reset console]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consolereset_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_consolereset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">consolereset</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_RESETCONSOLE_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="consolewrite_print"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.consolewrite_print">[docs]</a><span class="k">def</span> <span class="nf">consolewrite_print</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;R writing to the console/terminal.</span>
+
+<span class="sd">    :param s: the data to write to the console/terminal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: is the callback for flush working with Linux ?</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="consolewrite_warnerror"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.consolewrite_warnerror">[docs]</a><span class="k">def</span> <span class="nf">consolewrite_warnerror</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># TODO: use an rpy2/R-specific warning instead of UserWarning.</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="n">_WRITECONSOLE_EXCEPTION_LOG</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
+
+
+<span class="n">_WRITECONSOLE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[write to console]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_consolewrite_ex_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_consolewrite_ex</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">otype</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str_with_maxlen</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">otype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">consolewrite_print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">consolewrite_warnerror</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_WRITECONSOLE_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="showmessage"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.showmessage">[docs]</a><span class="k">def</span> <span class="nf">showmessage</span><span class="p">(</span><span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;R wants to show a message&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+
+<span class="n">_SHOWMESSAGE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[show message]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_showmessage_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_showmessage</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">showmessage</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_SHOWMESSAGE_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">choosefile</span><span class="p">(</span><span class="n">new</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="s1">&#39;Enter file name:&#39;</span><span class="p">)</span>
+
+
+<span class="n">_CHOOSEFILE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[choose file]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_choosefile_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_choosefile</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">choosefile</span><span class="p">(</span><span class="n">new</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_CHOOSEFILE_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="n">res_cdata</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">memmove</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">res_cdata</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">res_cdata</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">res_cdata</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="showfiles"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.showfiles">[docs]</a><span class="k">def</span> <span class="nf">showfiles</span><span class="p">(</span><span class="n">filenames</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+              <span class="n">headers</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
+              <span class="n">wtitle</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+              <span class="n">pager</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;R showing files.</span>
+
+<span class="sd">    :param filenames: A tuple of file names.</span>
+<span class="sd">    :param headers: A tuple of strings (TODO: check what it is)</span>
+<span class="sd">    :wtitle: Title of the &quot;window&quot; showing the files.</span>
+<span class="sd">    :pager: Pager to use to show the list of files.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;File: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">fn</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fn</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">fh</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---&#39;</span><span class="p">)</span></div>
+
+
+<span class="n">_SHOWFILE_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[show file]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+<span class="n">_SHOWFILE_INTERNAL_EXCEPTION_LOG</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Internal rpy2 error while &#39;</span>
+                                    <span class="s1">&#39;showing files for R: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_showfiles_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_showfiles</span><span class="p">(</span><span class="n">nfiles</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">files</span><span class="p">,</span> <span class="n">headers</span><span class="p">,</span> <span class="n">wtitle</span><span class="p">,</span> <span class="n">delete</span><span class="p">,</span> <span class="n">pager</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="n">filenames</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">headers_str</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">wtitle_str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pager_str</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">wtitle_str</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">wtitle</span><span class="p">,</span> <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+        <span class="n">pager_str</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">pager</span><span class="p">,</span> <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nfiles</span><span class="p">):</span>
+            <span class="n">filenames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                         <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">headers_str</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">headers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                         <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_SHOWFILE_INTERNAL_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">filenames</span><span class="p">):</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">showfiles</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">filenames</span><span class="p">),</span>
+                  <span class="nb">tuple</span><span class="p">(</span><span class="n">headers_str</span><span class="p">),</span>
+                  <span class="n">wtitle_str</span><span class="p">,</span>
+                  <span class="n">pager_str</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_SHOWFILE_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">def</span> <span class="nf">cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">):</span>
+    <span class="k">pass</span>
+
+
+<span class="n">_CLEANUP_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[cleanup]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_cleanup_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_CLEANUP_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="processevents"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.processevents">[docs]</a><span class="k">def</span> <span class="nf">processevents</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Process R events.</span>
+
+<span class="sd">    This function can be periodically called by R to handle</span>
+<span class="sd">    events such as window resizing in an interactive graphical</span>
+<span class="sd">    device.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<span class="n">_PROCESSEVENTS_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[processevents]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_processevents_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_processevents</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">processevents</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_PROCESSEVENTS_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="busy"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.busy">[docs]</a><span class="k">def</span> <span class="nf">busy</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;R is busy.</span>
+
+<span class="sd">    :param x: TODO this is an integer but I do not know what it does.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<span class="n">_BUSY_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[busy]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_busy_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_busy</span><span class="p">(</span><span class="n">which</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">busy</span><span class="p">(</span><span class="n">which</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_BUSY_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+
+<span class="n">_CALLBACK_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[callback]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_callback_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">callback</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_CALLBACK_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="yesnocancel"><a class="viewcode-back" href="../../../callbacks.html#rpy2.rinterface_lib.callbacks.yesnocancel">[docs]</a><span class="k">def</span> <span class="nf">yesnocancel</span><span class="p">(</span><span class="n">question</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Asking a user to answer yes, no, or cancel.</span>
+
+<span class="sd">    :param question: The question asked to the user</span>
+<span class="sd">    :return: An integer with the answer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="n">question</span><span class="p">))</span></div>
+
+
+<span class="n">_YESNOCANCEL_EXCEPTION_LOG</span> <span class="o">=</span> <span class="s1">&#39;R[yesnocancel]: </span><span class="si">%s</span><span class="s1">&#39;</span>
+
+
+<span class="nd">@ffi_proxy</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="n">ffi_proxy</span><span class="o">.</span><span class="n">_yesnocancel_def</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_yesnocancel</span><span class="p">(</span><span class="n">question</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">_CCHAR_ENCODING</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">yesnocancel</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_YESNOCANCEL_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.callbacks</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+    </div>
+  </body>
+</html>

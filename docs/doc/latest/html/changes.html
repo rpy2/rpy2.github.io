@@ -84,6 +84,11 @@ one should not use it.</p></li>
 now <cite>(‘matrix’, ‘array’)</cite>. With R&lt;4.0 <cite>(‘matrix’)</cite> is still reported.</p></li>
 <li><p>The conversion of R/rpy2 objects to python objects using R class name mapping
 is extended to more classes. The documentation about conversion covers the topic.</p></li>
+<li><p>If <cite>R_NilValue</cite> is not null when the initialization of the embedded R is attempted,
+it is now assumed that R was initialized through other means (e.g., an other C library in the
+same process) and the C-level initialization is be skipped.</p></li>
+<li><p>The conversion <cite>rpy2py</cite> is now working with any Python object inheriting
+from <cite>_rinterface_capi.SupportsSEXP</cite>.</p></li>
 </ul>
 </div>
 <div class="section" id="bugs-fixed">
@@ -107,12 +112,18 @@ R class was queried (issue #749).</p></li>
 R’s <cite>NA</cite> value as R NA objects. NAs in this type of arrays are now
 turned to <cite>None</cite> in the resulting <cite>numpy</cite> array (issue #751).</p></li>
 <li><p><cite>rpy2.situation.get_rlib_path()</cite> was returning an environment variable
-with an invalid separator on Windows (mentioned in issue 754).</p></li>
+with an invalid separator on Windows (mentioned in issue #754).</p></li>
+<li><p>R strings encoded with something else than ‘utf-8’ could result in
+errors when trying to convert to Python strings (issue #754).</p></li>
 <li><p>Extracting documentation pages for R objects in packages could
 generate spurious warnings when several “section” tags are present.</p></li>
 <li><p>R <cite>Date</cite> arrays/vectors were not wrapped into
 <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.DateVector</span></code> objects but left as
 R arrays of floats (which they are at the C level).</p></li>
+<li><p>The HTML representation of short R lists without names could
+fail with an error.</p></li>
+<li><p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">__repr__()</span></code> of <cite>robjects</cite>-level objects was not displaying
+the rpy2 class the R object is mapped to.</p></li>
 </ul>
 </div>
 </div>

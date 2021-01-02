@@ -174,8 +174,15 @@
     <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">isinitialized</span><span class="p">():</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;openrlib.R_HOME cannot be None.&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span> <span class="o">!=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s1">&#39;R was initialized outside of rpy2 (R_NilValue != NULL). &#39;</span>
+                <span class="s1">&#39;Trying to use it nevertheless.&#39;</span>
+            <span class="p">)</span>
+            <span class="n">_setinitialized</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">None</span>
         <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;R_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span>
         <span class="n">options_c</span> <span class="o">=</span> <span class="p">[</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char[]&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ASCII&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">_options</span><span class="p">]</span>
         <span class="n">n_options</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">options_c</span><span class="p">)</span>
@@ -203,7 +210,7 @@
         <span class="k">if</span> <span class="n">_c_stack_limit</span><span class="p">:</span>
             <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="n">_c_stack_limit</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">status</span>
+    <span class="k">return</span> <span class="n">status</span>
 
 
 <div class="viewcode-block" id="endr"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.endr">[docs]</a><span class="k">def</span> <span class="nf">endr</span><span class="p">(</span><span class="n">fatal</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>

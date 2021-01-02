@@ -160,20 +160,20 @@
 
 <span class="nd">@default_converter</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">ComplexSexpVector</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_convert_rpy2py_complexvector</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="bp">cls</span> <span class="o">=</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">ComplexVector</span><span class="p">,</span>
-                               <span class="n">vectors</span><span class="o">.</span><span class="n">ComplexMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">ComplexArray</span><span class="p">)</span>
+    <span class="n">clsmap</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rpy2py_nc_name</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">ComplexSexpVector</span><span class="p">]</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">clsmap</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 
 <span class="nd">@default_converter</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">BoolSexpVector</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">_convert_rpy2py_boolvector</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="bp">cls</span> <span class="o">=</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">BoolVector</span><span class="p">,</span>
-                               <span class="n">vectors</span><span class="o">.</span><span class="n">BoolMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">BoolArray</span><span class="p">)</span>
+    <span class="n">clsmap</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rpy2py_nc_name</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">BoolSexpVector</span><span class="p">]</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">clsmap</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 
 <span class="nd">@default_converter</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">StrSexpVector</span><span class="p">)</span>
-<span class="k">def</span> <span class="nf">_convert_rpy2py_strvector</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_convert_rpy2py_strvector</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>    
     <span class="bp">cls</span> <span class="o">=</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">StrVector</span><span class="p">,</span>
                                <span class="n">vectors</span><span class="o">.</span><span class="n">StrMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">StrArray</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -382,6 +382,22 @@
                                              <span class="n">vectors</span><span class="o">.</span><span class="n">FloatMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">FloatArray</span><span class="p">)(</span><span class="n">obj</span><span class="p">),</span>
             <span class="p">{</span><span class="s1">&#39;Date&#39;</span><span class="p">:</span> <span class="n">DateVector</span><span class="p">,</span>
              <span class="s1">&#39;POSIXct&#39;</span><span class="p">:</span> <span class="n">POSIXct</span><span class="p">}),</span>
+        <span class="n">rinterface</span><span class="o">.</span><span class="n">BoolSexpVector</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NameClassMap</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">BoolVector</span><span class="p">,</span>
+                                             <span class="n">vectors</span><span class="o">.</span><span class="n">BoolMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">BoolArray</span><span class="p">)(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">rinterface</span><span class="o">.</span><span class="n">ByteSexpVector</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NameClassMap</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">ByteVector</span><span class="p">,</span>
+                                             <span class="n">vectors</span><span class="o">.</span><span class="n">ByteMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">ByteArray</span><span class="p">)(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">rinterface</span><span class="o">.</span><span class="n">StrSexpVector</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NameClassMap</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">StrVector</span><span class="p">,</span>
+                                             <span class="n">vectors</span><span class="o">.</span><span class="n">StrMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">StrArray</span><span class="p">)(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">rinterface</span><span class="o">.</span><span class="n">ComplexSexpVector</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NameClassMap</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">_vector_matrix_array</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">ComplexVector</span><span class="p">,</span>
+                                             <span class="n">vectors</span><span class="o">.</span><span class="n">ComplexMatrix</span><span class="p">,</span> <span class="n">vectors</span><span class="o">.</span><span class="n">ComplexArray</span><span class="p">)(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="p">),</span>
         <span class="n">rinterface</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">:</span> <span class="n">conversion</span><span class="o">.</span><span class="n">NameClassMap</span><span class="p">(</span>
             <span class="n">ListVector</span><span class="p">,</span>
             <span class="p">{</span><span class="s1">&#39;data.frame&#39;</span><span class="p">:</span> <span class="n">DataFrame</span><span class="p">}),</span>

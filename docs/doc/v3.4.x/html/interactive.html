@@ -1,0 +1,957 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive work &#8212; rpy2 3.4.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Numpy" href="numpy.html" />
+    <link rel="prev" title="DataFrames and dplyr" href="lib_dplyr.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="numpy.html" title="Numpy"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="lib_dplyr.html" title="DataFrames and dplyr"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Interactive work</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="interactive-work">
+<h1>Interactive work<a class="headerlink" href="#interactive-work" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is an experimental package, and some of the ideas experimented
+here have already made it to <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>.</p>
+<p>For interactive work the “R magic” extension to <cite>ipython</cite> is
+the preferred way / most tested way for interactive work.</p>
+</div>
+<span class="target" id="module-rpy2.ipython"></span></div>
+<div class="section" id="module-rpy2.ipython.rmagic">
+<span id="ipython-magic-integration-was-rmagic"></span><h2>IPython magic integration (was rmagic)<a class="headerlink" href="#module-rpy2.ipython.rmagic" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rmagic">
+<h3>Rmagic<a class="headerlink" href="#rmagic" title="Permalink to this headline">¶</a></h3>
+<p>Magic command interface for interactive work with R in ipython. %R and %%R are
+the line and cell magics, respectively.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You will need a working copy of R.</p>
+</div>
+<div class="section" id="usage">
+<h4>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h4>
+<p>To enable the magics below, execute <cite>%load_ext rpy2.ipython</cite>.</p>
+<p><cite>%R</cite></p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<dl class="simple">
+<dt>%R [-i INPUT] [-o OUTPUT] [-n] [-w WIDTH] [-h HEIGHT] [-p POINTSIZE]</dt><dd><p>[-b BG] [–noisolation] [-u {px,in,cm,mm}] [-r RES]
+[–type {cairo,cairo-png,Xlib,quartz}] [-c CONVERTER] [-d DISPLAY]
+[code [code …]]</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>Execute code in R, optionally returning results to the Python runtime.</p>
+<p>In line mode, this will evaluate an expression and convert the returned
+value to a Python object.  The return value is determined by rpy2’s
+behaviour of returning the result of evaluating the final expression.</p>
+<p>Multiple R expressions can be executed by joining them with
+semicolons:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="n">X</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">);</span> <span class="n">sd</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">4.25</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>In cell mode, this will run a block of R code. The resulting value
+is printed if it would be printed when evaluating the same code
+within a standard R REPL.</p>
+<p>Nothing is returned to python by default in cell mode:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="o">%%</span><span class="n">R</span>
+   <span class="o">....</span><span class="p">:</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+   <span class="o">....</span><span class="p">:</span> <span class="n">summary</span><span class="p">(</span><span class="n">lm</span><span class="p">(</span><span class="n">Y</span><span class="o">~</span><span class="n">X</span><span class="p">))</span>
+
+<span class="n">Call</span><span class="p">:</span>
+<span class="n">lm</span><span class="p">(</span><span class="n">formula</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">~</span> <span class="n">X</span><span class="p">)</span>
+
+<span class="n">Residuals</span><span class="p">:</span>
+    <span class="mi">1</span>     <span class="mi">2</span>     <span class="mi">3</span>     <span class="mi">4</span>
+ <span class="mf">0.88</span> <span class="o">-</span><span class="mf">0.24</span> <span class="o">-</span><span class="mf">2.28</span>  <span class="mf">1.64</span>
+
+<span class="n">Coefficients</span><span class="p">:</span>
+            <span class="n">Estimate</span> <span class="n">Std</span><span class="o">.</span> <span class="n">Error</span> <span class="n">t</span> <span class="n">value</span> <span class="n">Pr</span><span class="p">(</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Intercept</span><span class="p">)</span>   <span class="mf">0.0800</span>     <span class="mf">2.3000</span>   <span class="mf">0.035</span>    <span class="mf">0.975</span>
+<span class="n">X</span>             <span class="mf">1.0400</span>     <span class="mf">0.4822</span>   <span class="mf">2.157</span>    <span class="mf">0.164</span>
+
+<span class="n">Residual</span> <span class="n">standard</span> <span class="n">error</span><span class="p">:</span> <span class="mf">2.088</span> <span class="n">on</span> <span class="mi">2</span> <span class="n">degrees</span> <span class="n">of</span> <span class="n">freedom</span>
+<span class="n">Multiple</span> <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span> <span class="mf">0.6993</span><span class="p">,</span><span class="n">Adjusted</span> <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span> <span class="mf">0.549</span>
+<span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">:</span> <span class="mf">4.651</span> <span class="n">on</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">2</span> <span class="n">DF</span><span class="p">,</span>  <span class="n">p</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="mf">0.1638</span>
+</pre></div>
+</div>
+<p>In the notebook, plots are published as the output of the cell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will create a scatter plot of X bs Y.</p>
+<p>If cell is not None and line has some R code, it is prepended to
+the R code in cell.</p>
+<p>Objects can be passed back and forth between rpy2 and python via the
+-i -o flags in line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">14</span><span class="p">]:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">15</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">Z</span> <span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">15</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">5.</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">16</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="o">-</span><span class="n">o</span> <span class="n">W</span> <span class="n">W</span><span class="o">=</span><span class="n">Z</span><span class="o">*</span><span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">16</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span>  <span class="mf">5.</span><span class="p">,</span>  <span class="mf">20.</span><span class="p">,</span>  <span class="mf">25.</span><span class="p">,</span>  <span class="mf">50.</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">17</span><span class="p">]:</span> <span class="n">W</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">17</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span>  <span class="mf">5.</span><span class="p">,</span>  <span class="mf">20.</span><span class="p">,</span>  <span class="mf">25.</span><span class="p">,</span>  <span class="mf">50.</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The return value is determined by these rules:</p>
+<ul class="simple">
+<li><p>If the cell is not None (i.e., has contents), the magic returns None.</p></li>
+<li><p>If the final line results in a NULL value when evaluated
+by rpy2, then None is returned.</p></li>
+<li><p>No attempt is made to convert the final value to a structured array.
+Use %Rget to push a structured array.</p></li>
+<li><p>If the -n flag is present, there is no return value.</p></li>
+<li><p>A trailing ‘;’ will also result in no return value as the last
+value in the line is an empty string.</p></li>
+</ul>
+<dl>
+<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></dt>
+<dd><p>Names of input variable from <cite>shell.user_ns</cite> to be
+assigned to R variables of the same names after using
+the Converter self.converter. Multiple names can be
+passed separated only by commas with no whitespace.</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Names of variables to be pushed from rpy2 to
+<cite>shell.user_ns</cite> after executing cell body (rpy2’s
+internal facilities will apply ri2ro as appropriate).
+Multiple names can be passed separated only by commas
+with no whitespace.</p>
+</dd>
+<dt><kbd><span class="option">-n</span>, <span class="option">--noreturn</span></kbd></dt>
+<dd><p>Force the magic to not return anything.</p>
+</dd>
+</dl>
+</dd>
+<dt>Plot:</dt><dd><p>Arguments to plotting device</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-w <var>WIDTH</var></span>, <span class="option">--width <var>WIDTH</var></span></kbd></dt>
+<dd><p>Width of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-h <var>HEIGHT</var></span>, <span class="option">--height <var>HEIGHT</var></span></kbd></dt>
+<dd><p>Height of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-p <var>POINTSIZE</var></span>, <span class="option">--pointsize <var>POINTSIZE</var></span></kbd></dt>
+<dd><p>Pointsize of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-b <var>BG</var></span>, <span class="option">--bg <var>BG</var></span></kbd></dt>
+<dd><p>Background of plotting device in R.</p>
+</dd>
+</dl>
+</dd>
+<dt>SVG:</dt><dd><p>SVG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--noisolation</span></kbd></dt>
+<dd><p>Disable SVG isolation in the Notebook. By default,
+SVGs are isolated to avoid namespace collisions
+between figures. Disabling SVG isolation allows to
+reference previous figures or share CSS rules across a
+set of SVGs.</p>
+</dd>
+</dl>
+</dd>
+<dt>PNG:</dt><dd><p>PNG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-u <var>&lt;{px,in,cm,mm}&gt;</var></span>, <span class="option">--units <var>&lt;{px,in,cm,mm}&gt;</var></span></kbd></dt>
+<dd><p>Units of png plotting device sent as an argument to
+<em>png</em> in R. One of [“px”, “in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">-r <var>RES</var></span>, <span class="option">--res <var>RES</var></span></kbd></dt>
+<dd><p>Resolution of png plotting device sent as an argument
+to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
+[“in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">--type <var>&lt;{cairo,cairo-png,Xlib,quartz}&gt;</var></span></kbd></dt>
+<dd><p>Type device used to generate the figure.</p>
+</dd>
+<dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
+<dd><p>Name of local converter to use. A converter contains
+the rules to convert objects back and forth between
+Python and R. If not specified/None, the defaut
+converter for the magic’s module is used (that is
+rpy2’s default converter + numpy converter + pandas
+converter if all three are available).</p>
+</dd>
+<dt><kbd><span class="option">-d <var>DISPLAY</var></span>, <span class="option">--display <var>DISPLAY</var></span></kbd></dt>
+<dd><p>Name of function to use to display the output of an R
+cell (the last object or function call that does not
+have a left-hand side assignment). That function will
+have the signature <cite>(robject, args)</cite> where <cite>robject</cite>
+is the R objects that is an output of the cell, and
+<cite>args</cite> a namespace with all parameters passed to the
+cell.</p>
+</dd>
+</dl>
+<p>code</p>
+</dd>
+</dl>
+<p><cite>%Rpush</cite></p>
+<blockquote>
+<div><p>A line-level magic for R that pushes
+variables from python to rpy2. The line should be made up
+of whitespace separated variable names in the IPython
+namespace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">6.3</span><span class="p">,</span><span class="mf">7.9</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="mf">6.2333333333333343</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="o">%</span><span class="n">Rpush</span> <span class="n">X</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">6.23333333</span><span class="p">])</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p><cite>%Rpull</cite></p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<p>%Rpull [outputs [outputs …]]</p>
+</div></blockquote>
+<p>A line-level magic for R that pulls
+variables from python to rpy2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">18</span><span class="p">]:</span> <span class="n">_</span> <span class="o">=</span> <span class="o">%</span><span class="n">R</span> <span class="n">x</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">6.7</span><span class="p">);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">);</span> <span class="n">z</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">19</span><span class="p">]:</span> <span class="o">%</span><span class="n">Rpull</span> <span class="n">x</span>  <span class="n">y</span> <span class="n">z</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">20</span><span class="p">]:</span> <span class="n">x</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">20</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">3.</span> <span class="p">,</span>  <span class="mf">4.</span> <span class="p">,</span>  <span class="mf">6.7</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">21</span><span class="p">]:</span> <span class="n">y</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">21</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">4.</span><span class="p">,</span>  <span class="mf">6.</span><span class="p">,</span>  <span class="mf">7.</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">22</span><span class="p">]:</span> <span class="n">z</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">22</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;|S1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is useful when a structured array is desired as output, or
+when the object in R has mixed data types.
+See the %%R docstring for more examples.</p>
+<div class="section" id="notes">
+<h5>Notes<a class="headerlink" href="#notes" title="Permalink to this headline">¶</a></h5>
+<p>Beware that R names can have dots (‘.’) so this is not fool proof.
+To avoid this, don’t name your R objects with dots…</p>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>outputs</p>
+</dd>
+</dl>
+<p><cite>%Rget</cite></p>
+<blockquote>
+<div><blockquote>
+<div></div></blockquote>
+<p>%Rget output</p>
+</div></blockquote>
+<p>Return an object from rpy2, possibly as a structured array (if
+possible).
+Similar to Rpull except only one argument is accepted and the value is
+returned rather than pushed to self.shell.user_ns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;i4&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;|S1&#39;</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">datapy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">),</span>
+<span class="o">...</span>                        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">)],</span>
+<span class="o">...</span>                        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">datapy</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">%</span><span class="n">Rget</span> <span class="n">datapy</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">],</span>
+       <span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">],</span>
+       <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;|S1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>output</p>
+</dd>
+</dl>
+<dl class="py exception">
+<dt id="rpy2.ipython.rmagic.RInterpreterError">
+<em class="property">exception </em><code class="sig-prename descclassname">rpy2.ipython.rmagic.</code><code class="sig-name descname">RInterpreterError</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span></em>, <em class="sig-param"><span class="n">err</span></em>, <em class="sig-param"><span class="n">stdout</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RInterpreterError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RInterpreterError" title="Permalink to this definition">¶</a></dt>
+<dd><p>An error when running R code in a %%R magic cell.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="rpy2.ipython.rmagic.RMagics">
+<em class="property">class </em><code class="sig-prename descclassname">rpy2.ipython.rmagic.</code><code class="sig-name descname">RMagics</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics" title="Permalink to this definition">¶</a></dt>
+<dd><p>A set of magics useful for interactive work with R via rpy2.</p>
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.R">
+<code class="sig-name descname">R</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span></em>, <em class="sig-param"><span class="n">cell</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">local_ns</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.R"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.R" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span> <span class="n">HEIGHT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">POINTSIZE</span><span class="p">]</span>
+       <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BG</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">noisolation</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="p">{</span><span class="n">px</span><span class="p">,</span><span class="ow">in</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">mm</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">RES</span><span class="p">]</span>
+       <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="p">{</span><span class="n">cairo</span><span class="p">,</span><span class="n">cairo</span><span class="o">-</span><span class="n">png</span><span class="p">,</span><span class="n">Xlib</span><span class="p">,</span><span class="n">quartz</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">DISPLAY</span><span class="p">]</span>
+       <span class="p">[</span><span class="n">code</span> <span class="p">[</span><span class="n">code</span> <span class="o">...</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>Execute code in R, optionally returning results to the Python runtime.</p>
+<p>In line mode, this will evaluate an expression and convert the returned
+value to a Python object.  The return value is determined by rpy2’s
+behaviour of returning the result of evaluating the final expression.</p>
+<p>Multiple R expressions can be executed by joining them with
+semicolons:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="n">X</span><span class="o">=</span><span class="n">c</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">7</span><span class="p">);</span> <span class="n">sd</span><span class="p">(</span><span class="n">X</span><span class="p">);</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">4.25</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>In cell mode, this will run a block of R code. The resulting value
+is printed if it would be printed when evaluating the same code
+within a standard R REPL.</p>
+<p>Nothing is returned to python by default in cell mode:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="o">%%</span><span class="n">R</span>
+   <span class="o">....</span><span class="p">:</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">)</span>
+   <span class="o">....</span><span class="p">:</span> <span class="n">summary</span><span class="p">(</span><span class="n">lm</span><span class="p">(</span><span class="n">Y</span><span class="o">~</span><span class="n">X</span><span class="p">))</span>
+
+<span class="n">Call</span><span class="p">:</span>
+<span class="n">lm</span><span class="p">(</span><span class="n">formula</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">~</span> <span class="n">X</span><span class="p">)</span>
+
+<span class="n">Residuals</span><span class="p">:</span>
+    <span class="mi">1</span>     <span class="mi">2</span>     <span class="mi">3</span>     <span class="mi">4</span>
+ <span class="mf">0.88</span> <span class="o">-</span><span class="mf">0.24</span> <span class="o">-</span><span class="mf">2.28</span>  <span class="mf">1.64</span>
+
+<span class="n">Coefficients</span><span class="p">:</span>
+            <span class="n">Estimate</span> <span class="n">Std</span><span class="o">.</span> <span class="n">Error</span> <span class="n">t</span> <span class="n">value</span> <span class="n">Pr</span><span class="p">(</span><span class="o">&gt;|</span><span class="n">t</span><span class="o">|</span><span class="p">)</span>
+<span class="p">(</span><span class="n">Intercept</span><span class="p">)</span>   <span class="mf">0.0800</span>     <span class="mf">2.3000</span>   <span class="mf">0.035</span>    <span class="mf">0.975</span>
+<span class="n">X</span>             <span class="mf">1.0400</span>     <span class="mf">0.4822</span>   <span class="mf">2.157</span>    <span class="mf">0.164</span>
+
+<span class="n">Residual</span> <span class="n">standard</span> <span class="n">error</span><span class="p">:</span> <span class="mf">2.088</span> <span class="n">on</span> <span class="mi">2</span> <span class="n">degrees</span> <span class="n">of</span> <span class="n">freedom</span>
+<span class="n">Multiple</span> <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span> <span class="mf">0.6993</span><span class="p">,</span><span class="n">Adjusted</span> <span class="n">R</span><span class="o">-</span><span class="n">squared</span><span class="p">:</span> <span class="mf">0.549</span>
+<span class="n">F</span><span class="o">-</span><span class="n">statistic</span><span class="p">:</span> <span class="mf">4.651</span> <span class="n">on</span> <span class="mi">1</span> <span class="ow">and</span> <span class="mi">2</span> <span class="n">DF</span><span class="p">,</span>  <span class="n">p</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="mf">0.1638</span>
+</pre></div>
+</div>
+<p>In the notebook, plots are published as the output of the cell:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="n">plot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will create a scatter plot of X bs Y.</p>
+<p>If cell is not None and line has some R code, it is prepended to
+the R code in cell.</p>
+<p>Objects can be passed back and forth between rpy2 and python via the
+-i -o flags in line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">14</span><span class="p">]:</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">15</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">Z</span> <span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">15</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">5.</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">16</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="o">-</span><span class="n">o</span> <span class="n">W</span> <span class="n">W</span><span class="o">=</span><span class="n">Z</span><span class="o">*</span><span class="n">mean</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">16</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span>  <span class="mf">5.</span><span class="p">,</span>  <span class="mf">20.</span><span class="p">,</span>  <span class="mf">25.</span><span class="p">,</span>  <span class="mf">50.</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">17</span><span class="p">]:</span> <span class="n">W</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">17</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span>  <span class="mf">5.</span><span class="p">,</span>  <span class="mf">20.</span><span class="p">,</span>  <span class="mf">25.</span><span class="p">,</span>  <span class="mf">50.</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>The return value is determined by these rules:</p>
+<ul class="simple">
+<li><p>If the cell is not None (i.e., has contents), the magic returns None.</p></li>
+<li><p>If the final line results in a NULL value when evaluated
+by rpy2, then None is returned.</p></li>
+<li><p>No attempt is made to convert the final value to a structured array.
+Use %Rget to push a structured array.</p></li>
+<li><p>If the -n flag is present, there is no return value.</p></li>
+<li><p>A trailing ‘;’ will also result in no return value as the last
+value in the line is an empty string.</p></li>
+</ul>
+<dl>
+<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt><kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></dt>
+<dd><p>Names of input variable from <cite>shell.user_ns</cite> to be
+assigned to R variables of the same names after using
+the Converter self.converter. Multiple names can be
+passed separated only by commas with no whitespace.</p>
+</dd>
+<dt><kbd><span class="option">-o <var>OUTPUT</var></span>, <span class="option">--output <var>OUTPUT</var></span></kbd></dt>
+<dd><p>Names of variables to be pushed from rpy2 to
+<cite>shell.user_ns</cite> after executing cell body (rpy2’s
+internal facilities will apply ri2ro as appropriate).
+Multiple names can be passed separated only by commas
+with no whitespace.</p>
+</dd>
+<dt><kbd><span class="option">-n</span>, <span class="option">--noreturn</span></kbd></dt>
+<dd><p>Force the magic to not return anything.</p>
+</dd>
+</dl>
+</dd>
+<dt>Plot:</dt><dd><p>Arguments to plotting device</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-w <var>WIDTH</var></span>, <span class="option">--width <var>WIDTH</var></span></kbd></dt>
+<dd><p>Width of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-h <var>HEIGHT</var></span>, <span class="option">--height <var>HEIGHT</var></span></kbd></dt>
+<dd><p>Height of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-p <var>POINTSIZE</var></span>, <span class="option">--pointsize <var>POINTSIZE</var></span></kbd></dt>
+<dd><p>Pointsize of plotting device in R.</p>
+</dd>
+<dt><kbd><span class="option">-b <var>BG</var></span>, <span class="option">--bg <var>BG</var></span></kbd></dt>
+<dd><p>Background of plotting device in R.</p>
+</dd>
+</dl>
+</dd>
+<dt>SVG:</dt><dd><p>SVG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">--noisolation</span></kbd></dt>
+<dd><p>Disable SVG isolation in the Notebook. By default,
+SVGs are isolated to avoid namespace collisions
+between figures. Disabling SVG isolation allows to
+reference previous figures or share CSS rules across a
+set of SVGs.</p>
+</dd>
+</dl>
+</dd>
+<dt>PNG:</dt><dd><p>PNG specific arguments</p>
+<dl class="option-list">
+<dt><kbd><span class="option">-u <var>&lt;{px,in,cm,mm}&gt;</var></span>, <span class="option">--units <var>&lt;{px,in,cm,mm}&gt;</var></span></kbd></dt>
+<dd><p>Units of png plotting device sent as an argument to
+<em>png</em> in R. One of [“px”, “in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">-r <var>RES</var></span>, <span class="option">--res <var>RES</var></span></kbd></dt>
+<dd><p>Resolution of png plotting device sent as an argument
+to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
+[“in”, “cm”, “mm”].</p>
+</dd>
+<dt><kbd><span class="option">--type <var>&lt;{cairo,cairo-png,Xlib,quartz}&gt;</var></span></kbd></dt>
+<dd><p>Type device used to generate the figure.</p>
+</dd>
+<dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
+<dd><p>Name of local converter to use. A converter contains
+the rules to convert objects back and forth between
+Python and R. If not specified/None, the defaut
+converter for the magic’s module is used (that is
+rpy2’s default converter + numpy converter + pandas
+converter if all three are available).</p>
+</dd>
+<dt><kbd><span class="option">-d <var>DISPLAY</var></span>, <span class="option">--display <var>DISPLAY</var></span></kbd></dt>
+<dd><p>Name of function to use to display the output of an R
+cell (the last object or function call that does not
+have a left-hand side assignment). That function will
+have the signature <cite>(robject, args)</cite> where <cite>robject</cite>
+is the R objects that is an output of the cell, and
+<cite>args</cite> a namespace with all parameters passed to the
+cell.</p>
+</dd>
+</dl>
+<p>code</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.Rdevice">
+<code class="sig-name descname">Rdevice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rdevice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rdevice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the plotting device R uses to one of [‘png’, ‘X11’, ‘svg’].</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.Rget">
+<code class="sig-name descname">Rget</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rget"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rget" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rget</span> <span class="n">output</span>
+</pre></div>
+</div>
+<p>Return an object from rpy2, possibly as a structured array (if
+possible).
+Similar to Rpull except only one argument is accepted and the value is
+returned rather than pushed to self.shell.user_ns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">3</span><span class="p">]:</span> <span class="n">dtype</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;i4&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;&lt;f8&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="s1">&#39;|S1&#39;</span><span class="p">)]</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">4</span><span class="p">]:</span> <span class="n">datapy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">),</span>
+<span class="o">...</span>                        <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">)],</span>
+<span class="o">...</span>                        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">5</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="o">-</span><span class="n">i</span> <span class="n">datapy</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">6</span><span class="p">]:</span> <span class="o">%</span><span class="n">Rget</span> <span class="n">datapy</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">6</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">],</span>
+       <span class="p">[</span><span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;5&#39;</span><span class="p">],</span>
+       <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">]],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;|S1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>output</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.Rpull">
+<code class="sig-name descname">Rpull</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpull" title="Permalink to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rpull</span> <span class="p">[</span><span class="n">outputs</span> <span class="p">[</span><span class="n">outputs</span> <span class="o">...</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>A line-level magic for R that pulls
+variables from python to rpy2:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">18</span><span class="p">]:</span> <span class="n">_</span> <span class="o">=</span> <span class="o">%</span><span class="n">R</span> <span class="n">x</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mf">6.7</span><span class="p">);</span> <span class="n">y</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">);</span> <span class="n">z</span> <span class="o">=</span> <span class="n">c</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">19</span><span class="p">]:</span> <span class="o">%</span><span class="n">Rpull</span> <span class="n">x</span>  <span class="n">y</span> <span class="n">z</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">20</span><span class="p">]:</span> <span class="n">x</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">20</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">3.</span> <span class="p">,</span>  <span class="mf">4.</span> <span class="p">,</span>  <span class="mf">6.7</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">21</span><span class="p">]:</span> <span class="n">y</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">21</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">4.</span><span class="p">,</span>  <span class="mf">6.</span><span class="p">,</span>  <span class="mf">7.</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">22</span><span class="p">]:</span> <span class="n">z</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">22</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;4&#39;</span><span class="p">],</span>
+      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;|S1&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is useful when a structured array is desired as output, or
+when the object in R has mixed data types.
+See the %%R docstring for more examples.</p>
+<p>Beware that R names can have dots (‘.’) so this is not fool proof.
+To avoid this, don’t name your R objects with dots…</p>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><p>outputs</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.Rpush">
+<code class="sig-name descname">Rpush</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line</span></em>, <em class="sig-param"><span class="n">local_ns</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpush" title="Permalink to this definition">¶</a></dt>
+<dd><p>A line-level magic for R that pushes
+variables from python to rpy2. The line should be made up
+of whitespace separated variable names in the IPython
+namespace:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">6.3</span><span class="p">,</span><span class="mf">7.9</span><span class="p">])</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">9</span><span class="p">]:</span> <span class="mf">6.2333333333333343</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">10</span><span class="p">]:</span> <span class="o">%</span><span class="n">Rpush</span> <span class="n">X</span>
+
+<span class="n">In</span> <span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="o">%</span><span class="n">R</span> <span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">11</span><span class="p">]:</span> <span class="n">array</span><span class="p">([</span> <span class="mf">6.23333333</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.eval">
+<code class="sig-name descname">eval</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">code</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse and evaluate a line of R code with rpy2.
+Returns the output to R’s stdout() connection,
+the value generated by evaluating the code, and a
+boolean indicating whether the return value would be
+visible if the line of code were evaluated in an R REPL.</p>
+<p>R Code evaluation and visibility determination are done via an R call
+of the form withVisible(code_string), and this entire expression needs
+to be evaluated in R (we can’t use rpy2 function proxies here, as
+withVisible is a LISPy R function).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.flush">
+<code class="sig-name descname">flush</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.flush"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.flush" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flush R’s stdout cache to a string, returning the string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.publish_graphics">
+<code class="sig-name descname">publish_graphics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph_dir</span></em>, <em class="sig-param"><span class="n">isolate_svgs</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.publish_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.publish_graphics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap graphic file data for presentation in IPython</p>
+<dl class="simple">
+<dt>graph_dir<span class="classifier">str</span></dt><dd><p>Probably provided by some tmpdir call</p>
+</dd>
+<dt>isolate_svgs<span class="classifier">bool</span></dt><dd><p>Enable SVG namespace isolation in metadata</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.set_R_plotting_device">
+<code class="sig-name descname">set_R_plotting_device</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">device</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.set_R_plotting_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.set_R_plotting_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set which device R should use to produce plots.
+If device == ‘svg’ then the package ‘Cairo’
+must be installed. Because Cairo forces “onefile=TRUE”,
+it is not posible to include multiple plots per cell.</p>
+<dl class="simple">
+<dt>device<span class="classifier">[‘png’, ‘X11’, ‘svg’]</span></dt><dd><p>Device to be used for plotting.
+Currently only “png” and “X11” are supported,
+with ‘png’ and ‘svg’ being most useful in the notebook,
+and ‘X11’ allowing interactive plots in the terminal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.setup_graphics">
+<code class="sig-name descname">setup_graphics</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.setup_graphics"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.setup_graphics" title="Permalink to this definition">¶</a></dt>
+<dd><p>Setup graphics in preparation for evaluating R code.</p>
+<p>args : argparse bunch (should be whatever the R magic got).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="rpy2.ipython.rmagic.RMagics.write_console_regular">
+<code class="sig-name descname">write_console_regular</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">output</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.write_console_regular"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.write_console_regular" title="Permalink to this definition">¶</a></dt>
+<dd><p>A hook to capture R’s stdout in a cache.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="rpy2.ipython.rmagic.load_ipython_extension">
+<code class="sig-prename descclassname">rpy2.ipython.rmagic.</code><code class="sig-name descname">load_ipython_extension</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ip</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#load_ipython_extension"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.ipython.rmagic.load_ipython_extension" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load the extension in IPython.</p>
+</dd></dl>
+
+</div>
+</div>
+</div>
+<span class="target" id="module-rpy2.interactive.process_revents"></span></div>
+<div class="section" id="r-event-loop">
+<span id="interactive-reventloop"></span><h2>R event loop<a class="headerlink" href="#r-event-loop" title="Permalink to this headline">¶</a></h2>
+<p>In order to perform operations like refreshing interactive graphical
+devices, R need to process the events triggering the refresh.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.interactive</span> <span class="kn">import</span> <span class="n">process_revents</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="kn">import</span> <span class="n">IntVector</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;graphics&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">)),</span> <span class="n">ylab</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now the R graphical device is updated when resized.
+Should one wish to stop processing the events:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The processing can be resumed, stopped again, and this repeated <em>ad libitum</em>.</p>
+<p>The frequency with which the processing of R events is performed can be roughly
+controlled. The thread is put to sleep for an arbitray duration between
+each processing of R events.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">EventProcessor</span><span class="o">.</span><span class="n">interval</span>
+<span class="go">0.2</span>
+</pre></div>
+</div>
+<p>This value can be changed and set to an other value if more or less frequent
+processing is wished. This can be done while the threaded processing is
+active and will be taken into account at the next sleep cycle.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">EventProcessor</span><span class="o">.</span><span class="n">interval</span> <span class="o">=</span> <span class="mf">1.0</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt id="rpy2.interactive.process_revents.process_revents">
+<code class="sig-prename descclassname">rpy2.interactive.process_revents.</code><code class="sig-name descname">process_revents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#process_revents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#rpy2.interactive.process_revents.process_revents" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process R events.</p>
+<p>Calling this function a regular interval can help ensure that
+R is processing input events (e.g., resizing of a window with
+graphics).</p>
+</dd></dl>
+
+<span class="target" id="module-rpy2.interactive"></span></div>
+<div class="section" id="utilities-for-interactive-work">
+<h2>Utilities for interactive work<a class="headerlink" href="#utilities-for-interactive-work" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module contains a number of experimental features, some of
+them no longer necessary since the “R magic” extension for ipython.
+They are becoming deprecated, and will removed from the code base
+in future versions.</p>
+</div>
+<p>R is very often used as an interactive toplevel, or read-eval-print loop (REPL).
+This is convenient when analyzing data: type some code, get the result,
+type some new code and further analysis based on the results.</p>
+<p>Python can also be used in a similar fashion, but limitations of the
+default Python console have lead to the creation of alternative consoles
+and interactive development editors
+(idle, ipython, bpython, emacs mode, komodo, …).
+Features such as code highlighting, autocompletion, and convenient display of
+help strings or function signatures have made those valuable tools.</p>
+<p>The package <a class="reference internal" href="#module-rpy2.interactive" title="rpy2.interactive"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.interactive</span></code></a> aims at interactive users, but can be used
+in non-interactive code as well. It is trading flexibility
+or performances for ease-of-use.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
+<span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;datasets&#39; (built-in)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">interactive</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">data</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rpackages</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># list of datasets</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span><span class="p">(</span><span class="n">rpackages</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">names</span><span class="p">()</span>
+<span class="go"># list here</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">rpackages</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;trees&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">env</span><span class="p">[</span><span class="s1">&#39;trees&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+<span class="go">(&#39;Girth&#39;, &#39;Height&#39;, &#39;Volume&#39;)</span>
+</pre></div>
+</div>
+<div class="section" id="r-vectors">
+<h3>R vectors<a class="headerlink" href="#r-vectors" title="Permalink to this headline">¶</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="go">&lt;IntVector - Python:0x935774c / R:0xa22b440&gt;</span>
+<span class="go">[       0,        1,        2, ...,        7,        8,        9]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+<span class="go">&lt;IntVector - Python:0xa1c2dcc / R:0x9ac5540&gt;</span>
+<span class="go">[       0,        1,        2, ...,       97,       98,       99]</span>
+</pre></div>
+</div>
+<p>In R, there are no scalars.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">pi</span>
+<span class="go">&lt;FloatVector - Python:0xa1d7a0c / R:0x9de02a8&gt;</span>
+<span class="go">[3.141593]</span>
+</pre></div>
+</div>
+<p>To know more, please check Section <a class="reference internal" href="introduction.html#introduction-vectors"><span class="std std-ref">R vectors</span></a>.</p>
+</div>
+<div class="section" id="r-packages">
+<h3>R packages<a class="headerlink" href="#r-packages" title="Permalink to this headline">¶</a></h3>
+<p>R has a rich selection of packages, known in other computer
+languages and systems as libraries.</p>
+<p>R Packages can be:</p>
+<ul class="simple">
+<li><p>available in R repositories (public or private)</p></li>
+<li><p>installed</p></li>
+<li><p>attached (loaded)</p></li>
+</ul>
+<div class="section" id="loading-installed-packages">
+<h4>Loading installed packages<a class="headerlink" href="#loading-installed-packages" title="Permalink to this headline">¶</a></h4>
+<p>When starting R, the <em>base</em> package as well as by default the packages
+<em>grDevices</em>, <em>graphics</em>, <em>methods</em>, <em>stats</em>, and <em>utils</em> are loaded.</p>
+<p>We start with the loading of R packages since this is a very common
+operation in R, and since R is typically distributed
+with <em>recommended</em> packages one can immediately start playing with.</p>
+<p>Loading installed R packages can be done through the function <code class="xref py py-func docutils literal notranslate"><span class="pre">importr()</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">)</span>
+<span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;cluster&#39; (built-in)&gt;</span>
+</pre></div>
+</div>
+<p>The function returns a package object, and also adds a reference to it
+in <code class="xref py py-attr docutils literal notranslate"><span class="pre">r.packages.packages</span></code></p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span><span class="o">.</span><span class="n">cluster</span>
+<span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;cluster&#39; (built-in)&gt;</span>
+</pre></div>
+</div>
+<p>All objects in the R package <em>cluster</em> can subsequently be accessed
+through that namespace object. For example, for the function barplot:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span><span class="o">.</span><span class="n">cluster</span><span class="o">.</span><span class="n">silhouette</span>
+<span class="go">&lt;SignatureTranslatedFunction - Python:0x24f9418 / R:0x2f5b008&gt;</span>
+</pre></div>
+</div>
+<p>Similarly, other packages such as <em>nlme</em>, and <em>datasets</em>
+can be loaded.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;nlme&quot;</span><span class="p">)</span>
+<span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;stats&#39; (built-in)&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;datasets&quot;</span><span class="p">)</span>
+<span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;datasets&#39; (built-in)&gt;</span>
+</pre></div>
+</div>
+<p>We can then demonstrate how to access objects in R packages through
+a graphical example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">coplot</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;Time ~ conc | Wt&#39;</span><span class="p">),</span>
+                           <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">datasets</span><span class="o">.</span><span class="n">Theoph</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="available-packages">
+<h4>Available packages<a class="headerlink" href="#available-packages" title="Permalink to this headline">¶</a></h4>
+<p>R has a function to list the available packages.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">available_packages</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The object returned is a <a class="reference internal" href="vector.html#rpy2.robjects.vectors.Matrix" title="rpy2.robjects.vectors.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Matrix</span></code></a>, with one
+package per row (there are many packages in the default CRAN repository).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="go">(2692, 13)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">colnames</span><span class="p">)</span>
+<span class="go">(&#39;Package&#39;, &#39;Version&#39;, &#39;Priority&#39;, &#39;Depends&#39;, &#39;Imports&#39;, &#39;LinkingTo&#39;, &#39;Suggests&#39;, &#39;Enhances&#39;, &#39;OS_type&#39;, &#39;License&#39;, &#39;Archs&#39;, &#39;File&#39;, &#39;Repository&#39;)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Specific repositories can be specified.</p>
+<p>For example with bioconductor.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.rinteractive</span> <span class="k">as</span> <span class="nn">r</span>
+
+<span class="n">bioc_rooturl</span> <span class="o">=</span> <span class="s2">&quot;http://www.bioconductor.org/packages&quot;</span>
+<span class="n">bioc_version</span> <span class="o">=</span> <span class="s2">&quot;2.7&quot;</span>
+<span class="n">bioc_sections</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bioc&quot;</span><span class="p">,</span> <span class="s2">&quot;data/annotation&quot;</span><span class="p">,</span> <span class="s2">&quot;data/experiment&quot;</span><span class="p">,</span> <span class="s2">&quot;extra&quot;</span><span class="p">)</span>
+
+<span class="n">repos</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">vectors</span><span class="o">.</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">bioc_rooturl</span><span class="p">,</span> <span class="n">bioc_version</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">bioc_sections</span><span class="p">])</span>
+
+<span class="n">m_bioc</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">available_packages</span><span class="p">(</span><span class="n">contriburl</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">contrib_url</span><span class="p">(</span><span class="n">repos</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="installing-packages">
+<h4>Installing packages<a class="headerlink" href="#installing-packages" title="Permalink to this headline">¶</a></h4>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To install a package for repositories, we have to load the package <cite>utils</cite>.
+See Section load-packages for details about loading packages</p>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">package_name</span> <span class="o">=</span> <span class="s2">&quot;lme4&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">install_packages</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once a package is installed it is available for future use without having
+the need to install it again (unless a different version of R is used).</p>
+</div>
+</div>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Interactive work</a><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#module-rpy2.ipython.rmagic">IPython magic integration (was rmagic)</a><ul>
+<li><a class="reference internal" href="#rmagic">Rmagic</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a><ul>
+<li><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#r-event-loop">R event loop</a></li>
+<li><a class="reference internal" href="#utilities-for-interactive-work">Utilities for interactive work</a><ul>
+<li><a class="reference internal" href="#r-vectors">R vectors</a></li>
+<li><a class="reference internal" href="#r-packages">R packages</a><ul>
+<li><a class="reference internal" href="#loading-installed-packages">Loading installed packages</a></li>
+<li><a class="reference internal" href="#available-packages">Available packages</a></li>
+<li><a class="reference internal" href="#installing-packages">Installing packages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="lib_dplyr.html"
+                        title="previous chapter">DataFrames and dplyr</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="numpy.html"
+                        title="next chapter">Numpy</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/interactive.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="numpy.html" title="Numpy"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="lib_dplyr.html" title="DataFrames and dplyr"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Interactive work</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+    </div>
+  </body>
+</html>

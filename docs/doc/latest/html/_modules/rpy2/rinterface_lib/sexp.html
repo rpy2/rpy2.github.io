@@ -286,15 +286,14 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span><span class="o">.</span><span class="n">rid</span>
 
 
-<span class="c1"># TODO: Duplicate declaration in R_API.h ?</span>
 <span class="k">class</span> <span class="nc">CETYPE</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Character encodings for R string.&quot;&quot;&quot;</span>
-    <span class="n">CE_NATIVE</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">CE_UTF8</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">CE_LATIN1</span> <span class="o">=</span> <span class="mi">2</span>
-    <span class="n">CE_BYTES</span> <span class="o">=</span> <span class="mi">3</span>
-    <span class="n">CE_SYMBOL</span> <span class="o">=</span> <span class="mi">5</span>
-    <span class="n">CE_ANY</span> <span class="o">=</span> <span class="mi">99</span>
+    <span class="n">CE_NATIVE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_NATIVE</span>
+    <span class="n">CE_UTF8</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_UTF8</span>
+    <span class="n">CE_LATIN1</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_LATIN1</span>
+    <span class="n">CE_BYTES</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_BYTES</span>
+    <span class="n">CE_SYMBOL</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_SYMBOL</span>
+    <span class="n">CE_ANY</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_ANY</span>
 
 
 <span class="k">class</span> <span class="nc">NCHAR_TYPE</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
@@ -360,7 +359,7 @@
         <span class="k">elif</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The key must be a non-empty string.&#39;</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
-            <span class="n">key_cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">key_cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="n">symbol</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                 <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_install</span><span class="p">(</span><span class="n">key_cchar</span><span class="p">)</span>
             <span class="p">)</span>
@@ -886,7 +885,9 @@
                     <span class="k">if</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_isSymbol</span><span class="p">(</span><span class="n">symb</span><span class="p">):</span>
                         <span class="n">symb_rstr</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">PRINTNAME</span><span class="p">(</span><span class="n">symb</span><span class="p">)</span>
                         <span class="n">symb_str</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span>
-                            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_CHAR</span><span class="p">(</span><span class="n">symb_rstr</span><span class="p">)</span>
+                            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_CHAR</span><span class="p">(</span><span class="n">symb_rstr</span><span class="p">),</span>
+                            <span class="n">conversion</span><span class="o">.</span><span class="n">_R_ENC_PY</span><span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
+                                                 <span class="o">.</span><span class="n">Rf_getCharCE</span><span class="p">(</span><span class="n">symb_rstr</span><span class="p">)]</span>
                         <span class="p">)</span>
                         <span class="k">if</span> <span class="n">symb_str</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;if&#39;</span><span class="p">,</span> <span class="s1">&#39;while&#39;</span><span class="p">,</span> <span class="s1">&#39;for&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span>
                                         <span class="s1">&#39;&lt;-&#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;{&#39;</span><span class="p">):</span>

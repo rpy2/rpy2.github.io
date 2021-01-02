@@ -1,0 +1,342 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Memory management and garbage collection &#8212; rpy2 3.4.0 documentation</title>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="rlike" href="rlike.html" />
+    <link rel="prev" title="Low-level interface" href="rinterface.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rlike.html" title="rlike"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rinterface.html" title="Low-level interface"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="memory-management-and-garbage-collection">
+<span id="rinterface-memory"></span><h1>Memory management and garbage collection<a class="headerlink" href="#memory-management-and-garbage-collection" title="Permalink to this headline">¶</a></h1>
+<p>The tracking of an R object (<code class="xref c c-type docutils literal notranslate"><span class="pre">SEXP</span></code> in R’s C-API)
+differs from Python as it does not involve reference counting.
+It is using at attribute NAMED (more on this below),
+and only considers for collection objects that are not preserved by
+being contained in an other R object (for floating object, R’s C-API
+has 2 functions <code class="xref c c-func docutils literal notranslate"><span class="pre">R_PreserveObject()</span></code> and <code class="xref c c-func docutils literal notranslate"><span class="pre">R_ReleaseObject()</span></code> that do little more than placing object is in a container called <code class="xref c c-data docutils literal notranslate"><span class="pre">R_PreciousList</span></code>).</p>
+<div class="section" id="reference-counting">
+<h2>Reference counting<a class="headerlink" href="#reference-counting" title="Permalink to this headline">¶</a></h2>
+<p>Rpy2 is using its own reference counting system in order to bridge R with
+Python and keep as much as possible the pass-by-reference approach familiar
+to Python users.</p>
+<p>The number of times an R object is used in rpy2, therefore is protected
+from garbage collection, is available from Python (obviously read-only):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">ri</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ri</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">IntSexpVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">__sexp_refcount__</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<p>That counter will increment each time a new Python reference to it is created.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">letters</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letters</span><span class="o">.</span><span class="n">__sexp_refcount__</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letters_again</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># check that the R ID is the same</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letters_again</span><span class="o">.</span><span class="n">rid</span> <span class="o">==</span> <span class="n">letters</span><span class="o">.</span><span class="n">rid</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># reference count has increased</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letters_again</span><span class="o">.</span><span class="n">__sexp_refcount__</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letters</span><span class="o">.</span><span class="n">__sexp_refcount__</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The attribute <cite>rid</cite> is simply the memory address at which the R-defined
+C-structure containing the R objects is located.</p>
+</div>
+<p>A list of all R IDs protected from garbage collection by rpy2
+along with their reference count can be obtained by calling
+<code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.rinterface.protected_rids()</span></code>.</p>
+<p>We can check that our python object <cite>x</cite> is in indeed listed as protected
+from garbage collection (yet it is not bound to any symbol in R - as far as
+R is concerned it is like an anonymous variable):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">rid</span> <span class="ow">in</span> <span class="p">(</span><span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">ri</span><span class="o">.</span><span class="n">protected_rids</span><span class="p">())</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>The number of Python/rpy2 objects protecting the R objects from
+garbage collection can is also available.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">ri</span><span class="o">.</span><span class="n">protected_rids</span><span class="p">()</span> <span class="k">if</span> <span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">x</span><span class="o">.</span><span class="n">rid</span><span class="p">]</span>
+<span class="go">[1]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The exact count will depend on what has happened with the current Python
+process, that is whether the R object is already tracked by rpy2 or not.</p>
+<p>Binding the rpy2 object to a new Python symbol will not increase the count
+(because Python knows that the two objects are the same, and R has not been
+involved in that):</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">ri</span><span class="o">.</span><span class="n">protected_rids</span><span class="p">()</span> <span class="k">if</span> <span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">x</span><span class="o">.</span><span class="n">rid</span><span class="p">]</span>
+<span class="go">[1]</span>
+</pre></div>
+</div>
+<p>On the other hand, explictly wrapping again the R object through an rpy2
+constructor will increase the count by one:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">IntSexpVector</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">ri</span><span class="o">.</span><span class="n">protected_rids</span><span class="p">()</span> <span class="k">if</span> <span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">x</span><span class="o">.</span><span class="n">rid</span><span class="p">]</span>
+<span class="go">[2]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x</span><span class="o">.</span><span class="n">rid</span> <span class="o">==</span> <span class="n">z</span><span class="o">.</span><span class="n">rid</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+<p>In the last case, Python does not know that the 2 objects point to the
+same underlying R object and this mechanism is intended to prevent a
+premature garbage collection of the R object.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span><span class="p">(</span><span class="n">x</span><span class="p">);</span> <span class="k">del</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="c1"># remember that we did `y = x`</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">elt</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">ri</span><span class="o">.</span><span class="n">protected_rids</span><span class="p">()</span> <span class="k">if</span> <span class="n">elt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">z</span><span class="o">.</span><span class="n">rid</span><span class="p">]</span>
+<span class="go">[1]</span>
+</pre></div>
+</div>
+</div>
+<p>To achieve this, and keep close to the pass-by-reference approach in Python,
+the <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> for a given R object is not part of a Python object
+representing it. The Python object only holds a reference to it,
+and each time a Python object pointing to a given R object
+(identified by its <code class="xref c c-type docutils literal notranslate"><span class="pre">SEXP</span></code>) is created the rpy counter for it is
+incremented.</p>
+<p>The rpy2 object (proxy for an R object) is implemented as a regular Python
+object to which a <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> pointer is appended.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">PyObject_HEAD</span>
+    <span class="n">SexpObject</span> <span class="o">*</span><span class="n">sObj</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">PySexpObject</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The tracking of the capsule itself is what protects the
+object from garbage collection on either the R or the Python side.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">letters_cstruct</span> <span class="o">=</span> <span class="n">letters</span><span class="o">.</span><span class="n">__sexp__</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span><span class="p">(</span><span class="n">letters</span><span class="p">,</span> <span class="n">letters_again</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The underlying R object is available for collection after the capsule
+is deleted (that particular object won’t be deleted because R itself tracks it
+as part of the base package).</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span><span class="p">(</span><span class="n">letters_cstruct</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="capsules-of-r-objects">
+<h2>Capsules of R objects<a class="headerlink" href="#capsules-of-r-objects" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> can be passed around as a (relatively) opaque
+C structure, using the attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">__sexp__</span></code> (a Python <cite>capsule</cite>).</p>
+<p>Behind the scene, the capsule is a singleton: given an R object,
+it is created with the first Python (rpy2) object wrapping it and
+a counter is increased and decreased as other Python objects
+expose it as well.</p>
+<p>At the C level, the <cite>struct</cite> <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> is defined as:</p>
+<ul class="simple">
+<li><p>a reference count on the Python side</p></li>
+<li><p>a possible future reference count on the R side
+(currently unused)</p></li>
+<li><p>a pointer to the R <code class="xref c c-type docutils literal notranslate"><span class="pre">SEXPREC</span></code></p></li>
+</ul>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+    <span class="n">Py_ssize_t</span> <span class="n">pycount</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">rcount</span><span class="p">;</span>
+    <span class="n">SEXP</span> <span class="n">sexp</span><span class="p">;</span>
+<span class="p">}</span> <span class="n">SexpObject</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>The capsule is used to provide a relatively safe composition-like flavor
+to the inheritance-based general design of R objects in rpy2, but should
+one require access to the underlying R <code class="xref c c-type docutils literal notranslate"><span class="pre">SEXP</span></code> object it remains
+possible to access it. The following example demonstrates one way to do
+it without writing any C code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
+
+<span class="c1"># Python C API: get the capsule name (of a capsule object)</span>
+<span class="n">pycapsule_getname</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">pythonapi</span><span class="o">.</span><span class="n">PyCapsule_GetName</span>
+<span class="n">pycapsule_getname</span><span class="o">.</span><span class="n">argtypes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">py_object</span><span class="p">,]</span>
+<span class="n">pycapsule_getname</span><span class="o">.</span><span class="n">restype</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span>
+
+<span class="c1"># Python C API: return whether a Python objects is a valid capsule object</span>
+<span class="n">pycapsule_isvalid</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">pythonapi</span><span class="o">.</span><span class="n">PyCapsule_IsValid</span>
+<span class="n">pycapsule_isvalid</span><span class="o">.</span><span class="n">argtypes</span><span class="o">=</span><span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">py_object</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+<span class="n">pycapsule_isvalid</span><span class="o">.</span><span class="n">restype</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_bool</span>
+
+<span class="c1"># Python C API: return the C pointer</span>
+<span class="n">pycapsule_getpointer</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">pythonapi</span><span class="o">.</span><span class="n">PyCapsule_GetPointer</span>
+<span class="n">pycapsule_getpointer</span><span class="o">.</span><span class="n">argtypes</span><span class="o">=</span><span class="p">[</span><span class="n">ctypes</span><span class="o">.</span><span class="n">py_object</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">]</span>
+<span class="n">pycapsule_getpointer</span><span class="o">.</span><span class="n">restype</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
+
+<span class="k">class</span> <span class="nc">SexpObject</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; C structure SexpObject as defined in the C</span>
+<span class="sd">        layer of rpy2. &quot;&quot;&quot;</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pycount&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_ssize_t</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;rcount&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;sexp&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)]</span>
+
+<span class="c1"># Function to extract the pointer to the underlying R object</span>
+<span class="c1"># (*SEXPREC, that is SEXP)</span>
+<span class="n">RPY2_CAPSULENAME</span><span class="o">=</span><span class="sa">b</span><span class="s1">&#39;rpy2.rinterface._rinterface.SEXPOBJ_C_API&#39;</span>
+<span class="k">def</span> <span class="nf">get_sexp</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="n">pycapsule_isvalid</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">RPY2_CAPSULENAME</span><span class="p">)</span>
+    <span class="n">void_p</span><span class="o">=</span><span class="n">pycapsule_getpointer</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">RPY2_CAPSULENAME</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">void_p</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">POINTER</span><span class="p">(</span><span class="n">SexpObject</span><span class="p">)</span><span class="o">.</span><span class="n">contents</span><span class="o">.</span><span class="n">sexp</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="kn">import</span> <span class="n">globalenv</span>
+<span class="c1"># Pointer to SEXPREC for the R Global Environment</span>
+<span class="n">sexp</span><span class="o">=</span><span class="n">get_sexp</span><span class="p">(</span><span class="n">globalenv</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Changing the <cite>SEXP</cite> in <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> this way is not advised because
+of the risk to confuse the object tracking in rpy2, and ultimately create a segfault.
+(I have not thought too long about this. May be the object tracking is more robust
+than it think. Just be warned.)</p>
+</div>
+<div class="section" id="r-s-named">
+<h2>R’s NAMED<a class="headerlink" href="#r-s-named" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Starting with version 4.0, R not longer uses <cite>NAMED</cite> to keep track of whether
+an R object can be collected. It is now using a reference-counting system.</p>
+</div>
+<p>Whenever the pass-by-value paradigm is applied stricly,
+garbage collection is straightforward as objects only live within
+the scope they are declared, but R is using a slight modification
+of this in order to minimize memory usage. Each R object has an
+attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">Sexp.named</span></code> attached to it, indicating
+the need to copy the object.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">ri</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ri</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ri</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">named</span>
+<span class="go">0</span>
+</pre></div>
+</div>
+<p>Now we assign the vector <em>letters</em> in the R base namespace
+to a variable <em>mine</em> in the R globalenv namespace:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ri</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;assign&#39;</span><span class="p">](</span><span class="n">ri</span><span class="o">.</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="s2">&quot;mine&quot;</span><span class="p">,</span> <span class="p">)),</span> <span class="n">ri</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">])</span>
+<span class="go">&lt;rpy2.rinterface.SexpVector - Python:0xb77ad280 / R:0xa23c5c0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">ri</span><span class="o">.</span><span class="n">globalenv</span><span class="p">)</span>
+<span class="go">(&quot;mine&quot;, )</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ri</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;mine&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">named</span>
+<span class="go">2</span>
+</pre></div>
+</div>
+<p>The <em>named</em> is 2 to indicate to <strong class="program">R</strong> that <em>mine</em> should be
+copied if a modication of any sort is performed on the object. That copy
+will be local to the scope of the modification within R.</p>
+</div>
+</div>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Memory management and garbage collection</a><ul>
+<li><a class="reference internal" href="#reference-counting">Reference counting</a></li>
+<li><a class="reference internal" href="#capsules-of-r-objects">Capsules of R objects</a></li>
+<li><a class="reference internal" href="#r-s-named">R’s NAMED</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="rinterface.html"
+                        title="previous chapter">Low-level interface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="rlike.html"
+                        title="next chapter">rlike</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/rinterface-memorymanagement.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="rlike.html" title="rlike"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rinterface.html" title="Low-level interface"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+    </div>
+  </body>
+</html>
