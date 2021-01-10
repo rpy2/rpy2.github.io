@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.4.0-dev documentation</title>
+    <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.5.0dev documentation</title>
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
       </ul>
@@ -187,8 +187,17 @@
         <span class="n">options_c</span> <span class="o">=</span> <span class="p">[</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char[]&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ASCII&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">_options</span><span class="p">]</span>
         <span class="n">n_options</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">options_c</span><span class="p">)</span>
         <span class="n">n_options_c</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">n_options</span><span class="p">)</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_initEmbeddedR</span><span class="p">(</span><span class="n">n_options_c</span><span class="p">,</span>
-                                       <span class="n">options_c</span><span class="p">)</span>
+
+        <span class="c1"># Instead of calling Rf_initEmbeddedR which breaks threaded context</span>
+        <span class="c1"># perform the initialization manually to set R_CStackLimit before</span>
+        <span class="c1"># calling setup_Rmainloop(), see:</span>
+        <span class="c1"># https://github.com/rpy2/rpy2/issues/729</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_initialize_R</span><span class="p">(</span><span class="n">n_options_c</span><span class="p">,</span> <span class="n">options_c</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">_c_stack_limit</span><span class="p">:</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="n">_c_stack_limit</span><span class="p">)</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">R_Interactive</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">setup_Rmainloop</span><span class="p">()</span>
+
         <span class="n">_setinitialized</span><span class="p">()</span>
 
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_Interactive</span> <span class="o">=</span> <span class="n">interactive</span>
@@ -206,11 +215,7 @@
                 <span class="n">_setcallback</span><span class="p">(</span><span class="n">rlib</span><span class="p">,</span> <span class="n">rlib_symbol</span><span class="p">,</span>
                              <span class="n">callback_funcs</span><span class="p">,</span> <span class="n">callback_symbol</span><span class="p">)</span>
 
-        <span class="c1"># TODO: still needed ?</span>
-        <span class="k">if</span> <span class="n">_c_stack_limit</span><span class="p">:</span>
-            <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="n">_c_stack_limit</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">status</span>
+    <span class="k">return</span> <span class="mi">1</span>
 
 
 <div class="viewcode-block" id="endr"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.endr">[docs]</a><span class="k">def</span> <span class="nf">endr</span><span class="p">(</span><span class="n">fatal</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -306,14 +311,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.0-dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
     </div>
   </body>
 </html>
