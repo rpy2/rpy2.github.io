@@ -16,7 +16,9 @@ SUBPROJECTS = (
     (LabelURL('R6', 'r6_doc.html'),
      'Map the R package for Object-Oriented Programming for R of the same name.'),
     (LabelURL('Matrix', 'matrix_doc.html'),
-     'Map the R package Matrix.')
+     'Map the R package Matrix.'),
+    (LabelURL('Arrow', 'arrow_doc.html'),
+     'Share Apache Arrow data structures between Python and R'),
 )
 DOC_PARAMS = ('doc.html', 'Documentation',
      LabelURL('rpy2', 'https://github.com/rpy2/rpy2'),
@@ -39,6 +41,10 @@ DOC_SUBPROJECT_PARAMS = (
     ('matrix_doc.html', 'R6',
      LabelURL('rpy2-R6', 'https://github.com/rpy2/rpy2-Matrix'),
      (LabelURL('dev', 'https://rpy2.github.io/rpy2-Matrix/version/master/html/index.html'),)
+    ),
+    ('arrow_doc.html', 'Arrow',
+     LabelURL('rpy2-arrow', 'https://github.com/rpy2/rpy2-arrow'),
+     (LabelURL('dev', 'https://rpy2.github.io/rpy2-arrow/version/master/doc/index.rst'),)
     ),
 )
 
