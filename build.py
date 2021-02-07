@@ -44,7 +44,7 @@ DOC_SUBPROJECT_PARAMS = (
     ),
     ('arrow_doc.html', 'Arrow',
      LabelURL('rpy2-arrow', 'https://github.com/rpy2/rpy2-arrow'),
-     (LabelURL('dev', 'https://rpy2.github.io/rpy2-arrow/version/master/doc/index.rst'),)
+     (LabelURL('dev', 'https://rpy2.github.io/rpy2-arrow/version/main/doc/index.rst'),)
     ),
 )
 
