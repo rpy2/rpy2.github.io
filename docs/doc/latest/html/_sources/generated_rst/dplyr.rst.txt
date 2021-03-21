@@ -9,7 +9,7 @@ dplyr in Python
 
 We need 2 things for this:
 
-1- A data frame (using one of R's demo datasets).
+1- A data frame (using one of R’s demo datasets).
 
 .. code:: ipython3
 
@@ -47,11 +47,6 @@ With this we have the choice of chaining (D3-style)
     )
     
     dataf
-
-
-.. parsed-literal::
-
-    `summarise()` ungrouping output (override with `.groups` argument)
 
 
 
@@ -145,11 +140,6 @@ Python back from R. To achieve this we simply use the decorator
     dataf
 
 
-.. parsed-literal::
-
-    `summarise()` ungrouping output (override with `.groups` argument)
-
-
 
 
 .. raw:: html
@@ -188,7 +178,7 @@ Python back from R. To achieve this we simply use the decorator
 
 
 It is also possible to carry this out without having to place the custom
-function in R's global environment, although this is not
+function in R’s global environment, although this is not
 straightforward.
 
 .. code:: ipython3
@@ -224,11 +214,6 @@ straightforward.
     )
     
     dataf
-
-
-.. parsed-literal::
-
-    `summarise()` ungrouping output (override with `.groups` argument)
 
 
 
@@ -268,7 +253,7 @@ straightforward.
 
 
 
-**note**: rpy2's interface to dplyr is implementing a fix to the
+**note**: rpy2’s interface to dplyr is implementing a fix to the
 (non-?)issue 1323 (https://github.com/hadley/dplyr/issues/1323)
 
 The seamless translation of transformations to SQL whenever the data are
@@ -296,17 +281,17 @@ implementation of ``dplyr``, it *just works*.
 
 .. parsed-literal::
 
-    [90m# Source:   lazy query [?? x 2][39m
-    [90m# Database: sqlite 3.34.0 [/tmp/tmpksv92fvk][39m
+    # Source:   lazy query [?? x 2]
+    # Database: sqlite 3.34.1 [/tmp/tmp1gwkl4jk]
        gear mean_ptw
-      [3m[90m<dbl>[39m[23m    [3m[90m<dbl>[39m[23m
-    [90m1[39m     4    [4m1[24m237.
-    [90m2[39m     5    [4m2[24m574.
+      <dbl>    <dbl>
+    1     4    1237.
+    2     5    2574.
     
 
 
 Since we are manipulating R objects, anything available to R is also
-available to us. If we want to see the SQL code generated that's:
+available to us. If we want to see the SQL code generated that’s:
 
 .. code:: ipython3
 
@@ -324,7 +309,7 @@ available to us. If we want to see the SQL code generated that's:
 
 
 The conversion rules in rpy2 make the above easily applicable to pandas
-data frames, completing the "lexical loan" of the dplyr vocabulary from
+data frames, completing the “lexical loan” of the dplyr vocabulary from
 R.
 
 .. code:: ipython3
@@ -388,4 +373,4 @@ it.
 
 
 
-**Reuse. Get things done. Don't reimplement.**
+**Reuse. Get things done. Don’t reimplement.**
