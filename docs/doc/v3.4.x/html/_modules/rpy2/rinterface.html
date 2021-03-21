@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface &#8212; rpy2 3.4.2 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.4.3 documentation</title>
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.4.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.4.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
@@ -50,7 +50,10 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">import</span> <span class="nn">threading</span>
 <span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">openrlib</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface_lib._rinterface_capi</span> <span class="k">as</span> <span class="nn">_rinterface</span>
@@ -983,7 +986,28 @@
     <span class="p">)</span>
     <span class="n">NA_Complex</span> <span class="o">=</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Complex</span>
 
-    <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">_sigint_handler</span><span class="p">)</span>
+    <span class="n">warn_about_thread</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span> <span class="ow">is</span> <span class="n">threading</span><span class="o">.</span><span class="n">main_thread</span><span class="p">():</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">_sigint_handler</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ve</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">ve</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;signal only works in main thread&#39;</span><span class="p">:</span>
+                <span class="n">warn_about_thread</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ve</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">warn_about_thread</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="n">warn_about_thread</span><span class="p">:</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+            <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
+                <span class="sd">&quot;&quot;&quot;R is not initialized by the main thread.</span>
+<span class="sd">                Its taking over SIGINT cannot be reversed here, and as a</span>
+<span class="sd">                consequence the embedded R cannot be interrupted with Ctrl-C.</span>
+<span class="sd">                Consider (re)setting the signal handler of your choice from</span>
+<span class="sd">                the main thread.&quot;&quot;&quot;</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
     <span class="n">_update_R_ENC_PY</span><span class="p">()</span>
 
 
@@ -1052,14 +1076,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.4.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.4.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.4.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
     </div>
   </body>
 </html>

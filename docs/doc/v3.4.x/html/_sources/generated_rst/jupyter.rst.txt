@@ -7,7 +7,7 @@
 Data Import
 ===========
 
-We choose to use an external dataset to demonstrate how R's own data
+We choose to use an external dataset to demonstrate how R’s own data
 import features can be used.
 
 .. code:: ipython3
@@ -18,7 +18,7 @@ import features can be used.
     dataf = utils.read_csv('https://raw.githubusercontent.com/jakevdp/PythonDataScienceHandbook/'
                            'master/notebooks/data/california_cities.csv')
 
-The objects returned by R's own ``read.csv()`` function (note that the R
+The objects returned by R’s own ``read.csv()`` function (note that the R
 function in the R package ``utils`` is called ``read.csv()`` while the
 Python function is called ``read_csv()`` - ``rpy2`` converts R symbols
 with dots to underscores for Python).
@@ -322,7 +322,7 @@ from Python.
     import rpy2.robjects.lib.ggplot2 as gp
 
 R lets is function parameters be unevaluated language objects, which is
-fairly different from Python's immediate evaluation. ``rpy2`` has a
+fairly different from Python’s immediate evaluation. ``rpy2`` has a
 utility code to create such R language objects from Python strings. It
 can then become very easy to mix Python and R, with R like a
 domain-specific language used from Python.
@@ -404,7 +404,7 @@ the use of such extensions really easy.
 
 For example, to use the viridis color scale, we just need to import the
 corresponding R package, and write 3 lines of Python to extend
-``rpy2``'s ggplot2 wrapper with a new color scale. A clas diagram with
+``rpy2``\ ’s ggplot2 wrapper with a new color scale. A clas diagram with
 the classes in the rpy2 wrapper for ggplot2 is available in the rpy2
 documentation.
 
@@ -445,7 +445,7 @@ So far we have shown that using ``ggplot2`` can be done from Python as
 if it was just an other Python library for visualization, but R can also
 be used in cells.
 
-First the so-called "R magic" extension should be loaded.
+First the so-called “R magic” extension should be loaded.
 
 .. code:: ipython3
 
@@ -463,7 +463,7 @@ displayed along with the rest of the output.
 
 .. parsed-literal::
 
-    [1] "R version 4.0.3 (2020-10-10)"
+    [1] "R version 4.0.4 (2021-02-15)"
 
 
 .. code:: r
@@ -498,20 +498,20 @@ displayed along with the rest of the output.
 
     Rows: 482
     Columns: 14
-    $ X                  [3m[90m<int>[39m[23m 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, …
-    $ city               [3m[90m<chr>[39m[23m "Adelanto", "AgouraHills", "Alameda", "Albany", "A…
-    $ latd               [3m[90m<dbl>[39m[23m 34.57611, 34.15333, 37.75611, 37.88694, 34.08194, …
-    $ longd              [3m[90m<dbl>[39m[23m -117.4328, -118.7617, -122.2744, -122.2978, -118.1…
-    $ elevation_m        [3m[90m<dbl>[39m[23m 875, 281, NA, NA, 150, 127, 1332, 280, 14, 48, 132…
-    $ elevation_ft       [3m[90m<dbl>[39m[23m 2871, 922, 33, 43, 492, 417, 4370, 919, 46, 157, 4…
-    $ population_total   [3m[90m<int>[39m[23m 31765, 20330, 75467, 18969, 83089, 47823, 2827, 18…
-    $ area_total_sq_mi   [3m[90m<dbl>[39m[23m 56.027, 7.822, 22.960, 5.465, 7.632, 7.472, 2.449,…
-    $ area_land_sq_mi    [3m[90m<dbl>[39m[23m 56.009, 7.793, 10.611, 1.788, 7.631, 7.472, 2.435,…
-    $ area_water_sq_mi   [3m[90m<dbl>[39m[23m 0.018, 0.029, 12.349, 3.677, 0.001, 0.000, 0.014, …
-    $ area_total_km2     [3m[90m<dbl>[39m[23m 145.107, 20.260, 59.465, 14.155, 19.766, 19.352, 6…
-    $ area_land_km2      [3m[90m<dbl>[39m[23m 145.062, 20.184, 27.482, 4.632, 19.763, 19.352, 6.…
-    $ area_water_km2     [3m[90m<dbl>[39m[23m 0.046, 0.076, 31.983, 9.524, 0.003, 0.000, 0.036, …
-    $ area_water_percent [3m[90m<dbl>[39m[23m 0.03, 0.37, 53.79, 67.28, 0.01, 0.00, 0.57, 0.00, …
+    $ X                  <int> 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 1…
+    $ city               <chr> "Adelanto", "AgouraHills", "Alameda", "Albany", "Al…
+    $ latd               <dbl> 34.57611, 34.15333, 37.75611, 37.88694, 34.08194, 3…
+    $ longd              <dbl> -117.4328, -118.7617, -122.2744, -122.2978, -118.13…
+    $ elevation_m        <dbl> 875, 281, NA, NA, 150, 127, 1332, 280, 14, 48, 132,…
+    $ elevation_ft       <dbl> 2871, 922, 33, 43, 492, 417, 4370, 919, 46, 157, 43…
+    $ population_total   <int> 31765, 20330, 75467, 18969, 83089, 47823, 2827, 185…
+    $ area_total_sq_mi   <dbl> 56.027, 7.822, 22.960, 5.465, 7.632, 7.472, 2.449, …
+    $ area_land_sq_mi    <dbl> 56.009, 7.793, 10.611, 1.788, 7.631, 7.472, 2.435, …
+    $ area_water_sq_mi   <dbl> 0.018, 0.029, 12.349, 3.677, 0.001, 0.000, 0.014, 0…
+    $ area_total_km2     <dbl> 145.107, 20.260, 59.465, 14.155, 19.766, 19.352, 6.…
+    $ area_land_km2      <dbl> 145.062, 20.184, 27.482, 4.632, 19.763, 19.352, 6.3…
+    $ area_water_km2     <dbl> 0.046, 0.076, 31.983, 9.524, 0.003, 0.000, 0.036, 0…
+    $ area_water_percent <dbl> 0.03, 0.37, 53.79, 67.28, 0.01, 0.00, 0.57, 0.00, 0…
 
 
 The data frame called ``dataf`` in our Python notebook was already bound
