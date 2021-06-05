@@ -5,13 +5,14 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Changes in rpy2 &#8212; rpy2 3.4.3 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Changes in rpy2 &#8212; rpy2 3.4.5 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -36,7 +37,7 @@
         <li class="right" >
           <a href="appendix.html" title="Appendix"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="appendix.html" accesskey="U">Appendix</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changes in rpy2</a></li> 
       </ul>
@@ -47,11 +48,40 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="changes-in-rpy2">
+  <section id="changes-in-rpy2">
 <span id="changes"></span><h1>Changes in rpy2<a class="headerlink" href="#changes-in-rpy2" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="release-3-4-3">
+<section id="release-3-4-5">
+<h2>Release 3.4.5<a class="headerlink" href="#release-3-4-5" title="Permalink to this headline">¶</a></h2>
+<section id="id1">
+<h3>Changes<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>The deprecation warning when using <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.activate()</span></code>
+was missing (indirectly revealed through issue #804).</p></li>
+<li><p>The named argument <cite>LINPACK</cite> in <a class="reference internal" href="vector.html#rpy2.robjects.vectors.Matrix.svd" title="rpy2.robjects.vectors.Matrix.svd"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Matrix.svd()</span></code></a>
+is no longer present in R.</p></li>
+</ul>
+</section>
+<section id="bugs-fixed">
+<h3>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>SIGPIPE sent to a process running Python+rpy2 could result in a segfault.
+This was caused by an incorrect setting of R signal handlers (issue #809).</p></li>
+</ul>
+</section>
+</section>
+<section id="release-3-4-4">
+<h2>Release 3.4.4<a class="headerlink" href="#release-3-4-4" title="Permalink to this headline">¶</a></h2>
+<section id="id2">
+<h3>Changes<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p><cite>RRuntimeError</cite> exceptions raised while evaluating R code
+an R magic (ipython/jupyter) are now propagated (issue #792).</p></li>
+</ul>
+</section>
+</section>
+<section id="release-3-4-3">
 <h2>Release 3.4.3<a class="headerlink" href="#release-3-4-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="new-features">
+<section id="new-features">
 <h3>New features<a class="headerlink" href="#new-features" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> maps more functions in the
@@ -60,9 +90,9 @@ R package (issue #767)</p></li>
 to convert a Python <cite>Dict[str, str]</cite> into an R named vector
 of strings.</p></li>
 </ul>
-</div>
-<div class="section" id="bugs-fixed">
-<h3>Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id3">
+<h3>Bugs fixed<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Calling mod:<cite>rpy2.situation</cite> to report on the environment no longer
 stops with an uncaught exception when no R home can be determined
@@ -74,41 +104,41 @@ into their numpy equivalent (issue #785)</p></li>
 <li><p>The HTML representation of R list without named element was
 incorrect (issue #787)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-4-2">
+</section>
+</section>
+<section id="release-3-4-2">
 <h2>Release 3.4.2<a class="headerlink" href="#release-3-4-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id1">
-<h3>Bugs fixed<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<section id="id4">
+<h3>Bugs fixed<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Multithreading during the initialization of the embedded R no longer
 triggers a fatal error (issue #729)</p></li>
 </ul>
-</div>
-<div class="section" id="id2">
-<h3>Changes<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id5">
+<h3>Changes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">pytest</span></code> is now an optional package. Optional sets of packages are
 <cite>numpy</cite>, <cite>pandas</cite>, <cite>test</cite>, and <cite>all</cite> (all optional packages). They
 can be specified during the installation. For example
 <cite>pip install rpy2[test]</cite>. (issue #670)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-4-1">
+</section>
+</section>
+<section id="release-3-4-1">
 <h2>Release 3.4.1<a class="headerlink" href="#release-3-4-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id3">
-<h3>Bugs fixed<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<section id="id6">
+<h3>Bugs fixed<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The file <cite>requirements.txt</cite> was missing from the source distribution
 on pypi (issue #764).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-4-0">
+</section>
+</section>
+<section id="release-3-4-0">
 <h2>Release 3.4.0<a class="headerlink" href="#release-3-4-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id4">
-<h3>New Features<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<section id="id7">
+<h3>New Features<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The mapping of the R C API now includes <cite>Rf_isSymbol()</cite>.</p></li>
 <li><p>Singleton class <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.sexp.RVersion</span></code> to report
@@ -118,9 +148,9 @@ to evaluate R code within a local environment.</p></li>
 <li><p>The <cite>staticmethod</cite> <code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.DateVector.isrinstance()</span></code>
 will tell whether an R objects is an R <cite>Date</cite> array.</p></li>
 </ul>
-</div>
-<div class="section" id="id5">
-<h3>Changes<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id8">
+<h3>Changes<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The dynamic generation of docstrings for R man pages
 is now using R’s <cite>Rd2txt</cite>.</p></li>
@@ -146,9 +176,9 @@ same process) and the C-level initialization is be skipped.</p></li>
 <li><p>The conversion <cite>rpy2py</cite> is now working with any Python object inheriting
 from <cite>_rinterface_capi.SupportsSEXP</cite>.</p></li>
 </ul>
-</div>
-<div class="section" id="id6">
-<h3>Bugs fixed<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id9">
+<h3>Bugs fixed<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The C function <cite>Rf_findVarInFrame()</cite> in the R API can trigger
 in an R-level error, and while this is rare, when it does
@@ -181,12 +211,12 @@ fail with an error.</p></li>
 <li><p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">__repr__()</span></code> of <cite>robjects</cite>-level objects was not displaying
 the rpy2 class the R object is mapped to.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-3-6">
+</section>
+</section>
+<section id="release-3-3-6">
 <h2>Release 3.3.6<a class="headerlink" href="#release-3-3-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id7">
-<h3>Bugs fixed<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<section id="id10">
+<h3>Bugs fixed<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The unit tests for importing R packages with <cite>lib_loc</cite> were
 broken (issue #720).</p></li>
@@ -197,23 +227,23 @@ was failing with an attribute error.</p></li>
 <li><p>Fix call to end the embedded R in <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.R.__cleanup__</span></code>
 (issue #734).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-3-5">
+</section>
+</section>
+<section id="release-3-3-5">
 <h2>Release 3.3.5<a class="headerlink" href="#release-3-3-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id8">
-<h3>Bugs fixed<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<section id="id11">
+<h3>Bugs fixed<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The callback handler to read input to R returned an
 invalid result, leading to R asking for input
 without ever acknowledging it received it.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-3-4">
+</section>
+</section>
+<section id="release-3-3-4">
 <h2>Release 3.3.4<a class="headerlink" href="#release-3-3-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id9">
-<h3>Bugs fixed<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<section id="id12">
+<h3>Bugs fixed<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Creating an R vector object from a Python object implementing
 the buffer protocol could give incorrect results as C-level
@@ -221,50 +251,50 @@ incompatibilities could be missed (issue #702).</p></li>
 <li><p><a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.importr" title="rpy2.robjects.packages.importr"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.packages.importr()</span></code></a> could fail when <cite>lib_loc</cite>
 was specified (issue #705).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-3-3">
+</section>
+</section>
+<section id="release-3-3-3">
 <h2>Release 3.3.3<a class="headerlink" href="#release-3-3-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id10">
-<h3>Bugs fixed<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<section id="id13">
+<h3>Bugs fixed<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fallback for when <cite>str2lang</cite> is missing (R &lt; 3.6)</p></li>
 <li><p>Fix segfault with <code class="xref py py-meth docutils literal notranslate"><span class="pre">PairListSexpVector.__getitem__()</span></code> when
 elements of the R pairlist have a <cite>NILSXP</cite> name (issue #700)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-3-2">
+</section>
+</section>
+<section id="release-3-3-2">
 <h2>Release 3.3.2<a class="headerlink" href="#release-3-3-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id11">
-<h3>Bugs fixed<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<section id="id14">
+<h3>Bugs fixed<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Initial fixes to have rpy2 running in ABI mode on Windows.
 Few tests are not passing (many in callbacks for R’s C API).</p></li>
 <li><p>System detection is now checking for FreeBSD.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-3-1">
+</section>
+</section>
+<section id="release-3-3-1">
 <h2>Release 3.3.1<a class="headerlink" href="#release-3-3-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id12">
-<h3>Bugs fixed<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<section id="id15">
+<h3>Bugs fixed<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.NameClassMap.update()</span></code> can update
 the mapping (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>) or the default class.</p></li>
 </ul>
-</div>
-<div class="section" id="id13">
-<h3>Changes<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id16">
+<h3>Changes<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Adding local converters was overwriting the base <cite>NameClassMap</cite>.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-3-0">
+</section>
+</section>
+<section id="release-3-3-0">
 <h2>Release 3.3.0<a class="headerlink" href="#release-3-3-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id14">
-<h3>New features<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<section id="id17">
+<h3>New features<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Trying to import an R package that is not installed will now raise an
 exception <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.PackageNotInstalledError" title="rpy2.robjects.packages.PackageNotInstalledError"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.packages.PackageNotInstalledError</span></code></a>.</p></li>
@@ -308,9 +338,9 @@ that are R objects.</p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code> containing date objects can now be converted to R
 <cite>Date</cite> vectors.</p></li>
 </ul>
-</div>
-<div class="section" id="id15">
-<h3>Changes<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id18">
+<h3>Changes<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>When calling R C-API’s <cite>R_ParseVector</cite> and a error occurs, the
 exception message now contains the parsing status.</p></li>
@@ -328,9 +358,9 @@ are now supported by the converted (in the pandas-to-R direction) (issue #669)</
 <li><p>Version checking for the mapping of R packages in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib</span></code> is
 now more permissive (check that version prefixes are matching).</p></li>
 </ul>
-</div>
-<div class="section" id="id16">
-<h3>Bugs fixed<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id19">
+<h3>Bugs fixed<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Building ABI only mode could require an API build environment (and fail
 with an error when not present).</p></li>
@@ -338,88 +368,88 @@ with an error when not present).</p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.sexp.StrSexpVector.__getitem__()</span></code> was returning the string
 <cite>‘NA’</cite> when an R NA value. Not it returns <cite>rpy2.rinterface_lib.na_values.NA_Character</cite>.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-7">
+</section>
+</section>
+<section id="release-3-2-7">
 <h2>Release 3.2.7<a class="headerlink" href="#release-3-2-7" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id17">
-<h3>Bugs fixed<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<section id="id20">
+<h3>Bugs fixed<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>An f-string in <cite>_rinterface_cffi_build.py</cite> prevented installation
 on Python 3.5 (issue #654).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-6">
+</section>
+</section>
+<section id="release-3-2-6">
 <h2>Release 3.2.6<a class="headerlink" href="#release-3-2-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id18">
-<h3>Bugs fixed<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<section id="id21">
+<h3>Bugs fixed<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The conversion of date/time object with specified timezones
 was wrong when different than the local time zone (issue #634)</p></li>
 <li><p>Iterating over <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.situation.iter_info()</span></code> could result
 in a error because of a typo in the code.</p></li>
 </ul>
-</div>
-<div class="section" id="id19">
-<h3>Changes<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id22">
+<h3>Changes<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> 1.0.0 breaks the conversion layer. A warning
 is now emitted whenever trying to use <cite>pandas</cite> &gt;= 1.0.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-5">
+</section>
+</section>
+<section id="release-3-2-5">
 <h2>Release 3.2.5<a class="headerlink" href="#release-3-2-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id20">
-<h3>Bugs fixed<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<section id="id23">
+<h3>Bugs fixed<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Latest release for R package <cite>rlang</cite> broke import through <cite>importr()</cite>.
 A workaround for <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> is to rename the
 offending R object (issue #631).</p></li>
 </ul>
-</div>
-<div class="section" id="id21">
-<h3>Changes<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id24">
+<h3>Changes<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>f-string requiring Python &gt;= 3.6 removed.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-4">
+</section>
+</section>
+<section id="release-3-2-4">
 <h2>Release 3.2.4<a class="headerlink" href="#release-3-2-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id22">
-<h3>Bugs fixed<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<section id="id25">
+<h3>Bugs fixed<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>An incomplete backport of the bug fixed in 3.2.3 broke the ABI mode.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-3">
+</section>
+</section>
+<section id="release-3-2-3">
 <h2>Release 3.2.3<a class="headerlink" href="#release-3-2-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id23">
-<h3>Bugs fixed<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<section id="id26">
+<h3>Bugs fixed<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Error when parsing strings as R codes could result in a segfault.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-2">
+</section>
+</section>
+<section id="release-3-2-2">
 <h2>Release 3.2.2<a class="headerlink" href="#release-3-2-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id24">
-<h3>Bugs fixed<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<section id="id27">
+<h3>Bugs fixed<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Python format error when trying to report that the system is not reported
 on Windows (issue #597).</p></li>
 <li><p>The setup script would error on build if R is not installed. It is now
 printing an error message.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-1">
+</section>
+</section>
+<section id="release-3-2-1">
 <h2>Release 3.2.1<a class="headerlink" href="#release-3-2-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id25">
-<h3>Bugs fixed<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<section id="id28">
+<h3>Bugs fixed<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The wrapper for the R package <cite>dbplyr</cite> could not import the underlying
 package (refactoring elsewhere was not propagated there).</p></li>
@@ -431,12 +461,12 @@ datetime arrays. (issue #594).</p></li>
 <li><p>Fix installation when an installation when a prefix without write access is used
 (issue #588).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-2-0">
+</section>
+</section>
+<section id="release-3-2-0">
 <h2>Release 3.2.0<a class="headerlink" href="#release-3-2-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id26">
-<h3>New features<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h3>
+<section id="id29">
+<h3>New features<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>rpy2 can built and used with <code class="xref py py-mod docutils literal notranslate"><span class="pre">cffi</span></code>’s ABI or API modes (releases 3.0.x and
 3.1.x were using the ABI mode exclusively). At the time of writing the default
@@ -445,9 +475,9 @@ is still the ABI mode but the choice can be controlled through the environment v
 variable is not set), <cite>API</cite>, or <cite>BOTH</cite>. When the latter, both <cite>API</cite> and <cite>ABI</cite>
 modes are built, and the choice of which one to use can be made at run time.</p></li>
 </ul>
-</div>
-<div class="section" id="id27">
-<h3>Changes<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id30">
+<h3>Changes<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The “consoleread” callback (reading input to the R console) is now assuming UTF-8
 (was previously assuming ASCII) and is no longer trying to add a “new line” character
@@ -456,9 +486,9 @@ at the end of the input.</p></li>
 or a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> depending on the issue (rather than always <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a>
 before.</p></li>
 </ul>
-</div>
-<div class="section" id="id28">
-<h3>Bugs fixed<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id31">
+<h3>Bugs fixed<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><cite>setup.py</cite> is now again compatible with Python2 (issue #580).</p></li>
 <li><p>Unit tests were failing if numpy is not installed.</p></li>
@@ -470,12 +500,12 @@ R in the PATH).</p></li>
 <li><p>Converting R strings back to Python was incorrectly using <cite>Latin1</cite> while <cite>UTF-8</cite> was
 intended (issue #537).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-1-0">
+</section>
+</section>
+<section id="release-3-1-0">
 <h2>Release 3.1.0<a class="headerlink" href="#release-3-1-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id29">
-<h3>New features<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<section id="id32">
+<h3>New features<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Python matrix multiplication (<cite>__matmul__</cite> / <cite>&#64;</cite>) added to
 R <code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code> objects.</p></li>
@@ -489,9 +519,9 @@ as long as the context manager is used to handle such cycles (see issue #571).</
 For example on some Linux systems and R installations, the type <cite>cairo</cite>
 can fix issues when alpha transparency is used.</p></li>
 </ul>
-</div>
-<div class="section" id="id30">
-<h3>Changes<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id33">
+<h3>Changes<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added callbacks for <cite>ptr_R_Busy()</cite> and <cite>ptr_R_ProcessEvents()</cite>.</p></li>
 <li><p><cite>rstart</cite> now an objects in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.embedded</span></code>
@@ -516,9 +546,9 @@ to improve speed.</p></li>
 <li><p>Continuous integration tests run against Python 3.6, 3.7, and 3.8. It is
 no longer checked against Python 3.5.</p></li>
 </ul>
-</div>
-<div class="section" id="id31">
-<h3>Bugs fixed<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id34">
+<h3>Bugs fixed<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><cite>aes</cite> in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> had stopped working with the
 R package ggplot2 reaching version 3.2.0. (issue #562).</p></li>
@@ -529,32 +559,32 @@ of R vectors was always returning <cite>True</cite>. It is now working properly.
 <li><p>R POSIXct vectors with <cite>NA</cite> dates were triggering an error when converted
 in a data frame converted to <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> (issue #561).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-0-5">
+</section>
+</section>
+<section id="release-3-0-5">
 <h2>Release 3.0.5<a class="headerlink" href="#release-3-0-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id32">
-<h3>Bugs fixed<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<section id="id35">
+<h3>Bugs fixed<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>No longer allow installation if Python 3 but &lt; 3.5.</p></li>
 <li><p>Fixed error <cite>undefined symbol: DATAPTR</cite> if R &lt; 3.5 (issue #565).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-0-4">
+</section>
+</section>
+<section id="release-3-0-4">
 <h2>Release 3.0.4<a class="headerlink" href="#release-3-0-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id33">
-<h3>Bugs fixed<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h3>
+<section id="id36">
+<h3>Bugs fixed<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed conversion of <cite>pandas</cite> <code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code> of dtype <cite>pandas.Int32Dtype</cite>,
 or <cite>pandas.Int64Dtype</cite> (issue #544).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-0-3">
+</section>
+</section>
+<section id="release-3-0-3">
 <h2>Release 3.0.3<a class="headerlink" href="#release-3-0-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id34">
-<h3>Bugs fixed<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
+<section id="id37">
+<h3>Bugs fixed<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed the evaluation of R code using the “R magic” was delaying all
 output to the end of the execution of that code, independently of
@@ -563,12 +593,12 @@ whether the attribute <cite>cache_display_data</cite> was <cite>True</cite> or <
 <li><p>Fixed conversion of <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code> of <cite>dtype</cite> “object” when
 all items are either all of the same type or are <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> (issue #540).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-0-2">
+</section>
+</section>
+<section id="release-3-0-2">
 <h2>Release 3.0.2<a class="headerlink" href="#release-3-0-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id35">
-<h3>Bugs fixed<a class="headerlink" href="#id35" title="Permalink to this headline">¶</a></h3>
+<section id="id38">
+<h3>Bugs fixed<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Failing to import <cite>pandas</cite> or <cite>numpy</cite> when loading the “R magic” extension
 for jupyter/ipython was hiding the cause of the error in the <cite>ImportError</cite>
@@ -580,33 +610,33 @@ exception.</p></li>
 <li><p><cite>–vanilla</cite> is no longer among the default options used to initialize R
 (issue #534).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-0-1">
+</section>
+</section>
+<section id="release-3-0-1">
 <h2>Release 3.0.1<a class="headerlink" href="#release-3-0-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id36">
-<h3>Bugs fixed<a class="headerlink" href="#id36" title="Permalink to this headline">¶</a></h3>
+<section id="id39">
+<h3>Bugs fixed<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Script to install R packages for docker image never made it to version
 control.</p></li>
 <li><p>Conversion of R arrays/matrices into numpy object trigged a segfault
 during garbage collection (issue #524).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-3-0-0">
+</section>
+</section>
+<section id="release-3-0-0">
 <h2>Release 3.0.0<a class="headerlink" href="#release-3-0-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id37">
-<h3>New features<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<section id="id40">
+<h3>New features<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>rpy2 can be installed without a development environment.</p></li>
 <li><p>Unit tests are now relying on the Python module <cite>pytest</cite>.</p></li>
 <li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">rpy2.rinterface.NA_Integer</span></code> is now only defined when the embedded R
 is initialized.</p></li>
 </ul>
-</div>
-<div class="section" id="id38">
-<h3>Changes<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id41">
+<h3>Changes<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>complete rewrite of <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>.
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">cffi</span></code> is now used to interface with the R compiled shared library.
@@ -623,7 +653,7 @@ to convert any rpy2 object into a either a non-rpy2 Python object or
 a mod:<cite>rpy2.robjects</cite> level object.</p></li>
 <li><p>The method <cite>get</cite> for R environments is now called <cite>find()</cite> to avoid
 confusion with the method of the same name in Python (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict.get" title="(in Python v3.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">dict.get()</span></code></a>).</p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code>, <a class="reference internal" href="vector.html#rpy2.robjects.vectors.Matrix" title="rpy2.robjects.vectors.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Matrix</span></code></a>,
+<li><p><a class="reference internal" href="vector.html#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code></a>, <a class="reference internal" href="vector.html#rpy2.robjects.vectors.Matrix" title="rpy2.robjects.vectors.Matrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Matrix</span></code></a>,
 and <a class="reference internal" href="vector.html#rpy2.robjects.vectors.Array" title="rpy2.robjects.vectors.Array"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Array</span></code></a> can no longer be used to create
 R arrays of unspecified type. New type-specific classes (for example for
 vectors <a class="reference internal" href="vector.html#rpy2.robjects.vectors.IntVector" title="rpy2.robjects.vectors.IntVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.IntVector</span></code></a>,
@@ -638,54 +668,54 @@ vectors <a class="reference internal" href="vector.html#rpy2.robjects.vectors.In
 <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.ParsedCode" title="rpy2.robjects.packages.ParsedCode"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.packages.ParsedCode</span></code></a> and
 <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.SourceCode" title="rpy2.robjects.packages.SourceCode"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.packages.SourceCode</span></code></a>.</p></li>
 </ul>
-</div>
-<div class="section" id="id39">
-<h3>Bugs fixed<a class="headerlink" href="#id39" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id42">
+<h3>Bugs fixed<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Row names in R data frames were lost when converting to pandas data frames
 (issue #484).</p></li>
 </ul>
-</div>
-<div class="section" id="known-issues">
+</section>
+<section id="known-issues">
 <h3>Known issues<a class="headerlink" href="#known-issues" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Mismatch between R’s POSIXlt <cite>wday</cite> and Python time struct_time’s <cite>tm_wday</cite>
 (issue #523).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-9-6">
+</section>
+</section>
+<section id="release-2-9-6">
 <h2>Release 2.9.6<a class="headerlink" href="#release-2-9-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id40">
-<h3>Bugs fixed<a class="headerlink" href="#id40" title="Permalink to this headline">¶</a></h3>
+<section id="id43">
+<h3>Bugs fixed<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Latest release of <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> deprecated <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataFrame.from_items()</span></code>.
 (issue #514).</p></li>
 <li><p>Latest release of <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> requires categories to be a list
 (not an other sequence).</p></li>
 </ul>
-</div>
-<div class="section" id="id41">
-<h3>Known issues<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id44">
+<h3>Known issues<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The numpy buffer implemented by R arrays is broken for complex numbers</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-9-5">
+</section>
+</section>
+<section id="release-2-9-5">
 <h2>Release 2.9.5<a class="headerlink" href="#release-2-9-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id42">
-<h3>Bugs fixed<a class="headerlink" href="#id42" title="Permalink to this headline">¶</a></h3>
+<section id="id45">
+<h3>Bugs fixed<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Missing values in pandas <code class="xref py py-class docutils literal notranslate"><span class="pre">Category</span></code> series were creating
 invalid R factors when converted (issue #493).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-9-4">
+</section>
+</section>
+<section id="release-2-9-4">
 <h2>Release 2.9.4<a class="headerlink" href="#release-2-9-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id43">
-<h3>Bugs fixed<a class="headerlink" href="#id43" title="Permalink to this headline">¶</a></h3>
+<section id="id46">
+<h3>Bugs fixed<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fallback for failure to import numpy or pandas is now dissociated from
 failure to import <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy2ri</span></code> or <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas2ri</span></code> (issue #463).</p></li>
@@ -703,23 +733,23 @@ the process is terminating (issue #471).</p></li>
 <li><p>dplyr method <cite>ungroup()</cite> was missing from
 <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.dplyr.DataFrame</span></code> (issue #473).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-9-3">
+</section>
+</section>
+<section id="release-2-9-3">
 <h2>Release 2.9.3<a class="headerlink" href="#release-2-9-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id44">
-<h3>Bugs fixed<a class="headerlink" href="#id44" title="Permalink to this headline">¶</a></h3>
+<section id="id47">
+<h3>Bugs fixed<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Delegate finding where is local time zone file to either a user-specified
 module-level variable <cite>default_timezone</cite> or to the third-party
 module <code class="xref py py-mod docutils literal notranslate"><span class="pre">tzlocal</span></code> (issue #448).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-9-2">
+</section>
+</section>
+<section id="release-2-9-2">
 <h2>Release 2.9.2<a class="headerlink" href="#release-2-9-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id45">
-<h3>Changes<a class="headerlink" href="#id45" title="Permalink to this headline">¶</a></h3>
+<section id="id48">
+<h3>Changes<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The pandas converter is converting <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.Series</span></code> of <cite>dtype</cite> <cite>“O”</cite>
 to <a class="reference internal" href="vector.html#rpy2.robjects.vectors.StrVector" title="rpy2.robjects.vectors.StrVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.StrVector</span></code></a> objects, issueing a warning
@@ -728,9 +758,9 @@ about it (See issue #421).</p></li>
 than rows (introduce in bug fix for issue #442 below) and this is expected
 to result in more efficient conversions.</p></li>
 </ul>
-</div>
-<div class="section" id="id46">
-<h3>Bugs fixed<a class="headerlink" href="#id46" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id49">
+<h3>Bugs fixed<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Allow floats in figure sizes for R magic (Pull request #63)</p></li>
 <li><p>Fixed pickling unpickling of robjects-level instances,
@@ -739,19 +769,19 @@ regression introduced in fix for issue #432 with release 2.9.1 (issue #443).</p>
 <li><p>Fixed incorrect conversion of R factors in data frames to columns of
 integers in pandas data frame (issue #442).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-9-1">
+</section>
+</section>
+<section id="release-2-9-1">
 <h2>Release 2.9.1<a class="headerlink" href="#release-2-9-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id47">
-<h3>Changes<a class="headerlink" href="#id47" title="Permalink to this headline">¶</a></h3>
+<section id="id50">
+<h3>Changes<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fixing issue #432 (see Section Bugs fixed below) involved removed the method
 <cite>__reduce__</cite> previously provided for all rpy2 objects representing R objects.</p></li>
 </ul>
-</div>
-<div class="section" id="id48">
-<h3>Bugs fixed<a class="headerlink" href="#id48" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id51">
+<h3>Bugs fixed<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>An error when installing with an unsupported R version was fixed (issue #420).</p></li>
 <li><p>The docstring for <cite>rinterface.endr()</cite> was improperly stating that the function was not taking
@@ -762,12 +792,12 @@ slight change in the API (see Section Changes above).</p></li>
 <li><p>Conversion to <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> now handling R ordered factor (issue #398).</p></li>
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">jinja2</span></code> was not listed as a dependency (issue #437).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-9-0">
+</section>
+</section>
+<section id="release-2-9-0">
 <h2>Release 2.9.0<a class="headerlink" href="#release-2-9-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id49">
-<h3>New features<a class="headerlink" href="#id49" title="Permalink to this headline">¶</a></h3>
+<section id="id52">
+<h3>New features<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New module <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.situation</span></code> to extract and report informations
 about the environment, such as where is the R HOME, what is the
@@ -783,9 +813,9 @@ Python’s matrix multiplication operator (PEP-0645).</p></li>
 <li><p>A rule to convert R POSIXct vectors to pandas Timestamp vectors was added (issue #418).</p></li>
 <li><p>method <code class="xref py py-meth docutils literal notranslate"><span class="pre">_repr_html_()</span></code> for R vectors to display HTML in jupyter.</p></li>
 </ul>
-</div>
-<div class="section" id="id50">
-<h3>Changes<a class="headerlink" href="#id50" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id53">
+<h3>Changes<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Starting several times the singleton <code class="xref py py-class docutils literal notranslate"><span class="pre">EventProcessor</span></code> longer results
 in a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeError</span></code></a>. This is now only a warning, addressing
@@ -803,9 +833,9 @@ the default is to no longer convert columns of strings to factors.</p></li>
 use of custom converters through the magic argument <cite>-c</cite> will work as expected.</p></li>
 <li><p>Docker-related files moved to directory docker/ (where variants image for rpy2 are available)</p></li>
 </ul>
-</div>
-<div class="section" id="id51">
-<h3>Bugs fixed<a class="headerlink" href="#id51" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id54">
+<h3>Bugs fixed<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.float128()</span></code> is not available on all platforms. The unit test
 for it is now skipped on systems where it is not present (issue #347)</p></li>
@@ -815,23 +845,23 @@ causing a segfault (issue #409).</p></li>
 <li><p>Trying to build an atomic R vector from a Python object that has a length,
 but it not a sequence nor an iterator was causing a segfault (issue #407).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-8-6">
+</section>
+</section>
+<section id="release-2-8-6">
 <h2>Release 2.8.6<a class="headerlink" href="#release-2-8-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id52">
-<h3>Bugs fixed<a class="headerlink" href="#id52" title="Permalink to this headline">¶</a></h3>
+<section id="id55">
+<h3>Bugs fixed<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Trying to build an atomic R vector from a Python object that has a length,
 but it not a sequence nor an iterator was causing a segfault (issue #407 -
 backport from rpy2-2.9.0).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-8-5">
+</section>
+</section>
+<section id="release-2-8-5">
 <h2>Release 2.8.5<a class="headerlink" href="#release-2-8-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id53">
-<h3>Bugs fixed<a class="headerlink" href="#id53" title="Permalink to this headline">¶</a></h3>
+<section id="id56">
+<h3>Bugs fixed<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The defintion of the method <a class="reference internal" href="rlike.html#rpy2.rlike.container.OrdDict.items" title="rpy2.rlike.container.OrdDict.items"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rlike.container.OrdDict.items</span></code></a>
 was incorrect, and so was the documentation for <cite>rcall</cite> (issue #383)</p></li>
@@ -840,12 +870,12 @@ raising a <a class="reference external" href="https://docs.python.org/3/library/
 <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#UnboundLocalError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">UnboundLocalError</span></code></a> (see issue #388).</p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">robjects.robject.RSlots.items()</span></code> is now working (see pull request #57).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-8-4">
+</section>
+</section>
+<section id="release-2-8-4">
 <h2>Release 2.8.4<a class="headerlink" href="#release-2-8-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id54">
-<h3>Bugs fixed<a class="headerlink" href="#id54" title="Permalink to this headline">¶</a></h3>
+<section id="id57">
+<h3>Bugs fixed<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The context manager <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grdevices.render_to_file()</span></code>
 is no longer trying to impose a file name generated by <a class="reference external" href="https://docs.python.org/3/library/tempfile.html#module-tempfile" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">tempfile</span></code></a>
@@ -856,12 +886,12 @@ imported from the C module in rpy2.</p></li>
 in ggplot2 were not wrapped by <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code>
 (issue #381)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-8-3">
+</section>
+</section>
+<section id="release-2-8-3">
 <h2>Release 2.8.3<a class="headerlink" href="#release-2-8-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id55">
-<h3>Bugs fixed<a class="headerlink" href="#id55" title="Permalink to this headline">¶</a></h3>
+<section id="id58">
+<h3>Bugs fixed<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed the error when the transformation of R “man” pages into Python
 docstrings was failing when the section “arguments” was missing
@@ -869,12 +899,12 @@ docstrings was failing when the section “arguments” was missing
 <li><p>Failing to find R in the PATH during the installation of rpy2
 is now printing an error message instead of a warning (issue #366)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-8-2">
+</section>
+</section>
+<section id="release-2-8-2">
 <h2>Release 2.8.2<a class="headerlink" href="#release-2-8-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id56">
-<h3>Bugs fixed<a class="headerlink" href="#id56" title="Permalink to this headline">¶</a></h3>
+<section id="id59">
+<h3>Bugs fixed<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>R’s <cite>dplyr::src_dt</cite> was moved to <cite>dtdplyr::src_dt</cite> with <cite>dplyr</cite> release 0.5.0.
 To address this, <cite>src_dt</cite> will become a <cite>None</cite> if the R package <cite>dplyr</cite> is
@@ -884,37 +914,37 @@ discovered to be of version &gt;= 0.5.0 at runtime. (issue #357)</p></li>
 <li><p>The <cite>rmagic</cite> extension for <cite>ipython</cite> was no longer loading with the latest
 ipython (version 5.0.0). (issue #359)</p></li>
 </ul>
-</div>
-<div class="section" id="id57">
-<h3>Changes<a class="headerlink" href="#id57" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id60">
+<h3>Changes<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The fix to issue #357 (see bugs fixed above) was expanded to cover all
 R packages wrapped in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib</span></code> and ensure that the respective
 Python modules can loaded even if symbols are no longer defined in future
 versions of the corresponding R packages.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-8-1">
+</section>
+</section>
+<section id="release-2-8-1">
 <h2>Release 2.8.1<a class="headerlink" href="#release-2-8-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id58">
-<h3>New features<a class="headerlink" href="#id58" title="Permalink to this headline">¶</a></h3>
+<section id="id61">
+<h3>New features<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><cite>Dockerfile</cite> with automated build on dockerhub (<a class="reference external" href="https://hub.docker.com/r/rpy2/rpy2">https://hub.docker.com/r/rpy2/rpy2</a>)</p></li>
 </ul>
-</div>
-<div class="section" id="id59">
-<h3>Bugs Fixed<a class="headerlink" href="#id59" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id62">
+<h3>Bugs Fixed<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Trying to install rpy2 while R is not in the <cite>PATH</cite> resulted in an error
 in <cite>setup.py</cite>.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-8-0">
+</section>
+</section>
+<section id="release-2-8-0">
 <h2>Release 2.8.0<a class="headerlink" href="#release-2-8-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id60">
-<h3>New features<a class="headerlink" href="#id60" title="Permalink to this headline">¶</a></h3>
+<section id="id63">
+<h3>New features<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New class <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.SourceCode</span></code>. The class extends Python’s
 <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> and is meant to represent R source code. An HTML
@@ -955,9 +985,9 @@ data frame.</p></li>
 <li><p>dplyr’s functions <cite>count_</cite> and <cite>tally</cite> are now exposed as methods for
 the class <code class="xref py py-class docutils literal notranslate"><span class="pre">dplyr.DataFrame</span></code>.</p></li>
 </ul>
-</div>
-<div class="section" id="id61">
-<h3>Changes<a class="headerlink" href="#id61" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id64">
+<h3>Changes<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Building/installing rpy2 with a development version of R does not require
 the use of option <cite>–ignore-check-rversion</cite> any longer. A warning is
@@ -969,9 +999,9 @@ inheriting from <code class="xref py py-class docutils literal notranslate"><spa
 <li><p>The default <cite>repr()</cite> for R objects is now printing the R classes
 (as suggested in issue #349).</p></li>
 </ul>
-</div>
-<div class="section" id="id62">
-<h3>Bugs Fixed<a class="headerlink" href="#id62" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id65">
+<h3>Bugs Fixed<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Parameter names to R function that are in UTF-8 are no longer causing a
 segfault (issue #332)</p></li>
@@ -985,43 +1015,43 @@ informative error message (issue #338)</p></li>
 <li><p><cite>rpy2.robjects.lib.grid.viewport</cite> is now returning an instance of class
 <cite>Viewport</cite> (defined in the same module) (issue #350)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-9">
+</section>
+</section>
+<section id="release-2-7-9">
 <h2>Release 2.7.9<a class="headerlink" href="#release-2-7-9" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="bug-fixed">
+<section id="bug-fixed">
 <h3>Bug fixed<a class="headerlink" href="#bug-fixed" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Python objects exposed to R could lead to segfault when the Python process is
 exiting (issue #331)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-8">
+</section>
+</section>
+<section id="release-2-7-8">
 <h2>Release 2.7.8<a class="headerlink" href="#release-2-7-8" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id63">
-<h3>Bugs fixed<a class="headerlink" href="#id63" title="Permalink to this headline">¶</a></h3>
+<section id="id66">
+<h3>Bugs fixed<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>American English spelling was missing for some of the function names
 to specify colour (color) scales.</p></li>
 <li><p>Fix for printing R objects on Windows (pull request #47)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-7">
+</section>
+</section>
+<section id="release-2-7-7">
 <h2>Release 2.7.7<a class="headerlink" href="#release-2-7-7" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id64">
-<h3>Bugs fixed<a class="headerlink" href="#id64" title="Permalink to this headline">¶</a></h3>
+<section id="id67">
+<h3>Bugs fixed<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Pickling <cite>robjects</cite>-level objects resulted in <cite>rinterface</cite>-level objects
 when unpickled (issue #324).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-6">
+</section>
+</section>
+<section id="release-2-7-6">
 <h2>Release 2.7.6<a class="headerlink" href="#release-2-7-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id65">
-<h3>Changes<a class="headerlink" href="#id65" title="Permalink to this headline">¶</a></h3>
+<section id="id68">
+<h3>Changes<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> was modified to match the newly released
 ggplot2-2.0.0. This is introducing API-breaking changes, which breaks the
@@ -1029,36 +1059,36 @@ promise to keep the API stable through bugfix releases within series, but
 without it 2.7.x will not a work with new default installation of the R
 package ggplot2.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-5">
+</section>
+</section>
+<section id="release-2-7-5">
 <h2>Release 2.7.5<a class="headerlink" href="#release-2-7-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id66">
-<h3>Bugs fixed<a class="headerlink" href="#id66" title="Permalink to this headline">¶</a></h3>
+<section id="id69">
+<h3>Bugs fixed<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Division and floordivision through the delegator <cite>.ro</cite> provided with
 R vectors wrapped by <cite>robjects</cite>. (issue #320)</p></li>
 <li><p>Memory leak when unserializing (unpickling) R objects bundled in Python
 objects (issue #321)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-4">
+</section>
+</section>
+<section id="release-2-7-4">
 <h2>Release 2.7.4<a class="headerlink" href="#release-2-7-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id67">
-<h3>Bugs fixed<a class="headerlink" href="#id67" title="Permalink to this headline">¶</a></h3>
+<section id="id70">
+<h3>Bugs fixed<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Python 3.5 highlighted slightly incorrect C-level flags in rpy2 objects
 declarations, and <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> could not be imported.</p></li>
 <li><p>Fixed unit tests for rmagic when <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> is not installed, and
 for <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> is installed by <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> in missing.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-3">
+</section>
+</section>
+<section id="release-2-7-3">
 <h2>Release 2.7.3<a class="headerlink" href="#release-2-7-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id68">
-<h3>Bugs fixed<a class="headerlink" href="#id68" title="Permalink to this headline">¶</a></h3>
+<section id="id71">
+<h3>Bugs fixed<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>method <code class="xref py py-meth docutils literal notranslate"><span class="pre">DataFrame.collect()</span></code> in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.dplyr</span></code>
 was not functioning.</p></li>
@@ -1069,12 +1099,12 @@ in the R data frame into an index in the pandas data frame (issue #285)</p></li>
 <cite>dplyr</cite> were missing from the
 <cite>DataFrame</cite> definition in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.dplyr</span></code></p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-2">
+</section>
+</section>
+<section id="release-2-7-2">
 <h2>Release 2.7.2<a class="headerlink" href="#release-2-7-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id69">
-<h3>Bugs fixed<a class="headerlink" href="#id69" title="Permalink to this headline">¶</a></h3>
+<section id="id72">
+<h3>Bugs fixed<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>methods <cite>distinct</cite>, <cite>sample_n</cite>, and <cite>sample_frac</cite> defined in the R package
 <cite>dplyr</cite> were missing from the <cite>DataFrame</cite> definition in
@@ -1085,12 +1115,12 @@ in the R data frame into an index in the pandas data frame (issue #285)</p></li>
 <li><p>The methods to perform joins on dplyr <cite>DataFrame</cite> objects where not
 working properly.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-1">
+</section>
+</section>
+<section id="release-2-7-1">
 <h2>Release 2.7.1<a class="headerlink" href="#release-2-7-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id70">
-<h3>Bugs fixed<a class="headerlink" href="#id70" title="Permalink to this headline">¶</a></h3>
+<section id="id73">
+<h3>Bugs fixed<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">__repr__()</span></code> for <code class="xref py py-mod docutils literal notranslate"><span class="pre">robjects</span></code>-level vectors
 was broken for vectors of length 1 (issue #306)</p></li>
@@ -1099,12 +1129,12 @@ were not building</p></li>
 <li><p>Classes inheriting from <code class="xref py py-mod docutils literal notranslate"><span class="pre">dplyr.DataFrame</span></code> had dplyr methods
 returning objects of their parent class.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-7-0">
+</section>
+</section>
+<section id="release-2-7-0">
 <h2>Release 2.7.0<a class="headerlink" href="#release-2-7-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id71">
-<h3>New features<a class="headerlink" href="#id71" title="Permalink to this headline">¶</a></h3>
+<section id="id74">
+<h3>New features<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New exception <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.RParsingError</span></code>. Errors
 occurring when parsing R code through <a class="reference internal" href="rinterface.html#rpy2.rinterface.parse" title="rpy2.rinterface.parse"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.rinterface.parse()</span></code></a>
@@ -1131,9 +1161,9 @@ for the object (see issue #275).</p></li>
 <li><p>The R “magic” for ipython <cite>%%R</cite> can be passed a local converter
 (see new features above) by using <cite>-c</cite>.</p></li>
 </ul>
-</div>
-<div class="section" id="id72">
-<h3>Bugs fixed<a class="headerlink" href="#id72" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id75">
+<h3>Bugs fixed<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Conversion rules were not applied when parsing and evaluating string
 as R with <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.R</span></code>.</p></li>
@@ -1143,43 +1173,43 @@ R attributes if any (fixes issue #299).</p></li>
 <li><p><cite>rpy2</cite> could crash when R was unable to dynamically load the C extension for
 one of its packages (noticed with issue #303).</p></li>
 </ul>
-</div>
-<div class="section" id="id73">
-<h3>Changes<a class="headerlink" href="#id73" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id76">
+<h3>Changes<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.rinterface.is_initialized()</span></code> is now a function.</p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.robjects.R.__call__()</span></code> is now calling R’s <cite>base::parse()</cite>
 to parse the string rather the parser through R’s C-API. The workaround
 let’s us retrieve R’s error message in case of failure (see issue #300)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-6-3">
+</section>
+</section>
+<section id="release-2-6-3">
 <h2>Release 2.6.3<a class="headerlink" href="#release-2-6-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id74">
-<h3>Bug fixed<a class="headerlink" href="#id74" title="Permalink to this headline">¶</a></h3>
+<section id="id77">
+<h3>Bug fixed<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Metaclass <cite>RS4Auto_Type</cite> facilitating the creation of Python
 classes from R S4 classes was not handling classes without
 methods (issue #301)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-6-2">
+</section>
+</section>
+<section id="release-2-6-2">
 <h2>Release 2.6.2<a class="headerlink" href="#release-2-6-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id75">
-<h3>Bugs fixed<a class="headerlink" href="#id75" title="Permalink to this headline">¶</a></h3>
+<section id="id78">
+<h3>Bugs fixed<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Check that R &gt;= 3.2 is used at build time (issue #291)</p></li>
 <li><p>Conversion rules were not applied when parsing and evaluating string
 as R code with <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.R</span></code>.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-6-1">
+</section>
+</section>
+<section id="release-2-6-1">
 <h2>Release 2.6.1<a class="headerlink" href="#release-2-6-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id76">
-<h3>New features<a class="headerlink" href="#id76" title="Permalink to this headline">¶</a></h3>
+<section id="id79">
+<h3>New features<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Because of their long names, the classes
 <code class="xref py py-class docutils literal notranslate"><span class="pre">SignatureTranslatedAnonymousPackage</span></code>,
@@ -1188,27 +1218,27 @@ as R code with <code class="xref py py-class docutils literal notranslate"><span
 in <a class="reference internal" href="robjects_rpackages.html#module-rpy2.robjects.packages" title="rpy2.robjects.packages"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.packages</span></code></a> have now the aliases
 <code class="xref py py-class docutils literal notranslate"><span class="pre">STAP</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">STP</span></code>, and <code class="xref py py-class docutils literal notranslate"><span class="pre">STF</span></code> respectively.</p></li>
 </ul>
-</div>
-<div class="section" id="id77">
-<h3>Bugs fixed<a class="headerlink" href="#id77" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id80">
+<h3>Bugs fixed<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Typo in function name emitting warnings at build time (issue #283)</p></li>
 <li><p>The conversion of <cite>TaggedList</cite> instances is now handling the names
 of items in the list (issue #286)</p></li>
 </ul>
-</div>
-<div class="section" id="id78">
-<h3>Changes<a class="headerlink" href="#id78" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id81">
+<h3>Changes<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Loading the <cite>ipython</cite> extension in the absence of <cite>pandas</cite> or <cite>numpy</cite>
 is now issuing a warning (issue #279)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-6-0">
+</section>
+</section>
+<section id="release-2-6-0">
 <h2>Release 2.6.0<a class="headerlink" href="#release-2-6-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id79">
-<h3>New features<a class="headerlink" href="#id79" title="Permalink to this headline">¶</a></h3>
+<section id="id82">
+<h3>New features<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Report the existence during build time of a file <cite>.Renviron</cite>,
 or the definition of the environment variables <cite>R_ENVIRON’ or
@@ -1239,9 +1269,9 @@ For example, testing whether any vector contains <cite>NA</cite> can be written 
 <cite>any(x is myvector.NAvalue for x in myvector)</cite>. Making numpy /masked/ array
 is an other application.</p></li>
 </ul>
-</div>
-<div class="section" id="id80">
-<h3>Changes<a class="headerlink" href="#id80" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id83">
+<h3>Changes<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The automatic name translation from R to Python used in <cite>importr</cite> is
 now slightly more complex. It will not only translate <cite>.</cite> to <cite>_</cite> but
@@ -1256,9 +1286,9 @@ ListSexpVector, etc…) whenever retrieving them from the embedded R
 with the low-level <cite>rinterface</cite>. This is facilitating dispatch on vector
 type (e.g., with <cite>singledispatch</cite> now used for the conversion system).</p></li>
 </ul>
-</div>
-<div class="section" id="id81">
-<h3>Bugs fixed<a class="headerlink" href="#id81" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id84">
+<h3>Bugs fixed<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The evaluation of R code through R’s C-level function <cite>tryEval</cite>
 caused console output whenever an error occurred. Moving to
@@ -1266,18 +1296,18 @@ the seemingly experimental <cite>tryEvalSilent</cite> makes evaluations less
 verbose.</p></li>
 <li><p>Multiple plots in one ipython cell (pull request #44)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-5-7">
+</section>
+</section>
+<section id="release-2-5-7">
 <h2>Release 2.5.7<a class="headerlink" href="#release-2-5-7" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p><cite>simplegeneric</cite> was moved of ipython 4.0.0 (pull request #43)</p></li>
 </ul>
-</div>
-<div class="section" id="release-2-5-6">
+</section>
+<section id="release-2-5-6">
 <h2>Release 2.5.6<a class="headerlink" href="#release-2-5-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id82">
-<h3>Bugs fixed<a class="headerlink" href="#id82" title="Permalink to this headline">¶</a></h3>
+<section id="id85">
+<h3>Bugs fixed<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Detection of the R version during setup on Win8 (issues #255 and #258)</p></li>
 <li><p>Segmentation fault when converting <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> <code class="xref py py-class docutils literal notranslate"><span class="pre">Series</span></code> with
@@ -1290,12 +1320,12 @@ type <a class="reference external" href="https://docs.python.org/3/library/stdty
 <li><p>Testing rpy2 in the absence of ipython no longer stops with an error
 (issue #266)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-5-5">
+</section>
+</section>
+<section id="release-2-5-5">
 <h2>Release 2.5.5<a class="headerlink" href="#release-2-5-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id83">
-<h3>Bugs fixed<a class="headerlink" href="#id83" title="Permalink to this headline">¶</a></h3>
+<section id="id86">
+<h3>Bugs fixed<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Crash (segfault) when querying an R object in an R environment triggers an
 error (symbol exists, but associated values resolves to an error - issue #251)</p></li>
@@ -1303,12 +1333,12 @@ error (symbol exists, but associated values resolves to an error - issue #251)</
 (issue #259)</p></li>
 <li><p>Minor update to the documentation (issue #257)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-5-4">
+</section>
+</section>
+<section id="release-2-5-4">
 <h2>Release 2.5.4<a class="headerlink" href="#release-2-5-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id84">
-<h3>Bugs fixed<a class="headerlink" href="#id84" title="Permalink to this headline">¶</a></h3>
+<section id="id87">
+<h3>Bugs fixed<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Filter PNG files on size, preventing empty files causing trouble to be
 ipython notebook rendering of graphics later on (slight modification of
@@ -1316,12 +1346,12 @@ the pull request #39)</p></li>
 <li><p>Fix installation left unresolved with rpy2-2.5.3 (issue #248)</p></li>
 <li><p>Possible segfault with Python 3.4 (issue #249)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-5-3">
+</section>
+</section>
+<section id="release-2-5-3">
 <h2>Release 2.5.3<a class="headerlink" href="#release-2-5-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id85">
-<h3>Changes<a class="headerlink" href="#id85" title="Permalink to this headline">¶</a></h3>
+<section id="id88">
+<h3>Changes<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><dl class="simple">
 <dt><cite>setup.py</cite> has <cite>install_requires</cite> in addition to <cite>requires</cite> in the hope to</dt><dd><p>fix the missing dependency with Python 2 (<code class="xref py py-mod docutils literal notranslate"><span class="pre">singledispatch</span></code> is required
@@ -1330,32 +1360,32 @@ but not installed).</p>
 </dl>
 </li>
 </ul>
-</div>
-<div class="section" id="id86">
-<h3>Bugs fixed<a class="headerlink" href="#id86" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id89">
+<h3>Bugs fixed<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Extracting configuration information from should now work when R is emitting a warning (issue #247)</p></li>
 <li><p>On OS X the library discovery step can yield nothing (see issue #246). A tentative fix is to issue
 a warning and keep moving.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-5-2">
+</section>
+</section>
+<section id="release-2-5-2">
 <h2>Release 2.5.2<a class="headerlink" href="#release-2-5-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id87">
-<h3>Bugs fixed<a class="headerlink" href="#id87" title="Permalink to this headline">¶</a></h3>
+<section id="id90">
+<h3>Bugs fixed<a class="headerlink" href="#id90" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>String representation of <code class="xref py py-class docutils literal notranslate"><span class="pre">robjects.R</span></code> (issue #238)</p></li>
 <li><p>Check during <cite>build_ext</cite> if unsupported version of R (pull request #32)</p></li>
 <li><p>HTMl display of columns of factors in a DataFrame (issue #236)</p></li>
 <li><p>HTML display of factors (issue #242)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-5-1">
+</section>
+</section>
+<section id="release-2-5-1">
 <h2>Release 2.5.1<a class="headerlink" href="#release-2-5-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id88">
-<h3>Bugs fixed<a class="headerlink" href="#id88" title="Permalink to this headline">¶</a></h3>
+<section id="id91">
+<h3>Bugs fixed<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Require singledispatch if Python 3.3 (issue #232)</p></li>
 <li><p>Fixed bug when R spits out a warning when asked configuration information (issue #233)</p></li>
@@ -1364,12 +1394,12 @@ a warning and keep moving.</p></li>
 <li><p>Workaround obscure failure message from unittest if Python &lt; 3.4 and
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">singledispatch</span></code> cannot be imported (issue #235)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-5-0">
+</section>
+</section>
+<section id="release-2-5-0">
 <h2>Release 2.5.0<a class="headerlink" href="#release-2-5-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id89">
-<h3>New features<a class="headerlink" href="#id89" title="Permalink to this headline">¶</a></h3>
+<section id="id92">
+<h3>New features<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Experimental alternative way to preserve R objects from garbage collection.
 This can be activated with <cite>rinterface.initr(r_preservehash=True)</cite> (default
@@ -1381,61 +1411,61 @@ mirroring R’s <cite>ggplot2::ggsave()</cite>.</p></li>
 <li><p>[Experimental] New function <code class="xref py py-func docutils literal notranslate"><span class="pre">robjects.methods.rs4instance_factory()</span></code>
 to type RS4 objects with more specificity.</p></li>
 </ul>
-</div>
-<div class="section" id="id90">
-<h3>Changes<a class="headerlink" href="#id90" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id93">
+<h3>Changes<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The script <cite>setup.py</cite> was rewritten for clarity and ease of maintenance.
 Now it only uses <cite>setuptools</cite>.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-4-4">
+</section>
+</section>
+<section id="release-2-4-4">
 <h2>Release 2.4.4<a class="headerlink" href="#release-2-4-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id91">
-<h3>Bugs fixed<a class="headerlink" href="#id91" title="Permalink to this headline">¶</a></h3>
+<section id="id94">
+<h3>Bugs fixed<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Use <cite>input</cite> rather than <cite>raw_input</cite> in the default console callback
 with Python 3 (fixes issue #222)</p></li>
 <li><p>Issues with conversions, pandas, and rmagic (fixes issue #218 and more)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-4-3">
+</section>
+</section>
+<section id="release-2-4-3">
 <h2>Release 2.4.3<a class="headerlink" href="#release-2-4-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id92">
-<h3>Bugs fixed<a class="headerlink" href="#id92" title="Permalink to this headline">¶</a></h3>
+<section id="id95">
+<h3>Bugs fixed<a class="headerlink" href="#id95" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><cite>geom_raster</cite> was missing from <cite>rpy2.robjects.lib.ggplot2</cite> (pull request #30)</p></li>
 <li><p>Fixed issue with SVG rendering in ipython notebook (issue #217)</p></li>
 <li><p>Regression with <cite>rx2()</cite> introduced with new conversion (issue #219)</p></li>
 <li><p>Fixed documentation (missing <cite>import</cite>) (issue #213)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-4-2">
+</section>
+</section>
+<section id="release-2-4-2">
 <h2>Release 2.4.2<a class="headerlink" href="#release-2-4-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id93">
-<h3>Bugs fixed<a class="headerlink" href="#id93" title="Permalink to this headline">¶</a></h3>
+<section id="id96">
+<h3>Bugs fixed<a class="headerlink" href="#id96" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Assigning an R <cite>DataFrame</cite> into an environment was failing if
 the conversion for Pandas was activated. (Issue #207)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-4-1">
+</section>
+</section>
+<section id="release-2-4-1">
 <h2>Release 2.4.1<a class="headerlink" href="#release-2-4-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id94">
-<h3>Bugs fixed<a class="headerlink" href="#id94" title="Permalink to this headline">¶</a></h3>
+<section id="id97">
+<h3>Bugs fixed<a class="headerlink" href="#id97" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><a class="reference internal" href="interactive.html#module-rpy2.ipython" title="rpy2.ipython"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.ipython()</span></code></a> fixed spurious output to notebook cells.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-4-0">
+</section>
+</section>
+<section id="release-2-4-0">
 <h2>Release 2.4.0<a class="headerlink" href="#release-2-4-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id95">
-<h3>Changes<a class="headerlink" href="#id95" title="Permalink to this headline">¶</a></h3>
+<section id="id98">
+<h3>Changes<a class="headerlink" href="#id98" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Conversion system slightly changed, with the optional
 conversions for <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> modified
@@ -1454,9 +1484,9 @@ any objects with a method <cite>items()</cite> with the expectation that the met
 returns an iterable of (name, value) tuples, or even be an iterable
 of (name, value) tuples.</p></li>
 </ul>
-</div>
-<div class="section" id="id96">
-<h3>New features<a class="headerlink" href="#id96" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id99">
+<h3>New features<a class="headerlink" href="#id99" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>For instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.Function</span></code>,
 the <cite>__doc__</cite> is now a property fetching information
@@ -1471,74 +1501,74 @@ the names in the environment as a tuple of Python strings.</p></li>
 <code class="xref py py-func docutils literal notranslate"><span class="pre">robjects.packages.isinstalled()</span></code>.</p></li>
 <li><p>new class <code class="xref py py-class docutils literal notranslate"><span class="pre">rinterface.SexpSymbol</span></code> to represent R symbols</p></li>
 </ul>
-</div>
-<div class="section" id="id97">
-<h3>Bugs fixed<a class="headerlink" href="#id97" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id100">
+<h3>Bugs fixed<a class="headerlink" href="#id100" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><a class="reference internal" href="rinterface.html#rpy2.rinterface.Sexp.do_slot" title="rpy2.rinterface.Sexp.do_slot"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.rinterface.Sexp.do_slot()</span></code></a> was crashing when
 the parameter was an empty string (PR #155)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-10">
+</section>
+</section>
+<section id="release-2-3-10">
 <h2>Release 2.3.10<a class="headerlink" href="#release-2-3-10" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id98">
-<h3>Bugs fixed<a class="headerlink" href="#id98" title="Permalink to this headline">¶</a></h3>
+<section id="id101">
+<h3>Bugs fixed<a class="headerlink" href="#id101" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><cite>setup.py build</cite> was broken when new R compiled with OpenMP (Issue #183)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-9">
+</section>
+</section>
+<section id="release-2-3-9">
 <h2>Release 2.3.9<a class="headerlink" href="#release-2-3-9" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Changes in pandas 0.13.0 broke the rpy2 conversion layer (Issue #173)</p></li>
 </ul>
-</div>
-<div class="section" id="release-2-3-8">
+</section>
+<section id="release-2-3-8">
 <h2>Release 2.3.8<a class="headerlink" href="#release-2-3-8" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id99">
-<h3>Bugs fixed<a class="headerlink" href="#id99" title="Permalink to this headline">¶</a></h3>
+<section id="id102">
+<h3>Bugs fixed<a class="headerlink" href="#id102" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Crash with R-3.0.2. Changes in R-3.0.2’s C API coupled to a strange behaviour
 with R promises caused the problem. (PR #150)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-7">
+</section>
+</section>
+<section id="release-2-3-7">
 <h2>Release 2.3.7<a class="headerlink" href="#release-2-3-7" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id100">
-<h3>Bugs fixed<a class="headerlink" href="#id100" title="Permalink to this headline">¶</a></h3>
+<section id="id103">
+<h3>Bugs fixed<a class="headerlink" href="#id103" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>ggplot2’s “guides” were missing</p></li>
 <li><p>ggplot2’s “theme_classic” was missing (PR #143)</p></li>
 <li><p>ggplot2’s “element_rect” was missing (PR #144)</p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.interactive.packages()</span></code> was broken (PR #142)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-6">
+</section>
+</section>
+<section id="release-2-3-6">
 <h2>Release 2.3.6<a class="headerlink" href="#release-2-3-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id101">
-<h3>Bugs fixed<a class="headerlink" href="#id101" title="Permalink to this headline">¶</a></h3>
+<section id="id104">
+<h3>Bugs fixed<a class="headerlink" href="#id104" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Several reports of segfault on OS X (since rpy2-2.3.1 - PR #109)</p></li>
 <li><p>More fixes in converting <cite>DataFrames</cite> with dates from <cite>pandas</cite></p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="relase-2-3-5">
+</section>
+</section>
+<section id="relase-2-3-5">
 <h2>Relase 2.3.5<a class="headerlink" href="#relase-2-3-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id102">
-<h3>Bugs fixed<a class="headerlink" href="#id102" title="Permalink to this headline">¶</a></h3>
+<section id="id105">
+<h3>Bugs fixed<a class="headerlink" href="#id105" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Missing mapping to ggplot2’s <cite>scale_shape_discrete</cite> function</p></li>
 <li><p>Better handling of dates in Pandas</p></li>
 <li><p>Constructor for POSIXct improved (and fixed)</p></li>
 </ul>
-</div>
-<div class="section" id="id103">
-<h3>Changes<a class="headerlink" href="#id103" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id106">
+<h3>Changes<a class="headerlink" href="#id106" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">rclass</span></code> is no longer read-only and can be set
 (since R allows it)</p></li>
@@ -1546,29 +1576,29 @@ with R promises caused the problem. (PR #150)</p></li>
 event processing by default (triggering concurrency errors
 when used with ipython).</p></li>
 </ul>
-</div>
-<div class="section" id="id104">
-<h3>New features<a class="headerlink" href="#id104" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id107">
+<h3>New features<a class="headerlink" href="#id107" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New module <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.interactive.ipython</span></code> (so far plotting
 automatically a ggplot2 figure in the iPython’s console)</p></li>
 <li><p>It is now possible to set the <code class="xref py py-attr docutils literal notranslate"><span class="pre">rclass</span></code>.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="relase-2-3-4">
+</section>
+</section>
+<section id="relase-2-3-4">
 <h2>Relase 2.3.4<a class="headerlink" href="#relase-2-3-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id105">
-<h3>Bugs fixed<a class="headerlink" href="#id105" title="Permalink to this headline">¶</a></h3>
+<section id="id108">
+<h3>Bugs fixed<a class="headerlink" href="#id108" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Spurious error when running unit tests with Python 3 and numpy
 installed</p></li>
 <li><p>Missing mapping to ggplot2’s <cite>geom_dotplot</cite> function</p></li>
 <li><p>Warnings are not longer printed (see Changes below)</p></li>
 </ul>
-</div>
-<div class="section" id="id106">
-<h3>Changes<a class="headerlink" href="#id106" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id109">
+<h3>Changes<a class="headerlink" href="#id109" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Bumped target version of ggplot2 to 0.9.3.1</p></li>
 <li><p>Warnings are not longer printed. The C-level function in R became
@@ -1577,12 +1607,12 @@ high if the R code called is very short. This might evolve into
 printing warnings only if interactive mode in Python (if this can
 be checked reliably).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-3">
+</section>
+</section>
+<section id="release-2-3-3">
 <h2>Release 2.3.3<a class="headerlink" href="#release-2-3-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id107">
-<h3>Bugs fixed<a class="headerlink" href="#id107" title="Permalink to this headline">¶</a></h3>
+<section id="id110">
+<h3>Bugs fixed<a class="headerlink" href="#id110" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Some of the data.frames converted from <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> were triggering
 a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeError</span></code></a> when calling <a class="reference external" href="https://docs.python.org/3/library/functions.html#repr" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">repr()</span></code></a></p></li>
@@ -1595,21 +1625,21 @@ not accept parameters (PR #122)</p></li>
 <li><p>Testing the Python version was crashing of a number of unsupported Python
 versions (&lt;= 2.6) (PR #117)</p></li>
 </ul>
-</div>
-<div class="section" id="id108">
-<h3>New features<a class="headerlink" href="#id108" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id111">
+<h3>New features<a class="headerlink" href="#id111" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New module pandas2ri to convert from mod:<cite>pandas</cite> <cite>DataFrame</cite> objects</p></li>
 <li><p>New classes <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.Unit</span></code> and
 <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.Gpar</span></code> to model their counterparts in
 R’s <cite>grid</cite> package as they were previously missing from rpy2.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-2">
+</section>
+</section>
+<section id="release-2-3-2">
 <h2>Release 2.3.2<a class="headerlink" href="#release-2-3-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id109">
-<h3>Bug fixed<a class="headerlink" href="#id109" title="Permalink to this headline">¶</a></h3>
+<section id="id112">
+<h3>Bug fixed<a class="headerlink" href="#id112" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Building on Win64 (pull request #6)</p></li>
 <li><p>Fetching data from an R package through <cite>importr</cite> was masking
@@ -1618,29 +1648,29 @@ under the attribute name <cite>__rdata__</cite>. This is not completely
 safe either, although much less likely, a warning will
 be issued if still masking anything.</p></li>
 </ul>
-</div>
-<div class="section" id="id110">
-<h3>Changes<a class="headerlink" href="#id110" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id113">
+<h3>Changes<a class="headerlink" href="#id113" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>More informative error message when failing to build because <cite>R CMD config</cite>
 does not return what is expected</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-1">
+</section>
+</section>
+<section id="release-2-3-1">
 <h2>Release 2.3.1<a class="headerlink" href="#release-2-3-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id111">
-<h3>Bugs fixed<a class="headerlink" href="#id111" title="Permalink to this headline">¶</a></h3>
+<section id="id114">
+<h3>Bugs fixed<a class="headerlink" href="#id114" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>default console print callback with Python (issue #112 linked to it)</p></li>
 <li><p>deprecation warnings with ggplot2 (issue #111 and contributed patch)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-3-0">
+</section>
+</section>
+<section id="release-2-3-0">
 <h2>Release 2.3.0<a class="headerlink" href="#release-2-3-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id112">
-<h3>New Features<a class="headerlink" href="#id112" title="Permalink to this headline">¶</a></h3>
+<section id="id115">
+<h3>New Features<a class="headerlink" href="#id115" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>:</p>
 <ul class="simple">
 <li><p>C-level API, allowing other C-level modules to make use of utilities
@@ -1672,29 +1702,29 @@ It no longer possible to access datasets are regular objects from
 a code package (because of changes in R), and the new system is
 more robust against quirks.</p></li>
 </ul>
-</div>
-<div class="section" id="id113">
-<h3>Changes<a class="headerlink" href="#id113" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id116">
+<h3>Changes<a class="headerlink" href="#id116" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>:</p>
 <ul class="simple">
 <li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">SexpClosure.env</span></code> to replace the method <cite>closureenv</cite>.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-2-6">
+</section>
+</section>
+<section id="release-2-2-6">
 <h2>Release 2.2.6<a class="headerlink" href="#release-2-2-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id114">
-<h3>Bugs fixed<a class="headerlink" href="#id114" title="Permalink to this headline">¶</a></h3>
+<section id="id117">
+<h3>Bugs fixed<a class="headerlink" href="#id117" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Newest R-2.15 and ggplot2 0.9 broke the ggplot2 interaface
 in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code></p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-2-5">
+</section>
+</section>
+<section id="release-2-2-5">
 <h2>Release 2.2.5<a class="headerlink" href="#release-2-2-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id115">
-<h3>Bugs fixed<a class="headerlink" href="#id115" title="Permalink to this headline">¶</a></h3>
+<section id="id118">
+<h3>Bugs fixed<a class="headerlink" href="#id118" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>install process: Library location for some of the R installations</p></li>
 <li><dl class="simple">
@@ -1703,21 +1733,21 @@ in <code class="xref py py-mod docutils literal notranslate"><span class="pre">r
 </dl>
 </li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-2-4">
+</section>
+</section>
+<section id="release-2-2-4">
 <h2>Release 2.2.4<a class="headerlink" href="#release-2-2-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id116">
-<h3>Bugs fixed<a class="headerlink" href="#id116" title="Permalink to this headline">¶</a></h3>
+<section id="id119">
+<h3>Bugs fixed<a class="headerlink" href="#id119" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Memory leak when creating R vectors from Python (issue #82)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-2-3">
+</section>
+</section>
+<section id="release-2-2-3">
 <h2>Release 2.2.3<a class="headerlink" href="#release-2-2-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id117">
-<h3>Bugs fixed<a class="headerlink" href="#id117" title="Permalink to this headline">¶</a></h3>
+<section id="id120">
+<h3>Bugs fixed<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Dynamic construction of S4 classes was looking for R help as ‘class.&lt;class&gt;’
 rather than ‘&lt;class&gt;-class’</p></li>
@@ -1725,31 +1755,31 @@ rather than ‘&lt;class&gt;-class’</p></li>
 the Python process terminated without calline <a class="reference internal" href="rinterface.html#rpy2.rinterface.endr" title="rpy2.rinterface.endr"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.rinterface.endr()</span></code></a>
 (issue #68, and proof-of-principle fix by chrish42)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-2-2">
+</section>
+</section>
+<section id="release-2-2-2">
 <h2>Release 2.2.2<a class="headerlink" href="#release-2-2-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id118">
-<h3>Bugs fixed<a class="headerlink" href="#id118" title="Permalink to this headline">¶</a></h3>
+<section id="id121">
+<h3>Bugs fixed<a class="headerlink" href="#id121" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>With the robjects layer, repr() on a list containing non-vector elements
 was failing</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-2-1">
+</section>
+</section>
+<section id="release-2-2-1">
 <h2>Release 2.2.1<a class="headerlink" href="#release-2-2-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id119">
-<h3>Bugs fixed<a class="headerlink" href="#id119" title="Permalink to this headline">¶</a></h3>
+<section id="id122">
+<h3>Bugs fixed<a class="headerlink" href="#id122" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>MANIFEST.in was missing from MANIFEST.in, required with Python 3</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-2-0">
+</section>
+</section>
+<section id="release-2-2-0">
 <h2>Release 2.2.0<a class="headerlink" href="#release-2-2-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id120">
-<h3>New Features<a class="headerlink" href="#id120" title="Permalink to this headline">¶</a></h3>
+<section id="id123">
+<h3>New Features<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Support for Python 3, and for some of its features ported to Python 2.7</p></li>
 </ul>
@@ -1802,9 +1832,9 @@ for a given object.</p></li>
 handling R interactive events or use Python for interactive programming
 (as often done with the R console)</p></li>
 </ul>
-</div>
-<div class="section" id="id121">
-<h3>Changes<a class="headerlink" href="#id121" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id124">
+<h3>Changes<a class="headerlink" href="#id124" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>NA_bool, NA_real, NA_integer, NA_character and NA_complex are now
@@ -1824,107 +1854,107 @@ to active the conversion. Explicit activation is now needed; the function
 are now defined at the C level, improving performances
 and memory footprint whenever a lot of instances are created.</p></li>
 </ul>
-</div>
-<div class="section" id="id122">
-<h3>Bugs fixed<a class="headerlink" href="#id122" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id125">
+<h3>Bugs fixed<a class="headerlink" href="#id125" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Better and more explicit detection system for needed libraries when
 compiling rpy2 (ported to release 2.1.6)</p></li>
 <li><p>Long-standing issue with readline fixed (issue #10)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-9">
+</section>
+</section>
+<section id="release-2-1-9">
 <h2>Release 2.1.9<a class="headerlink" href="#release-2-1-9" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id123">
-<h3>Bugs fixed<a class="headerlink" href="#id123" title="Permalink to this headline">¶</a></h3>
+<section id="id126">
+<h3>Bugs fixed<a class="headerlink" href="#id126" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The R class in rpy2.robjects is now truly a singleton</p></li>
 <li><p>When using numpy 1.5 and Python &gt;= 2.7, the exposed buffer for R numerical (double)
 vectors or arrays was wrong.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-8">
+</section>
+</section>
+<section id="release-2-1-8">
 <h2>Release 2.1.8<a class="headerlink" href="#release-2-1-8" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id124">
-<h3>Bugs fixed<a class="headerlink" href="#id124" title="Permalink to this headline">¶</a></h3>
+<section id="id127">
+<h3>Bugs fixed<a class="headerlink" href="#id127" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Fixed issue with R arrays with more than 2 dimensions and numpy arrays
 (issue #47 - backported from the branch 2.2.x).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-7">
+</section>
+</section>
+<section id="release-2-1-7">
 <h2>Release 2.1.7<a class="headerlink" href="#release-2-1-7" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id125">
-<h3>Bugs fixed<a class="headerlink" href="#id125" title="Permalink to this headline">¶</a></h3>
+<section id="id128">
+<h3>Bugs fixed<a class="headerlink" href="#id128" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>More fixes for the automated detection of include and libraries at build time.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-6">
+</section>
+</section>
+<section id="release-2-1-6">
 <h2>Release 2.1.6<a class="headerlink" href="#release-2-1-6" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id126">
-<h3>Bugs fixed<a class="headerlink" href="#id126" title="Permalink to this headline">¶</a></h3>
+<section id="id129">
+<h3>Bugs fixed<a class="headerlink" href="#id129" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Further fixes in the automatic detection of includes and libraries
 needed to compile rpy2 against R. The detection code has
 been refactored (backport from the 2.2.x branch)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-5">
+</section>
+</section>
+<section id="release-2-1-5">
 <h2>Release 2.1.5<a class="headerlink" href="#release-2-1-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id127">
-<h3>Bugs fixed<a class="headerlink" href="#id127" title="Permalink to this headline">¶</a></h3>
+<section id="id130">
+<h3>Bugs fixed<a class="headerlink" href="#id130" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>fixes the automatic detection of R_HOME/lib during building/compiling
 when R_HOME/lib is not in lib/ (issue #54)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-4">
+</section>
+</section>
+<section id="release-2-1-4">
 <h2>Release 2.1.4<a class="headerlink" href="#release-2-1-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id128">
-<h3>New features<a class="headerlink" href="#id128" title="Permalink to this headline">¶</a></h3>
+<section id="id131">
+<h3>New features<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> now has the functions <code class="xref py py-func docutils literal notranslate"><span class="pre">limits()</span></code>,
 <code class="xref py py-func docutils literal notranslate"><span class="pre">xlim()</span></code>, <code class="xref py py-func docutils literal notranslate"><span class="pre">ylim()</span></code> exposed (patch contributed anonymously)</p></li>
 </ul>
-</div>
-<div class="section" id="id129">
-<h3>Bugs fixed<a class="headerlink" href="#id129" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id132">
+<h3>Bugs fixed<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Install script when the BLAS library used by R is specified as a library
 file (patch by Michael Kuhn)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-3">
+</section>
+</section>
+<section id="release-2-1-3">
 <h2>Release 2.1.3<a class="headerlink" href="#release-2-1-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id130">
-<h3>Bugs fixed<a class="headerlink" href="#id130" title="Permalink to this headline">¶</a></h3>
+<section id="id133">
+<h3>Bugs fixed<a class="headerlink" href="#id133" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Spurious error message when using DataFrame.from_csvfile() without
 specifying col_names  or row_names</p></li>
 <li><p>Patch to finally compile with Python &lt; 2.6 (contribDuted by Denis Barbier)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-2">
+</section>
+</section>
+<section id="release-2-1-2">
 <h2>Release 2.1.2<a class="headerlink" href="#release-2-1-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id131">
-<h3>New Features<a class="headerlink" href="#id131" title="Permalink to this headline">¶</a></h3>
+<section id="id134">
+<h3>New Features<a class="headerlink" href="#id134" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>NA_Logical, NA_Real, NA_Integer, NA_Character from <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>
 are imported by robjects.</p></li>
 </ul>
-</div>
-<div class="section" id="id132">
-<h3>Changes<a class="headerlink" href="#id132" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id135">
+<h3>Changes<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>NA_bool, NA_real, NA_integer, NA_character and NA_complex are now
@@ -1932,31 +1962,31 @@ robjects-level vectors
 (they were rinterface-level vectors).
 Consider using the rinterface-defined NAs instead of them.</p></li>
 </ul>
-</div>
-<div class="section" id="id133">
-<h3>Bugs fixed<a class="headerlink" href="#id133" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id136">
+<h3>Bugs fixed<a class="headerlink" href="#id136" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Missing conditional C definition to compile with Python 2.4 # issue 38</p></li>
 <li><p>Fixed error when calling robjects.vectors.Vector.iteritems() on an R
 vector without names</p></li>
 <li><p>Fixed automatic conversion issues (issue #41)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-1">
+</section>
+</section>
+<section id="release-2-1-1">
 <h2>Release 2.1.1<a class="headerlink" href="#release-2-1-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id134">
-<h3>Bugs fixed<a class="headerlink" href="#id134" title="Permalink to this headline">¶</a></h3>
+<section id="id137">
+<h3>Bugs fixed<a class="headerlink" href="#id137" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Issues with NA values # issue 37</p></li>
 <li><p>Missing manual scale functions in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.lib.ggplot2</span></code> # issue 39</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-1-0">
+</section>
+</section>
+<section id="release-2-1-0">
 <h2>Release 2.1.0<a class="headerlink" href="#release-2-1-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id135">
-<h3>New Features<a class="headerlink" href="#id135" title="Permalink to this headline">¶</a></h3>
+<section id="id138">
+<h3>New Features<a class="headerlink" href="#id138" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>Method <code class="xref py py-meth docutils literal notranslate"><span class="pre">formals()</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code> (formerly <em>RFunction</em>)</p></li>
@@ -2045,9 +2075,9 @@ and <code class="xref py py-class docutils literal notranslate"><span class="pre
 <li><p>static method <code class="xref py py-meth docutils literal notranslate"><span class="pre">from_iteritems()</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">TaggedList</span></code>,
 for creating a TaggedList from any object having a method <code class="xref py py-meth docutils literal notranslate"><span class="pre">iteritems()</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id136">
-<h3>Changes<a class="headerlink" href="#id136" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id139">
+<h3>Changes<a class="headerlink" href="#id139" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>The setup.py script is now taking command-line arguments when specifying
 R library-related paths are wished. python setup.py –help build_ext will
@@ -2105,9 +2135,9 @@ and a setter)</p></li>
 notable difference that duplicate names are not silently overwritten: an exception
 of class <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> is thrown whenever happening</p></li>
 </ul>
-</div>
-<div class="section" id="id137">
-<h3>Bugs fixed<a class="headerlink" href="#id137" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id140">
+<h3>Bugs fixed<a class="headerlink" href="#id140" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">REnvironment.get()</span></code> now accepts a named parameter <em>wantFun</em>
 (like <code class="xref py py-meth docutils literal notranslate"><span class="pre">rinterface.SexpEnvironment()</span></code> does)</p></li>
@@ -2118,40 +2148,40 @@ when trying to create vector-like object of impossible type</p></li>
 (instead of <code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code>)</p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Robj.as_py()</span></code> was not working at all (and now it does to some extent)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-7">
+</section>
+</section>
+<section id="release-2-0-7">
 <h2>Release 2.0.7<a class="headerlink" href="#release-2-0-7" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id138">
-<h3>Bugs fixed<a class="headerlink" href="#id138" title="Permalink to this headline">¶</a></h3>
+<section id="id141">
+<h3>Bugs fixed<a class="headerlink" href="#id141" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>On win32, printing an object was leaving an open file handle behind each time,
 leading to an error and the impossibility to print
 (# bug report and fix by Christopher Gutierrez)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-6">
+</section>
+</section>
+<section id="release-2-0-6">
 <h2>Release 2.0.6<a class="headerlink" href="#release-2-0-6" title="Permalink to this headline">¶</a></h2>
 <p>No user-visible change. Win32-specific additions to the C module
 were made to compile it.</p>
-</div>
-<div class="section" id="release-2-0-5">
+</section>
+<section id="release-2-0-5">
 <h2>Release 2.0.5<a class="headerlink" href="#release-2-0-5" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id139">
-<h3>Bugs fixed<a class="headerlink" href="#id139" title="Permalink to this headline">¶</a></h3>
+<section id="id142">
+<h3>Bugs fixed<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Crash when calling <code class="xref py py-meth docutils literal notranslate"><span class="pre">SexpEnvironment.get()</span></code> with an empty string
 #bug report by Walter Moreira</p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">SexpEnvironment.__getitem__()</span></code> called with an empty string
 caused unpredictable (and bad) things</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-4">
+</section>
+</section>
+<section id="release-2-0-4">
 <h2>Release 2.0.4<a class="headerlink" href="#release-2-0-4" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id140">
-<h3>Bugs fixed<a class="headerlink" href="#id140" title="Permalink to this headline">¶</a></h3>
+<section id="id143">
+<h3>Bugs fixed<a class="headerlink" href="#id143" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Added missing named parameter <em>wantfun</em> to method <code class="xref py py-meth docutils literal notranslate"><span class="pre">REnvironment.get()</span></code>
 (making it similar to <code class="xref py py-meth docutils literal notranslate"><span class="pre">SexpEnvironment.get()</span></code>)</p></li>
@@ -2166,12 +2196,12 @@ R CMD config</p></li>
 <li><p>Calls to <code class="xref py py-meth docutils literal notranslate"><span class="pre">SexpClosure.rcall()</span></code> with something else that the expected
 kind of tuple could cause a segfault</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-3">
+</section>
+</section>
+<section id="release-2-0-3">
 <h2>Release 2.0.3<a class="headerlink" href="#release-2-0-3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id141">
-<h3>New Features<a class="headerlink" href="#id141" title="Permalink to this headline">¶</a></h3>
+<section id="id144">
+<h3>New Features<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>:</p>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">process_revents()</span></code>, a Wrapper for R_ProcessEvents
@@ -2186,9 +2216,9 @@ and for R_RunHandlers on UNIX-like systems
 </dl>
 </li>
 </ul>
-</div>
-<div class="section" id="id142">
-<h3>Changes<a class="headerlink" href="#id142" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id145">
+<h3>Changes<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>the default for reading and writing the console are now using sys.stdin and sys.stdout
 (# patch submitted by Nathaniel Smith)</p></li>
@@ -2197,9 +2227,9 @@ one to flush the console</p></li>
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">Sexp.do_slot_assign()</span></code> now creates the slot if missing
 (design-fix - # patch by Nathaniel Smith)</p></li>
 </ul>
-</div>
-<div class="section" id="id143">
-<h3>Bugs fixed<a class="headerlink" href="#id143" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id146">
+<h3>Bugs fixed<a class="headerlink" href="#id146" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>fixed problem of numpy interface with R boolean vectors.
 They are now presented as ‘i’ rather than ‘b’ to numpy
@@ -2209,41 +2239,41 @@ now ensures that a traceback is printed to stderr whenever an error
 occurs during the evalutation of the callback (the raised exception used
 to be silently propagated to the next python call, leading to problems).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-2">
+</section>
+</section>
+<section id="release-2-0-2">
 <h2>Release 2.0.2<a class="headerlink" href="#release-2-0-2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id144">
-<h3>Bugs fixed<a class="headerlink" href="#id144" title="Permalink to this headline">¶</a></h3>
+<section id="id147">
+<h3>Bugs fixed<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>Fix installation bug when the include directories contain either ‘-‘ or ‘I’
+<li><p>Fix installation bug when the include directories contain either ‘-’ or ‘I’
 #spotted by James Yoo</p></li>
 <li><p>Failing to initialize R now throws a RuntimeError</p></li>
 <li><p>Copying an R “NA” into Python returns a None (and no longer a True)
 (#fixes a bug reported by Jeff Gentry)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-1">
+</section>
+</section>
+<section id="release-2-0-1">
 <h2>Release 2.0.1<a class="headerlink" href="#release-2-0-1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id145">
-<h3>New features<a class="headerlink" href="#id145" title="Permalink to this headline">¶</a></h3>
+<section id="id148">
+<h3>New features<a class="headerlink" href="#id148" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>Property <cite>names</cite> for the <code class="xref py py-class docutils literal notranslate"><span class="pre">RVector</span></code> methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">getnames()</span></code>
 and <code class="xref py py-meth docutils literal notranslate"><span class="pre">setnames()</span></code> (this was likely forgotten for Release 2.0.0).</p></li>
 <li><p>Property <cite>rclass</cite> for <code class="xref py py-class docutils literal notranslate"><span class="pre">RObjectMixin</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id146">
-<h3>Changes<a class="headerlink" href="#id146" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id149">
+<h3>Changes<a class="headerlink" href="#id149" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">rclass()</span></code> becomes <code class="xref py py-meth docutils literal notranslate"><span class="pre">getrclass()</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id147">
-<h3>Bugs fixed<a class="headerlink" href="#id147" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id150">
+<h3>Bugs fixed<a class="headerlink" href="#id150" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Having the environment variable R_HOME specified resulted in an error
 when importing <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a> # root of the problem spotted by Peter</p></li>
@@ -2254,35 +2284,35 @@ module <code class="xref py py-mod docutils literal notranslate"><span class="pr
 <li><p><a class="reference internal" href="rlike.html#rpy2.rlike.container.TaggedList.pop" title="rpy2.rlike.container.TaggedList.pop"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rpy2.rlike.container.TaggedList.pop()</span></code></a> is now returning the element
 matching the given index</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-0">
+</section>
+</section>
+<section id="release-2-0-0">
 <h2>Release 2.0.0<a class="headerlink" href="#release-2-0-0" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id148">
-<h3>New features<a class="headerlink" href="#id148" title="Permalink to this headline">¶</a></h3>
+<section id="id151">
+<h3>New features<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New module <a class="reference internal" href="robjects_convert.html#module-rpy2.robjects.conversion" title="rpy2.robjects.conversion: Converting rpy2 proxies for R objects into Python objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.conversion</span></code></a>.</p></li>
 <li><p>New module <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.numpy2ri</span></code> to convert <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> objects
 into <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> objects.
 # adapted from a patch contributed by Nathaniel Smith</p></li>
 </ul>
-</div>
-<div class="section" id="id149">
-<h3>Changes<a class="headerlink" href="#id149" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id152">
+<h3>Changes<a class="headerlink" href="#id152" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">RObject.__repr__()</span></code> moved to <code class="xref py py-meth docutils literal notranslate"><span class="pre">RObject.r_repr()</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="id150">
-<h3>Bugs fixed<a class="headerlink" href="#id150" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id153">
+<h3>Bugs fixed<a class="headerlink" href="#id153" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Informative message returned as RuntimeError when failing to find R’s HOME</p></li>
 <li><p>Use the registry to find the R’s HOME on win32
 # snatched from Peter’s earlier contribution to rpy-1.x</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-0rc1">
+</section>
+</section>
+<section id="release-2-0-0rc1">
 <h2>Release 2.0.0rc1<a class="headerlink" href="#release-2-0-0rc1" title="Permalink to this headline">¶</a></h2>
 <p><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rpy_classic</span></code>:</p>
 <ul class="simple">
@@ -2296,19 +2326,19 @@ property <code class="xref py py-attr docutils literal notranslate"><span class=
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">conversion</span></code>. Adding the prefix <cite>conversion.</cite> to calls
 to those functions will be enough to update existing code</p></li>
 </ul>
-<div class="section" id="id151">
-<h3>Bugs fixed<a class="headerlink" href="#id151" title="Permalink to this headline">¶</a></h3>
+<section id="id154">
+<h3>Bugs fixed<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>Informative message returned as RuntimeError when failing to find R’s HOME</p></li>
 <li><p>Use the registry to find the R’s HOME on win32
 # snatched from Peter’s earlier contribution to rpy-1.x</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="id152">
-<h2>Release 2.0.0rc1<a class="headerlink" href="#id152" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id153">
-<h3>New features<a class="headerlink" href="#id153" title="Permalink to this headline">¶</a></h3>
+</section>
+</section>
+<section id="id155">
+<h2>Release 2.0.0rc1<a class="headerlink" href="#id155" title="Permalink to this headline">¶</a></h2>
+<section id="id156">
+<h3>New features<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>added <code class="xref py py-data docutils literal notranslate"><span class="pre">__version__</span></code> to rpy2/__init__.py</p></li>
 </ul>
@@ -2320,29 +2350,29 @@ to those functions will be enough to update existing code</p></li>
 <ul class="simple">
 <li><p>added missing class <code class="xref py py-class docutils literal notranslate"><span class="pre">BoolSexpVector</span></code>.</p></li>
 </ul>
-</div>
-<div class="section" id="id154">
-<h3>Changes<a class="headerlink" href="#id154" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id157">
+<h3>Changes<a class="headerlink" href="#id157" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>does not alias <code class="xref py py-class docutils literal notranslate"><span class="pre">rinterface.StrSexpVector</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">rinterface.IntSexpVector</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">rinterface.FloatSexpVector</span></code> anymore</p></li>
 <li><p>Constructor for <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.RDataFrame</span></code> checks that R lists are data.frames (not all lists are data.frame)</p></li>
 <li><p>Formerly new attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">_dotter</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">R</span></code> is now gone. The documentaion now points to <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rpy_classic</span></code> for this sort of things.</p></li>
 </ul>
-</div>
-<div class="section" id="id155">
-<h3>Bugs fixed<a class="headerlink" href="#id155" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id158">
+<h3>Bugs fixed<a class="headerlink" href="#id158" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>conditional typedef in rinterface.c to compile under win32 # reported and initial proposed fix from Paul Harrington</p></li>
 <li><p>__pow__ was missing from the delegator object for robjects.RVector (while the documentation was claiming it was there) # bug report by Robert Nuske</p></li>
 <li><p>Earlier change from Sexp.typeof() to getter Sexp.typeof was not reflected in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rpy_classic</span></code> # bug report by Robert Denham</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-0b1">
+</section>
+</section>
+<section id="release-2-0-0b1">
 <h2>Release 2.0.0b1<a class="headerlink" href="#release-2-0-0b1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id156">
-<h3>New features<a class="headerlink" href="#id156" title="Permalink to this headline">¶</a></h3>
+<section id="id159">
+<h3>New features<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>added <code class="xref py py-meth docutils literal notranslate"><span class="pre">setenvironment()</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">RFormula</span></code>, and defined <cite>environment</cite> as a property</p></li>
@@ -2353,9 +2383,9 @@ to those functions will be enough to update existing code</p></li>
 <li><p>added functions <code class="xref py py-func docutils literal notranslate"><span class="pre">get_initoptions()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">set_initoptions()</span></code>.</p></li>
 <li><p>new attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">_dotter</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">R</span></code> singleton. Setting it to True will translate ‘_’ into ‘.’ if the attribute is not found</p></li>
 </ul>
-</div>
-<div class="section" id="id157">
-<h3>Changes<a class="headerlink" href="#id157" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id160">
+<h3>Changes<a class="headerlink" href="#id160" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>constructor for RDataFrame now now accepts either <code class="xref py py-class docutils literal notranslate"><span class="pre">rlike.container.TaggedList</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">rinterface.SexpVector</span></code></p></li>
@@ -2365,9 +2395,9 @@ to those functions will be enough to update existing code</p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">sexpTypeEmbeddedR()</span></code> is now called <code class="xref py py-func docutils literal notranslate"><span class="pre">str_typeint()</span></code>.</p></li>
 <li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">initOptions</span></code> is now called <code class="xref py py-attr docutils literal notranslate"><span class="pre">initoptions</span></code>. Changes of options can only be done through <code class="xref py py-func docutils literal notranslate"><span class="pre">set_initoptions()</span></code>.</p></li>
 </ul>
-</div>
-<div class="section" id="id158">
-<h3>Bugs fixed<a class="headerlink" href="#id158" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id161">
+<h3>Bugs fixed<a class="headerlink" href="#id161" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>crash of <code class="xref py py-meth docutils literal notranslate"><span class="pre">Sexp.enclos()</span></code> when R not yet initialized (bug report #2078176)</p></li>
 <li><p>potential crash of <code class="xref py py-meth docutils literal notranslate"><span class="pre">Sexp.frame()</span></code> when R not yet initialized</p></li>
@@ -2378,12 +2408,12 @@ to those functions will be enough to update existing code</p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">rinterface.str_typeint()</span></code> was causing segfault when called with 99</p></li>
 <li><p>fixed subsetting for LANGSXP objects</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-0a3">
+</section>
+</section>
+<section id="release-2-0-0a3">
 <h2>Release 2.0.0a3<a class="headerlink" href="#release-2-0-0a3" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id159">
-<h3>New features<a class="headerlink" href="#id159" title="Permalink to this headline">¶</a></h3>
+<section id="id162">
+<h3>New features<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>:</p>
 <ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">setReadConsole()</span></code>: specify Python callback for console input</p></li>
@@ -2403,9 +2433,9 @@ to those functions will be enough to update existing code</p></li>
 <li><p>module <code class="xref py py-mod docutils literal notranslate"><span class="pre">indexing</span></code> with the function <code class="xref py py-func docutils literal notranslate"><span class="pre">order()</span></code></p></li>
 <li><p>method <code class="xref py py-meth docutils literal notranslate"><span class="pre">TaggedList.sort()</span></code> now implemented</p></li>
 </ul>
-</div>
-<div class="section" id="id160">
-<h3>Changes<a class="headerlink" href="#id160" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id163">
+<h3>Changes<a class="headerlink" href="#id163" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>:</p>
 <ul class="simple">
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">initEmbeddedR()</span></code> is only initializing if R is not started (no effect otherwise, and no exception thrown anymore)</p></li>
@@ -2420,9 +2450,9 @@ to those functions will be enough to update existing code</p></li>
 <ul class="simple">
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">R</span></code> remains a singleton, but does not throw an exception when multiple instances are requested</p></li>
 </ul>
-</div>
-<div class="section" id="id161">
-<h3>Bugs fixed<a class="headerlink" href="#id161" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id164">
+<h3>Bugs fixed<a class="headerlink" href="#id164" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>unable to compile on Python2.4 (definition of aliases to Python2.5-specific were not where they should be).</p></li>
 <li><p>overflow issues on Python 2.4/64 bits when indexing R vector with very large integers.</p></li>
@@ -2433,12 +2463,12 @@ to those functions will be enough to update existing code</p></li>
 <li><p>complex vectors should now be handled properly by <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface.robjects</span></code>.</p></li>
 <li><p>methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">rownames()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">colnames()</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">RDataFrame</span></code> were incorrect.</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-0a2">
+</section>
+</section>
+<section id="release-2-0-0a2">
 <h2>Release 2.0.0a2<a class="headerlink" href="#release-2-0-0a2" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id162">
-<h3>New features<a class="headerlink" href="#id162" title="Permalink to this headline">¶</a></h3>
+<section id="id165">
+<h3>New features<a class="headerlink" href="#id165" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="rlike.html#module-rpy2.rlike" title="rpy2.rlike: Operate (a bit) like in R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rlike</span></code></a>:</p>
 <ul class="simple">
 <li><p>package for R-like features in Python</p></li>
@@ -2453,20 +2483,20 @@ to those functions will be enough to update existing code</p></li>
 <li><p>method <code class="xref py py-meth docutils literal notranslate"><span class="pre">rcall()</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">ClosureSexp</span></code></p></li>
 <li><p>new experimental class <code class="xref py py-class docutils literal notranslate"><span class="pre">SexpLang</span></code> for R language objects.</p></li>
 </ul>
-</div>
-<div class="section" id="id163">
-<h3>Bugs fixed<a class="headerlink" href="#id163" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id166">
+<h3>Bugs fixed<a class="headerlink" href="#id166" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>R stack checking is disabled (no longer crashes when multithreading)</p></li>
 <li><p>fixed missing R_PreserveObject for vectors (causing R part of the object to sometimes vanish during garbage collection)</p></li>
 <li><p>prevents calling an R function when R has been ended (raise <code class="xref py py-class docutils literal notranslate"><span class="pre">RuntimeException</span></code>).</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-2-0-0a1">
+</section>
+</section>
+<section id="release-2-0-0a1">
 <h2>Release 2.0.0a1<a class="headerlink" href="#release-2-0-0a1" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="id164">
-<h3>New features<a class="headerlink" href="#id164" title="Permalink to this headline">¶</a></h3>
+<section id="id167">
+<h3>New features<a class="headerlink" href="#id167" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>method <code class="xref py py-meth docutils literal notranslate"><span class="pre">getnames()</span></code> for <code class="xref py py-class docutils literal notranslate"><span class="pre">RVector</span></code></p></li>
@@ -2478,9 +2508,9 @@ to those functions will be enough to update existing code</p></li>
 <li><p>new class <code class="xref py py-class docutils literal notranslate"><span class="pre">RDataFrame</span></code>. The constructor <code class="xref py py-meth docutils literal notranslate"><span class="pre">__init__()</span></code> is still experimental (need for an ordered dictionnary, that will be in before the beta</p></li>
 <li><p>filled documentation about mapping between objects</p></li>
 </ul>
-</div>
-<div class="section" id="id165">
-<h3>Changes<a class="headerlink" href="#id165" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id168">
+<h3>Changes<a class="headerlink" href="#id168" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>many fixes and additions to the documentation</p></li>
 <li><p>improved GTK console in the demos</p></li>
@@ -2491,9 +2521,9 @@ to those functions will be enough to update existing code</p></li>
 <ul class="simple">
 <li><p>changed method name <cite>getNames</cite> to <cite>getnames</cite> where available (all lower-case names for methods seems to be the accepted norm in Python).</p></li>
 </ul>
-</div>
-<div class="section" id="id166">
-<h3>Bugs fixed<a class="headerlink" href="#id166" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="id169">
+<h3>Bugs fixed<a class="headerlink" href="#id169" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>:</p>
 <ul class="simple">
 <li><p>fixed string representation of R object on Microsoft Windows (using fifo, not available on win32)</p></li>
@@ -2503,15 +2533,15 @@ to those functions will be enough to update existing code</p></li>
 <ul class="simple">
 <li><p>fixed context of evaluation for R functions (now R_GlobalEnv)</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="release-1-0a0">
+</section>
+</section>
+<section id="release-1-0a0">
 <h2>Release 1.0a0<a class="headerlink" href="#release-1-0a0" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>first public release</p></li>
 </ul>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -2523,6 +2553,8 @@ to those functions will be enough to update existing code</p></li>
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Changes in rpy2</a><ul>
+<li><a class="reference internal" href="#release-3-4-5">Release 3.4.5</a></li>
+<li><a class="reference internal" href="#release-3-4-4">Release 3.4.4</a></li>
 <li><a class="reference internal" href="#release-3-4-3">Release 3.4.3</a></li>
 <li><a class="reference internal" href="#release-3-4-2">Release 3.4.2</a></li>
 <li><a class="reference internal" href="#release-3-4-1">Release 3.4.1</a></li>
@@ -2627,7 +2659,7 @@ to those functions will be enough to update existing code</p></li>
 <li><a class="reference internal" href="#release-2-0-1">Release 2.0.1</a></li>
 <li><a class="reference internal" href="#release-2-0-0">Release 2.0.0</a></li>
 <li><a class="reference internal" href="#release-2-0-0rc1">Release 2.0.0rc1</a></li>
-<li><a class="reference internal" href="#id152">Release 2.0.0rc1</a></li>
+<li><a class="reference internal" href="#id155">Release 2.0.0rc1</a></li>
 <li><a class="reference internal" href="#release-2-0-0b1">Release 2.0.0b1</a></li>
 <li><a class="reference internal" href="#release-2-0-0a3">Release 2.0.0a3</a></li>
 <li><a class="reference internal" href="#release-2-0-0a2">Release 2.0.0a2</a></li>
@@ -2673,14 +2705,14 @@ to those functions will be enough to update existing code</p></li>
         <li class="right" >
           <a href="appendix.html" title="Appendix"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="appendix.html" >Appendix</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Changes in rpy2</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

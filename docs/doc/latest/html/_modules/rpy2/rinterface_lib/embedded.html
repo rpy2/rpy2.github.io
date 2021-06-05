@@ -7,11 +7,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.5.0dev documentation</title>
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
@@ -188,6 +188,9 @@
         <span class="n">n_options</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">options_c</span><span class="p">)</span>
         <span class="n">n_options_c</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">n_options</span><span class="p">)</span>
 
+        <span class="c1"># TODO: Conditional in C code</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">R_SignalHandlers</span> <span class="o">=</span> <span class="mi">0</span>
+
         <span class="c1"># Instead of calling Rf_initEmbeddedR which breaks threaded context</span>
         <span class="c1"># perform the initialization manually to set R_CStackLimit before</span>
         <span class="c1"># calling setup_Rmainloop(), see:</span>
@@ -206,9 +209,6 @@
         <span class="c1">#   (Aqua, TERM, and TERM not &quot;dumb&quot;)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_Outputfile</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_Consolefile</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span>
-
-        <span class="c1"># TODO: Conditional in C code</span>
-        <span class="n">rlib</span><span class="o">.</span><span class="n">R_SignalHandlers</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="k">if</span> <span class="n">_want_setcallbacks</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">rlib_symbol</span><span class="p">,</span> <span class="n">callback_symbol</span> <span class="ow">in</span> <span class="n">CALLBACK_INIT_PAIRS</span><span class="p">:</span>
@@ -318,7 +318,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

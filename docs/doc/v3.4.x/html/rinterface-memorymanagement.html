@@ -5,13 +5,14 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Memory management and garbage collection &#8212; rpy2 3.4.3 documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Memory management and garbage collection &#8212; rpy2 3.4.5 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -40,7 +41,7 @@
         <li class="right" >
           <a href="rinterface.html" title="Low-level interface"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
       </ul>
     </div>  
@@ -50,7 +51,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="memory-management-and-garbage-collection">
+  <section id="memory-management-and-garbage-collection">
 <span id="rinterface-memory"></span><h1>Memory management and garbage collection<a class="headerlink" href="#memory-management-and-garbage-collection" title="Permalink to this headline">¶</a></h1>
 <p>The tracking of an R object (<code class="xref c c-type docutils literal notranslate"><span class="pre">SEXP</span></code> in R’s C-API)
 differs from Python as it does not involve reference counting.
@@ -58,7 +59,7 @@ It is using at attribute NAMED (more on this below),
 and only considers for collection objects that are not preserved by
 being contained in an other R object (for floating object, R’s C-API
 has 2 functions <code class="xref c c-func docutils literal notranslate"><span class="pre">R_PreserveObject()</span></code> and <code class="xref c c-func docutils literal notranslate"><span class="pre">R_ReleaseObject()</span></code> that do little more than placing object is in a container called <code class="xref c c-data docutils literal notranslate"><span class="pre">R_PreciousList</span></code>).</p>
-<div class="section" id="reference-counting">
+<section id="reference-counting">
 <h2>Reference counting<a class="headerlink" href="#reference-counting" title="Permalink to this headline">¶</a></h2>
 <p>Rpy2 is using its own reference counting system in order to bridge R with
 Python and keep as much as possible the pass-by-reference approach familiar
@@ -164,8 +165,8 @@ as part of the base package).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">del</span><span class="p">(</span><span class="n">letters_cstruct</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="capsules-of-r-objects">
+</section>
+<section id="capsules-of-r-objects">
 <h2>Capsules of R objects<a class="headerlink" href="#capsules-of-r-objects" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> can be passed around as a (relatively) opaque
 C structure, using the attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">__sexp__</span></code> (a Python <cite>capsule</cite>).</p>
@@ -234,8 +235,8 @@ it without writing any C code:</p>
 of the risk to confuse the object tracking in rpy2, and ultimately create a segfault.
 (I have not thought too long about this. May be the object tracking is more robust
 than it think. Just be warned.)</p>
-</div>
-<div class="section" id="r-s-named">
+</section>
+<section id="r-s-named">
 <h2>R’s NAMED<a class="headerlink" href="#r-s-named" title="Permalink to this headline">¶</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -268,8 +269,8 @@ to a variable <em>mine</em> in the R globalenv namespace:</p>
 <p>The <em>named</em> is 2 to indicate to <strong class="program">R</strong> that <em>mine</em> should be
 copied if a modication of any sort is performed on the object. That copy
 will be local to the scope of the modification within R.</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -330,13 +331,13 @@ will be local to the scope of the modification within R.</p>
         <li class="right" >
           <a href="rinterface.html" title="Low-level interface"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.4.5 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

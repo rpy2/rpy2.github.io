@@ -5,13 +5,14 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
     <title>Porting code to rpy2 &#8212; rpy2 3.5.0dev documentation</title>
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -50,19 +51,19 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="porting-code-to-rpy2">
+  <section id="porting-code-to-rpy2">
 <h1>Porting code to rpy2<a class="headerlink" href="#porting-code-to-rpy2" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="from-r">
+<section id="from-r">
 <h2>From R<a class="headerlink" href="#from-r" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="from-rpy">
+</section>
+<section id="from-rpy">
 <h2>From rpy<a class="headerlink" href="#from-rpy" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="compatibility-layer">
+<section id="compatibility-layer">
 <h3>Compatibility layer<a class="headerlink" href="#compatibility-layer" title="Permalink to this headline">¶</a></h3>
 <p>A compatibility layer exists, although it currently does not implement
 completely the rpy interface.</p>
-</div>
-<div class="section" id="faithful-example">
+</section>
+<section id="faithful-example">
 <h3>Faithful example<a class="headerlink" href="#faithful-example" title="Permalink to this headline">¶</a></h3>
 <p>In years, Tim Church’s <em>Old faithful</em> example seems to have reached an
 almost iconic status for many <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy</span></code> users.
@@ -71,7 +72,7 @@ its translation into <a class="reference internal" href="robjects.html#module-rp
 is based on John A. Schroeder’s translation for rpy2-2.0.8 (that is
 also working with version 2.1, but cannot use new features for obvious
 compatibility reasons).</p>
-<div class="section" id="setting-up">
+<section id="setting-up">
 <h4>Setting up<a class="headerlink" href="#setting-up" title="Permalink to this headline">¶</a></h4>
 <p>rpy2 can hide more of the R layer, providing an interface that only
 requires Python knowledge.</p>
@@ -84,8 +85,8 @@ requires Python knowledge.</p>
 <p>The example only uses explicitly a <a class="reference internal" href="vector.html#rpy2.robjects.vectors.DataFrame" title="rpy2.robjects.vectors.DataFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.DataFrame</span></code></a>, and
 defined R packages. The function <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.importr" title="rpy2.robjects.packages.importr"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.packages.importr()</span></code></a> allows
 the encapsulation of R functions in packages into a Python-friendly form.</p>
-</div>
-<div class="section" id="importing-the-data">
+</section>
+<section id="importing-the-data">
 <h4>Importing the data<a class="headerlink" href="#importing-the-data" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">faithful_data</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">from_csvfile</span><span class="p">(</span><span class="s1">&#39;faithful.dat&#39;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
 </pre></div>
@@ -96,16 +97,16 @@ R’s own collection of datasets:</p>
 <span class="n">faithful_data</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;faithful&#39;</span><span class="p">)[</span><span class="s1">&#39;faithful&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="summary">
+</section>
+<section id="summary">
 <h4>Summary<a class="headerlink" href="#summary" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">edsummary</span> <span class="o">=</span> <span class="n">r_base</span><span class="o">.</span><span class="n">summary</span><span class="p">(</span><span class="n">faithful_data</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;eruptions&quot;</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">edsummary</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%.3f</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="stem-and-leaf-plot">
+</section>
+<section id="stem-and-leaf-plot">
 <h4>Stem-and-leaf plot<a class="headerlink" href="#stem-and-leaf-plot" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
 
@@ -113,8 +114,8 @@ R’s own collection of datasets:</p>
 <span class="n">graphics</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">faithful_data</span><span class="o">.</span><span class="n">rx2</span><span class="p">(</span><span class="s2">&quot;eruptions&quot;</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="histogram">
+</section>
+<section id="histogram">
 <h4>Histogram<a class="headerlink" href="#histogram" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">grdevices</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;grDevices&#39;</span><span class="p">)</span>
 <span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
@@ -168,15 +169,15 @@ R’s own collection of datasets:</p>
 <span class="n">grdevices</span><span class="o">.</span><span class="n">dev_off</span><span class="p">()</span>
 </pre></div>
 </div>
-</div>
-</div>
-</div>
-<div class="section" id="from-rpy2-2-0-x">
+</section>
+</section>
+</section>
+<section id="from-rpy2-2-0-x">
 <h2>From rpy2-2.0.x<a class="headerlink" href="#from-rpy2-2-0-x" title="Permalink to this headline">¶</a></h2>
 <p>This section refers to changes in the <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.objects</span></code> layer.
 If interested in changes to the lower level <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>,
 the list of changes in the appendix should be consulted.</p>
-<div class="section" id="camelcase">
+<section id="camelcase">
 <h3>Camelcase<a class="headerlink" href="#camelcase" title="Permalink to this headline">¶</a></h3>
 <p>The camelCase naming disappeared from variables and methods, as it seemed
 to be mostly absent from such obejcts in the standard library
@@ -211,9 +212,9 @@ to be mostly absent from such obejcts in the standard library
 </tr>
 </tbody>
 </table>
-</div>
-</div>
-<div class="section" id="r-prefixed-class-names">
+</section>
+</section>
+<section id="r-prefixed-class-names">
 <h2>R-prefixed class names<a class="headerlink" href="#r-prefixed-class-names" title="Permalink to this headline">¶</a></h2>
 <p>Class names prefixed with the letter <cite>R</cite> were cleaned from that prefix.
 For example, <cite>RVector</cite> became <cite>Vector</cite>, <cite>RDataFrame</cite> became <cite>DataFrame</cite>, etc…</p>
@@ -253,7 +254,7 @@ For example, <cite>RVector</cite> became <cite>Vector</cite>, <cite>RDataFrame</
 </tr>
 </tbody>
 </table>
-<div class="section" id="namespace-for-r-packages">
+<section id="namespace-for-r-packages">
 <h3>Namespace for R packages<a class="headerlink" href="#namespace-for-r-packages" title="Permalink to this headline">¶</a></h3>
 <p>The function <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.importr" title="rpy2.robjects.packages.importr"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.packages.importr()</span></code></a> should be used to import an R package
 name space as a Python-friendly object</p>
@@ -267,26 +268,26 @@ name space as a Python-friendly object</p>
 conversion of ‘.’ in R variable names into ‘_’ for the Python variable
 name.</p>
 <p>The documentation in Section <a class="reference internal" href="robjects_rpackages.html#robjects-packages"><span class="std std-ref">R packages</span></a> gives more details.</p>
-</div>
-</div>
-<div class="section" id="parameter-names-in-function-call">
+</section>
+</section>
+<section id="parameter-names-in-function-call">
 <h2>Parameter names in function call<a class="headerlink" href="#parameter-names-in-function-call" title="Permalink to this headline">¶</a></h2>
 <p>By default, R functions exposed will have a safe translation of their named parameters
 attempted (‘.’ will become ‘_’). Section <a class="reference internal" href="robjects_functions.html#robjects-functions"><span class="std std-ref">Functions</span></a> should be checked for
 details.</p>
-</div>
-<div class="section" id="missing-values">
+</section>
+<section id="missing-values">
 <h2>Missing values<a class="headerlink" href="#missing-values" title="Permalink to this headline">¶</a></h2>
 <p>R has a built-in concept of <em>missing values</em>, and of types for missing values.
 This now better integrated into rpy2 (see more about <a class="reference internal" href="rinterface.html#missing-values"><span class="std std-ref">missing values</span></a>)</p>
-</div>
-<div class="section" id="graphics">
+</section>
+<section id="graphics">
 <h2>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h2>
 <p>The combined use of namespaces for R packages (see above),
 and of custom representation of few specific R libraries is making
 the generation of graphics (even) easier (see Section <a class="reference internal" href="graphics.html#graphics"><span class="std std-ref">Graphics</span></a>).</p>
-</div>
-</div>
+</section>
+</section>
 
 
             <div class="clearer"></div>
@@ -374,7 +375,7 @@ the generation of graphics (even) easier (see Section <a class="reference intern
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>

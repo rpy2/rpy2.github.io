@@ -6,12 +6,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.ipython.rmagic &#8212; rpy2 3.4.3 documentation</title>
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/bizstyle.css" type="text/css" />
+    <title>rpy2.ipython.rmagic &#8212; rpy2 3.4.5 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
-    <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
     <script src="../../../_static/doctools.js"></script>
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
@@ -826,28 +826,28 @@
             <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">err</span><span class="p">):</span>
                 <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">err</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">tmpd</span><span class="p">:</span>
-                <span class="n">rmtree</span><span class="p">(</span><span class="n">tmpd</span><span class="p">)</span>
-            <span class="k">return</span>
+            <span class="k">raise</span> <span class="n">e</span>
         <span class="k">finally</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">]:</span>
                 <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;dev.off()&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">text_output</span><span class="p">:</span>
+                <span class="c1"># display_data.append((&#39;RMagic.R&#39;, {&#39;text/plain&#39;:text_output}))</span>
+                <span class="n">displaypub</span><span class="o">.</span><span class="n">publish_display_data</span><span class="p">(</span>
+                    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;text/plain&#39;</span><span class="p">:</span> <span class="n">text_output</span><span class="p">},</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;RMagic.R&#39;</span><span class="p">)</span>
+            <span class="c1"># publish the R images</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">]:</span>
+                <span class="n">display_data</span><span class="p">,</span> <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_graphics</span><span class="p">(</span>
+                    <span class="n">tmpd</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">isolate_svgs</span>
+                <span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">text_output</span><span class="p">:</span>
-            <span class="c1"># display_data.append((&#39;RMagic.R&#39;, {&#39;text/plain&#39;:text_output}))</span>
-            <span class="n">displaypub</span><span class="o">.</span><span class="n">publish_display_data</span><span class="p">(</span>
-                <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;text/plain&#39;</span><span class="p">:</span> <span class="n">text_output</span><span class="p">},</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;RMagic.R&#39;</span><span class="p">)</span>
-        <span class="c1"># publish the R images</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">]:</span>
-            <span class="n">display_data</span><span class="p">,</span> <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_graphics</span><span class="p">(</span><span class="n">tmpd</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">isolate_svgs</span><span class="p">)</span>
-
-            <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">disp_d</span> <span class="ow">in</span> <span class="n">display_data</span><span class="p">:</span>
-                <span class="n">displaypub</span><span class="o">.</span><span class="n">publish_display_data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">disp_d</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
-                                                <span class="n">metadata</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">disp_d</span> <span class="ow">in</span> <span class="n">display_data</span><span class="p">:</span>
+                    <span class="n">displaypub</span><span class="o">.</span><span class="n">publish_display_data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">disp_d</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+                                                    <span class="n">metadata</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
 
             <span class="c1"># kill the temporary directory - currently created only for &quot;svg&quot;</span>
             <span class="c1"># and &quot;png&quot; (else it&#39;s None)</span>
-            <span class="n">rmtree</span><span class="p">(</span><span class="n">tmpd</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tmpd</span><span class="p">:</span>
+                <span class="n">rmtree</span><span class="p">(</span><span class="n">tmpd</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
             <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
@@ -914,14 +914,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.4.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 3.5.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
     </div>
   </body>
 </html>
