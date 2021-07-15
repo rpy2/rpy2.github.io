@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Extensions</title>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-8995033-4', 'auto');
+      ga('send', 'pageview');
+      
+    </script>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/custom.css">
+    <link rel="stylesheet" href="css/codehilite.css">
+    <style>
+    code {
+	display: unset;
+	width: 100%;
+	padding-bottom: 1em;
+	color: unset;
+    }
+    div.codehilite {
+	background-color: #eaeaea;
+	padding: .5em;
+	border: solid thin #909090;
+	margin-bottom: .5em;
+	border-left: solid thick #a0a0f0;
+    }
+    div.codeexample {
+	border-left: unset;
+	border-right: unset;
+    }
+    pre {
+	overflow: unset;
+    }
+    span.err {
+	border: unset;
+    }
+    table thead tr {
+	background-color: #909090;
+	color: #eaeaea;
+	text-align: left;
+    }
+    table thead th {
+	border-right: 1px solid #eaeaea;
+	padding: .2em .3em;
+    }
+    table tbody tr {
+	border-bottom: 1px solid #909090;
+    }
+    table tbody td {
+	border-right: 1px solid #909090;
+	padding: .2em .3em;
+    }
+    tbody tr:nth-of-type(even) {
+	background-color: #eaeaea;
+    }
+    table tbody tr:last-of-type {
+	border-bottom: medium solid #909090;
+    }
+    table {
+	margin-bottom: .5em;
+    }
+    div.cellresult {
+	background-color: #f3f3f3;
+	padding: .5em;
+	margin-bottom: .1em;
+	border-bottom: thin solid #909090;
+    }
+    </style>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light" role="navigation">
+      <div class="container">
+      <a class="navbar-brand" href="index.html"><img alt="logo" src="images/rpy2_logo2013.png" style="height: 2em"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon"></span>
+      </button>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+	  
+	  
+	  <li class="nav-item">
+	    <a class="nav-link" href="doc.html">Documentation </a>
+	  </li>
+	  
+	  
+	  <li class="nav-item">
+	    <a class="nav-link" href="https://github.com/rpy2/rpy2-docker">Docker </a>
+	  </li>
+	  
+	  
+	  <li class="nav-item">
+	    <a class="nav-link" href="https://github.com/rpy2/rpy2-mybinder">MyBinder </a>
+	  </li>
+	  
+	  
+	  <li class="nav-item">
+	    <a class="nav-link" href="extensions.html">Extensions </a>
+	  </li>
+	  
+        </ul>
+      </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    <div class="container">
+       
+<div>
+  <div class="col-lg-12" style="padding-left: 30px; padding-right: 30px;">
+    <div class="card" style="margin-top: 20px;">
+      <div class="card-body">
+<h1>Rpy2 is turning 13</h1>
+<p><code>rpy2</code> is turning 13. It is downloaded approximately 2 millions times per year from Python Package Index (pypi), and is otherwise independently packaged by Linux distributions and conda. It is available by default in Google's data science notebook Colab, is documented to be one of the ways to use R in the Google Cloud AI notebooks, and is used at companies such as Netflix. Getting there was a combination of adaptation, <a href="https://github.com/rpy2/rpy2/graphs/contributors">contributions from users</a>, changes in the mindset of communities, and persistence.</p>
+<p>When rpy2 was conceived "Data Scientists" were still statisticians working at select places in the San Francisco Bay Area. It was initially a redesign and rewrite of <code>rpy</code> (hence the name), itself continuing exploration to make R communicate with other languages under the OmegaHat umbrella. <code>rpy2</code> defined its own path toward polyglot data science though. It started out with the idea that the "language war" predominant at the time was not productive. R had a wealth of statistical and plotting capabilities through its libraries that was unmatched, and that even for "classical" methods it was more battle-tested for edge cases than anything in Python. On the other hand Python was better equipped to build software in general, run services, and be a glue language. Both of those two last statements remain valid today, although the lines blurred a little as both languages gained libraries. Contrary to the language centric expansionist view of the time, which consisted in reimplementing in your preferred language anything you would need or see missing, the philosophy behind <code>rpy2</code> was that the reimplementation of complex numerical algorithms in R that withstood the sustained scrutiny and use be the statistical computing community has enormous value. True to the programming motto "first make it work, then make it correct, finally make fast", rpy2 wanted to offer an easier path to the first two steps, and turn the third one into "make it fast it you really need to".</p>
+<p>I have spent a lot of my time in research and innovation environment. Building prototypes is often the best thing to do for the project. For that stitching together existing parts with the minimum amount of customization necessary is an efficient strategy. This is no different from physical prototypes where off-the-shelf parts are assembled with bolts, wires, tape, or gum. If those existing parts are trusted to perform their respective tasks correctly and under a relatively wide range of conditions it is better. That novel construct may push its parts to their limits, sometimes unknowingly. Having confidence that edge cases have a chance to be covered because the code has been used a lot and in a wide range of situations will help during the always surprisingly longer than anticipated time spent troubleshooting. Python can orchestrate everything and implement the high-level logic of the prototype, and R libraries can used when this is the most tested implementation. The motto is "reuse, don't reimplement (unless you must)".</p>
+<p>Moreover, in research settings that prototype will often be the only implementation in the end. There will not be a rewrite for production. This can happen when the purpose of the prototype is to help shape what is the question to be answered. Resolving enormous amounts of ambiguity happens quite a lot then. Frequently it cannot be fully done through thought experiments or placing colored sticky notes on a board during a co-creation workshop. This can also happen when the user base for the prototype is very small; for example a handful of scientists at the company. In that case rewriting for scale might is not worth it.</p>
+<p>The effort needed to create that data science proof-of-concept, demonstration, or prototype and putting it or its results into the hands of the first users is a critically important factor. Principled positions about whether Python or R is a universally better language are much less relevant.</p>
+<p>This thinking seems to have been correct, at least partly. Choosing a side between Python and R as if it was an oath of allegiance is no longer the only mainstream option. What I did not anticipate in the beginning was that individuals themselves would increasingly become polyglot. Nowadays many job descriptions list both languages in their requirements. This first sign of this happening came early though. In 2009, with a post from Nathaniel Smith about an IPython extension called <code>rnumpy</code>. Beside creating a better polyglot REPL environment by adding R to IPython, this showed me that there was a path to user adoption outside of trying to completely hide R written by "R users" behind a Pythonic API for "Python users". Later the "R magic" IPython expanded on the idea and added the integration of R graphics with the IPython notebook (soon to become Jupyter). This became popular rapidly. Or maybe users of the R magic were just the most vocal. The rise of Jupyter must have played a major role in getting users to rpy2. When the Jupyter project reorganized to have core features and extensions in different packages Dav Clark, with the help of Jupyter contributors, made rpy2 the new home for the "R magic". Work in that direction continues today with Michal Krassowski exploring how to render R animated plots in Jupyter, and bring code autocompletion to R cells in a notebook.  </p>
+<p>Loading the R magic is achieved with:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span>
+</code></pre></div>
+
+<p>Any cell in the Python notebook can be declared to contain R code with the prefix <code>%%R</code>. Optional arguments can be added, and documentation for them is available with <code>?%%R</code>. For example:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">%%</span><span class="n">R</span> <span class="o">--</span><span class="n">type</span><span class="o">=</span><span class="n">cairo</span><span class="o">-</span><span class="n">png</span>
+
+<span class="c1"># Load demo dataset in R about cars.</span>
+<span class="nf">data</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+
+<span class="c1"># Fit a general linear model.</span>
+<span class="n">fit</span> <span class="o">&lt;-</span> <span class="nf">glm</span><span class="p">(</span><span class="n">mpg</span> <span class="o">~</span> <span class="n">cyl</span> <span class="o">+</span> <span class="n">wt</span> <span class="o">-</span> <span class="m">1</span><span class="p">,</span> <span class="n">family</span> <span class="o">=</span> <span class="n">Gamma</span><span class="p">,</span> <span class="n">data</span> <span class="o">=</span> <span class="n">mtcars</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="nf">summary</span><span class="p">(</span><span class="n">fit</span><span class="p">))</span>
+
+<span class="c1"># 4 plots on one page.</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mfrow</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">2</span><span class="p">,</span> <span class="m">2</span><span class="p">),</span> <span class="n">oma</span> <span class="o">=</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">2</span><span class="p">,</span> <span class="m">0</span><span class="p">))</span>
+<span class="nf">plot</span><span class="p">(</span><span class="n">fit</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="cellresult"><pre>
+Call:
+glm(formula = mpg ~ cyl + wt - 1, family = Gamma, data = mtcars)
+
+Deviance Residuals: 
+     Min        1Q    Median        3Q       Max  
+-0.18371  -0.09019  -0.01740   0.09807   0.25471  
+
+Coefficients:
+     Estimate Std. Error t value Pr(>|t|)    
+cyl 0.0036767  0.0009649   3.810 0.000641 ***
+wt  0.0096452  0.0018713   5.154 1.51e-05 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+(Dispersion parameter for Gamma family taken to be 0.01427085)
+
+    Null deviance:     NaN  on 32  degrees of freedom
+Residual deviance: 0.41904  on 30  degrees of freedom
+AIC: 147.43
+
+Number of Fisher Scoring iterations: 4
+</pre></div>
+
+<p><img alt="png" src="images/rpy2-today_3_1.png" /></p>
+<p>This mix of languages within the same document or source file was not what
+polyglot data applications were envisioned to be when designing rpy2.
+Because of the absence of overlap between the R and Python communities at the
+time it was assumed that Python programmers would not know much about R themselves.
+They were going to build systems or applications integrating features
+implemented in R and made available to them. The resulting application would be polyglot,
+but different teams would develop the Python and R parts.</p>
+<p>As a consequence the rpy2 design tried to hide R mannerisms behind Pythonic classes and methods.
+It also tried to have an API that fails early whenever a chance to prevent ambiguities or
+surprises during the execution of code. For example, by default rpy2 does not try to guess whether
+a Python list should be mapped to an R list or an R array, or guess the type of the array.
+A Python list will be mapped to an R list.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">seq</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
+<span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;vec&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">seq</span>
+<span class="c1"># This is an R list.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;vec&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="cellresult"><pre>[[1]]
+[1] 1
+
+[[2]]
+[1] 2
+
+[[3]]
+[1] 3
+</pre></div>
+
+<p>To have a simpler data structure, such as an array of integers, it must specified. Here by using the class <code>IntVector</code>.</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">rpy2.robjects.vectors</span> <span class="k">as</span> <span class="nn">rvec</span>
+<span class="n">vec_i</span> <span class="o">=</span> <span class="n">rvec</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
+<span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;vec_i&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vec_i</span>
+<span class="c1"># This is an R array.</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;vec_i&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<div class="cellresult"><pre>[1] 1 2 3</pre></div>
+
+<p>That effort to fully have R behind a Python facade was not universally successful though. It appeared to work with larger project teams where Python and R subteams coexisted, and the Python developers could ask their R colleagues for help about error messages, or why particular input to an R function would end with an error. It did not appear to work well when there was only a Python team without R knowledge trying to use code from an R library. Error messages that can be triggered by calling R functions only make sense to R programmers, some of the time. R can be surprising, or sometimes just plain esoteric even for the initiated. There is an unofficial manual called "R inferno" for R programmers. In addition to that, calling R from Python can sometimes make debugging R more arduous that it would be if just using R. A Python-only team might be able to safely go through this. But don't tell them the odds.</p>
+<p>What emerged with the increase of polyglot data scientists or engineers is that most project teams using rpy2 turned out to be individuals or very small teams needing to get the job done. Not structured teams with Python and R groups.</p>
+<p>While notebook users were adding chunks of R code with <code>%%R</code>, <code>rpy2</code> always also had a way to evaluate Python strings as if they were R code. I have used it a lot for custom R functions that I'd like to call from Python myself. For example:  </p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">r</span>
+
+<span class="n">my_rfunc</span> <span class="o">=</span> <span class="n">r</span><span class="p">(</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    function(x) {</span>
+<span class="sd">      rnorm(x) + runif(x)</span>
+<span class="sd">    }</span>
+<span class="sd">    &quot;&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">my_rfunc</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+
+<p>
+  <pre>
+    <span>FloatVector with 10 elements.</span>
+  </pre>
+</p>
+<table>
+<tbody>
+  <tr>
+
+    <td>
+    0.048959
+    </td>
+
+    <td>
+    0.035520
+    </td>
+
+    <td>
+    1.323592
+    </td>
+
+    <td>
+    ...
+    </td>
+
+    <td>
+    -0.577286
+    </td>
+
+    <td>
+    -0.861414
+    </td>
+
+    <td>
+    1.148197
+    </td>
+
+  </tr>
+</tbody>
+</table>
+
+<p>This is the equivalent of notebooks's "R magic". However, this way to intersperse R code snippets
+in a Python codebase does not allow to fully integrate R into Python code because of one difference
+between Python and R: in R expression can be arguments to functions, and the expression
+will only be evaluated when the result is needed (lazy evaluation).</p>
+<p>For example, consider the following R function:</p>
+<div class="codehilite codeexample"><pre><span></span><code><span class="n">foo</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">bar</span> <span class="o">+</span> <span class="m">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">if </span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">y</span>
+    <span class="p">}</span> <span class="n">else</span> <span class="p">{</span>
+        <span class="kc">NA</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>It will return the value for <code>y</code> if <code>x</code> is <code>TRUE</code>, and <code>NA</code> otherwise.
+The default value for <code>y</code> is the expression <code>bar + 1</code>. By default there is no symbol <code>bar</code>
+in a new R session but this will only become a concern when <code>x</code> is <code>TRUE</code>. This is what happens
+in R:</p>
+<div class="codehilite codeexample"><pre><span></span><code><span class="o">&gt;</span> <span class="nf">foo</span><span class="p">()</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="kc">NA</span>
+<span class="o">&gt;</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="n">Error</span> <span class="n">in</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="o">:</span> <span class="n">object</span> <span class="s">&#39;bar&#39;</span> <span class="n">not</span> <span class="n">found</span>
+<span class="o">&gt;</span> <span class="n">bar</span> <span class="o">&lt;-</span> <span class="m">1</span>
+<span class="o">&gt;</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+<span class="p">[</span><span class="m">1</span><span class="p">]</span> <span class="m">2</span>
+<span class="o">&gt;</span> 
+</code></pre></div>
+
+<p>R packages like <code>ggplot2</code> and <code>dplyr</code> make extensive use of this. A user can pass expressions
+to be evaluated in the context of the data table also passed as an argument to functions.
+For example:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">dataf</span> <span class="o">%&gt;%</span>
+  <span class="nf">filter</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">)</span>  <span class="c1"># x and y are columns in the table dataf.</span>
+</code></pre></div>
+
+<p>On the other hand Python evaluates expressions in a function signature immediately (eager evaluation).
+For example, the following code will fail with <code>NameError: name 'bar' is not defined</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">def</span> <span class="nf">foo</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">bar</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="c1"># No need to bother. The signature will make the function definition fail.</span>
+    <span class="k">pass</span>
+</code></pre></div>
+
+<p>The creation of unevaluated R code from Python has always been technically
+possible by using various <code>rpy2</code> functions, but the package only introduced
+recently a high-level convenience function to do it easily.  My
+indicator for the adoption of a feature is bug reports or questions about usage.
+I have not seen many yet and I do not know if this is because of absence
+of interest or because it is perfectly documented and works flawlessly.
+However, I do think that this is an important addition. It allows bilingual
+users to weave R into Python code bases more seamlessly. R snippets can be like
+a domain-specific language in Python while preserving the lazy evaluation of
+expression that is specific to R.</p>
+<p>The constructor is called <code>rl</code> for "R language" and works like this:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">rl</span>
+
+<span class="n">expr</span> <span class="o">=</span> <span class="n">rl</span><span class="p">(</span><span class="s1">&#39;1 + 2&#39;</span><span class="p">)</span>
+<span class="c1"># Unevaluated R language object.</span>
+<span class="n">expr</span>
+</code></pre></div>
+
+<div class="cellresult"><pre>Rlang( 1 + 2 )</pre></div>
+
+<p>Printing will trigger an evaluation of the expression.</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="cellresult"><pre>[1] 3</pre></div>
+
+<p>The expression still exists in its unevaluated form. It is evaluated when the R consumer of the expression needs the result.</p>
+<div class="codehilite"><pre><span></span><code><span class="n">expr</span>
+</code></pre></div>
+
+<div class="cellresult"><pre>Rlang( 1 + 2 )</pre></div>
+
+<p>An example of this in practice with <code>dplyr</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<span class="n">dplyr</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;dplyr&#39;</span><span class="p">)</span>
+
+<span class="n">dplyr</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">),</span>
+             <span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear &gt;= 3&#39;</span><span class="p">))</span>
+</code></pre></div>
+
+<p><span>R/rpy2 DataFrame (32 x 11)</span></p>
+<table>
+  <thead>
+    <tr>
+
+      <th>mpg</th>
+
+      <th>cyl</th>
+
+      <th>disp</th>
+
+      <th>...</th>
+
+      <th>am</th>
+
+      <th>gear</th>
+
+      <th>carb</th>
+
+    </tr>
+  </thead>
+  <tbody>
+
+  <tr>
+
+    <td>
+      21.000000
+    </td>
+
+    <td>
+      6.000000
+    </td>
+
+    <td>
+      160.000000
+    </td>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      21.000000
+    </td>
+
+    <td>
+      6.000000
+    </td>
+
+    <td>
+      160.000000
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      22.800000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+    <td>
+      108.000000
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      21.400000
+    </td>
+
+    <td>
+      6.000000
+    </td>
+
+    <td>
+      258.000000
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      0.000000
+    </td>
+
+    <td>
+      3.000000
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+      ...
+    </td>
+
+    <td>
+      ...
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      15.800000
+    </td>
+
+    <td>
+      8.000000
+    </td>
+
+    <td>
+      351.000000
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+    <td>
+      5.000000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      19.700000
+    </td>
+
+    <td>
+      6.000000
+    </td>
+
+    <td>
+      145.000000
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+    <td>
+      5.000000
+    </td>
+
+    <td>
+      6.000000
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      15.000000
+    </td>
+
+    <td>
+      8.000000
+    </td>
+
+    <td>
+      301.000000
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+    <td>
+      5.000000
+    </td>
+
+    <td>
+      8.000000
+    </td>
+
+  </tr>
+
+  <tr>
+
+    <td>
+      21.400000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+    <td>
+      121.000000
+    </td>
+
+    <td>
+
+    </td>
+
+    <td>
+      1.000000
+    </td>
+
+    <td>
+      4.000000
+    </td>
+
+    <td>
+      2.000000
+    </td>
+
+  </tr>
+
+  </tbody>
+</table>
+
+<p>Nesting calls quickly becomes hard to read or maintain though. Chaining calls
+is much nicer. <code>rpy2</code> has a wrapper for dplyr that implements it. It helps
+blend R snippets of arbitrary complexity using <code>dplyr</code> into Python calls
+while keeping the code clean and readable.</p>
+<p>Computing the average and standard deviation of consumptions in liters per 100km according
+to the number of carburetors for cars with at least 3 gears can be written as elegantly as it
+would in R with <code>dplyr</code>:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="k">as</span> <span class="nn">rlib_dplyr</span>
+
+<span class="nb">print</span><span class="p">(</span>
+    <span class="n">rlib_dplyr</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear &gt;= 3&#39;</span><span class="p">))</span>
+    <span class="c1"># Convert consumption to metric (liters per 100km).</span>
+    <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">l_per_100km</span> <span class="o">=</span> <span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mpg * 235.215&#39;</span><span class="p">))</span>
+    <span class="c1"># Mean and sd stratified by number of carburetors.</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;carb&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">summarize</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;across(l_per_100km, list(mean = mean, sd = sd))&#39;</span><span class="p">))</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<div class="cellresult"><pre>
+# A tibble: 6 x 3
+   carb l_per_100km_mean l_per_100km_sd
+  <dbl>            <dbl>          <dbl>
+1     1            5961.          1412.
+2     2            5269.          1287.
+3     3            3834.           248.
+4     4            3714.           920.
+5     6            4634.            NA 
+6     8            3528.            NA </pre>
+</div>
+
+<p>Beside the language itself, polyglot data analysis will require the ability to share data structure between the languages. Writing about this in the context of Python and R with rpy2 is for an other time though.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div><!-- /.container -->
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>    
+  </body>
+</html>
