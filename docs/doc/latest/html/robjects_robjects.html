@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>R objects &#8212; rpy2 3.5.0dev documentation</title>
+    <title>R objects &#8212; rpy2 3.5.1.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="robjects_rinstance.html" title="r: the instance of R"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">R objects</a></li> 
@@ -67,9 +67,9 @@ higher-level methods for R objects to be shared by other higher-level
 representations of R objects.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.robject.RObjectMixin">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.robject.</span></span><span class="sig-name descname"><span class="pre">RObjectMixin</span></span><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObjectMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Class to provide methods common to all RObject instances.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.robject.</span></span><span class="sig-name descname"><span class="pre">RObjectMixin</span></span><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObjectMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<p>Abstract class to provide methods common to all RObject instances.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.robject.RObjectMixin.r_repr">
 <span class="sig-name descname"><span class="pre">r_repr</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObjectMixin.r_repr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.r_repr" title="Permalink to this definition">¶</a></dt>
@@ -79,14 +79,14 @@ directly evaluated as R code.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rpy2.robjects.robject.RObjectMixin.rclass">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">rclass</span></span><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.rclass" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rclass</span></span><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.rclass" title="Permalink to this definition">¶</a></dt>
 <dd><p>R class for the object, stored as an R string vector.</p>
 <p>When setting the rclass, the new value will be:</p>
 <ul class="simple">
-<li><p>wrapped in a Python tuple if a string (the R class</p></li>
+<li><p>wrapped in a Python tuple if a string (the R class
+is a vector of strings, and this is made for convenience)</p></li>
+<li><p>wrapped in a StrSexpVector</p></li>
 </ul>
-<p>is a vector of strings, and this is made for convenience)
-- wrapped in a StrSexpVector</p>
 <p>Note that when setting the class R may make a copy of
 the whole object (R is mostly a functional language).
 If this must be avoided, and if the number of parent
@@ -97,7 +97,7 @@ vector elements.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rpy2.robjects.robject.RObjectMixin.slots">
-<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">slots</span></span><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.slots" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">slots</span></span><a class="headerlink" href="#rpy2.robjects.robject.RObjectMixin.slots" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attributes of the underlying R object as a Python mapping.</p>
 <p>The attributes can accessed and assigned by name (as if they
 were in a Python <cite>dict</cite>).</p>
@@ -107,7 +107,7 @@ were in a Python <cite>dict</cite>).</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.RObject">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.</span></span><span class="sig-name descname"><span class="pre">RObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">rpy2.rinterface_lib._rinterface_capi.SupportsSEXP</span><span class="p"><span class="pre">,</span> </span><span class="pre">rpy2.rinterface_lib._rinterface_capi.SexpCapsule</span><span class="p"><span class="pre">,</span> </span><span class="pre">rpy2.rinterface_lib._rinterface_capi.UninitializedRCapsule</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.RObject" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.</span></span><span class="sig-name descname"><span class="pre">RObject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">rpy2.rinterface_lib._rinterface_capi.SupportsSEXP</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rpy2.rinterface_lib._rinterface_capi.SexpCapsule</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">rpy2.rinterface_lib._rinterface_capi.UninitializedRCapsule</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/robject.html#RObject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.RObject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.sexp.Sexp</span></code></p>
 <p>Base class for all non-vector R objects.</p>
 </dd></dl>
@@ -121,12 +121,16 @@ were in a Python <cite>dict</cite>).</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="robjects_rinstance.html"
-                        title="previous chapter"><cite>r</cite>: the instance of <strong class="program">R</strong></a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="robjects_environments.html"
-                        title="next chapter">Environments</a></p>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="robjects_rinstance.html"
+                          title="previous chapter"><cite>r</cite>: the instance of <strong class="program">R</strong></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="robjects_environments.html"
+                          title="next chapter">Environments</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -138,7 +142,7 @@ were in a Python <cite>dict</cite>).</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -163,7 +167,7 @@ were in a Python <cite>dict</cite>).</p>
         <li class="right" >
           <a href="robjects_rinstance.html" title="r: the instance of R"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">R objects</a></li> 
@@ -171,7 +175,7 @@ were in a Python <cite>dict</cite>).</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

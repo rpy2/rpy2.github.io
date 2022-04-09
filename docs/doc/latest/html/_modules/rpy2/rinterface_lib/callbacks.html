@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface_lib.callbacks &#8212; rpy2 3.5.0dev documentation</title>
+    <title>rpy2.rinterface_lib.callbacks &#8212; rpy2 3.5.1.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.callbacks</a></li> 
       </ul>
@@ -53,6 +53,7 @@
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">typing</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">openrlib</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">ffi_proxy</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">conversion</span>
@@ -322,6 +323,21 @@
 <span class="k">def</span> <span class="nf">_processevents</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">processevents</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="c1"># This function is a Python callback. A keyboard interruption is</span>
+        <span class="c1"># captured in Python, but R must be notified that an interruption</span>
+        <span class="c1"># occured so it can handle it.</span>
+        <span class="n">rlib</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>
+            <span class="c1"># On Windows, the global C-level R variable `UserBreak` is set</span>
+            <span class="c1"># to one to notifying R that a `SIGBREAK` has been sent</span>
+            <span class="c1"># (see the R source - `src/gnuwin32/embeddedR.c:my_onintr()`).</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">UserBreak</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># On UNIX-like, R can be notified that a SIGINT has been sent</span>
+            <span class="c1"># through the C-level R variable `R_interrupts_pending`</span>
+            <span class="c1"># (see the R source - `src/main/main.c:handleInterrupt()`)</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_interrupts_pending</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">_PROCESSEVENTS_EXCEPTION_LOG</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
@@ -395,7 +411,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -414,14 +430,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.callbacks</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

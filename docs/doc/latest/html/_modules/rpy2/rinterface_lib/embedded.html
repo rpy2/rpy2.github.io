@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.5.0dev documentation</title>
+    <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.5.1.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
       </ul>
@@ -45,6 +45,7 @@
             
   <h1>Source code for rpy2.rinterface_lib.embedded</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">enum</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">typing</span>
@@ -52,12 +53,132 @@
 <span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">openrlib</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface_lib</span> <span class="kn">import</span> <span class="n">callbacks</span>
 
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">typing_extensions</span> <span class="kn">import</span> <span class="n">Protocol</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Protocol</span>
+
 <span class="n">ffi</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span>
 
 <span class="n">_options</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rpy2&#39;</span><span class="p">,</span> <span class="s1">&#39;--quiet&#39;</span><span class="p">,</span> <span class="s1">&#39;--no-save&#39;</span><span class="p">)</span>  <span class="c1"># type: typing.Tuple[str, ...]</span>
-<span class="n">_DEFAULT_C_STACK_LIMIT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Default options to initialize R: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_options</span><span class="p">)))</span>
+<span class="n">_DEFAULT_C_STACK_LIMIT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">=</span> <span class="mh">0x00</span>
-<span class="n">rstart</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">class</span> <span class="nc">Is_RStart</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">rhome</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@rhome</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">rhome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@home</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">CharacterMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@CharacterMode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">CharacterMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ReadConsole</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@ReadConsole</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ReadConsole</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">WriteConsoleEx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@WriteConsoleEx</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">WriteConsoleEx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">CallBack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@CallBack</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">CallBack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ShowMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@ShowMessage</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ShowMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">YesNoCancel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@YesNoCancel</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">YesNoCancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">Busy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@Busy</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">Busy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">R_Quiet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@R_Quiet</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">R_Quiet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">R_Interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@R_Interactive</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">R_Interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">RestoreAction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@RestoreAction</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">RestoreAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">SaveAction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@SaveAction</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">SaveAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@vsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@nsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">max_vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@max_vsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">max_vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">max_nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@max_nsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">max_nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">ppsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@ppsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">ppsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+
+<span class="n">rstart</span><span class="p">:</span> <span class="n">Is_RStart</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
 
 
 <span class="c1"># TODO: move initialization-related code to _rinterface ?</span>
@@ -80,6 +201,8 @@
     <span class="k">global</span> <span class="n">_options</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Setting options to initialize R: </span><span class="si">{}</span><span class="s1">&#39;</span>
+                <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">options</span><span class="p">)))</span>
     <span class="n">_options</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
 
 
@@ -131,7 +254,7 @@
 
 <span class="k">def</span> <span class="nf">_setcallback</span><span class="p">(</span><span class="n">rlib</span><span class="p">,</span> <span class="n">rlib_symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">callbacks</span><span class="p">,</span>
-                 <span class="n">callback_symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+                 <span class="n">callback_symbol</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Set R callbacks.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">callback_symbol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">new_callback</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span>
@@ -173,17 +296,24 @@
 
     <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">isinitialized</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;R is already initialized. No need to initialize.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">elif</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;openrlib.R_HOME cannot be None.&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span> <span class="o">!=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="s1">&#39;R was initialized outside of rpy2 (R_NilValue != NULL). &#39;</span>
-                <span class="s1">&#39;Trying to use it nevertheless.&#39;</span>
-            <span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;R was initialized outside of rpy2 (R_NilValue != NULL). &#39;</span>
+                   <span class="s1">&#39;Trying to use it nevertheless.&#39;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="n">_setinitialized</span><span class="p">()</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;R_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;LD_LIBRARY_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">LD_LIBRARY_PATH</span><span class="p">,</span>
+                 <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;LD_LIBRARY_PATH&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
+                <span class="p">)</span>
+        <span class="p">)</span>
         <span class="n">options_c</span> <span class="o">=</span> <span class="p">[</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char[]&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ASCII&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">_options</span><span class="p">]</span>
         <span class="n">n_options</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">options_c</span><span class="p">)</span>
         <span class="n">n_options_c</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">n_options</span><span class="p">)</span>
@@ -292,7 +422,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -311,14 +441,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

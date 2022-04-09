@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Mapping rpy2 objects to arbitrary python objects &#8212; rpy2 3.5.0dev documentation</title>
+    <title>Mapping rpy2 objects to arbitrary python objects &#8212; rpy2 3.5.1.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="rhelp.html" title="R help"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Mapping rpy2 objects to arbitrary python objects</a></li> 
       </ul>
@@ -94,7 +94,7 @@ views that implement the buffer protocol.</p>
 can be called just as if they were functions.</p>
 <p>R environments are mapped to Python objects that implement <code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code>,
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setitem__()</span></code> in the mapping protocol so elements
-can be accessed similarly to in a Python <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</p>
+can be accessed similarly to in a Python <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>While it is technically possible to modify the way C-level R objects
@@ -114,7 +114,7 @@ is passed to R (for example as a parameter to an R function).</p>
 interface and an arbitrary Python-level representation those objects.
 <cite>py2rpy</cite> will indicate a conversion from Python-level to <cite>rinterface</cite>-level,
 and <cite>rpy2py</cite> from <cite>rinterface</cite>-level to Python-level.</p>
-<p>If one wanted to turn all Python <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>
+<p>If one wanted to turn all Python <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>
 into R <cite>character</cite> vectors (1D arrays of strings) before passing them to R the custom
 conversion function would make an <cite>rinterface</cite>-level R objects from the Python object.
 An implementation for this <cite>py2rpy</cite> function would look like:</p>
@@ -147,7 +147,7 @@ and from an arbitrary Python representation to a suitable <cite>rinterface</cite
 Each of those is a single dispatch as implemented in
 <code class="xref py py-meth docutils literal notranslate"><span class="pre">functools.singledispatch()</span></code>. This means that a conversion function,
 such as the example function <cite>tuple_str</cite> above, just has to be associated with
-the class of the object to convert from. In our example, the Python class is <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>.</p>
+the class of the object to convert from. In our example, the Python class is <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>.</p>
 <p>Our conversion function defined above can be registered in a converter as follows:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">Converter</span>
 <span class="n">seq_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">&#39;sequence converter&#39;</span><span class="p">)</span>
@@ -210,7 +210,7 @@ presented above).</p>
 <p>Instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.NameClassMap</span></code> can map and R class name to
 a Python class. Remember that this mapping only happen within the context of an <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>
 class though. The attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.Converter._rpy2py_nc_name</span></code> is
-a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> where keys are <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a> classes to wrap C-level R objects, and
+a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> where keys are <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a> classes to wrap C-level R objects, and
 values are instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.NameClassMap</span></code>.</p>
 <p>For example, a conversion rule for R objects of class “lm” that are R lists at
 the C level (this is a real exemple - R’s linear model fit objects are just that)
@@ -363,8 +363,9 @@ is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be 
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Mapping rpy2 objects to arbitrary python objects</a><ul>
 <li><a class="reference internal" href="#protocols">Protocols</a></li>
 <li><a class="reference internal" href="#conversion">Conversion</a><ul>
@@ -377,12 +378,17 @@ is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be 
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="rhelp.html"
-                        title="previous chapter">R help</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="pandas.html"
-                        title="next chapter">Interoperability with pandas</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="rhelp.html"
+                          title="previous chapter">R help</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pandas.html"
+                          title="next chapter">Interoperability with pandas</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -394,7 +400,7 @@ is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be 
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -419,14 +425,14 @@ is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be 
         <li class="right" >
           <a href="rhelp.html" title="R help"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Mapping rpy2 objects to arbitrary python objects</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Memory management and garbage collection &#8212; rpy2 3.5.0dev documentation</title>
+    <title>Memory management and garbage collection &#8212; rpy2 3.5.1.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="rinterface.html" title="Low-level interface"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
       </ul>
     </div>  
@@ -147,10 +147,10 @@ and each time a Python object pointing to a given R object
 incremented.</p>
 <p>The rpy2 object (proxy for an R object) is implemented as a regular Python
 object to which a <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> pointer is appended.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="n">PyObject_HEAD</span>
-    <span class="n">SexpObject</span> <span class="o">*</span><span class="n">sObj</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">PySexpObject</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
+<span class="w">    </span><span class="n">SexpObject</span><span class="w"> </span><span class="o">*</span><span class="n">sObj</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">PySexpObject</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The tracking of the capsule itself is what protects the
@@ -181,11 +181,11 @@ expose it as well.</p>
 (currently unused)</p></li>
 <li><p>a pointer to the R <code class="xref c c-type docutils literal notranslate"><span class="pre">SEXPREC</span></code></p></li>
 </ul>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
-    <span class="n">Py_ssize_t</span> <span class="n">pycount</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">rcount</span><span class="p">;</span>
-    <span class="n">SEXP</span> <span class="n">sexp</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">SexpObject</span><span class="p">;</span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Py_ssize_t</span><span class="w"> </span><span class="n">pycount</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rcount</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">SEXP</span><span class="w"> </span><span class="n">sexp</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">SexpObject</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 </div>
 <p>The capsule is used to provide a relatively safe composition-like flavor
@@ -243,7 +243,7 @@ than it think. Just be warned.)</p>
 <p>Starting with version 4.0, R not longer uses <cite>NAMED</cite> to keep track of whether
 an R object can be collected. It is now using a reference-counting system.</p>
 </div>
-<p>Whenever the pass-by-value paradigm is applied stricly,
+<p>Whenever the pass-by-value paradigm is applied strictly,
 garbage collection is straightforward as objects only live within
 the scope they are declared, but R is using a slight modification
 of this in order to minimize memory usage. Each R object has an
@@ -267,7 +267,7 @@ to a variable <em>mine</em> in the R globalenv namespace:</p>
 </pre></div>
 </div>
 <p>The <em>named</em> is 2 to indicate to <strong class="program">R</strong> that <em>mine</em> should be
-copied if a modication of any sort is performed on the object. That copy
+copied if a modification of any sort is performed on the object. That copy
 will be local to the scope of the modification within R.</p>
 </section>
 </section>
@@ -279,8 +279,9 @@ will be local to the scope of the modification within R.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Memory management and garbage collection</a><ul>
 <li><a class="reference internal" href="#reference-counting">Reference counting</a></li>
 <li><a class="reference internal" href="#capsules-of-r-objects">Capsules of R objects</a></li>
@@ -289,12 +290,17 @@ will be local to the scope of the modification within R.</p>
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="rinterface.html"
-                        title="previous chapter">Low-level interface</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="rlike.html"
-                        title="next chapter">rlike</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="rinterface.html"
+                          title="previous chapter">Low-level interface</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="rlike.html"
+                          title="next chapter">rlike</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -306,7 +312,7 @@ will be local to the scope of the modification within R.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -331,13 +337,13 @@ will be local to the scope of the modification within R.</p>
         <li class="right" >
           <a href="rinterface.html" title="Low-level interface"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

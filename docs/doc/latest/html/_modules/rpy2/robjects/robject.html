@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.robject &#8212; rpy2 3.5.0dev documentation</title>
+    <title>rpy2.robjects.robject &#8212; rpy2 3.5.1.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -32,7 +32,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.robject</a></li> 
@@ -45,9 +45,9 @@
           <div class="body" role="main">
             
   <h1>Source code for rpy2.robjects.robject</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
+<span></span><span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">import</span> <span class="nn">weakref</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface_lib.callbacks</span>
@@ -57,10 +57,38 @@
 <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">initr_simple</span><span class="p">()</span>
 
 
+<span class="k">def</span> <span class="nf">_add_warn_reticulate_hook</span><span class="p">():</span>
+    <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    WARNING: The R package &quot;reticulate&quot; does not</span>
+<span class="s2">    consider that it could be called from a Python process. This</span>
+<span class="s2">    results in a quasi-obligatory segfault when rpy2 is evaluating</span>
+<span class="s2">    R code using it. On the hand, rpy2 is accounting for the</span>
+<span class="s2">    fact that it might already be running embedded in a Python</span>
+<span class="s2">    process. This is why:</span>
+<span class="s2">    - Python -&gt; rpy2 -&gt; R -&gt; reticulate: crashes</span>
+<span class="s2">    - R -&gt; reticulate -&gt; Python -&gt; rpy2: works</span>
+
+<span class="s2">    The issue with reticulate is tracked here:</span>
+<span class="s2">    https://github.com/rstudio/reticulate/issues/208</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">evalr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    setHook(packageEvent(&quot;reticulate&quot;, &quot;onLoad&quot;),</span>
+<span class="s2">            function(...) cat(</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">))</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
+
+
+<span class="n">_add_warn_reticulate_hook</span><span class="p">()</span>
+
+
 <span class="k">class</span> <span class="nc">RSlots</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Attributes of an R object as a Python mapping.</span>
 
-<span class="sd">    The parent proxy to the underlying R object is held as a</span>
+<span class="sd">    R objects can have attributes (slots) that are identified</span>
+<span class="sd">    by a string key (a name) and that can have any R object</span>
+<span class="sd">    as the associated value. This class represents a view</span>
+<span class="sd">    of those attributes that is a Python mapping.</span>
+
+<span class="sd">    The proxy to the underlying &quot;parent&quot; R object is held as a</span>
 <span class="sd">    weak reference. The attributes are therefore not protected</span>
 <span class="sd">    from garbage collection unless bound to a Python symbol or</span>
 <span class="sd">    in an other container.</span>
@@ -71,11 +99,11 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">robj</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_robj</span> <span class="o">=</span> <span class="n">weakref</span><span class="o">.</span><span class="n">proxy</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_robj</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="n">rpy2_value</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_robj</span><span class="o">.</span><span class="n">do_slot_assign</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">rpy2_value</span><span class="p">)</span>
 
@@ -102,10 +130,10 @@
 <span class="n">_get_exported_value</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;::&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="RObjectMixin"><a class="viewcode-back" href="../../../robjects_robjects.html#rpy2.robjects.robject.RObjectMixin">[docs]</a><span class="k">class</span> <span class="nc">RObjectMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Class to provide methods common to all RObject instances. &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="RObjectMixin"><a class="viewcode-back" href="../../../robjects_robjects.html#rpy2.robjects.robject.RObjectMixin">[docs]</a><span class="k">class</span> <span class="nc">RObjectMixin</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Abstract class to provide methods common to all RObject instances. &quot;&quot;&quot;</span>
 
-    <span class="n">__rname__</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">__rname__</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">__tempfile</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;tempfile&quot;</span><span class="p">)</span>
     <span class="n">__file</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;file&quot;</span><span class="p">)</span>
@@ -157,7 +185,6 @@
             <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Unable to fetch R classes.&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-
 <div class="viewcode-block" id="RObjectMixin.r_repr"><a class="viewcode-back" href="../../../robjects_robjects.html#rpy2.robjects.robject.RObjectMixin.r_repr">[docs]</a>    <span class="k">def</span> <span class="nf">r_repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; String representation for an object that can be</span>
 <span class="sd">        directly evaluated as R code.</span>
@@ -172,7 +199,7 @@
 <span class="sd">        When setting the rclass, the new value will be:</span>
 
 <span class="sd">        - wrapped in a Python tuple if a string (the R class</span>
-<span class="sd">        is a vector of strings, and this is made for convenience)</span>
+<span class="sd">          is a vector of strings, and this is made for convenience)</span>
 <span class="sd">        - wrapped in a StrSexpVector</span>
 
 <span class="sd">        Note that when setting the class R may make a copy of</span>
@@ -232,7 +259,7 @@
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -251,7 +278,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.robject</a></li> 
@@ -259,7 +286,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>

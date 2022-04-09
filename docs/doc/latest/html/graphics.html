@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Graphics &#8212; rpy2 3.5.0dev documentation</title>
+    <title>Graphics &#8212; rpy2 3.5.1.dev documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -41,7 +41,7 @@
         <li class="right" >
           <a href="pandas.html" title="Interoperability with pandas"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Graphics</a></li> 
       </ul>
@@ -618,52 +618,15 @@ ggplot figure).</p>
 </section>
 <section id="class-diagram">
 <h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h3>
-digraph inheritance7c5d834ef1 {
-bgcolor=transparent;
-fontsize=12;
-rankdir=LR;
-ratio=compress;
-size=&quot;8.0, 12.0&quot;;
-  &quot;Coord&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;Coordinates&quot;];
-  &quot;GBaseObject&quot; -&gt; &quot;Coord&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Element&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Options&quot; -&gt; &quot;Element&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Environment&quot; [URL=&quot;robjects_environments.html#rpy2.robjects.Environment&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;An R environement, implementing Python's mapping interface.&quot;];
-  &quot;RObjectMixin&quot; -&gt; &quot;Environment&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpEnvironment&quot; -&gt; &quot;Environment&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Facet&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;Panels&quot;];
-  &quot;GBaseObject&quot; -&gt; &quot;Facet&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;GBaseObject&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Environment&quot; -&gt; &quot;GBaseObject&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;GGPlot&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;A Grammar of Graphics Plot.&quot;];
-  &quot;ListVector&quot; -&gt; &quot;GGPlot&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Geom&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;GBaseObject&quot; -&gt; &quot;Geom&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;ListSexpVector&quot; [URL=&quot;rinterface.html#rpy2.rinterface.ListSexpVector&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;R list.&quot;];
-  &quot;SexpVector&quot; -&gt; &quot;ListSexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;ListVector&quot; [URL=&quot;vector.html#rpy2.robjects.vectors.ListVector&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;R list (vector of arbitray elements)&quot;];
-  &quot;Vector&quot; -&gt; &quot;ListVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;ListSexpVector&quot; -&gt; &quot;ListVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Options&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;ListVector&quot; -&gt; &quot;Options&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;RObjectMixin&quot; [URL=&quot;robjects_robjects.html#rpy2.robjects.robject.RObjectMixin&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;Class to provide methods common to all RObject instances.&quot;];
-  &quot;Scale&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;GBaseObject&quot; -&gt; &quot;Scale&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Sexp&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;Base class for R objects.&quot;];
-  &quot;SupportsSEXP&quot; -&gt; &quot;Sexp&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpEnvironment&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;Proxy for an R \&quot;environment\&quot; object.&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpEnvironment&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SexpVector&quot; [URL=&quot;rinterface.html#rpy2.rinterface.SexpVector&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;Base abstract class for R vector objects.&quot;];
-  &quot;Sexp&quot; -&gt; &quot;SexpVector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Stat&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;A \&quot;statistical\&quot; processing of the data in order&quot;];
-  &quot;GBaseObject&quot; -&gt; &quot;Stat&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SupportsSEXP&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Theme&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Options&quot; -&gt; &quot;Theme&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Vector&quot; [URL=&quot;vector.html#rpy2.robjects.Vector&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;Vector(seq) -&gt; Vector.&quot;];
-  &quot;RObjectMixin&quot; -&gt; &quot;Vector&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-}
-</section>
+<div class="graphviz"><img src="_images/inheritance-d86d409524eb48502899f6a4bb8d07a9d1947b3c.png" alt="Inheritance diagram of rpy2.robjects.lib.ggplot2.GBaseObject, rpy2.robjects.lib.ggplot2.Coord, rpy2.robjects.lib.ggplot2.Element, rpy2.robjects.lib.ggplot2.Facet, rpy2.robjects.lib.ggplot2.Geom, rpy2.robjects.lib.ggplot2.GGPlot, rpy2.robjects.lib.ggplot2.Scale, rpy2.robjects.lib.ggplot2.Stat, rpy2.robjects.lib.ggplot2.Theme" usemap="#inheritance7c5d834ef1" class="inheritance graphviz" /></div>
+<map id="inheritance7c5d834ef1" name="inheritance7c5d834ef1">
+<area shape="rect" id="node7" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Abstract class to provide methods common to all RObject instances." alt="" coords="275,69,355,87"/>
+<area shape="rect" id="node6" href="robjects_environments.html#rpy2.robjects.Environment" target="_top" title="An R environement, implementing Python&#39;s mapping interface." alt="" coords="403,102,480,120"/>
+<area shape="rect" id="node15" href="vector.html#rpy2.robjects.Vector" target="_top" title="Vector(seq) &#45;&gt; Vector." alt="" coords="418,69,465,87"/>
+<area shape="rect" id="node11" href="vector.html#rpy2.robjects.vectors.ListVector" target="_top" title="R list (vector of arbitray elements)" alt="" coords="524,36,588,54"/>
+<area shape="rect" id="node13" href="rinterface.html#rpy2.rinterface.ListSexpVector" target="_top" title="R list." alt="" coords="397,36,486,54"/>
+<area shape="rect" id="node14" href="rinterface.html#rpy2.rinterface.SexpVector" target="_top" title="Base abstract class for R vector objects." alt="" coords="279,36,351,54"/>
+</map></section>
 </section>
 <section id="package-grid">
 <h2>Package <em>grid</em><a class="headerlink" href="#package-grid" title="Permalink to this headline">¶</a></h2>
@@ -747,30 +710,30 @@ Pushing into the current viewport, can be done by using the class method
 <h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">Viewport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">Viewport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.RObject" title="rpy2.robjects.robject.RObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObject</span></code></a></p>
 <p>Drawing context.
 Viewports can be thought of as nodes in a scene graph.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport.current">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">current</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.current"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.current" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">current</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.current"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.current" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the current viewport in the stack.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport.default">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.default" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.default"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.default" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport.down">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recording</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.down"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.down" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">down</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recording</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.down"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.down" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the number of Viewports it went down</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport.pop">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.pop" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.pop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pop n viewports from the stack.</p>
 </dd></dl>
 
@@ -781,19 +744,19 @@ Viewports can be thought of as nodes in a scene graph.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport.seek">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">seek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recording</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.seek"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.seek" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">seek</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recording</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.seek"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.seek" title="Permalink to this definition">¶</a></dt>
 <dd><p>Seek and return a Viewport given its name</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport.up">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recording</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.up"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.up" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">up</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recording</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.up"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.up" title="Permalink to this definition">¶</a></dt>
 <dd><p>Go up n viewports</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport.viewport">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">viewport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.viewport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.viewport" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">viewport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport.viewport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport.viewport" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor: create a Viewport</p>
 </dd></dl>
 
@@ -801,7 +764,7 @@ Viewports can be thought of as nodes in a scene graph.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Grob">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">Grob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">Grob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.BaseGrid</span></code></p>
 <p>Graphical object</p>
 <dl class="py method">
@@ -815,18 +778,18 @@ grid::grid.raw())</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.GTree">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">GTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">GTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.lib.grid.Grob" title="rpy2.robjects.lib.grid.Grob"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.Grob</span></code></a></p>
 <p>gTree</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.GTree.grobtree">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">grobtree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.grobtree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.grobtree" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">grobtree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.grobtree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.grobtree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor (uses the R function grid::grobTree())</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.GTree.gtree">
-<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">gtree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.gtree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.gtree" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">gtree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree.gtree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree.gtree" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor (uses the R function grid::gTree())</p>
 </dd></dl>
 
@@ -835,49 +798,14 @@ grid::grid.raw())</p>
 </section>
 <section id="id4">
 <h3>Class diagram<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-digraph inheritancee1ac3c21eb {
-bgcolor=transparent;
-fontsize=12;
-rankdir=LR;
-ratio=compress;
-size=&quot;8.0, 12.0&quot;;
-  &quot;Axis&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;GTree&quot; -&gt; &quot;Axis&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;BaseGrid&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;RObject&quot; -&gt; &quot;BaseGrid&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Circle&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Grob&quot; -&gt; &quot;Circle&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;GTree&quot; [URL=&quot;#rpy2.robjects.lib.grid.GTree&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;gTree&quot;];
-  &quot;Grob&quot; -&gt; &quot;GTree&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Gpar&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;Graphical parameters&quot;];
-  &quot;BaseGrid&quot; -&gt; &quot;Gpar&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Grob&quot; [URL=&quot;#rpy2.robjects.lib.grid.Grob&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;Graphical object&quot;];
-  &quot;BaseGrid&quot; -&gt; &quot;Grob&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Lines&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Grob&quot; -&gt; &quot;Lines&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Points&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Grob&quot; -&gt; &quot;Points&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;RObject&quot; [URL=&quot;robjects_robjects.html#rpy2.robjects.RObject&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;Base class for all non-vector R objects.&quot;];
-  &quot;RObjectMixin&quot; -&gt; &quot;RObject&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Sexp&quot; -&gt; &quot;RObject&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;RObjectMixin&quot; [URL=&quot;robjects_robjects.html#rpy2.robjects.robject.RObjectMixin&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;Class to provide methods common to all RObject instances.&quot;];
-  &quot;Rect&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Grob&quot; -&gt; &quot;Rect&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Sexp&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;Base class for R objects.&quot;];
-  &quot;SupportsSEXP&quot; -&gt; &quot;Sexp&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;SupportsSEXP&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Text&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Grob&quot; -&gt; &quot;Text&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Unit&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,tooltip=&quot;Vector of unit values (as in R's grid package)&quot;];
-  &quot;BaseGrid&quot; -&gt; &quot;Unit&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;Viewport&quot; [URL=&quot;#rpy2.robjects.lib.grid.Viewport&quot;,color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled,target=&quot;_top&quot;,tooltip=&quot;Drawing context.&quot;];
-  &quot;RObject&quot; -&gt; &quot;Viewport&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;XAxis&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Axis&quot; -&gt; &quot;XAxis&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-  &quot;YAxis&quot; [color=darkgray,fillcolor=gray93,fontname=&quot;Vera Sans, DejaVu Sans, Liberation Sans, Arial, Helvetica, sans&quot;,fontsize=12,height=0.25,shape=box,style=filled];
-  &quot;Axis&quot; -&gt; &quot;YAxis&quot; [arrowsize=0.5,style=&quot;setlinewidth(0.5)&quot;];
-}
-</section>
+<div class="graphviz"><img src="_images/inheritance-472b9f2de189175aaf6a84877e09cb62a22526e1.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance graphviz" /></div>
+<map id="inheritancee1ac3c21eb" name="inheritancee1ac3c21eb">
+<area shape="rect" id="node11" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Abstract class to provide methods common to all RObject instances." alt="" coords="134,189,225,209"/>
+<area shape="rect" id="node3" href="#rpy2.robjects.lib.grid.GTree" target="_top" title="gTree" alt="" coords="542,23,593,43"/>
+<area shape="rect" id="node7" href="#rpy2.robjects.lib.grid.Grob" target="_top" title="Graphical object" alt="" coords="456,129,507,149"/>
+<area shape="rect" id="node5" href="robjects_robjects.html#rpy2.robjects.RObject" target="_top" title="Base class for all non&#45;vector R objects." alt="" coords="259,194,320,214"/>
+<area shape="rect" id="node17" href="#rpy2.robjects.lib.grid.Viewport" target="_top" title="Drawing context." alt="" coords="354,204,421,224"/>
+</map></section>
 </section>
 </section>
 
@@ -888,8 +816,9 @@ size=&quot;8.0, 12.0&quot;;
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table of Contents</a></h3>
-  <ul>
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
 <li><a class="reference internal" href="#">Graphics</a><ul>
 <li><a class="reference internal" href="#introduction">Introduction</a><ul>
 <li><a class="reference internal" href="#graphical-devices">Graphical devices</a></li>
@@ -926,12 +855,17 @@ size=&quot;8.0, 12.0&quot;;
 </li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="pandas.html"
-                        title="previous chapter">Interoperability with pandas</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="lib_dplyr.html"
-                        title="next chapter">DataFrames and dplyr</a></p>
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="pandas.html"
+                          title="previous chapter">Interoperability with pandas</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="lib_dplyr.html"
+                          title="next chapter">DataFrames and dplyr</a></p>
+  </div>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -943,7 +877,7 @@ size=&quot;8.0, 12.0&quot;;
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
@@ -968,14 +902,14 @@ size=&quot;8.0, 12.0&quot;;
         <li class="right" >
           <a href="pandas.html" title="Interoperability with pandas"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.0dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Graphics</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
     </div>
   </body>
 </html>
