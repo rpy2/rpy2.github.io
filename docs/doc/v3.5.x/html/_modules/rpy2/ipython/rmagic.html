@@ -1,0 +1,939 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rpy2.ipython.rmagic &#8212; rpy2 3.5.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+    <script src="../../../_static/jquery.js"></script>
+    <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for rpy2.ipython.rmagic</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">======</span>
+<span class="sd">Rmagic</span>
+<span class="sd">======</span>
+
+<span class="sd">Magic command interface for interactive work with R in ipython. %R and %%R are</span>
+<span class="sd">the line and cell magics, respectively.</span>
+
+<span class="sd">.. note::</span>
+
+<span class="sd">  You will need a working copy of R.</span>
+
+<span class="sd">Usage</span>
+<span class="sd">=====</span>
+
+<span class="sd">To enable the magics below, execute `%load_ext rpy2.ipython`.</span>
+
+<span class="sd">`%R`</span>
+
+<span class="sd">{R_DOC}</span>
+
+<span class="sd">`%Rpush`</span>
+
+<span class="sd">{RPUSH_DOC}</span>
+
+<span class="sd">`%Rpull`</span>
+
+<span class="sd">{RPULL_DOC}</span>
+
+<span class="sd">`%Rget`</span>
+
+<span class="sd">{RGET_DOC}</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1">#  Copyright (C) 2012 The IPython Development Team</span>
+<span class="c1">#  Copyright (C) 2013-2019 rpy2 authors</span>
+<span class="c1">#</span>
+<span class="c1">#  Distributed under the terms of the BSD License.  The full license is in</span>
+<span class="c1">#  the file COPYING, distributed as part of this software.</span>
+<span class="c1"># -----------------------------------------------------------------------------</span>
+
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">stat</span>
+<span class="kn">from</span> <span class="nn">shutil</span> <span class="kn">import</span> <span class="n">rmtree</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+
+<span class="c1"># numpy and rpy2 imports</span>
+
+<span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">ri</span>
+<span class="kn">import</span> <span class="nn">rpy2.rinterface_lib.callbacks</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">ro</span>
+<span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpacks</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="kn">import</span> <span class="n">grdevices</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Converter</span><span class="p">,</span>
+                                      <span class="n">localconverter</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">converter</span> <span class="k">as</span> <span class="n">template_converter</span>
+
+<span class="c1"># Try loading pandas and numpy, emitting a warning if either cannot be</span>
+<span class="c1"># loaded.</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>  <span class="c1"># type: ignore</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">pandas</span>  <span class="c1"># type: ignore</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ie</span><span class="p">:</span>
+        <span class="n">pandas</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The Python package `pandas` is strongly &#39;</span>
+                      <span class="s1">&#39;recommended when using `rpy2.ipython`. &#39;</span>
+                      <span class="s1">&#39;Unfortunately it could not be loaded &#39;</span>
+                      <span class="s1">&#39;(error: </span><span class="si">%s</span><span class="s1">), &#39;</span>
+                      <span class="s1">&#39;but at least we found `numpy`.&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ie</span><span class="p">))</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ie</span><span class="p">:</span>
+    <span class="c1"># Give up on numerics</span>
+    <span class="n">numpy</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The Python package `pandas` is strongly &#39;</span>
+                  <span class="s1">&#39;recommended when using `rpy2.ipython`. &#39;</span>
+                  <span class="s1">&#39;Unfortunately it could not be loaded, &#39;</span>
+                  <span class="s1">&#39;as we did not manage to load `numpy` &#39;</span>
+                  <span class="s1">&#39;in the first place (error: </span><span class="si">%s</span><span class="s1">).&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ie</span><span class="p">))</span>
+
+<span class="c1"># IPython imports.</span>
+
+<span class="kn">from</span> <span class="nn">IPython.core</span> <span class="kn">import</span> <span class="n">displaypub</span>  <span class="c1"># type: ignore</span>
+<span class="kn">from</span> <span class="nn">IPython.core.magic</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Magics</span><span class="p">,</span>   <span class="c1"># type: ignore</span>
+                                <span class="n">magics_class</span><span class="p">,</span>
+                                <span class="n">line_cell_magic</span><span class="p">,</span>
+                                <span class="n">line_magic</span><span class="p">,</span>
+                                <span class="n">needs_local_scope</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">IPython.core.magic_arguments</span> <span class="kn">import</span> <span class="p">(</span><span class="n">argument</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+                                          <span class="n">argument_group</span><span class="p">,</span>
+                                          <span class="n">magic_arguments</span><span class="p">,</span>
+                                          <span class="n">parse_argstring</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">,</span>
+                                    <span class="n">numpy</span><span class="o">=</span><span class="n">numpy</span><span class="p">,</span> <span class="n">pandas</span><span class="o">=</span><span class="n">pandas</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">numpy</span><span class="p">:</span>
+        <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">numpy2ri</span>
+        <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
+        <span class="k">if</span> <span class="n">pandas</span><span class="p">:</span>
+            <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
+            <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span>
+    <span class="k">return</span> <span class="n">template_converter</span>
+
+
+<span class="k">def</span> <span class="nf">_get_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">&#39;ipython conversion&#39;</span><span class="p">,</span>
+                     <span class="n">template</span><span class="o">=</span><span class="n">template_converter</span><span class="p">)</span>
+
+
+<span class="n">ipy_template_converter</span> <span class="o">=</span> <span class="n">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="p">,</span>
+                                                         <span class="n">numpy</span><span class="o">=</span><span class="n">numpy</span><span class="p">,</span>
+                                                         <span class="n">pandas</span><span class="o">=</span><span class="n">pandas</span><span class="p">)</span>
+<span class="n">converter</span> <span class="o">=</span> <span class="n">_get_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">ipy_template_converter</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">CELL_DISPLAY_DEFAULT</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="RInterpreterError"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RInterpreterError">[docs]</a><span class="k">class</span> <span class="nc">RInterpreterError</span><span class="p">(</span><span class="n">ri</span><span class="o">.</span><span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;An error when running R code in a %%R magic cell.&quot;&quot;&quot;</span>
+
+    <span class="n">msg_prefix_template</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Failed to parse and evaluate line </span><span class="si">%r</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span>
+                           <span class="s1">&#39;R error message: </span><span class="si">%r</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">rstdout_prefix</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">R stdout:</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">err</span><span class="p">,</span> <span class="n">stdout</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">line</span> <span class="o">=</span> <span class="n">line</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">err</span> <span class="o">=</span> <span class="n">err</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">stdout</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg_prefix_template</span> <span class="o">%</span>
+             <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">line</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">err</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">err</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstdout_prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span>
+        <span class="k">return</span> <span class="n">s</span></div>
+
+
+<span class="c1"># The default conversion for lists is currently to make them an R list. That</span>
+<span class="c1"># has some advantages, but can be inconvenient (and, it&#39;s inconsistent with</span>
+<span class="c1"># the way python lists are automatically converted by numpy functions), so</span>
+<span class="c1"># for interactive use in the rmagic, we call unlist, which converts lists to</span>
+<span class="c1"># vectors **if the list was of uniform (atomic) type**.</span>
+<span class="nd">@converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">py2rpy_list</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="c1"># simplify2array is a utility function, but nice for us</span>
+    <span class="c1"># TODO: use an early binding of the R function</span>
+    <span class="n">robj</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
+        <span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">simplify2array</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
+    <span class="c1"># The current default converter for the ipython rmagic</span>
+    <span class="c1"># might make `res` a numpy array. We need to ensure that</span>
+    <span class="c1"># a rpy2 objects is returned (issue #866).</span>
+    <span class="n">res_rpy</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res_rpy</span>
+
+
+<span class="c1"># TODO: remove ?</span>
+<span class="c1"># # The R magic is opiniated about what the R vectors should become.</span>
+<span class="c1"># @converter.ri2ro.register(ri.SexpVector)</span>
+<span class="c1"># def _(obj):</span>
+<span class="c1">#     if &#39;data.frame&#39; in obj.rclass:</span>
+<span class="c1">#         # request to turn it to a pandas DataFrame</span>
+<span class="c1">#         res = converter.rpy2py(obj)</span>
+<span class="c1">#     else:</span>
+<span class="c1">#         res = ro.sexpvector_to_ro(obj)</span>
+<span class="c1">#     return res</span>
+
+
+<div class="viewcode-block" id="RMagics"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics">[docs]</a><span class="nd">@magics_class</span>
+<span class="k">class</span> <span class="nc">RMagics</span><span class="p">(</span><span class="n">Magics</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A set of magics useful for interactive work with R via rpy2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shell</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="n">converter</span><span class="p">,</span>
+                 <span class="n">cache_display_data</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        shell : IPython shell</span>
+
+<span class="sd">        converter : rpy2 Converter instance to use. If None,</span>
+<span class="sd">                    the magic&#39;s current converter is used.</span>
+
+<span class="sd">        cache_display_data : bool</span>
+<span class="sd">            If True, the published results of the final call to R are</span>
+<span class="sd">            cached in the variable &#39;display_cache&#39;.</span>
+
+<span class="sd">        device : [&#39;png&#39;, &#39;X11&#39;, &#39;svg&#39;]</span>
+<span class="sd">            Device to be used for plotting.</span>
+<span class="sd">            Currently only &#39;png&#39;, &#39;X11&#39; and &#39;svg&#39; are supported,</span>
+<span class="sd">            with &#39;png&#39; and &#39;svg&#39; being most useful in the notebook,</span>
+<span class="sd">            and &#39;X11&#39; allowing interactive plots in the terminal.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">RMagics</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cache_display_data</span> <span class="o">=</span> <span class="n">cache_display_data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rstdout_cache</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">converter</span> <span class="o">=</span> <span class="n">converter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_R_plotting_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<div class="viewcode-block" id="RMagics.set_R_plotting_device"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.set_R_plotting_device">[docs]</a>    <span class="k">def</span> <span class="nf">set_R_plotting_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set which device R should use to produce plots.</span>
+<span class="sd">        If device == &#39;svg&#39; then the package &#39;Cairo&#39;</span>
+<span class="sd">        must be installed. Because Cairo forces &quot;onefile=TRUE&quot;,</span>
+<span class="sd">        it is not posible to include multiple plots per cell.</span>
+
+<span class="sd">        :param device: [&#39;png&#39;, &#39;X11&#39;, &#39;svg&#39;]</span>
+<span class="sd">          Device to be used for plotting.</span>
+<span class="sd">          Currently only &quot;png&quot; and &quot;X11&quot; are supported,</span>
+<span class="sd">          with &#39;png&#39; and &#39;svg&#39; being most useful in the notebook,</span>
+<span class="sd">          and &#39;X11&#39; allowing interactive plots in the terminal.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">device</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;X11&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;device must be one of [&#39;png&#39;, &#39;X11&#39; &#39;svg&#39;], got &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;svg&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cairo</span> <span class="o">=</span> <span class="n">rpacks</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;Cairo&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="n">ri</span><span class="o">.</span><span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span> <span class="k">as</span> <span class="n">rre</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">rpacks</span><span class="o">.</span><span class="n">isinstalled</span><span class="p">(</span><span class="s1">&#39;Cairo&#39;</span><span class="p">):</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;An error occurred when trying to load the &#39;</span> <span class="o">+</span>
+                           <span class="s1">&#39;R package Cairo</span><span class="se">\&#39;\n</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">rre</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                    The R package &#39;Cairo&#39; is required but it does not appear</span>
+<span class="s2">                    to be installed/available. Try:</span>
+
+<span class="s2">                    import rpy2.robjects.packages as rpacks</span>
+<span class="s2">                    utils = rpacks.importr(&#39;utils&#39;)</span>
+<span class="s2">                    utils.chooseCRANmirror(ind=1)</span>
+<span class="s2">                    utils.install_packages(&#39;Cairo&#39;)</span>
+<span class="s2">                    &quot;&quot;&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">RInterpreterError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span></div>
+
+<div class="viewcode-block" id="RMagics.Rdevice"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rdevice">[docs]</a>    <span class="nd">@line_magic</span>
+    <span class="k">def</span> <span class="nf">Rdevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Change the plotting device R uses to one of [&#39;png&#39;, &#39;X11&#39;, &#39;svg&#39;].</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_R_plotting_device</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="RMagics.eval"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse and evaluate a line of R code with rpy2.</span>
+<span class="sd">        Returns the output to R&#39;s stdout() connection,</span>
+<span class="sd">        the value generated by evaluating the code, and a</span>
+<span class="sd">        boolean indicating whether the return value would be</span>
+<span class="sd">        visible if the line of code were evaluated in an R REPL.</span>
+
+<span class="sd">        R Code evaluation and visibility determination are done via an R call</span>
+<span class="sd">        of the form withVisible(code_string), and this entire expression needs</span>
+<span class="sd">        to be evaluated in R (we can&#39;t use rpy2 function proxies here, as</span>
+<span class="sd">        withVisible is a LISPy R function).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">ExitStack</span><span class="p">()</span> <span class="k">as</span> <span class="n">stack</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_display_data</span><span class="p">:</span>
+                <span class="n">stack</span><span class="o">.</span><span class="n">enter</span><span class="p">(</span>
+                    <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span>
+                    <span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">obj_in_module</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="p">,</span>
+                                             <span class="s1">&#39;consolewrite_print&#39;</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">write_console_regular</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Need the newline in case the last line in code is a comment.</span>
+                <span class="n">value</span><span class="p">,</span> <span class="n">visible</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s2">&quot;withVisible({</span><span class="si">%s</span><span class="se">\n</span><span class="s2">})&quot;</span> <span class="o">%</span> <span class="n">code</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="n">ri</span><span class="o">.</span><span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+                <span class="c1"># Otherwise next return seems to have copy of error.</span>
+                <span class="n">warning_or_other_msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+                <span class="k">raise</span> <span class="n">RInterpreterError</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">),</span>
+                                        <span class="n">warning_or_other_msg</span><span class="p">)</span>
+            <span class="n">text_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">text_output</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">visible</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="RMagics.write_console_regular"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.write_console_regular">[docs]</a>    <span class="k">def</span> <span class="nf">write_console_regular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A hook to capture R&#39;s stdout in a cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rstdout_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RMagics.flush"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Flush R&#39;s stdout cache to a string, returning the string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rstdout_cache</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Rstdout_cache</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">return</span> <span class="n">value</span></div>
+
+    <span class="c1"># @skip_doctest</span>
+<div class="viewcode-block" id="RMagics.Rpush"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rpush">[docs]</a>    <span class="nd">@needs_local_scope</span>
+    <span class="nd">@line_magic</span>
+    <span class="k">def</span> <span class="nf">Rpush</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">local_ns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A line-level magic for R that pushes</span>
+<span class="sd">        variables from python to rpy2. The line should be made up</span>
+<span class="sd">        of whitespace separated variable names in the IPython</span>
+<span class="sd">        namespace::</span>
+
+<span class="sd">            In [7]: import numpy as np</span>
+
+<span class="sd">            In [8]: X = np.array([4.5,6.3,7.9])</span>
+
+<span class="sd">            In [9]: X.mean()</span>
+<span class="sd">            Out[9]: 6.2333333333333343</span>
+
+<span class="sd">            In [10]: %Rpush X</span>
+
+<span class="sd">            In [11]: %R mean(X)</span>
+<span class="sd">            Out[11]: array([ 6.23333333])</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">local_ns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">local_ns</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">val</span> <span class="o">=</span> <span class="n">local_ns</span><span class="p">[</span><span class="nb">input</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span><span class="p">[</span><span class="nb">input</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="c1"># reraise the KeyError as a NameError so that it looks like</span>
+                    <span class="c1"># the standard python behavior when you use an unnamed</span>
+                    <span class="c1"># variable</span>
+                    <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;name &#39;</span><span class="si">%s</span><span class="s2">&#39; is not defined&quot;</span> <span class="o">%</span> <span class="nb">input</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+                <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span></div>
+
+    <span class="c1"># @skip_doctest</span>
+<div class="viewcode-block" id="RMagics.Rpull"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rpull">[docs]</a>    <span class="nd">@magic_arguments</span><span class="p">()</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;outputs&#39;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="nd">@line_magic</span>
+    <span class="k">def</span> <span class="nf">Rpull</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A line-level magic for R that pulls</span>
+<span class="sd">        variables from python to rpy2::</span>
+
+<span class="sd">            In [18]: _ = %R x = c(3,4,6.7); y = c(4,6,7); z = c(&#39;a&#39;,3,4)</span>
+
+<span class="sd">            In [19]: %Rpull x  y z</span>
+
+<span class="sd">            In [20]: x</span>
+<span class="sd">            Out[20]: array([ 3. ,  4. ,  6.7])</span>
+
+<span class="sd">            In [21]: y</span>
+<span class="sd">            Out[21]: array([ 4.,  6.,  7.])</span>
+
+<span class="sd">            In [22]: z</span>
+<span class="sd">            Out[22]:</span>
+<span class="sd">            array([&#39;a&#39;, &#39;3&#39;, &#39;4&#39;],</span>
+<span class="sd">                  dtype=&#39;|S1&#39;)</span>
+
+
+<span class="sd">        This is useful when a structured array is desired as output, or</span>
+<span class="sd">        when the object in R has mixed data types.</span>
+<span class="sd">        See the %%R docstring for more examples.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+
+<span class="sd">        Beware that R names can have dots (&#39;.&#39;) so this is not fool proof.</span>
+<span class="sd">        To avoid this, don&#39;t name your R objects with dots...</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">parse_argstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rpull</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outputs</span>
+        <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+                <span class="n">robj</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">push</span><span class="p">({</span><span class="n">output</span><span class="p">:</span> <span class="n">robj</span><span class="p">})</span></div>
+
+    <span class="c1"># @skip_doctest</span>
+<div class="viewcode-block" id="RMagics.Rget"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rget">[docs]</a>    <span class="nd">@magic_arguments</span><span class="p">()</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;output&#39;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="nd">@line_magic</span>
+    <span class="k">def</span> <span class="nf">Rget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return an object from rpy2, possibly as a structured array (if</span>
+<span class="sd">        possible).</span>
+<span class="sd">        Similar to Rpull except only one argument is accepted and the value is</span>
+<span class="sd">        returned rather than pushed to self.shell.user_ns::</span>
+
+<span class="sd">            In [3]: dtype=[(&#39;x&#39;, &#39;&lt;i4&#39;), (&#39;y&#39;, &#39;&lt;f8&#39;), (&#39;z&#39;, &#39;|S1&#39;)]</span>
+
+<span class="sd">            In [4]: datapy = np.array([(1, 2.9, &#39;a&#39;), (2, 3.5, &#39;b&#39;),</span>
+<span class="sd">            ...                        (3, 2.1, &#39;c&#39;), (4, 5, &#39;e&#39;)],</span>
+<span class="sd">            ...                        dtype=dtype)</span>
+
+<span class="sd">            In [5]: %R -i datapy</span>
+
+<span class="sd">            In [6]: %Rget datapy</span>
+<span class="sd">            Out[6]:</span>
+<span class="sd">            array([[&#39;1&#39;, &#39;2&#39;, &#39;3&#39;, &#39;4&#39;],</span>
+<span class="sd">                   [&#39;2&#39;, &#39;3&#39;, &#39;2&#39;, &#39;5&#39;],</span>
+<span class="sd">                   [&#39;a&#39;, &#39;b&#39;, &#39;c&#39;, &#39;e&#39;]],</span>
+<span class="sd">                  dtype=&#39;|S1&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">parse_argstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rget</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span>
+        <span class="c1"># get the R object with the given name, starting from globalenv</span>
+        <span class="c1"># in the search path</span>
+        <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">converter</span><span class="p">):</span>
+            <span class="n">res</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+
+<div class="viewcode-block" id="RMagics.setup_graphics"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.setup_graphics">[docs]</a>    <span class="k">def</span> <span class="nf">setup_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Setup graphics in preparation for evaluating R code.</span>
+
+<span class="sd">        args : argparse bunch (should be whatever the R magic got).&quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;units&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">units</span> <span class="o">!=</span> <span class="s2">&quot;px&quot;</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">res</span> <span class="o">=</span> <span class="mi">72</span>
+
+        <span class="n">plot_arg_names</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">,</span> <span class="s1">&#39;height&#39;</span><span class="p">,</span> <span class="s1">&#39;pointsize&#39;</span><span class="p">,</span> <span class="s1">&#39;bg&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;png&#39;</span><span class="p">:</span>
+            <span class="n">plot_arg_names</span> <span class="o">+=</span> <span class="p">[</span><span class="s1">&#39;units&#39;</span><span class="p">,</span> <span class="s1">&#39;res&#39;</span><span class="p">]</span>
+
+        <span class="n">argdict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">plot_arg_names</span><span class="p">:</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">argdict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="n">tmpd</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">]:</span>
+            <span class="c1"># Create a temporary directory for R graphics output</span>
+            <span class="c1"># TODO: Do we want to capture file output for other device types</span>
+            <span class="c1"># other than svg &amp; png?</span>
+            <span class="n">tmpd</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkdtemp</span><span class="p">()</span>
+            <span class="n">tmpd_fix_slashes</span> <span class="o">=</span> <span class="n">tmpd</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;png&#39;</span><span class="p">:</span>
+                <span class="c1"># Note: that %% is to pass into R for interpolation there</span>
+                <span class="n">grdevices</span><span class="o">.</span><span class="n">png</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/Rplots</span><span class="si">%%</span><span class="s2">03d.png&quot;</span> <span class="o">%</span> <span class="n">tmpd_fix_slashes</span><span class="p">,</span>
+                              <span class="o">**</span><span class="n">argdict</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;svg&#39;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cairo</span><span class="o">.</span><span class="n">CairoSVG</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/Rplot.svg&quot;</span> <span class="o">%</span> <span class="n">tmpd_fix_slashes</span><span class="p">,</span>
+                                    <span class="o">**</span><span class="n">argdict</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;X11&#39;</span><span class="p">:</span>
+            <span class="c1"># Open a new X11 device, except if the current one is already an</span>
+            <span class="c1"># X11 device.</span>
+            <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            if (substr(names(dev.cur()), 1, 3) != &quot;X11&quot;) {</span>
+<span class="s2">                X11()</span>
+<span class="s2">            }&quot;&quot;&quot;</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># TODO: This isn&#39;t actually an R interpreter error...</span>
+            <span class="k">raise</span> <span class="n">RInterpreterError</span><span class="p">(</span>
+                <span class="s1">&#39;device must be one of (&quot;png&quot;, &quot;X11&quot;, &quot;svg&quot;)&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tmpd</span></div>
+
+<div class="viewcode-block" id="RMagics.publish_graphics"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.publish_graphics">[docs]</a>    <span class="k">def</span> <span class="nf">publish_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_dir</span><span class="p">,</span> <span class="n">isolate_svgs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wrap graphic file data for presentation in IPython</span>
+
+<span class="sd">        graph_dir : str</span>
+<span class="sd">            Probably provided by some tmpdir call</span>
+<span class="sd">        isolate_svgs : bool</span>
+<span class="sd">            Enable SVG namespace isolation in metadata&quot;&quot;&quot;</span>
+
+        <span class="c1"># read in all the saved image files</span>
+        <span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">display_data</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="c1"># Default empty metadata dictionary.</span>
+        <span class="n">md</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s1">&#39;png&#39;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">imgfile</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/Rplots*png&#39;</span> <span class="o">%</span> <span class="n">graph_dir</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">stat</span><span class="p">(</span><span class="n">imgfile</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;=</span> <span class="mi">1000</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">imgfile</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh_img</span><span class="p">:</span>
+                        <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fh_img</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># as onefile=TRUE, there is only one .svg file</span>
+            <span class="n">imgfile</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/Rplot.svg&quot;</span> <span class="o">%</span> <span class="n">graph_dir</span>
+            <span class="c1"># Cairo creates an SVG file every time R is called</span>
+            <span class="c1"># -- empty ones are not published</span>
+            <span class="k">if</span> <span class="n">stat</span><span class="p">(</span><span class="n">imgfile</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;=</span> <span class="mi">1000</span><span class="p">:</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">imgfile</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh_img</span><span class="p">:</span>
+                    <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fh_img</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
+
+        <span class="n">mimetypes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;png&#39;</span><span class="p">:</span> <span class="s1">&#39;image/png&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">:</span> <span class="s1">&#39;image/svg+xml&#39;</span><span class="p">}</span>
+        <span class="n">mime</span> <span class="o">=</span> <span class="n">mimetypes</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">]</span>
+
+        <span class="c1"># By default, isolate SVG images in the Notebook to avoid garbling.</span>
+        <span class="k">if</span> <span class="n">images</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">==</span> <span class="s2">&quot;svg&quot;</span> <span class="ow">and</span> <span class="n">isolate_svgs</span><span class="p">:</span>
+            <span class="n">md</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;image/svg+xml&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+
+        <span class="c1"># Flush text streams before sending figures, helps a little with</span>
+        <span class="c1"># output.</span>
+        <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
+            <span class="c1"># Synchronization in the console (though it&#39;s a bandaid, not a</span>
+            <span class="c1"># real solution).</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+            <span class="n">display_data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;RMagic.R&#39;</span><span class="p">,</span> <span class="p">{</span><span class="n">mime</span><span class="p">:</span> <span class="n">image</span><span class="p">}))</span>
+
+        <span class="k">return</span> <span class="n">display_data</span><span class="p">,</span> <span class="n">md</span></div>
+
+    <span class="c1"># @skip_doctest</span>
+<div class="viewcode-block" id="RMagics.R"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.R">[docs]</a>    <span class="nd">@magic_arguments</span><span class="p">()</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Names of input variable from `shell.user_ns` to be assigned to R</span>
+<span class="s2">        variables of the same names after using the Converter self.converter.</span>
+<span class="s2">        Multiple names can be passed separated only by commas with no</span>
+<span class="s2">        whitespace.&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Names of variables to be pushed from rpy2 to `shell.user_ns` after</span>
+<span class="s2">        executing cell body (rpy2&#39;s internal facilities will apply ri2ro as</span>
+<span class="s2">        appropriate). Multiple names can be passed separated only by commas</span>
+<span class="s2">        with no whitespace.&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--noreturn&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Force the magic to not return anything.&#39;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+    <span class="nd">@argument_group</span><span class="p">(</span><span class="s2">&quot;Plot&quot;</span><span class="p">,</span> <span class="s2">&quot;Arguments to plotting device&quot;</span><span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--width&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Width of plotting device in R.&#39;</span>
+        <span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-h&#39;</span><span class="p">,</span> <span class="s1">&#39;--height&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Height of plotting device in R.&#39;</span>
+        <span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--pointsize&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Pointsize of plotting device in R.&#39;</span>
+        <span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="s1">&#39;--bg&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Background of plotting device in R.&#39;</span>
+        <span class="p">)</span>
+    <span class="nd">@argument_group</span><span class="p">(</span><span class="s2">&quot;SVG&quot;</span><span class="p">,</span> <span class="s2">&quot;SVG specific arguments&quot;</span><span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;--noisolation&#39;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Disable SVG isolation in the Notebook. By default, SVGs are isolated to</span>
+<span class="s2">        avoid namespace collisions between figures. Disabling SVG isolation</span>
+<span class="s2">        allows to reference previous figures or share CSS rules across a set</span>
+<span class="s2">        of SVGs.&quot;&quot;&quot;</span><span class="p">),</span>
+        <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dest</span><span class="o">=</span><span class="s1">&#39;isolate_svgs&#39;</span>
+        <span class="p">)</span>
+    <span class="nd">@argument_group</span><span class="p">(</span><span class="s2">&quot;PNG&quot;</span><span class="p">,</span> <span class="s2">&quot;PNG specific arguments&quot;</span><span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="s1">&#39;--units&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;px&quot;</span><span class="p">,</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;cm&quot;</span><span class="p">,</span> <span class="s2">&quot;mm&quot;</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Units of png plotting device sent as an argument to *png* in R. One of</span>
+<span class="s2">        [&quot;px&quot;, &quot;in&quot;, &quot;cm&quot;, &quot;mm&quot;].&quot;&quot;&quot;</span><span class="p">))</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;--res&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Resolution of png plotting device sent as an argument to *png* in R.</span>
+<span class="s2">        Defaults to 72 if *units* is one of [&quot;in&quot;, &quot;cm&quot;, &quot;mm&quot;].&quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;--type&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;cairo&#39;</span><span class="p">,</span> <span class="s1">&#39;cairo-png&#39;</span><span class="p">,</span> <span class="s1">&#39;Xlib&#39;</span><span class="p">,</span> <span class="s1">&#39;quartz&#39;</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Type device used to generate the figure.</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">))</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--converter&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Name of local converter to use. A converter contains the rules to</span>
+<span class="s2">        convert objects back and forth between Python and R. If not</span>
+<span class="s2">        specified/None, the defaut converter for the magic</span><span class="se">\&#39;</span><span class="s2">s module is used</span>
+<span class="s2">        (that is rpy2</span><span class="se">\&#39;</span><span class="s2">s default converter + numpy converter + pandas converter</span>
+<span class="s2">        if all three are available).&quot;&quot;&quot;</span><span class="p">))</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;-d&#39;</span><span class="p">,</span> <span class="s1">&#39;--display&#39;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        Name of function to use to display the output of an R cell (the last</span>
+<span class="s2">        object or function call that does not have a left-hand side</span>
+<span class="s2">        assignment). That function will have the signature `(robject, args)`</span>
+<span class="s2">        where `robject` is the R objects that is an output of the cell, and</span>
+<span class="s2">        `args` a namespace with all parameters passed to the cell.</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">))</span>
+    <span class="nd">@argument</span><span class="p">(</span>
+        <span class="s1">&#39;code&#39;</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="nd">@needs_local_scope</span>
+    <span class="nd">@line_cell_magic</span>
+    <span class="k">def</span> <span class="nf">R</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_ns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Execute code in R, optionally returning results to the Python runtime.</span>
+
+<span class="sd">        In line mode, this will evaluate an expression and convert the returned</span>
+<span class="sd">        value to a Python object.  The return value is determined by rpy2&#39;s</span>
+<span class="sd">        behaviour of returning the result of evaluating the final expression.</span>
+
+<span class="sd">        Multiple R expressions can be executed by joining them with</span>
+<span class="sd">        semicolons::</span>
+
+<span class="sd">            In [9]: %R X=c(1,4,5,7); sd(X); mean(X)</span>
+<span class="sd">            Out[9]: array([ 4.25])</span>
+
+<span class="sd">        In cell mode, this will run a block of R code. The resulting value</span>
+<span class="sd">        is printed if it would be printed when evaluating the same code</span>
+<span class="sd">        within a standard R REPL.</span>
+
+<span class="sd">        Nothing is returned to python by default in cell mode::</span>
+
+<span class="sd">            In [10]: %%R</span>
+<span class="sd">               ....: Y = c(2,4,3,9)</span>
+<span class="sd">               ....: summary(lm(Y~X))</span>
+
+<span class="sd">            Call:</span>
+<span class="sd">            lm(formula = Y ~ X)</span>
+
+<span class="sd">            Residuals:</span>
+<span class="sd">                1     2     3     4</span>
+<span class="sd">             0.88 -0.24 -2.28  1.64</span>
+
+<span class="sd">            Coefficients:</span>
+<span class="sd">                        Estimate Std. Error t value Pr(&gt;|t|)</span>
+<span class="sd">            (Intercept)   0.0800     2.3000   0.035    0.975</span>
+<span class="sd">            X             1.0400     0.4822   2.157    0.164</span>
+
+<span class="sd">            Residual standard error: 2.088 on 2 degrees of freedom</span>
+<span class="sd">            Multiple R-squared: 0.6993,Adjusted R-squared: 0.549</span>
+<span class="sd">            F-statistic: 4.651 on 1 and 2 DF,  p-value: 0.1638</span>
+
+<span class="sd">        In the notebook, plots are published as the output of the cell::</span>
+
+<span class="sd">            %R plot(X, Y)</span>
+
+<span class="sd">        will create a scatter plot of X bs Y.</span>
+
+<span class="sd">        If cell is not None and line has some R code, it is prepended to</span>
+<span class="sd">        the R code in cell.</span>
+
+<span class="sd">        Objects can be passed back and forth between rpy2 and python via the</span>
+<span class="sd">        -i -o flags in line::</span>
+
+<span class="sd">            In [14]: Z = np.array([1,4,5,10])</span>
+
+<span class="sd">            In [15]: %R -i Z mean(Z)</span>
+<span class="sd">            Out[15]: array([ 5.])</span>
+
+
+<span class="sd">            In [16]: %R -o W W=Z*mean(Z)</span>
+<span class="sd">            Out[16]: array([  5.,  20.,  25.,  50.])</span>
+
+<span class="sd">            In [17]: W</span>
+<span class="sd">            Out[17]: array([  5.,  20.,  25.,  50.])</span>
+
+<span class="sd">        The return value is determined by these rules:</span>
+
+<span class="sd">        * If the cell is not None (i.e., has contents), the magic returns None.</span>
+
+<span class="sd">        * If the final line results in a NULL value when evaluated</span>
+<span class="sd">          by rpy2, then None is returned.</span>
+
+<span class="sd">        * No attempt is made to convert the final value to a structured array.</span>
+<span class="sd">          Use %Rget to push a structured array.</span>
+
+<span class="sd">        * If the -n flag is present, there is no return value.</span>
+
+<span class="sd">        * A trailing &#39;;&#39; will also result in no return value as the last</span>
+<span class="sd">          value in the line is an empty string.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">args</span> <span class="o">=</span> <span class="n">parse_argstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">R</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+
+        <span class="c1"># arguments &#39;code&#39; in line are prepended to</span>
+        <span class="c1"># the cell lines</span>
+
+        <span class="k">if</span> <span class="n">cell</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">return_output</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">line_mode</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">code</span> <span class="o">=</span> <span class="n">cell</span>
+            <span class="n">return_output</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="n">line_mode</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">code</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">code</span><span class="p">)</span> <span class="o">+</span> <span class="n">code</span>
+
+        <span class="c1"># if there is no local namespace then default to an empty dict</span>
+        <span class="k">if</span> <span class="n">local_ns</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">local_ns</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">converter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">converter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">converter</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">converter</span> <span class="o">=</span> <span class="n">local_ns</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">converter</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">converter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">converter</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span>
+                        <span class="s2">&quot;name &#39;</span><span class="si">%s</span><span class="s2">&#39; is not defined&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">converter</span>
+                    <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">converter</span><span class="p">,</span> <span class="n">Converter</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; must be a </span><span class="si">%s</span><span class="s2"> object (but it is a </span><span class="si">%s</span><span class="s2">).&quot;</span>
+                                <span class="o">%</span> <span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">converter</span><span class="p">,</span> <span class="n">Converter</span><span class="p">,</span>
+                                   <span class="nb">type</span><span class="p">(</span><span class="n">localconverter</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
+            <span class="k">for</span> <span class="nb">input</span> <span class="ow">in</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="n">local_ns</span><span class="p">[</span><span class="nb">input</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span><span class="p">[</span><span class="nb">input</span><span class="p">]</span>
+                    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;name &#39;</span><span class="si">%s</span><span class="s2">&#39; is not defined&quot;</span> <span class="o">%</span> <span class="nb">input</span><span class="p">)</span>
+                <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+                    <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">display</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">cell_display</span> <span class="o">=</span> <span class="n">local_ns</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">display</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">cell_display</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span><span class="p">[</span><span class="n">args</span><span class="o">.</span><span class="n">display</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">NameError</span><span class="p">(</span><span class="s2">&quot;name &#39;</span><span class="si">%s</span><span class="s2">&#39; is not defined&quot;</span> <span class="o">%</span> <span class="n">args</span><span class="o">.</span><span class="n">display</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">cell_display</span> <span class="o">=</span> <span class="n">CELL_DISPLAY_DEFAULT</span>
+
+        <span class="n">tmpd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_graphics</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+        <span class="n">text_output</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">line_mode</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">code</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;;&#39;</span><span class="p">):</span>
+                    <span class="n">text_result</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">visible</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                    <span class="n">text_output</span> <span class="o">+=</span> <span class="n">text_result</span>
+                <span class="k">if</span> <span class="n">text_result</span><span class="p">:</span>
+                    <span class="c1"># The last line printed something to the console so</span>
+                    <span class="c1"># we won&#39;t return it.</span>
+                    <span class="n">return_output</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">text_result</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">visible</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+                <span class="n">text_output</span> <span class="o">+=</span> <span class="n">text_result</span>
+                <span class="k">if</span> <span class="n">visible</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">ExitStack</span><span class="p">()</span> <span class="k">as</span> <span class="n">stack</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_display_data</span><span class="p">:</span>
+                            <span class="n">stack</span><span class="o">.</span><span class="n">enter_context</span><span class="p">(</span>
+                                <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span>
+                                <span class="o">.</span><span class="n">callbacks</span>
+                                <span class="o">.</span><span class="n">obj_in_module</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span>
+                                               <span class="o">.</span><span class="n">callbacks</span><span class="p">,</span>
+                                               <span class="s1">&#39;consolewrite_print&#39;</span><span class="p">,</span>
+                                               <span class="bp">self</span><span class="o">.</span><span class="n">write_console_regular</span><span class="p">))</span>
+                        <span class="n">cell_display</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+                        <span class="n">text_output</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+        <span class="k">except</span> <span class="n">RInterpreterError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># TODO: Maybe we should make this red or something?</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">e</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">err</span><span class="p">):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">err</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">]:</span>
+                <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;dev.off()&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">text_output</span><span class="p">:</span>
+                <span class="c1"># display_data.append((&#39;RMagic.R&#39;, {&#39;text/plain&#39;:text_output}))</span>
+                <span class="n">displaypub</span><span class="o">.</span><span class="n">publish_display_data</span><span class="p">(</span>
+                    <span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;text/plain&#39;</span><span class="p">:</span> <span class="n">text_output</span><span class="p">},</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;RMagic.R&#39;</span><span class="p">)</span>
+            <span class="c1"># publish the R images</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;png&#39;</span><span class="p">,</span> <span class="s1">&#39;svg&#39;</span><span class="p">]:</span>
+                <span class="n">display_data</span><span class="p">,</span> <span class="n">md</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">publish_graphics</span><span class="p">(</span>
+                    <span class="n">tmpd</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">isolate_svgs</span>
+                <span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">disp_d</span> <span class="ow">in</span> <span class="n">display_data</span><span class="p">:</span>
+                    <span class="n">displaypub</span><span class="o">.</span><span class="n">publish_display_data</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">disp_d</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span>
+                                                    <span class="n">metadata</span><span class="o">=</span><span class="n">md</span><span class="p">)</span>
+
+            <span class="c1"># kill the temporary directory - currently created only for &quot;svg&quot;</span>
+            <span class="c1"># and &quot;png&quot; (else it&#39;s None)</span>
+            <span class="k">if</span> <span class="n">tmpd</span><span class="p">:</span>
+                <span class="n">rmtree</span><span class="p">(</span><span class="n">tmpd</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">output</span> <span class="ow">in</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
+                    <span class="n">output_ipy</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">push</span><span class="p">({</span><span class="n">output</span><span class="p">:</span> <span class="n">output_ipy</span><span class="p">})</span>
+
+        <span class="c1"># this will keep a reference to the display_data</span>
+        <span class="c1"># which might be useful to other objects who happen to use</span>
+        <span class="c1"># this method</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cache_display_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">display_cache</span> <span class="o">=</span> <span class="n">display_data</span>
+
+        <span class="c1"># We&#39;re in line mode and return_output is still True,</span>
+        <span class="c1"># so return the converted result</span>
+        <span class="k">if</span> <span class="n">return_output</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">noreturn</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">ri</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">res</span></div></div>
+
+
+<span class="vm">__doc__</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">R_DOC</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span> <span class="n">RMagics</span><span class="o">.</span><span class="n">R</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">),</span>
+                <span class="n">RPUSH_DOC</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span> <span class="n">RMagics</span><span class="o">.</span><span class="n">Rpush</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">),</span>
+                <span class="n">RPULL_DOC</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span> <span class="n">RMagics</span><span class="o">.</span><span class="n">Rpull</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">),</span>
+                <span class="n">RGET_DOC</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{0}{1}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">*</span><span class="mi">8</span><span class="p">,</span> <span class="n">RMagics</span><span class="o">.</span><span class="n">Rget</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+<span class="p">)</span>
+
+
+<div class="viewcode-block" id="load_ipython_extension"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.load_ipython_extension">[docs]</a><span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load the extension in IPython.&quot;&quot;&quot;</span>
+
+    <span class="n">ip</span><span class="o">.</span><span class="n">register_magics</span><span class="p">(</span><span class="n">RMagics</span><span class="p">)</span></div>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,179 @@
+
+
+<!doctype html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>The robjects package &#8212; rpy2 3.5.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Overview" href="robjects_overview.html" />
+    <link rel="prev" title="High-level interface" href="high-level.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_overview.html" title="Overview"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="high-level.html" title="High-level interface"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">The robjects package</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="module-rpy2.robjects">
+<span id="the-robjects-package"></span><h1>The robjects package<a class="headerlink" href="#module-rpy2.robjects" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="robjects_overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_rinstance.html"><cite>r</cite>: the instance of <strong class="program">R</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_robjects.html">R objects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_functions.html">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_formulae.html">Formulae</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_rpackages.html">R packages</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_oop.html">Working with R’s OOPs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_serialization.html">Object serialization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="robjects_language.html">R language</a></li>
+</ul>
+</div>
+<section id="class-diagram">
+<h2>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h2>
+<div class="graphviz"><img src="_images/inheritance-c514d81199d5bda2a4d05f0e66ffdbbffc660df9.png" alt="Inheritance diagram of rpy2.robjects, rpy2.robjects.methods, rpy2.robjects.vectors, rpy2.robjects.functions" usemap="#inheritance53be5cfb4d" class="inheritance graphviz" /></div>
+<map id="inheritance53be5cfb4d" name="inheritance53be5cfb4d">
+<area shape="rect" id="node37" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Abstract class to provide methods common to all RObject instances." alt="" coords="243,435,298,447"/>
+<area shape="rect" id="node52" href="robjects_oop.html#rpy2.robjects.methods.RS4Auto_Type" target="_top" title="This type (metaclass) takes an R S4 class" alt="" coords="146,310,205,322"/>
+<area shape="rect" id="node3" href="vector.html#rpy2.robjects.vectors.Array" target="_top" title="An R array" alt="" coords="500,265,531,277"/>
+<area shape="rect" id="node8" href="vector.html#rpy2.robjects.vectors.Matrix" target="_top" title="An R matrix" alt="" coords="621,243,652,255"/>
+<area shape="rect" id="node4" href="vector.html#rpy2.robjects.Vector" target="_top" title="Vector(seq) &#45;&gt; Vector." alt="" coords="364,310,396,323"/>
+<area shape="rect" id="node6" href="vector.html#rpy2.robjects.vectors.BoolVector" target="_top" title="Vector of boolean (logical) elements" alt="" coords="612,310,660,323"/>
+<area shape="rect" id="node23" href="vector.html#rpy2.robjects.vectors.ListVector" target="_top" title="R list (vector of arbitray elements)" alt="" coords="493,401,537,413"/>
+<area shape="rect" id="node25" href="vector.html#rpy2.robjects.vectors.FloatVector" target="_top" title="Vector of float (double) elements" alt="" coords="612,378,661,391"/>
+<area shape="rect" id="node32" href="vector.html#rpy2.robjects.vectors.IntVector" target="_top" title="Vector of integer elements" alt="" coords="616,108,657,120"/>
+<area shape="rect" id="node57" href="vector.html#rpy2.robjects.vectors.StrVector" target="_top" title="Vector of string elements" alt="" coords="494,242,537,255"/>
+<area shape="rect" id="node9" href="rinterface.html#rpy2.rinterface.BoolSexpVector" target="_top" title="Array of booleans." alt="" coords="483,288,548,300"/>
+<area shape="rect" id="node14" href="rinterface.html#rpy2.rinterface.ByteSexpVector" target="_top" title="Array of bytes." alt="" coords="483,175,548,187"/>
+<area shape="rect" id="node35" href="rinterface.html#rpy2.rinterface.FloatSexpVector" target="_top" title="FloatSexpVector" alt="" coords="482,333,549,345"/>
+<area shape="rect" id="node43" href="rinterface.html#rpy2.rinterface.IntSexpVector" target="_top" title="IntSexpVector" alt="" coords="486,119,545,131"/>
+<area shape="rect" id="node16" href="robjects_oop.html#rpy2.robjects.methods.RS4" target="_top" title="Python representation of an R instance of class &#39;S4&#39;." alt="" coords="364,480,396,492"/>
+<area shape="rect" id="node20" href="rinterface.html#rpy2.rinterface.ComplexSexpVector" target="_top" title="ComplexSexpVector" alt="" coords="340,345,420,357"/>
+<area shape="rect" id="node21" href="rinterface.html#rpy2.rinterface.SexpVector" target="_top" title="Base abstract class for R vector objects." alt="" coords="246,345,295,357"/>
+<area shape="rect" id="node44" href="rinterface.html#rpy2.rinterface.ListSexpVector" target="_top" title="R list." alt="" coords="349,367,410,380"/>
+<area shape="rect" id="node48" href="rinterface.html#rpy2.rinterface.PairlistSexpVector" target="_top" title="R pairlist." alt="" coords="344,198,416,210"/>
+<area shape="rect" id="node59" href="rinterface.html#rpy2.rinterface.StrSexpVector" target="_top" title="R vector of strings." alt="" coords="350,288,410,300"/>
+<area shape="rect" id="node22" href="vector.html#rpy2.robjects.vectors.DataFrame" target="_top" title="R &#39;data.frame&#39;." alt="" coords="612,401,660,413"/>
+<area shape="rect" id="node47" href="vector.html#rpy2.robjects.vectors.POSIXlt" target="_top" title="Representation of dates with a 11&#45;component structure" alt="" coords="619,424,654,436"/>
+<area shape="rect" id="node45" href="vector.html#rpy2.robjects.vectors.POSIXct" target="_top" title="Representation of dates as seconds since Epoch." alt="" coords="716,424,753,436"/>
+<area shape="rect" id="node28" href="robjects_functions.html#rpy2.robjects.functions.SignatureTranslatedFunction" target="_top" title="Python representation of an R function, where" alt="" coords="462,458,569,470"/>
+<area shape="rect" id="node31" href="vector.html#rpy2.robjects.vectors.FactorVector" target="_top" title="Vector of &#39;factors&#39;." alt="" coords="708,107,762,119"/>
+<area shape="rect" id="node36" href="robjects_formulae.html#rpy2.robjects.Formula" target="_top" title="Formula" alt="" coords="361,424,399,436"/>
+<area shape="rect" id="node39" href="robjects_functions.html#rpy2.robjects.functions.Function" target="_top" title="Python representation of an R function." alt="" coords="360,458,399,470"/>
+<area shape="rect" id="node51" href="rinterface.html#rpy2.rinterface.SexpS4" target="_top" title="R &quot;S4&quot; object." alt="" coords="253,480,288,492"/>
+</map></section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">The robjects package</a><ul>
+<li><a class="reference internal" href="#class-diagram">Class diagram</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="high-level.html"
+                          title="previous chapter">High-level interface</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="robjects_overview.html"
+                          title="next chapter">Overview</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_overview.html" title="Overview"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="high-level.html" title="High-level interface"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">The robjects package</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>
