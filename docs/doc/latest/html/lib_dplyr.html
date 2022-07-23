@@ -2,12 +2,12 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>DataFrames and dplyr &#8212; rpy2 3.5.1.dev documentation</title>
+    <title>DataFrames and dplyr &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -41,7 +42,7 @@
         <li class="right" >
           <a href="graphics.html" title="Graphics"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">DataFrames and dplyr</a></li> 
       </ul>
@@ -53,9 +54,9 @@
           <div class="body" role="main">
             
   <section id="dataframes-and-dplyr">
-<h1>DataFrames and dplyr<a class="headerlink" href="#dataframes-and-dplyr" title="Permalink to this headline">¶</a></h1>
+<h1>DataFrames and dplyr<a class="headerlink" href="#dataframes-and-dplyr" title="Permalink to this heading">¶</a></h1>
 <section id="dplyr">
-<span id="robjects-lib-dplyr"></span><span id="index-0"></span><h2>dplyr<a class="headerlink" href="#dplyr" title="Permalink to this headline">¶</a></h2>
+<span id="robjects-lib-dplyr"></span><span id="index-0"></span><h2>dplyr<a class="headerlink" href="#dplyr" title="Permalink to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This section is available as a jupyter notebook <a class="reference external" href="_static/notebooks/dplyr.ipynb">dplyr.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/dplyr.html">dplyr.html</a>).</p>
@@ -69,7 +70,7 @@ unevaluated R language expressions.</p>
 </div>
 </section>
 <section id="dplyr-in-python">
-<h2>dplyr in Python<a class="headerlink" href="#dplyr-in-python" title="Permalink to this headline">¶</a></h2>
+<h2>dplyr in Python<a class="headerlink" href="#dplyr-in-python" title="Permalink to this heading">¶</a></h2>
 <p>We need 2 things for this:</p>
 <p>1- A data frame (using one of R’s demo datasets).</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
@@ -292,8 +293,8 @@ implementation of <code class="docutils literal notranslate"><span class="pre">d
 <span class="c1">#</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:   lazy query [?? x 2]</span>
-<span class="c1"># Database: sqlite 3.38.2 [/tmp/tmp7b8l7nfj]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:   SQL [2 x 2]</span>
+<span class="c1"># Database: sqlite 3.39.1 [/tmp/tmp99odmhqq]</span>
    <span class="n">gear</span> <span class="n">mean_ptw</span>
   <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>    <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>
 <span class="mi">1</span>     <span class="mi">4</span>    <span class="mf">1237.</span>
@@ -307,9 +308,11 @@ available to us. If we want to see the SQL code generated that’s:</p>
 </div>
 <pre class="literal-block">&lt;SQL&gt;
 SELECT <cite>gear</cite>, AVG(<cite>powertoweight</cite>) AS <cite>mean_ptw</cite>
-FROM (SELECT <cite>mpg</cite>, <cite>cyl</cite>, <cite>disp</cite>, <cite>hp</cite>, <cite>drat</cite>, <cite>wt</cite>, <cite>qsec</cite>, <cite>vs</cite>, <cite>am</cite>, <cite>gear</cite>, <cite>carb</cite>, <cite>hp</cite> * 36.0 / <cite>wt</cite> AS <cite>powertoweight</cite>
-FROM <cite>mtcars</cite>
-WHERE (<cite>gear</cite> &gt; 3.0))
+FROM (
+  SELECT <a href="#id1"><span class="problematic" id="id2">*</span></a>, (<cite>hp</cite> * 36.0) / <cite>wt</cite> AS <cite>powertoweight</cite>
+  FROM <cite>mtcars</cite>
+  WHERE (<cite>gear</cite> &gt; 3.0)
+)
 GROUP BY <cite>gear</cite></pre>
 <p>The conversion rules in rpy2 make the above easily applicable to pandas
 data frames, completing the “lexical loan” of the dplyr vocabulary from
@@ -362,7 +365,7 @@ it.</p>
 </table><p><strong>Reuse. Get things done. Don’t reimplement.</strong></p>
 </section>
 <section id="tidyr">
-<span id="robjects-lib-tidyr"></span><h2>tidyr<a class="headerlink" href="#tidyr" title="Permalink to this headline">¶</a></h2>
+<span id="robjects-lib-tidyr"></span><h2>tidyr<a class="headerlink" href="#tidyr" title="Permalink to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This section is available as a jupyter notebook <a class="reference external" href="_static/notebooks/tidyr.ipynb">tidyr.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/tidyr.html">tidyr.html</a>)</p>
@@ -374,11 +377,11 @@ it.</p>
 </div>
 </section>
 <section id="tidyr-in-python">
-<h2>tidyr in Python<a class="headerlink" href="#tidyr-in-python" title="Permalink to this headline">¶</a></h2>
+<h2>tidyr in Python<a class="headerlink" href="#tidyr-in-python" title="Permalink to this heading">¶</a></h2>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.tidyr</span> <span class="kn">import</span> <span class="n">DataFrame</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.8.12</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">-</span><span class="mf">3.5.1</span><span class="o">.</span><span class="n">dev0</span><span class="o">-</span><span class="n">py3</span><span class="mf">.8</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x86_64</span><span class="o">.</span><span class="n">egg</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">robjects</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">tidyr</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">This</span> <span class="n">was</span> <span class="n">designed</span> <span class="n">againt</span> <span class="n">tidyr</span> <span class="n">versions</span> <span class="n">starting</span> <span class="k">with</span> <span class="mf">1.1</span><span class="o">.</span> <span class="n">but</span> <span class="n">you</span> <span class="n">have</span> <span class="mf">1.2.0</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.8.13</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.8</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">-</span><span class="mf">3.5.3</span><span class="o">-</span><span class="n">py3</span><span class="mf">.8</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">x86_64</span><span class="o">.</span><span class="n">egg</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">robjects</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">tidyr</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">This</span> <span class="n">was</span> <span class="n">designed</span> <span class="n">againt</span> <span class="n">tidyr</span> <span class="n">versions</span> <span class="n">starting</span> <span class="k">with</span> <span class="mf">1.1</span><span class="o">.</span> <span class="n">but</span> <span class="n">you</span> <span class="n">have</span> <span class="mf">1.2.0</span>
   <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
 </pre></div>
 </div>
@@ -522,7 +525,7 @@ frames).</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -542,14 +545,14 @@ frames).</p>
         <li class="right" >
           <a href="graphics.html" title="Graphics"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">DataFrames and dplyr</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

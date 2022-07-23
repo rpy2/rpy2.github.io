@@ -2,12 +2,12 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Working with R’s OOPs &#8212; rpy2 3.5.1.dev documentation</title>
+    <title>Working with R’s OOPs &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -41,7 +42,7 @@
         <li class="right" >
           <a href="robjects_rpackages.html" title="R packages"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Working with R’s OOPs</a></li> 
@@ -54,12 +55,12 @@
           <div class="body" role="main">
             
   <section id="working-with-r-s-oops">
-<h1>Working with R’s OOPs<a class="headerlink" href="#working-with-r-s-oops" title="Permalink to this headline">¶</a></h1>
+<h1>Working with R’s OOPs<a class="headerlink" href="#working-with-r-s-oops" title="Permalink to this heading">¶</a></h1>
 <p>Object-Oriented Programming can be achieved in R, but in more than
 one way. Beside the <em>official</em> S3 and S4 systems, there is a rich
 ecosystem of alternative implementations of objects, like aroma, or proto.</p>
 <section id="s3-objects">
-<h2>S3 objects<a class="headerlink" href="#s3-objects" title="Permalink to this headline">¶</a></h2>
+<h2>S3 objects<a class="headerlink" href="#s3-objects" title="Permalink to this heading">¶</a></h2>
 <p>S3 objects are default R objects (i.e., not S4 instances) for which
 an attribute “class” has been added.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -86,7 +87,7 @@ and the part after the dot not correspond to an S3 class name.</p>
 </div>
 <span class="target" id="module-rpy2.robjects.methods"></span></section>
 <section id="s4-objects">
-<h2>S4 objects<a class="headerlink" href="#s4-objects" title="Permalink to this headline">¶</a></h2>
+<h2>S4 objects<a class="headerlink" href="#s4-objects" title="Permalink to this heading">¶</a></h2>
 <p>S4 objects are a little more formal regarding their class definition, and all
 instances belong to the low-level R type SEXPS4.</p>
 <p>The definition of methods for a class can happen anytime after the class has
@@ -116,7 +117,7 @@ as a jupyter notebook <a class="reference external" href="_static/notebooks/s4cl
 </div>
 </div>
 <section id="manual-r-in-python-class-definition">
-<h3>Manual R-in-Python class definition<a class="headerlink" href="#manual-r-in-python-class-definition" title="Permalink to this headline">¶</a></h3>
+<h3>Manual R-in-Python class definition<a class="headerlink" href="#manual-r-in-python-class-definition" title="Permalink to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The R package <cite>lme4</cite> is not distributed with R, and will have to be installed
@@ -221,7 +222,7 @@ the environment for the <code class="xref py py-class docutils literal notransla
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.methods.</span></span><span class="sig-name descname"><span class="pre">RS4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpS4" title="rpy2.rinterface.SexpS4"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpS4</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RObjectMixin</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpS4" title="rpy2.rinterface.SexpS4"><code class="xref py py-class docutils literal notranslate"><span class="pre">SexpS4</span></code></a></p>
 <p>Python representation of an R instance of class ‘S4’.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4.extends">
@@ -252,7 +253,7 @@ the environment for the <code class="xref py py-class docutils literal notransla
 
 </section>
 <section id="automated-r-in-python-class-definitions">
-<h3>Automated R-in-Python class definitions<a class="headerlink" href="#automated-r-in-python-class-definitions" title="Permalink to this headline">¶</a></h3>
+<h3>Automated R-in-Python class definitions<a class="headerlink" href="#automated-r-in-python-class-definitions" title="Permalink to this heading">¶</a></h3>
 <p>The S4 system allows polymorphic definitions of methods, that is,
 there can be several methods with the same name but different number and types of arguments.
 (This is like Clojure’s multimethods). Mapping R methods to Python methods
@@ -261,11 +262,6 @@ the method name with the type of the parameters in the signature.</p>
 <p>Using the automatic mapping is very simple. One only needs to declare
 a Python class with the following attributes:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 36%" />
-<col style="width: 18%" />
-<col style="width: 46%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>__rname__</p></td>
 <td><p>mandatory</p></td>
@@ -306,7 +302,7 @@ R package).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4Auto_Type">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.methods.</span></span><span class="sig-name descname"><span class="pre">RS4Auto_Type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4Auto_Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4Auto_Type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABCMeta" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABCMeta</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABCMeta" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a></p>
 <p>This type (metaclass) takes an R S4 class
 and create a Python class out of it,
 copying the R documention page into the Python docstring.
@@ -318,7 +314,7 @@ __meth_translation__.</p>
 </section>
 </section>
 <section id="automated-mapping-of-user-defined-classes">
-<h2>Automated mapping of user-defined classes<a class="headerlink" href="#automated-mapping-of-user-defined-classes" title="Permalink to this headline">¶</a></h2>
+<h2>Automated mapping of user-defined classes<a class="headerlink" href="#automated-mapping-of-user-defined-classes" title="Permalink to this heading">¶</a></h2>
 <p>Once a Python class mirroring an R classis is defined, the mapping can be made
 automatic by adding new rules to the conversion system
 (see Section <a class="reference internal" href="robjects_convert.html#robjects-conversion"><span class="std std-ref">Mapping rpy2 objects to arbitrary python objects</span></a>).</p>
@@ -374,7 +370,7 @@ automatic by adding new rules to the conversion system
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -394,15 +390,15 @@ automatic by adding new rules to the conversion system
         <li class="right" >
           <a href="robjects_rpackages.html" title="R packages"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Working with R’s OOPs</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

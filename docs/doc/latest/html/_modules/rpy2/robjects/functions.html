@@ -2,11 +2,11 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.functions &#8212; rpy2 3.5.1.dev documentation</title>
+    <title>rpy2.robjects.functions &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -14,6 +14,7 @@
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.functions</a></li> 
@@ -55,6 +56,7 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="kn">import</span> <span class="n">RObjectMixin</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
+<span class="kn">import</span> <span class="nn">rpy2.rinterface_lib.sexp</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">help</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">conversion</span>
 
@@ -73,11 +75,10 @@
 
 
 <span class="k">def</span> <span class="nf">_formals_fixed</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="n">__args</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">__is_null</span><span class="p">(</span><span class="n">tmp</span><span class="p">)[</span><span class="mi">0</span><span class="p">]:</span>
-        <span class="k">return</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">__formals</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">__formals</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">sexp</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">__formals</span><span class="p">(</span><span class="n">__args</span><span class="p">(</span><span class="n">func</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">res</span>
 
 
 <span class="c1"># docstring_property and DocstringProperty</span>
@@ -153,23 +154,25 @@
                     <span class="s1">&#39;R arguments:&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">fm</span> <span class="ow">is</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
             <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&lt;No information available&gt;&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fm</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">),</span> <span class="n">fm</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;...&#39;</span><span class="p">:</span>
-                <span class="n">val</span> <span class="o">=</span> <span class="s1">&#39;R ellipsis (any number of parameters)&#39;</span>
-            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">_repr_argval</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">fm</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">),</span> <span class="n">fm</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;...&#39;</span><span class="p">:</span>
+                    <span class="n">val</span> <span class="o">=</span> <span class="s1">&#39;R ellipsis (any number of parameters)&#39;</span>
+                <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">_repr_argval</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="n">new_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+        <span class="n">cv</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span>
+        <span class="n">new_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
         <span class="n">new_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="c1"># TODO: shouldn&#39;t this be handled by the conversion itself ?</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">):</span>
                 <span class="n">new_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">new_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+                <span class="n">new_kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Function</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__call__</span><span class="p">(</span><span class="o">*</span><span class="n">new_args</span><span class="p">,</span> <span class="o">**</span><span class="n">new_kwargs</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
 <div class="viewcode-block" id="Function.formals"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function.formals">[docs]</a>    <span class="k">def</span> <span class="nf">formals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -177,7 +180,7 @@
 <span class="sd">        (as the R function &#39;formals()&#39; would).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">_formals_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
 <div class="viewcode-block" id="Function.rcall"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function.rcall">[docs]</a>    <span class="k">def</span> <span class="nf">rcall</span><span class="p">(</span>
@@ -266,18 +269,27 @@
 
     <span class="nd">@docstring_property</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">help</span><span class="o">.</span><span class="n">Package</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rpackagename__</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span><span class="p">)</span>
+
         <span class="n">doc</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Wrapper around an R function.&#39;</span><span class="p">,</span>
                <span class="s1">&#39;&#39;</span><span class="p">,</span>
                <span class="s1">&#39;The docstring below is built from the R documentation.&#39;</span><span class="p">,</span>
                <span class="s1">&#39;&#39;</span><span class="p">]</span>
 
-        <span class="n">description</span> <span class="o">=</span> <span class="n">help</span><span class="o">.</span><span class="n">docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rpackagename__</span><span class="p">,</span>
-                                     <span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span><span class="p">,</span>
-                                     <span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">description&#39;</span><span class="p">])</span>
-        <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">description</span><span class="p">)</span>
+        <span class="k">if</span> <span class="sa">r</span><span class="s1">&#39;\description&#39;</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">sections</span><span class="p">:</span>
+            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">page</span><span class="o">.</span><span class="n">to_docstring</span><span class="p">(</span>
+                    <span class="n">section_names</span><span class="o">=</span><span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\description&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="n">fm</span> <span class="o">=</span> <span class="n">_formals_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="n">names</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">fm</span> <span class="ow">is</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">sexp</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
+            <span class="c1"># If still NULL there is no argument.</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">names</span> <span class="o">=</span> <span class="n">fm</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">)</span>
         <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span><span class="o">+</span><span class="s1">&#39;(&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_prm_translate</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s1">&#39;___&#39;</span><span class="p">:</span>
@@ -290,19 +302,19 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;    </span><span class="si">%s</span><span class="s1"> = </span><span class="si">%s</span><span class="s1">,&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">description</span><span class="p">))</span>
         <span class="n">doc</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">))</span>
-        <span class="n">package</span> <span class="o">=</span> <span class="n">help</span><span class="o">.</span><span class="n">Package</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rpackagename__</span><span class="p">)</span>
-        <span class="n">page</span> <span class="o">=</span> <span class="n">package</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span><span class="p">)</span>
+        <span class="c1">####</span>
         <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Args:&#39;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">arguments</span><span class="p">():</span>
             <span class="n">description</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">  &#39;</span> <span class="o">%</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
             <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="s1">&#39;  &#39;</span><span class="p">,</span> <span class="n">item</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s1">&#39;: &#39;</span><span class="p">,</span> <span class="n">description</span><span class="p">)))</span>
             <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
 
-        <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="n">help</span><span class="o">.</span><span class="n">docstring</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__rpackagename__</span><span class="p">,</span>
-                           <span class="bp">self</span><span class="o">.</span><span class="n">__rname__</span><span class="p">,</span>
-                           <span class="n">sections</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">details&#39;</span><span class="p">])</span>
-        <span class="p">)</span>
+        <span class="k">if</span> <span class="sa">r</span><span class="s1">&#39;\details&#39;</span> <span class="ow">in</span> <span class="n">page</span><span class="o">.</span><span class="n">sections</span><span class="p">:</span>
+            <span class="n">doc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">page</span><span class="o">.</span><span class="n">to_docstring</span><span class="p">(</span>
+                    <span class="n">section_names</span><span class="o">=</span><span class="p">[</span><span class="sa">r</span><span class="s1">&#39;\details&#39;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
 
@@ -519,7 +531,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -533,15 +545,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.functions</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

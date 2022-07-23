@@ -2,11 +2,11 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.ipython.rmagic &#8212; rpy2 3.5.1.dev documentation</title>
+    <title>rpy2.ipython.rmagic &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -14,6 +14,7 @@
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
     <script src="../../../_static/jquery.js"></script>
     <script src="../../../_static/underscore.js"></script>
+    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
@@ -32,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
@@ -104,9 +105,9 @@
 <span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpacks</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="kn">import</span> <span class="n">grdevices</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="p">(</span><span class="n">Converter</span><span class="p">,</span>
-                                      <span class="n">localconverter</span><span class="p">)</span>
+                                      <span class="n">localconverter</span><span class="p">,</span>
+                                      <span class="n">get_conversion</span><span class="p">)</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">converter</span> <span class="k">as</span> <span class="n">template_converter</span>
 
 <span class="c1"># Try loading pandas and numpy, emitting a warning if either cannot be</span>
 <span class="c1"># loaded.</span>
@@ -142,6 +143,8 @@
                                           <span class="n">argument_group</span><span class="p">,</span>
                                           <span class="n">magic_arguments</span><span class="p">,</span>
                                           <span class="n">parse_argstring</span><span class="p">)</span>
+
+<span class="n">template_converter</span> <span class="o">=</span> <span class="n">get_conversion</span><span class="p">()</span>
 
 
 <span class="k">def</span> <span class="nf">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">,</span>
@@ -199,14 +202,15 @@
 <span class="k">def</span> <span class="nf">py2rpy_list</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
     <span class="c1"># simplify2array is a utility function, but nice for us</span>
     <span class="c1"># TODO: use an early binding of the R function</span>
+    <span class="n">cv</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span>
     <span class="n">robj</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
+            <span class="p">[</span><span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">obj</span><span class="p">]</span>
         <span class="p">)</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">simplify2array</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
     <span class="c1"># The current default converter for the ipython rmagic</span>
     <span class="c1"># might make `res` a numpy array. We need to ensure that</span>
     <span class="c1"># a rpy2 objects is returned (issue #866).</span>
-    <span class="n">res_rpy</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+    <span class="n">res_rpy</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res_rpy</span>
 
 
@@ -912,7 +916,7 @@
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -926,14 +930,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

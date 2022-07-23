@@ -2,12 +2,12 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Vectors and arrays &#8212; rpy2 3.5.1.dev documentation</title>
+    <title>Vectors and arrays &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -41,7 +42,7 @@
         <li class="right" >
           <a href="robjects_language.html" title="R language"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Vectors and arrays</a></li> 
       </ul>
@@ -53,7 +54,7 @@
           <div class="body" role="main">
             
   <span class="target" id="module-rpy2.robjects.vector"></span><section id="vectors-and-arrays">
-<h1>Vectors and arrays<a class="headerlink" href="#vectors-and-arrays" title="Permalink to this headline">¶</a></h1>
+<h1>Vectors and arrays<a class="headerlink" href="#vectors-and-arrays" title="Permalink to this heading">¶</a></h1>
 <p>Beside functions and environments, most of the objects
 an R user is interacting with are vector-like.
 For example, this means that any scalar is in fact a vector
@@ -65,12 +66,12 @@ of length one.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.Vector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.</span></span><span class="sig-name descname"><span class="pre">Vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#Vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Vector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObjectMixin</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RObjectMixin</span></code></a></p>
 <p>Vector(seq) -&gt; Vector.</p>
 <p>The parameter ‘seq’ can be an instance inheriting from
 rinterface.SexpVector, or an arbitrary Python object.
 In the later case, a conversion will be attempted using
-conversion.py2rpy().</p>
+conversion.get_conversion().py2rpy().</p>
 <p>R vector-like object. Items can be accessed with:</p>
 <ul class="simple">
 <li><p>the method “__getitem__” (“[” operator)</p></li>
@@ -90,7 +91,7 @@ conversion.py2rpy().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.Vector.sample">
-<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized" title="(in Python v3.10)"><span class="pre">collections.abc.Sized</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#Vector.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Vector.sample" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">replace</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">probabilities</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized" title="(in Python v3.10)"><span class="pre">Sized</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#Vector.sample"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Vector.sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a random sample of size n from the vector.</p>
 <p>If ‘replace’ is True, the sampling is done with replacement.
 The optional argument ‘probabilities’ can indicate sampling
@@ -100,7 +101,7 @@ probabilities.</p>
 </dd></dl>
 
 <section id="creating-vectors">
-<h2>Creating vectors<a class="headerlink" href="#creating-vectors" title="Permalink to this headline">¶</a></h2>
+<h2>Creating vectors<a class="headerlink" href="#creating-vectors" title="Permalink to this heading">¶</a></h2>
 <p>Creating vectors can be achieved either from R or from Python.</p>
 <p>When the vectors are created from R, one should not worry much
 as they will be exposed as they should by <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>.</p>
@@ -111,7 +112,7 @@ class <code class="xref py py-class docutils literal notranslate"><span class="p
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.BoolVector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">BoolVector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#BoolVector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.BoolVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.BoolSexpVector" title="rpy2.rinterface.BoolSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.BoolSexpVector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.BoolSexpVector" title="rpy2.rinterface.BoolSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">BoolSexpVector</span></code></a></p>
 <p>Vector of boolean (logical) elements
 BoolVector(seq) -&gt; BoolVector.</p>
 <p>The parameter ‘seq’ can be an instance inheriting from
@@ -123,7 +124,7 @@ booleans, or have a bool() representation.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.IntVector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">IntVector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#IntVector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.IntVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.IntSexpVector" title="rpy2.rinterface.IntSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.IntSexpVector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.IntSexpVector" title="rpy2.rinterface.IntSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntSexpVector</span></code></a></p>
 <p>Vector of integer elements
 IntVector(seq) -&gt; IntVector.</p>
 <p>The parameter ‘seq’ can be an instance inheriting from
@@ -142,7 +143,7 @@ count the number of times integer values are found</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.FloatVector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">FloatVector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#FloatVector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.FloatVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.FloatSexpVector" title="rpy2.rinterface.FloatSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.FloatSexpVector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.FloatSexpVector" title="rpy2.rinterface.FloatSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatSexpVector</span></code></a></p>
 <p>Vector of float (double) elements</p>
 <p>FloatVector(seq) -&gt; FloatVector.</p>
 <p>The parameter ‘seq’ can be an instance inheriting from
@@ -154,7 +155,7 @@ float, or have a float() representation.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.StrVector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">StrVector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#StrVector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.StrVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.StrSexpVector" title="rpy2.rinterface_lib.sexp.StrSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.sexp.StrSexpVector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.StrSexpVector" title="rpy2.rinterface_lib.sexp.StrSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrSexpVector</span></code></a></p>
 <p>Vector of string elements</p>
 <p>StrVector(seq) -&gt; StrVector.</p>
 <p>The parameter ‘seq’ can be an instance inheriting from
@@ -172,7 +173,7 @@ strings, or have a str() representation.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.ListVector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">ListVector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#ListVector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.ListVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.ListSexpVector" title="rpy2.rinterface.ListSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.ListSexpVector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.ListSexpVector" title="rpy2.rinterface.ListSexpVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListSexpVector</span></code></a></p>
 <p>R list (vector of arbitray elements)</p>
 <p>ListVector(iterable) -&gt; ListVector.</p>
 <p>The parameter ‘iterable’ can be:</p>
@@ -197,7 +198,7 @@ from R objects.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.POSIXlt">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">POSIXlt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#POSIXlt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.POSIXlt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.POSIXt</span></code>, <a class="reference internal" href="#rpy2.robjects.vectors.ListVector" title="rpy2.robjects.vectors.ListVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.ListVector</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">POSIXt</span></code>, <a class="reference internal" href="#rpy2.robjects.vectors.ListVector" title="rpy2.robjects.vectors.ListVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListVector</span></code></a></p>
 <p>Representation of dates with a 11-component structure
 (similar to Python’s time.struct_time).</p>
 <p>POSIXlt(seq) -&gt; POSIXlt.</p>
@@ -209,7 +210,7 @@ sequence interface) of time.struct_time objects.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.POSIXct">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">POSIXct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#POSIXct"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.POSIXct" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.POSIXt</span></code>, <a class="reference internal" href="#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.FloatVector</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">POSIXt</span></code>, <a class="reference internal" href="#rpy2.robjects.vectors.FloatVector" title="rpy2.robjects.vectors.FloatVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">FloatVector</span></code></a></p>
 <p>Representation of dates as seconds since Epoch.
 This form is preferred to POSIXlt for inclusion in a DataFrame.</p>
 <p>POSIXlt(seq) -&gt; POSIXlt.</p>
@@ -241,7 +242,7 @@ datetime.datetime elements.</p>
 <p><span class="versionmodified added">New in version 2.2.0: </span>Vectors for date or time points</p>
 </div>
 <section id="factorvector">
-<h3>FactorVector<a class="headerlink" href="#factorvector" title="Permalink to this headline">¶</a></h3>
+<h3>FactorVector<a class="headerlink" href="#factorvector" title="Permalink to this heading">¶</a></h3>
 <p>R’s factors are somewhat peculiar: they aim at representing
 a memory-efficient vector of labels, and in order to achieve it
 are implemented as vectors of integers to which are associated a (presumably
@@ -249,14 +250,6 @@ shorter) vector of labels. Each integer represents the position
 of the label in the associated vector of labels.</p>
 <p>For example, the following vector of labels</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>a</p></td>
 <td><p>b</p></td>
@@ -269,14 +262,6 @@ of the label in the associated vector of labels.</p>
 </table>
 <p>will become</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>1</p></td>
 <td><p>2</p></td>
@@ -289,11 +274,6 @@ of the label in the associated vector of labels.</p>
 </table>
 <p>and</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
 <tbody>
 <tr class="row-odd"><td><p>a</p></td>
 <td><p>b</p></td>
@@ -339,7 +319,7 @@ as it preserves the integer/string duality.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.FactorVector">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">FactorVector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#FactorVector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.FactorVector" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.vectors.IntVector" title="rpy2.robjects.vectors.IntVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.IntVector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.vectors.IntVector" title="rpy2.robjects.vectors.IntVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">IntVector</span></code></a></p>
 <p>Vector of ‘factors’.</p>
 <dl class="simple">
 <dt>FactorVector(obj,</dt><dd><p>levels = rinterface.MissingArg,
@@ -377,7 +357,7 @@ the items returning associated label for each item</p>
 </section>
 </section>
 <section id="extracting-items">
-<span id="robjects-extracting"></span><span id="index-0"></span><h2>Extracting items<a class="headerlink" href="#extracting-items" title="Permalink to this headline">¶</a></h2>
+<span id="robjects-extracting"></span><span id="index-0"></span><h2>Extracting items<a class="headerlink" href="#extracting-items" title="Permalink to this heading">¶</a></h2>
 <p>Extracting elements of sequence/vector can become a thorny issue
 as Python and R differ on a number of points
 (index numbers starting at zero / starting at one,
@@ -386,7 +366,7 @@ names cannot / can be used for subsettting).</p>
 <p>In order to solve this, the Python way and the R way were
 made available through two different routes.</p>
 <section id="extracting-python-style">
-<h3>Extracting, Python-style<a class="headerlink" href="#extracting-python-style" title="Permalink to this headline">¶</a></h3>
+<h3>Extracting, Python-style<a class="headerlink" href="#extracting-python-style" title="Permalink to this heading">¶</a></h3>
 <p>The python <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> method behaves like a Python user would expect
 it for a vector (and indexing starts at zero).</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">seq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -406,7 +386,7 @@ it for a vector (and indexing starts at zero).</p>
 </div>
 </section>
 <section id="extracting-r-style">
-<h3>Extracting, R-style<a class="headerlink" href="#extracting-r-style" title="Permalink to this headline">¶</a></h3>
+<h3>Extracting, R-style<a class="headerlink" href="#extracting-r-style" title="Permalink to this heading">¶</a></h3>
 <p>Access to R-style extracting/subsetting is granted though the two
 delegators <em>rx</em> and <em>rx2</em>, representing the R functions <cite>[</cite> and <cite>[[</cite>
 respectively (See the note below about <cite>[[</cite>, and <cite>$</cite>).</p>
@@ -513,9 +493,9 @@ or on name while <cite>$</cite> can only extract on name).</p>
 </section>
 </section>
 <section id="assigning-items">
-<h2>Assigning items<a class="headerlink" href="#assigning-items" title="Permalink to this headline">¶</a></h2>
+<h2>Assigning items<a class="headerlink" href="#assigning-items" title="Permalink to this heading">¶</a></h2>
 <section id="assigning-python-style">
-<h3>Assigning, Python-style<a class="headerlink" href="#assigning-python-style" title="Permalink to this headline">¶</a></h3>
+<h3>Assigning, Python-style<a class="headerlink" href="#assigning-python-style" title="Permalink to this heading">¶</a></h3>
 <p>Since vectors are exposed as Python mutable sequences, the assignment works
 as for regular Python lists.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
@@ -540,7 +520,7 @@ this should be remembered if performance issues are met.</p>
 </div>
 </section>
 <section id="assigning-r-style">
-<h3>Assigning, R-style<a class="headerlink" href="#assigning-r-style" title="Permalink to this headline">¶</a></h3>
+<h3>Assigning, R-style<a class="headerlink" href="#assigning-r-style" title="Permalink to this heading">¶</a></h3>
 <p>Differences between the two languages require few adaptations, and in
 appearance complexify a little the task.
 Should other Python-based systems for the representation of (mostly numerical)
@@ -564,7 +544,7 @@ our rpy2 R objects through those structures.</p>
 </section>
 </section>
 <section id="missing-values">
-<span id="robjects-missingvalues"></span><h2>Missing values<a class="headerlink" href="#missing-values" title="Permalink to this headline">¶</a></h2>
+<span id="robjects-missingvalues"></span><h2>Missing values<a class="headerlink" href="#missing-values" title="Permalink to this heading">¶</a></h2>
 <p>Anyone with experience in the analysis of real data knows that
 some of the data might be missing. In S/Splus/R special <em>NA</em> values can be used
 in a data vector to indicate that fact, and <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> makes aliases for
@@ -597,17 +577,13 @@ the corresponding NA singleton class.</p>
 </div>
 </section>
 <section id="operators">
-<span id="robjects-operationsdelegator"></span><h2>Operators<a class="headerlink" href="#operators" title="Permalink to this headline">¶</a></h2>
+<span id="robjects-operationsdelegator"></span><h2>Operators<a class="headerlink" href="#operators" title="Permalink to this heading">¶</a></h2>
 <p>Mathematical operations on two vectors: the following operations
 are performed element-wise in R, recycling the shortest vector if, and
 as much as, necessary.</p>
 <p>To expose that to Python, a delegating attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">ro</span></code> is provided
 for vector-like objects.</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 37%" />
-<col style="width: 63%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Python</p></th>
 <th class="head"><p>R</p></th>
@@ -673,7 +649,7 @@ version 2.5), and its behavior could not be made to mimic R’s behavior</p>
 </div>
 </section>
 <section id="names">
-<span id="index-1"></span><h2>Names<a class="headerlink" href="#names" title="Permalink to this headline">¶</a></h2>
+<span id="index-1"></span><h2>Names<a class="headerlink" href="#names" title="Permalink to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">R</span></code> vectors can have a name given to all or some of the elements.
 The property <code class="xref py py-attr docutils literal notranslate"><span class="pre">names</span></code> can be used to get, or set, those names.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">seq</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -687,14 +663,14 @@ The property <code class="xref py py-attr docutils literal notranslate"><span cl
 </div>
 </section>
 <section id="array">
-<span id="index-2"></span><h2><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code><a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h2>
+<span id="index-2"></span><h2><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code><a class="headerlink" href="#array" title="Permalink to this heading">¶</a></h2>
 <p>In <cite>R</cite>, arrays are simply vectors with a dimension attribute. That fact
 was reflected in the class hierarchy with <code class="xref py py-class docutils literal notranslate"><span class="pre">robjects.Array</span></code> inheriting
 from <code class="xref py py-class docutils literal notranslate"><span class="pre">robjects.Vector</span></code>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.Array">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">Array</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#Array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.Array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Vector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.Vector" title="rpy2.robjects.vectors.Vector"><code class="xref py py-class docutils literal notranslate"><span class="pre">Vector</span></code></a></p>
 <p>An R array</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.Array.dim">
@@ -704,14 +680,14 @@ from <code class="xref py py-class docutils literal notranslate"><span class="pr
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.Array.dimnames">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimnames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">rpy2.rinterface_lib.sexp.Sexp</span></em><a class="headerlink" href="#rpy2.robjects.vectors.Array.dimnames" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dimnames</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sexp</span></em><a class="headerlink" href="#rpy2.robjects.vectors.Array.dimnames" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of name vectors
 (like the R function ‘dimnames’ does).</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.Array.names">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">rpy2.rinterface_lib.sexp.Sexp</span></em><a class="headerlink" href="#rpy2.robjects.vectors.Array.names" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sexp</span></em><a class="headerlink" href="#rpy2.robjects.vectors.Array.names" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of name vectors
 (like the R function ‘dimnames’ does).</p>
 </dd></dl>
@@ -720,7 +696,7 @@ from <code class="xref py py-class docutils literal notranslate"><span class="pr
 
 </section>
 <section id="matrix">
-<h2><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code><a class="headerlink" href="#matrix" title="Permalink to this headline">¶</a></h2>
+<h2><code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code><a class="headerlink" href="#matrix" title="Permalink to this heading">¶</a></h2>
 <p>A <code class="xref py py-class docutils literal notranslate"><span class="pre">Matrix</span></code> is a special case of <code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code>. As with arrays,
 one must remember that this is just a vector with dimension attributes
 (number of rows, number of columns).</p>
@@ -741,7 +717,7 @@ one must remember that this is just a vector with dimension attributes
 will build the matrix <em>as if</em> row-major ordered.</p>
 </div>
 <section id="computing-on-matrices">
-<h3>Computing on matrices<a class="headerlink" href="#computing-on-matrices" title="Permalink to this headline">¶</a></h3>
+<h3>Computing on matrices<a class="headerlink" href="#computing-on-matrices" title="Permalink to this heading">¶</a></h3>
 <p>Regular operators work element-wise on the underlying vector.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)),</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">ro</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -769,7 +745,7 @@ method with explicit names.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.Matrix">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">Matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#Matrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.Matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.vectors.Array" title="rpy2.robjects.vectors.Array"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.Array</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.vectors.Array" title="rpy2.robjects.vectors.Array"><code class="xref py py-class docutils literal notranslate"><span class="pre">Array</span></code></a></p>
 <p>An R matrix</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.Matrix.colnames">
@@ -837,7 +813,7 @@ If nv is None, it is given the default value min(tuple(self.dim)).</p>
 
 </section>
 <section id="extracting">
-<h3>Extracting<a class="headerlink" href="#extracting" title="Permalink to this headline">¶</a></h3>
+<h3>Extracting<a class="headerlink" href="#extracting" title="Permalink to this heading">¶</a></h3>
 <p>Extracting can still be performed Python-style or
 R-style.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="n">ro</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">8</span><span class="p">)),</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
@@ -877,7 +853,7 @@ by <cite>True</cite> or <cite>False</cite></p>
 </section>
 </section>
 <section id="dataframe">
-<span id="robjects-dataframes"></span><h2><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code><a class="headerlink" href="#dataframe" title="Permalink to this headline">¶</a></h2>
+<span id="robjects-dataframes"></span><h2><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code><a class="headerlink" href="#dataframe" title="Permalink to this heading">¶</a></h2>
 <p>Data frames are a common way in R to
 represent the data to analyze.</p>
 <p>A data frame can be thought of as a tabular representation of data,
@@ -888,13 +864,6 @@ different columns.</p>
 <p>If we consider for example tre data about pharmacokinetics of theophylline in
 different subjects, the data table could look like this:</p>
 <table class="docutils align-default">
-<colgroup>
-<col style="width: 28%" />
-<col style="width: 24%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-<col style="width: 16%" />
-</colgroup>
 <thead>
 <tr class="row-odd"><th class="head"><p>Subject</p></th>
 <th class="head"><p>Weight</p></th>
@@ -943,7 +912,7 @@ measures by subject is given by the column <em>Subject</em>.</p>
 <p>In <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>,
 <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> represents the <cite>R</cite> class <cite>data.frame</cite>.</p>
 <section id="creating-objects">
-<h3>Creating objects<a class="headerlink" href="#creating-objects" title="Permalink to this headline">¶</a></h3>
+<h3>Creating objects<a class="headerlink" href="#creating-objects" title="Permalink to this heading">¶</a></h3>
 <p>Creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code> can be done by:</p>
 <ul class="simple">
 <li><p>Using the constructor for the class</p></li>
@@ -1002,7 +971,7 @@ a <code class="xref py py-class docutils literal notranslate"><span class="pre">
 </div>
 </section>
 <section id="extracting-elements">
-<h3>Extracting elements<a class="headerlink" href="#extracting-elements" title="Permalink to this headline">¶</a></h3>
+<h3>Extracting elements<a class="headerlink" href="#extracting-elements" title="Permalink to this heading">¶</a></h3>
 <p>Here again, Python’s <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> will work
 as a Python programmer will expect it to:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">dataf</span><span class="p">)</span>
@@ -1059,11 +1028,11 @@ can therefore be extracted on two indices.</p>
 here <em>rows_i</em>, is used to take a subset of the <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>.</p>
 </section>
 <section id="python-docstrings">
-<h3>Python docstrings<a class="headerlink" href="#python-docstrings" title="Permalink to this headline">¶</a></h3>
+<h3>Python docstrings<a class="headerlink" href="#python-docstrings" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.DataFrame">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.vectors.</span></span><span class="sig-name descname"><span class="pre">DataFrame</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tlist</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#DataFrame"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.DataFrame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.vectors.ListVector" title="rpy2.robjects.vectors.ListVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.vectors.ListVector</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.vectors.ListVector" title="rpy2.robjects.vectors.ListVector"><code class="xref py py-class docutils literal notranslate"><span class="pre">ListVector</span></code></a></p>
 <p>R ‘data.frame’.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.vectors.DataFrame.cbind">
@@ -1076,7 +1045,7 @@ here <em>rows_i</em>, is used to take a subset of the <code class="xref py py-cl
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_csvfile</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">path,</span> <span class="pre">header=True,</span> <span class="pre">sep=',',</span> <span class="pre">quote='&quot;',</span> <span class="pre">dec='.',</span> <span class="pre">row_names=&lt;rpy2.rinterface._MissingArgType</span> <span class="pre">object&gt;</span> <span class="pre">[RTYPES.SYMSXP],</span> <span class="pre">col_names=&lt;rpy2.rinterface._MissingArgType</span> <span class="pre">object&gt;</span> <span class="pre">[RTYPES.SYMSXP],</span> <span class="pre">fill=True,</span> <span class="pre">comment_char='',</span> <span class="pre">na_strings=[],</span> <span class="pre">as_is=False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/vectors.html#DataFrame.from_csvfile"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.vectors.DataFrame.from_csvfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an instance from data in a .csv file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path</strong> – string with a path</p></li>
 <li><p><strong>header</strong> – boolean (heading line with column names or not)</p></li>
@@ -1233,7 +1202,7 @@ already existing, or not)</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -1253,14 +1222,14 @@ already existing, or not)</p>
         <li class="right" >
           <a href="robjects_language.html" title="R language"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1.dev documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Vectors and arrays</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

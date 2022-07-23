@@ -14559,12 +14559,12 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
                 },
                 displayAlign: 'center',
                 CommonHTML: {
-                    linebreaks: { 
-                    automatic: true 
+                    linebreaks: {
+                    automatic: true
                     }
                 }
             });
-        
+
             MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
         }
     }
@@ -15093,8 +15093,8 @@ the original implementation of <code>dplyr</code>, it <em>just works</em>.</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre># Source:   lazy query [?? x 2]
-# Database: sqlite 3.38.2 [/tmp/tmp7b8l7nfj]
+<pre># Source:   SQL [2 x 2]
+# Database: sqlite 3.39.1 [/tmp/tmp99odmhqq]
    gear mean_ptw
   &lt;dbl&gt;    &lt;dbl&gt;
 1     4    1237.
@@ -15153,9 +15153,11 @@ to us. If we want to see the SQL code generated that's:</p>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>&lt;SQL&gt;
 SELECT `gear`, AVG(`powertoweight`) AS `mean_ptw`
-FROM (SELECT `mpg`, `cyl`, `disp`, `hp`, `drat`, `wt`, `qsec`, `vs`, `am`, `gear`, `carb`, `hp` * 36.0 / `wt` AS `powertoweight`
-FROM `mtcars`
-WHERE (`gear` &gt; 3.0))
+FROM (
+  SELECT *, (`hp` * 36.0) / `wt` AS `powertoweight`
+  FROM `mtcars`
+  WHERE (`gear` &gt; 3.0)
+)
 GROUP BY `gear`
 </pre>
 </div>
