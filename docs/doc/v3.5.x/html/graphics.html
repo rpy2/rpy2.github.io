@@ -2,12 +2,12 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Graphics &#8212; rpy2 3.5.1 documentation</title>
+    <title>Graphics &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -41,7 +42,7 @@
         <li class="right" >
           <a href="pandas.html" title="Interoperability with pandas"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Graphics</a></li> 
       </ul>
@@ -53,15 +54,15 @@
           <div class="body" role="main">
             
   <section id="graphics">
-<span id="id1"></span><h1>Graphics<a class="headerlink" href="#graphics" title="Permalink to this headline">¶</a></h1>
+<span id="id1"></span><h1>Graphics<a class="headerlink" href="#graphics" title="Permalink to this heading">¶</a></h1>
 <section id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h2>
 <p>This section shows how to make R graphics from rpy2,
 using some of the different graphics systems available to R users.</p>
 <p>The purpose of this section is to get users going, and be able to figure out
 by reading the R documentation how to perform the same plot in rpy2.</p>
 <span class="target" id="module-rpy2.robjects.lib.grdevices"></span><section id="graphical-devices">
-<h3>Graphical devices<a class="headerlink" href="#graphical-devices" title="Permalink to this headline">¶</a></h3>
+<h3>Graphical devices<a class="headerlink" href="#graphical-devices" title="Permalink to this heading">¶</a></h3>
 <p>With <cite>R</cite>, all graphics are plotted into a so-called graphical device.
 Graphical devices can be interactive, like for example <cite>X11</cite>,
 or non-interactive, like <cite>png</cite> or <cite>pdf</cite>. Non-interactive devices
@@ -95,7 +96,7 @@ can be used to access an object known to belong to that R packages, e.g.:</p>
 </div>
 </section>
 <section id="getting-ready">
-<h3>Getting ready<a class="headerlink" href="#getting-ready" title="Permalink to this headline">¶</a></h3>
+<h3>Getting ready<a class="headerlink" href="#getting-ready" title="Permalink to this heading">¶</a></h3>
 <p>To run examples in this section we first import
 <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> and define few helper
 functions.</p>
@@ -119,9 +120,9 @@ functions.</p>
 </section>
 </section>
 <section id="package-lattice">
-<h2>Package <em>lattice</em><a class="headerlink" href="#package-lattice" title="Permalink to this headline">¶</a></h2>
+<h2>Package <em>lattice</em><a class="headerlink" href="#package-lattice" title="Permalink to this heading">¶</a></h2>
 <section id="id2">
-<h3>Introduction<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<h3>Introduction<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
 <p>Importing the package <cite>lattice</cite> is done the
 same as it is done for other R packages.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lattice</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;lattice&#39;</span><span class="p">)</span>
@@ -129,7 +130,7 @@ same as it is done for other R packages.</p>
 </div>
 </section>
 <section id="scatter-plot">
-<h3>Scatter plot<a class="headerlink" href="#scatter-plot" title="Permalink to this headline">¶</a></h3>
+<h3>Scatter plot<a class="headerlink" href="#scatter-plot" title="Permalink to this heading">¶</a></h3>
 <p>We use the dataset <em>mtcars</em>, and will use
 the lattice function <em>xyplot</em> to make scatter plots.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xyplot</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">xyplot</span>
@@ -175,7 +176,7 @@ this done by specifying it in the formula.</p>
 <a class="reference internal image-reference" href="_images/graphics_lattice_xyplot_3.png"><img alt="_images/graphics_lattice_xyplot_3.png" src="_images/graphics_lattice_xyplot_3.png" style="width: 456.0px; height: 256.0px;" /></a>
 </section>
 <section id="box-plot">
-<h3>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this headline">¶</a></h3>
+<h3>Box plot<a class="headerlink" href="#box-plot" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="o">=</span> <span class="n">lattice</span><span class="o">.</span><span class="n">bwplot</span><span class="p">(</span><span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;mpg ~ factor(cyl) | gear&#39;</span><span class="p">),</span>
                    <span class="n">data</span> <span class="o">=</span> <span class="n">mtcars</span><span class="p">,</span> <span class="n">fill</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">)</span>
 <span class="n">rprint</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -184,7 +185,7 @@ this done by specifying it in the formula.</p>
 <a class="reference internal image-reference" href="_images/graphics_lattice_bwplot_1.png"><img alt="_images/graphics_lattice_bwplot_1.png" src="_images/graphics_lattice_bwplot_1.png" style="width: 456.0px; height: 256.0px;" /></a>
 </section>
 <section id="other-plots">
-<h3>Other plots<a class="headerlink" href="#other-plots" title="Permalink to this headline">¶</a></h3>
+<h3>Other plots<a class="headerlink" href="#other-plots" title="Permalink to this heading">¶</a></h3>
 <p>The R package lattice contains a number of other plots, which unfortunately cannot all be detailled here.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tmpenv</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s2">&quot;volcano&quot;</span><span class="p">)</span>
 <span class="n">volcano</span> <span class="o">=</span> <span class="n">tmpenv</span><span class="p">[</span><span class="s2">&quot;volcano&quot;</span><span class="p">]</span>
@@ -213,9 +214,9 @@ example where the split is made according to the values plotted on the Z axis.</
 </section>
 </section>
 <section id="package-ggplot2">
-<h2>Package <em>ggplot2</em><a class="headerlink" href="#package-ggplot2" title="Permalink to this headline">¶</a></h2>
+<h2>Package <em>ggplot2</em><a class="headerlink" href="#package-ggplot2" title="Permalink to this heading">¶</a></h2>
 <section id="id3">
-<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<h3>Introduction<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
 <p>The R package <em>ggplot2</em> implements the Grammar of Graphics.
 While more documentation on the package and its usage with R can be found
 on the <a class="reference external" href="http://had.co.nz/ggplot2/">ggplot2 website</a>, this section will introduce the basic concepts required
@@ -245,7 +246,7 @@ are needed some knowledge of <em>grid</em> will be required.</p>
 </div>
 </section>
 <section id="plot">
-<h3>Plot<a class="headerlink" href="#plot" title="Permalink to this headline">¶</a></h3>
+<h3>Plot<a class="headerlink" href="#plot" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gp</span> <span class="o">=</span> <span class="n">ggplot2</span><span class="o">.</span><span class="n">ggplot</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
 
 <span class="n">pp</span> <span class="o">=</span> <span class="p">(</span><span class="n">gp</span> <span class="o">+</span>
@@ -257,7 +258,7 @@ are needed some knowledge of <em>grid</em> will be required.</p>
 </div>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2mtcars.png"><img alt="_images/graphics_ggplot2mtcars.png" src="_images/graphics_ggplot2mtcars.png" style="width: 306.0px; height: 306.0px;" /></a>
 <section id="aesthethics-mapping">
-<h4>Aesthethics mapping<a class="headerlink" href="#aesthethics-mapping" title="Permalink to this headline">¶</a></h4>
+<h4>Aesthethics mapping<a class="headerlink" href="#aesthethics-mapping" title="Permalink to this heading">¶</a></h4>
 <p>An important concept for the grammar of graphics is the
 mapping of variables, or columns in a data frame, to
 graphical representations.</p>
@@ -288,7 +289,7 @@ also be mapped to a variable:</p>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2aescolsize.png"><img alt="_images/graphics_ggplot2aescolsize.png" src="_images/graphics_ggplot2aescolsize.png" style="width: 306.0px; height: 306.0px;" /></a>
 </section>
 <section id="geometry">
-<h4>Geometry<a class="headerlink" href="#geometry" title="Permalink to this headline">¶</a></h4>
+<h4>Geometry<a class="headerlink" href="#geometry" title="Permalink to this heading">¶</a></h4>
 <p>The <em>geometry</em> is how the data are represented. So far we used a scatter
 plot of points, but there are other ways to represent our data.</p>
 <p>Looking at the distribution of univariate data can be achieved with
@@ -460,7 +461,7 @@ example below:</p>
 <a class="reference internal image-reference" href="_images/graphics_ggplot2map_polygon.png"><img alt="_images/graphics_ggplot2map_polygon.png" src="_images/graphics_ggplot2map_polygon.png" style="width: 306.0px; height: 306.0px;" /></a>
 </section>
 <section id="axes">
-<h4>Axes<a class="headerlink" href="#axes" title="Permalink to this headline">¶</a></h4>
+<h4>Axes<a class="headerlink" href="#axes" title="Permalink to this heading">¶</a></h4>
 <p>Axes can be transformed and configured in various ways.</p>
 <p>A common transformation is the log-transform of the coordinates.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib</span> <span class="kn">import</span> <span class="n">grid</span>
@@ -510,7 +511,7 @@ elements to a ggplot2 figure.</p>
 </div>
 </section>
 <section id="facets">
-<h4>Facets<a class="headerlink" href="#facets" title="Permalink to this headline">¶</a></h4>
+<h4>Facets<a class="headerlink" href="#facets" title="Permalink to this heading">¶</a></h4>
 <p>Splitting the data into panels, in a similar fashion to what we did
 with <em>lattice</em>, is now a matter of adding <em>facets</em>.
 A central concept to <em>ggplot2</em> is that plot are made of added
@@ -580,7 +581,7 @@ used the grammar of graphics) are still specified the usual way.</p>
 </section>
 </section>
 <section id="extensions-and-new-features">
-<h3>Extensions and new features<a class="headerlink" href="#extensions-and-new-features" title="Permalink to this headline">¶</a></h3>
+<h3>Extensions and new features<a class="headerlink" href="#extensions-and-new-features" title="Permalink to this heading">¶</a></h3>
 <p>The R package <cite>ggplot2</cite> is under active development, and new
 methods (geometry, summary statistics, theme customizations)
 are added regularly. In addition to this there exists a
@@ -617,7 +618,7 @@ ggplot figure).</p>
 </ol>
 </section>
 <section id="class-diagram">
-<h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this headline">¶</a></h3>
+<h3>Class diagram<a class="headerlink" href="#class-diagram" title="Permalink to this heading">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-d86d409524eb48502899f6a4bb8d07a9d1947b3c.png" alt="Inheritance diagram of rpy2.robjects.lib.ggplot2.GBaseObject, rpy2.robjects.lib.ggplot2.Coord, rpy2.robjects.lib.ggplot2.Element, rpy2.robjects.lib.ggplot2.Facet, rpy2.robjects.lib.ggplot2.Geom, rpy2.robjects.lib.ggplot2.GGPlot, rpy2.robjects.lib.ggplot2.Scale, rpy2.robjects.lib.ggplot2.Stat, rpy2.robjects.lib.ggplot2.Theme" usemap="#inheritance7c5d834ef1" class="inheritance graphviz" /></div>
 <map id="inheritance7c5d834ef1" name="inheritance7c5d834ef1">
 <area shape="rect" id="node7" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Abstract class to provide methods common to all RObject instances." alt="" coords="275,69,355,87"/>
@@ -629,7 +630,7 @@ ggplot figure).</p>
 </map></section>
 </section>
 <section id="package-grid">
-<h2>Package <em>grid</em><a class="headerlink" href="#package-grid" title="Permalink to this headline">¶</a></h2>
+<h2>Package <em>grid</em><a class="headerlink" href="#package-grid" title="Permalink to this heading">¶</a></h2>
 <p>The <em>grid</em> package is the underlying plotting environment for <em>lattice</em>
 and <em>ggplot2</em> figures. In few words, it consists in pushing and poping systems
 of coordinates (<em>viewports</em>) into a stack, and plotting graphical elements into them.
@@ -679,7 +680,7 @@ Pushing into the current viewport, can be done by using the class method
 </div>
 <a class="reference internal image-reference" href="_images/graphics_grid.png"><img alt="_images/graphics_grid.png" src="_images/graphics_grid.png" style="width: 306.0px; height: 306.0px;" /></a>
 <section id="custom-ggplot2-layout-with-grid">
-<h3>Custom ggplot2 layout with grid<a class="headerlink" href="#custom-ggplot2-layout-with-grid" title="Permalink to this headline">¶</a></h3>
+<h3>Custom ggplot2 layout with grid<a class="headerlink" href="#custom-ggplot2-layout-with-grid" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">grid</span><span class="o">.</span><span class="n">newpage</span><span class="p">()</span>
 
 <span class="c1"># create a viewport as the main plot</span>
@@ -707,11 +708,11 @@ Pushing into the current viewport, can be done by using the class method
 <a class="reference internal image-reference" href="_images/graphics_ggplot2withgrid.png"><img alt="_images/graphics_ggplot2withgrid.png" src="_images/graphics_ggplot2withgrid.png" style="width: 306.0px; height: 306.0px;" /></a>
 </section>
 <section id="classes">
-<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this headline">¶</a></h3>
+<h3>Classes<a class="headerlink" href="#classes" title="Permalink to this heading">¶</a></h3>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Viewport">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">Viewport</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Viewport"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Viewport" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.RObject" title="rpy2.robjects.robject.RObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.robject.RObject</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.RObject" title="rpy2.robjects.robject.RObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">RObject</span></code></a></p>
 <p>Drawing context.
 Viewports can be thought of as nodes in a scene graph.</p>
 <dl class="py method">
@@ -765,7 +766,7 @@ Viewports can be thought of as nodes in a scene graph.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Grob">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">Grob</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#Grob"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.Grob" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.BaseGrid</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseGrid</span></code></p>
 <p>Graphical object</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.Grob.draw">
@@ -779,7 +780,7 @@ grid::grid.raw())</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.GTree">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.lib.grid.</span></span><span class="sig-name descname"><span class="pre">GTree</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/lib/grid.html#GTree"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.lib.grid.GTree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.lib.grid.Grob" title="rpy2.robjects.lib.grid.Grob"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.lib.grid.Grob</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.lib.grid.Grob" title="rpy2.robjects.lib.grid.Grob"><code class="xref py py-class docutils literal notranslate"><span class="pre">Grob</span></code></a></p>
 <p>gTree</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.lib.grid.GTree.grobtree">
@@ -797,7 +798,7 @@ grid::grid.raw())</p>
 
 </section>
 <section id="id4">
-<h3>Class diagram<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<h3>Class diagram<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
 <div class="graphviz"><img src="_images/inheritance-472b9f2de189175aaf6a84877e09cb62a22526e1.png" alt="Inheritance diagram of rpy2.robjects.lib.grid" usemap="#inheritancee1ac3c21eb" class="inheritance graphviz" /></div>
 <map id="inheritancee1ac3c21eb" name="inheritancee1ac3c21eb">
 <area shape="rect" id="node11" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" target="_top" title="Abstract class to provide methods common to all RObject instances." alt="" coords="134,189,225,209"/>
@@ -882,7 +883,7 @@ grid::grid.raw())</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -902,14 +903,14 @@ grid::grid.raw())</p>
         <li class="right" >
           <a href="pandas.html" title="Interoperability with pandas"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Graphics</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

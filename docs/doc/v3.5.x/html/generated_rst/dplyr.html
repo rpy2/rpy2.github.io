@@ -2,12 +2,12 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>dplyr in Python &#8212; rpy2 3.5.1 documentation</title>
+    <title>dplyr in Python &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -41,7 +42,7 @@
         <li class="right" >
           <a href="pandas.html" title="R and pandas data frames"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../getting-started.html" accesskey="U">Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dplyr in Python</a></li> 
       </ul>
@@ -58,7 +59,7 @@
 </pre></div>
 </div>
 <section id="dplyr-in-python">
-<h1>dplyr in Python<a class="headerlink" href="#dplyr-in-python" title="Permalink to this headline">¶</a></h1>
+<h1>dplyr in Python<a class="headerlink" href="#dplyr-in-python" title="Permalink to this heading">¶</a></h1>
 <p>We need 2 things for this:</p>
 <p>1- A data frame (using one of R’s demo datasets).</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
@@ -281,8 +282,8 @@ implementation of <code class="docutils literal notranslate"><span class="pre">d
 <span class="c1">#</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:   lazy query [?? x 2]</span>
-<span class="c1"># Database: sqlite 3.38.2 [/tmp/tmpktodxm4y]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:   SQL [2 x 2]</span>
+<span class="c1"># Database: sqlite 3.39.1 [/tmp/tmp99odmhqq]</span>
    <span class="n">gear</span> <span class="n">mean_ptw</span>
   <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>    <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>
 <span class="mi">1</span>     <span class="mi">4</span>    <span class="mf">1237.</span>
@@ -296,9 +297,11 @@ available to us. If we want to see the SQL code generated that’s:</p>
 </div>
 <pre class="literal-block">&lt;SQL&gt;
 SELECT <cite>gear</cite>, AVG(<cite>powertoweight</cite>) AS <cite>mean_ptw</cite>
-FROM (SELECT <cite>mpg</cite>, <cite>cyl</cite>, <cite>disp</cite>, <cite>hp</cite>, <cite>drat</cite>, <cite>wt</cite>, <cite>qsec</cite>, <cite>vs</cite>, <cite>am</cite>, <cite>gear</cite>, <cite>carb</cite>, <cite>hp</cite> * 36.0 / <cite>wt</cite> AS <cite>powertoweight</cite>
-FROM <cite>mtcars</cite>
-WHERE (<cite>gear</cite> &gt; 3.0))
+FROM (
+  SELECT <a href="#id1"><span class="problematic" id="id2">*</span></a>, (<cite>hp</cite> * 36.0) / <cite>wt</cite> AS <cite>powertoweight</cite>
+  FROM <cite>mtcars</cite>
+  WHERE (<cite>gear</cite> &gt; 3.0)
+)
 GROUP BY <cite>gear</cite></pre>
 <p>The conversion rules in rpy2 make the above easily applicable to pandas
 data frames, completing the “lexical loan” of the dplyr vocabulary from
@@ -384,7 +387,7 @@ it.</p>
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -404,14 +407,14 @@ it.</p>
         <li class="right" >
           <a href="pandas.html" title="R and pandas data frames"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../getting-started.html" >Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dplyr in Python</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>

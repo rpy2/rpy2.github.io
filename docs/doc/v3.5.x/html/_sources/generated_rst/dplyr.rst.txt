@@ -281,8 +281,8 @@ implementation of ``dplyr``, it *just works*.
 
 .. parsed-literal::
 
-    # Source:   lazy query [?? x 2]
-    # Database: sqlite 3.38.2 [/tmp/tmpktodxm4y]
+    # Source:   SQL [2 x 2]
+    # Database: sqlite 3.39.1 [/tmp/tmp99odmhqq]
        gear mean_ptw
       <dbl>    <dbl>
     1     4    1237.
@@ -302,9 +302,11 @@ available to us. If we want to see the SQL code generated that’s:
 
     <SQL>
     SELECT `gear`, AVG(`powertoweight`) AS `mean_ptw`
-    FROM (SELECT `mpg`, `cyl`, `disp`, `hp`, `drat`, `wt`, `qsec`, `vs`, `am`, `gear`, `carb`, `hp` * 36.0 / `wt` AS `powertoweight`
-    FROM `mtcars`
-    WHERE (`gear` > 3.0))
+    FROM (
+      SELECT *, (`hp` * 36.0) / `wt` AS `powertoweight`
+      FROM `mtcars`
+      WHERE (`gear` > 3.0)
+    )
     GROUP BY `gear`
 
 

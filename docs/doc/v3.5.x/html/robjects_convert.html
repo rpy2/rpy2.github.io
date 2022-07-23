@@ -2,12 +2,12 @@
 
 <!doctype html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>Mapping rpy2 objects to arbitrary python objects &#8212; rpy2 3.5.1 documentation</title>
+    <title>Mapping rpy2 objects to arbitrary python objects &#8212; rpy2 3.5.3 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -15,6 +15,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -41,7 +42,7 @@
         <li class="right" >
           <a href="rhelp.html" title="R help"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Mapping rpy2 objects to arbitrary python objects</a></li> 
       </ul>
@@ -53,9 +54,9 @@
           <div class="body" role="main">
             
   <span class="target" id="module-rpy2.robjects.conversion"></span><section id="mapping-rpy2-objects-to-arbitrary-python-objects">
-<span id="robjects-conversion"></span><h1>Mapping rpy2 objects to arbitrary python objects<a class="headerlink" href="#mapping-rpy2-objects-to-arbitrary-python-objects" title="Permalink to this headline">¶</a></h1>
+<span id="robjects-conversion"></span><h1>Mapping rpy2 objects to arbitrary python objects<a class="headerlink" href="#mapping-rpy2-objects-to-arbitrary-python-objects" title="Permalink to this heading">¶</a></h1>
 <section id="protocols">
-<h2>Protocols<a class="headerlink" href="#protocols" title="Permalink to this headline">¶</a></h2>
+<h2>Protocols<a class="headerlink" href="#protocols" title="Permalink to this heading">¶</a></h2>
 <p>The package has a low level and a high level interface to R. The low level is
 closer to R’s C API, while the high level is meant to provide more convenience
 even if at the cost of performances. The low level (<a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>)
@@ -106,7 +107,7 @@ of object conversions between Python and R.</p>
 </div>
 </section>
 <section id="conversion">
-<h2>Conversion<a class="headerlink" href="#conversion" title="Permalink to this headline">¶</a></h2>
+<h2>Conversion<a class="headerlink" href="#conversion" title="Permalink to this heading">¶</a></h2>
 <p>The high level interface between Python in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> uses a conversion system
 each time an R object is represented in Python, and each time a Python objects
 is passed to R (for example as a parameter to an R function).</p>
@@ -136,7 +137,7 @@ optional conversion rules in modules <code class="xref py py-mod docutils litera
 working with rpy2 and <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> or <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> objects.</p>
 </div>
 <section id="converter-objects">
-<h3>Converter objects<a class="headerlink" href="#converter-objects" title="Permalink to this headline">¶</a></h3>
+<h3>Converter objects<a class="headerlink" href="#converter-objects" title="Permalink to this heading">¶</a></h3>
 <p><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.Converter</span></code> objects are designed
 to keep sets of conversion rules together. There can be as many instances
 of that class as desired, but the one called <cite>converter</cite> in
@@ -226,7 +227,7 @@ can be added to a converter with:</p>
 </div>
 </section>
 <section id="local-conversion-rules">
-<h3>Local conversion rules<a class="headerlink" href="#local-conversion-rules" title="Permalink to this headline">¶</a></h3>
+<h3>Local conversion rules<a class="headerlink" href="#local-conversion-rules" title="Permalink to this heading">¶</a></h3>
 <p>The conversion rules can be customized globally (See section <cite>Customizing the conversion</cite>)
 or through the use of local converters as context managers.</p>
 <div class="admonition note">
@@ -277,7 +278,7 @@ irrespective of what are the conversion rules defined by the caller of the code:
 </div>
 </section>
 <section id="customizing-the-conversion">
-<h3>Customizing the conversion<a class="headerlink" href="#customizing-the-conversion" title="Permalink to this headline">¶</a></h3>
+<h3>Customizing the conversion<a class="headerlink" href="#customizing-the-conversion" title="Permalink to this heading">¶</a></h3>
 <p>As an example, let’s assume that one want to return atomic values
 whenever an R numerical vector is of length one. This is only a matter
 of writing a new function <cite>rpy2py</cite> that handles this, as shown below:</p>
@@ -405,7 +406,7 @@ is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be 
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -425,14 +426,14 @@ is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be 
         <li class="right" >
           <a href="rhelp.html" title="R help"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Mapping rpy2 objects to arbitrary python objects</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2017, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
     </div>
   </body>
 </html>
