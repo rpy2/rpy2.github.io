@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.methods &#8212; rpy2 3.5.3 documentation</title>
+    <title>rpy2.robjects.methods &#8212; rpy2 3.5.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.methods</a></li> 
@@ -121,9 +121,11 @@
                          <span class="s2">&quot;Name of the R class&quot;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">getclassdef</span><span class="p">(</span><span class="n">cls_name</span><span class="p">,</span> <span class="n">cls_packagename</span><span class="p">):</span>
-    <span class="n">cls_def</span> <span class="o">=</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;getClassDef&#39;</span><span class="p">](</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_name</span><span class="p">,)),</span>
-                                         <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_packagename</span><span class="p">,</span> <span class="p">)))</span>
+<span class="k">def</span> <span class="nf">getclassdef</span><span class="p">(</span><span class="n">cls_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">packagename</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">):</span>
+    <span class="n">cls_def</span> <span class="o">=</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;getClassDef&#39;</span><span class="p">](</span>
+        <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_name</span><span class="p">,)),</span>
+        <span class="n">package</span><span class="o">=</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">packagename</span><span class="p">,</span> <span class="p">))</span>
+    <span class="p">)</span>
     <span class="n">cls_def</span> <span class="o">=</span> <span class="n">ClassRepresentation</span><span class="p">(</span><span class="n">cls_def</span><span class="p">)</span>
     <span class="n">cls_def</span><span class="o">.</span><span class="n">__rname__</span> <span class="o">=</span> <span class="n">cls_name</span>
     <span class="k">return</span> <span class="n">cls_def</span>
@@ -390,7 +392,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.methods</a></li> 
@@ -398,7 +400,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
   </body>
 </html>

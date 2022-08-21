@@ -36,6 +36,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .highlight .m { color: var(--jp-mirror-editor-number-color) } /* Literal.Number */
 .highlight .s { color: var(--jp-mirror-editor-string-color) } /* Literal.String */
 .highlight .ow { color: var(--jp-mirror-editor-operator-color); font-weight: bold } /* Operator.Word */
+.highlight .pm { color: var(--jp-mirror-editor-punctuation-color) } /* Punctuation.Marker */
 .highlight .w { color: var(--jp-mirror-editor-variable-color) } /* Text.Whitespace */
 .highlight .mb { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Bin */
 .highlight .mf { color: var(--jp-mirror-editor-number-color) } /* Literal.Number.Float */
@@ -14582,7 +14583,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="kn">import</span> <span class="n">html</span>
-<span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
+<span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">"docutils"</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14598,7 +14599,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <h1 id="Basic-handling">Basic handling<a class="anchor-link" href="#Basic-handling">&#182;</a></h1><p>The S4 system is one the OOP systems in R.
-Its largest use might in the Bioconductor collection of packages
+Its largest use might be in the Bioconductor collection of packages
 for bioinformatics and computational biology.</p>
 <p>We use the bioconductor <code>Biobase</code>:</p>
 
@@ -14614,7 +14615,7 @@ for bioinformatics and computational biology.</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
-<span class="n">biobase</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;Biobase&#39;</span><span class="p">)</span>
+<span class="n">biobase</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">'Biobase'</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14843,10 +14844,10 @@ R object (values). It can be used as Python <code>dict</code>:</p>
 <span class="nb">print</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">eset</span><span class="o">.</span><span class="n">slots</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
 
 <span class="c1"># fetch `phenoData`</span>
-<span class="n">phdat</span> <span class="o">=</span> <span class="n">eset</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;phenoData&#39;</span><span class="p">]</span>
+<span class="n">phdat</span> <span class="o">=</span> <span class="n">eset</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">'phenoData'</span><span class="p">]</span>
 
 <span class="c1"># phdat is an S4 object itself</span>
-<span class="n">pheno_dataf</span> <span class="o">=</span> <span class="n">phdat</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+<span class="n">pheno_dataf</span> <span class="o">=</span> <span class="n">phdat</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -14934,7 +14935,7 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">rpy2py_s4</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="k">if</span> <span class="s1">&#39;ExpressionSet&#39;</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s1">'ExpressionSet'</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">ExpressionSet</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">robj</span>
@@ -14965,7 +14966,7 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;__main__.ExpressionSet object at 0x7fd818478780&gt; [RTYPES.S4SXP]
+<pre>&lt;__main__.ExpressionSet object at 0x7f953cce02c0&gt; [RTYPES.S4SXP]
 R classes: (&#39;ExpressionSet&#39;,)</pre>
 </div>
 
@@ -14998,7 +14999,7 @@ R classes: (&#39;ExpressionSet&#39;,)</pre>
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">default_converter</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">Converter</span><span class="p">,</span> <span class="n">localconverter</span>
 
-<span class="n">my_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">&#39;ExpressionSet-aware converter&#39;</span><span class="p">,</span>
+<span class="n">my_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">'ExpressionSet-aware converter'</span><span class="p">,</span>
                          <span class="n">template</span><span class="o">=</span><span class="n">default_converter</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="kn">import</span> <span class="n">SexpS4</span>
@@ -15113,13 +15114,13 @@ We can make it a property in our Python class:</p>
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ExpressionSet</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">_exprs_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;assayData&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">'assayData'</span><span class="p">]</span>
     <span class="k">def</span> <span class="nf">_exprs_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">&#39;assayData&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slots</span><span class="p">[</span><span class="s1">'assayData'</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
     <span class="n">exprs</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_exprs_get</span><span class="p">,</span>
                      <span class="n">_exprs_set</span><span class="p">,</span>
                      <span class="kc">None</span><span class="p">,</span>
-                     <span class="s2">&quot;R attribute `exprs`&quot;</span><span class="p">)</span>
+                     <span class="s2">"R attribute `exprs`"</span><span class="p">)</span>
 <span class="n">eset_myclass</span> <span class="o">=</span> <span class="n">ExpressionSet</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
 
 <span class="n">eset_myclass</span><span class="o">.</span><span class="n">exprs</span>
@@ -15146,7 +15147,7 @@ We can make it a property in our Python class:</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;rpy2.robjects.environments.Environment object at 0x7fd7e02fab40&gt; [RTYPES.ENVSXP]
+<pre>&lt;rpy2.robjects.environments.Environment object at 0x7f950aafbf40&gt; [RTYPES.ENVSXP]
 R classes: (&#39;environment&#39;,)
 n items: 1</pre>
 </div>
@@ -15262,8 +15263,8 @@ function. For example:</p>
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="kn">import</span> <span class="n">getmethod</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="kn">import</span> <span class="n">StrVector</span>
-<span class="n">_rowmedians_matrix</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;rowMedians&quot;</span><span class="p">]),</span>
-                               <span class="n">signature</span><span class="o">=</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">&quot;matrix&quot;</span><span class="p">]))</span>
+<span class="n">_rowmedians_matrix</span> <span class="o">=</span> <span class="n">getmethod</span><span class="p">(</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">"rowMedians"</span><span class="p">]),</span>
+                               <span class="n">signature</span><span class="o">=</span><span class="n">StrVector</span><span class="p">([</span><span class="s2">"matrix"</span><span class="p">]))</span>
 <span class="nd">@dispatch</span><span class="p">(</span><span class="n">Matrix</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">rowmedians</span><span class="p">(</span><span class="n">m</span><span class="p">,</span>
                <span class="n">na_rm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

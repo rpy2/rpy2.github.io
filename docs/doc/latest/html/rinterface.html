@@ -5,9 +5,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Low-level interface &#8212; rpy2 3.5.3 documentation</title>
+    <title>Low-level interface &#8212; rpy2 3.5.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -42,7 +42,7 @@
         <li class="right" >
           <a href="numpy.html" title="Numpy"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Low-level interface</a></li> 
       </ul>
     </div>  
@@ -331,6 +331,43 @@ that is a object that can be used by R as a function.</p>
 <dd><p>Make a Python function callable from R.</p>
 <p>Takes an arbitrary Python function and wrap it in such a way that
 it can be called from the R side.</p>
+<p>This factory can be used as a decorator, and has an optional
+named argument “signature” that can be True or False (default is
+False). When True, the R function wrapping the Python one will
+have a matching signature or a close one, as detailed below.</p>
+<p>The Python ellipsis arguments`*args` and <cite>**kwargs</cite> are
+translated to the R ellipsis <cite>…</cite>.</p>
+<p>For example:</p>
+<p>will be visible in R with the signature:</p>
+<p>The only limitation is that whenever <cite>*args</cite> and <cite>**kwargs</cite> are
+both present in the Python declaration they must be consecutive.
+For example:</p>
+<p>is a valid Python declaration. However, it cannot be “rternalized”
+because the R ellipsis can only appear at most once in the signature
+of a given function. Trying to apply the decorator <cite>rternalize</cite> would
+raise an exception.</p>
+<p>The following Python function can be “rternalized”:</p>
+<p>It is visible to R with the signature</p>
+<p>Python function definitions can allow the optional naming of required
+arguments. The mapping of signatures between Python and R is then
+quasi-indentical since R does it for unnamed arguments. The check
+that all arguments are present is still performed on the Python side.</p>
+<p>Example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">x: 1, y: 2, z: 3</span>
+<span class="go">ValueErro: None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">TypeError: rternalized foo() missing 2 required keyword-only arguments: &#39;y&#39; and &#39;z&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">x: 1, y: 3, z: 2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">foo</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">x: 1, y: 3, z: 2</span>
+</pre></div>
+</div>
+<p>Note that whenever the Python function has an ellipsis (either <cite>*args</cite>
+or <cite>**kwargs</cite>) earlier parameters in the signature that are
+positional-or-keyword are considered to be positional arguments in a
+function call.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>function</strong> – A Python callable object.</p>
@@ -1131,7 +1168,7 @@ and arrays.</p>
 <p>External pointers also do not obey the pass-by-value rule and can represent a way
 to implement pointers in R.</p>
 <p>Let us consider the following simple example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ep</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpExtPtr</span><span class="p">(</span><span class="s2">&quot;hohoho&quot;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ep</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpExtPtr</span><span class="o">.</span><span class="n">from_pyobject</span><span class="p">(</span><span class="s1">&#39;hohoho&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The Python string is now encapsulated into an R external pointer, and visible as such
@@ -1140,12 +1177,12 @@ by the embedded R process.</p>
 can be considered (here still a simple example):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">ctypes</span>
 <span class="k">class</span> <span class="nc">Point2D</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
-    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-                <span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
 
 <span class="n">pt</span> <span class="o">=</span> <span class="n">Point2D</span><span class="p">()</span>
 
-<span class="n">ep</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpExtPtr</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
+<span class="n">ep</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpExtPtr</span><span class="o">.</span><span class="n">from_pyobject</span><span class="p">(</span><span class="n">pt</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>However, this remains a rather academic exercise unless there exists a way to access the
@@ -1375,13 +1412,13 @@ and methods to R.</p>
         <li class="right" >
           <a href="numpy.html" title="Numpy"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Low-level interface</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
   </body>
 </html>

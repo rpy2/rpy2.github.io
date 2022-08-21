@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface &#8212; rpy2 3.5.3 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.5.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
@@ -49,6 +49,8 @@
 <span class="kn">import</span> <span class="nn">atexit</span>
 <span class="kn">import</span> <span class="nn">contextlib</span>
 <span class="kn">import</span> <span class="nn">contextvars</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">platform</span>
@@ -1144,11 +1146,95 @@
     <span class="n">_update_R_ENC_PY</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="rternalize"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.rternalize">[docs]</a><span class="k">def</span> <span class="nf">rternalize</span><span class="p">(</span><span class="n">function</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SexpClosure</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_find_first</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">of_type</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">of_type</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">node</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s1">&#39;No node of type </span><span class="si">{</span><span class="n">of_type</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="rternalize"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.rternalize">[docs]</a><span class="k">def</span> <span class="nf">rternalize</span><span class="p">(</span>
+        <span class="n">function</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
+        <span class="n">signature</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SexpClosure</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot; Make a Python function callable from R.</span>
 
 <span class="sd">    Takes an arbitrary Python function and wrap it in such a way that</span>
 <span class="sd">    it can be called from the R side.</span>
+
+<span class="sd">    This factory can be used as a decorator, and has an optional</span>
+<span class="sd">    named argument &quot;signature&quot; that can be True or False (default is</span>
+<span class="sd">    False). When True, the R function wrapping the Python one will</span>
+<span class="sd">    have a matching signature or a close one, as detailed below.</span>
+
+<span class="sd">    The Python ellipsis arguments`*args` and `**kwargs` are</span>
+<span class="sd">    translated to the R ellipsis `...`.</span>
+
+<span class="sd">    For example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">       @rternalize(signature=True)</span>
+<span class="sd">       def foo(x, *args, y=2):</span>
+<span class="sd">           pass</span>
+
+<span class="sd">    will be visible in R with the signature:</span>
+
+<span class="sd">    .. code-block:: r</span>
+<span class="sd">       function (x, ..., y)</span>
+
+<span class="sd">    The only limitation is that whenever `*args` and `**kwargs` are</span>
+<span class="sd">    both present in the Python declaration they must be consecutive.</span>
+<span class="sd">    For example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">       def foo(x, *args, y=2, **kwargs):</span>
+<span class="sd">           pass</span>
+
+<span class="sd">    is a valid Python declaration. However, it cannot be &quot;rternalized&quot;</span>
+<span class="sd">    because the R ellipsis can only appear at most once in the signature</span>
+<span class="sd">    of a given function. Trying to apply the decorator `rternalize` would</span>
+<span class="sd">    raise an exception.</span>
+
+<span class="sd">    The following Python function can be &quot;rternalized&quot;:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">       def foo(x, *args, **kwargs):</span>
+<span class="sd">           pass</span>
+
+<span class="sd">    It is visible to R with the signature</span>
+
+<span class="sd">    .. code-block:: r</span>
+<span class="sd">       function (x, ...)</span>
+
+<span class="sd">    Python function definitions can allow the optional naming of required</span>
+<span class="sd">    arguments. The mapping of signatures between Python and R is then</span>
+<span class="sd">    quasi-indentical since R does it for unnamed arguments. The check</span>
+<span class="sd">    that all arguments are present is still performed on the Python side.</span>
+
+<span class="sd">    Example:</span>
+
+<span class="sd">    .. code-block:: python</span>
+<span class="sd">       @rternalize(signature=True)</span>
+<span class="sd">       def foo(x, *, y, z):</span>
+<span class="sd">           print(f&#39;x: {x[0]}, y: {y[0]}, z: {z[0]}&#39;)</span>
+<span class="sd">           return ri.NULL</span>
+
+<span class="sd">    &gt;&gt;&gt; _ = foo(1, 2, 3)</span>
+<span class="sd">    x: 1, y: 2, z: 3</span>
+<span class="sd">    ValueErro: None</span>
+<span class="sd">    &gt;&gt;&gt; _ = foo(1)</span>
+<span class="sd">    TypeError: rternalized foo() missing 2 required keyword-only arguments: &#39;y&#39; and &#39;z&#39;</span>
+<span class="sd">    &gt;&gt;&gt; _ = foo(1, z=2, y=3)</span>
+<span class="sd">    x: 1, y: 3, z: 2</span>
+<span class="sd">    &gt;&gt;&gt; _ = foo(1, z=2, y=3)</span>
+<span class="sd">    x: 1, y: 3, z: 2</span>
+
+<span class="sd">    Note that whenever the Python function has an ellipsis (either `*args`</span>
+<span class="sd">    or `**kwargs`) earlier parameters in the signature that are</span>
+<span class="sd">    positional-or-keyword are considered to be positional arguments in a</span>
+<span class="sd">    function call.</span>
 
 <span class="sd">    :param function: A Python callable object.</span>
 
@@ -1156,14 +1242,72 @@
 <span class="sd">    object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="k">if</span> <span class="n">function</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">rternalize</span><span class="p">,</span> <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">)</span>
+
     <span class="k">assert</span> <span class="n">callable</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
     <span class="n">rpy_fun</span> <span class="o">=</span> <span class="n">SexpExtPtr</span><span class="o">.</span><span class="n">from_pyobject</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
-    <span class="c1"># TODO: this is a hack. Find a better way.</span>
-    <span class="n">template</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">      function(...) { .External(&quot;.Python&quot;, foo, ...);</span>
-<span class="s2">    }</span>
-<span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
-    <span class="n">template</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">rpy_fun</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">signature</span><span class="p">:</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        function(...) { .External(&quot;.Python&quot;, foo, ...);</span>
+<span class="s2">        }</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="n">template</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">][</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">rpy_fun</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">signature</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">function</span><span class="p">)</span>
+        <span class="n">has_ellipsis</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">params_r_sig</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">p_i</span><span class="p">,</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">signature</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="ow">is</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_POSITIONAL</span> <span class="ow">or</span>
+                    <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="ow">is</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">VAR_KEYWORD</span>
+            <span class="p">):</span>
+                <span class="k">if</span> <span class="n">has_ellipsis</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">has_ellipsis</span> <span class="o">!=</span> <span class="p">(</span><span class="n">p_i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="s1">&#39;R functions can only have one ellipsis. &#39;</span>
+                            <span class="s1">&#39;As consequence your Python function must have *args &#39;</span>
+                            <span class="s1">&#39;and **kwargs that are consecutive in function &#39;</span>
+                            <span class="s1">&#39;signature.&#39;</span>
+                        <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># The ellipsis can only be added once.</span>
+                    <span class="n">has_ellipsis</span> <span class="o">=</span> <span class="n">p_i</span>
+                    <span class="n">params_r_sig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">params_r_sig</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="n">r_func_args</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">params_r_sig</span><span class="p">)</span>
+
+        <span class="n">r_src</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">        function(</span><span class="si">{</span><span class="n">r_func_args</span><span class="si">}</span><span class="s2">) </span><span class="se">{{</span><span class="s2"></span>
+<span class="s2">            py_func &lt;- RPY2_FUN_PLACEHOLDER</span>
+<span class="s2">            lst_args &lt;- base::as.list(base::match.call()[-1])</span>
+<span class="s2">            RPY2_ARGUMENTS &lt;- base::c(</span>
+<span class="s2">                base::list(</span>
+<span class="s2">                    &quot;.Python&quot;,</span>
+<span class="s2">                    py_func</span>
+<span class="s2">                ),</span>
+<span class="s2">                lst_args</span>
+<span class="s2">            )</span>
+<span class="s2">            res &lt;- base::do.call(</span>
+<span class="s2">               base::.External,</span>
+<span class="s2">               RPY2_ARGUMENTS</span>
+<span class="s2">            );</span>
+
+<span class="s2">            res</span>
+<span class="s2">        </span><span class="se">}}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">template</span> <span class="o">=</span> <span class="n">parse</span><span class="p">(</span><span class="n">r_src</span><span class="p">)</span>
+
+        <span class="n">function_definition</span> <span class="o">=</span> <span class="n">_find_first</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">of_type</span><span class="o">=</span><span class="n">LangSexpVector</span><span class="p">)</span>
+        <span class="n">function_body</span> <span class="o">=</span> <span class="n">_find_first</span><span class="p">(</span><span class="n">function_definition</span><span class="p">,</span> <span class="n">of_type</span><span class="o">=</span><span class="n">LangSexpVector</span><span class="p">)</span>
+        <span class="n">rpy_fun_node</span> <span class="o">=</span> <span class="n">function_body</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">assert</span> <span class="nb">str</span><span class="p">(</span><span class="n">rpy_fun_node</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">==</span> <span class="s1">&#39;RPY2_FUN_PLACEHOLDER&#39;</span>
+        <span class="n">rpy_fun_node</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">rpy_fun</span>
+
     <span class="c1"># TODO: use lower-level eval ?</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;eval&#39;</span><span class="p">](</span><span class="n">template</span><span class="p">)</span>
     <span class="c1"># TODO: hack to prevent the nested function from having its</span>
@@ -1210,14 +1354,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
   </body>
 </html>

@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.ipython.rmagic &#8212; rpy2 3.5.3 documentation</title>
+    <title>rpy2.ipython.rmagic &#8212; rpy2 3.5.4 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -33,7 +33,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
@@ -125,6 +125,7 @@
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ie</span><span class="p">:</span>
     <span class="c1"># Give up on numerics</span>
     <span class="n">numpy</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">pandas</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The Python package `pandas` is strongly &#39;</span>
                   <span class="s1">&#39;recommended when using `rpy2.ipython`. &#39;</span>
                   <span class="s1">&#39;Unfortunately it could not be loaded, &#39;</span>
@@ -138,7 +139,8 @@
                                 <span class="n">magics_class</span><span class="p">,</span>
                                 <span class="n">line_cell_magic</span><span class="p">,</span>
                                 <span class="n">line_magic</span><span class="p">,</span>
-                                <span class="n">needs_local_scope</span><span class="p">)</span>
+                                <span class="n">needs_local_scope</span><span class="p">,</span>
+                                <span class="n">no_var_expand</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">IPython.core.magic_arguments</span> <span class="kn">import</span> <span class="p">(</span><span class="n">argument</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
                                           <span class="n">argument_group</span><span class="p">,</span>
                                           <span class="n">magic_arguments</span><span class="p">,</span>
@@ -669,6 +671,7 @@
         <span class="p">)</span>
     <span class="nd">@needs_local_scope</span>
     <span class="nd">@line_cell_magic</span>
+    <span class="nd">@no_var_expand</span>
     <span class="k">def</span> <span class="nf">R</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">local_ns</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Execute code in R, optionally returning results to the Python runtime.</span>
@@ -930,14 +933,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.3 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.0.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
     </div>
   </body>
 </html>
