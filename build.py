@@ -36,11 +36,11 @@ DOC_PARAMS = ('doc.html', 'Documentation',
 
 DOC_SUBPROJECT_PARAMS = (
     ('r6_doc.html', 'R6',
-     LabelURL('rpy2-R6', 'https://github.com/rpy2/rpy2-R6'),
-     (LabelURL('dev', 'https://rpy2.github.io/rpy2-R6/version/master/html/index.html'),)
+     LabelURL('rpy2-r6', 'https://github.com/rpy2/rpy2-r6'),
+     (LabelURL('dev', 'https://rpy2.github.io/rpy2-r6/version/master/html/index.html'),)
     ),
     ('matrix_doc.html', 'R6',
-     LabelURL('rpy2-R6', 'https://github.com/rpy2/rpy2-Matrix'),
+     LabelURL('rpy2-r6', 'https://github.com/rpy2/rpy2-Matrix'),
      (LabelURL('dev', 'https://rpy2.github.io/rpy2-Matrix/version/master/html/index.html'),)
     ),
     ('arrow_doc.html', 'Arrow',
