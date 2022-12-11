@@ -1,4 +1,4 @@
-from jinja2 import Markup
+from jinja2.utils import markupsafe
 
 REFERENCES = {
     2020:
@@ -44,7 +44,7 @@ REFERENCES = {
     ['Freer, Rosie, et al. "A protein homeostasis signature in healthy brains recapitulates tissue vulnerability to Alzheimer’s disease." Science Advances 2.8 (2016): e1600947.',
      'Haslwanter, Thomas. An Introduction to Statistics with Python. Springer, 2016.',
      'Ekmekci, Berk, Charles E. McAnany, and Cameron Mura. "An Introduction to Programming for Bioscientists: A Python-Based Primer." PLoS Comput Biol 12.6 (2016): e1004867.',
-     Markup('<a href="https://aws.amazon.com/blogs/compute/analyzing-genomics-data-at-scale-using-r-aws-lambda-and-amazon-api-gateway/">Analyzing genomics data at scale with R, AWS Lambda and Amazon API gateway</a> (AWS Compute Blog)'),
+     markupsafe.Markup('<a href="https://aws.amazon.com/blogs/compute/analyzing-genomics-data-at-scale-using-r-aws-lambda-and-amazon-api-gateway/">Analyzing genomics data at scale with R, AWS Lambda and Amazon API gateway</a> (AWS Compute Blog)'),
      'Anaya, Jordan. "OncoLnc: Linking TCGA survival data to mRNAs, miRNAs, and lncRNAs." PeerJ PrePrints 4 (2016): e1780v1.',
      'Cleland, Edward John, et al. "The bacterial microbiome in chronic rhinosinusitis: Richness, diversity, postoperative changes, and patient outcomes." American journal of rhinology & allergy 30.1 (2016): 37-43.',
      'Vandenbulcke, Hélène, et al. "Alcohol intake increases the risk of hepatocellular carcinoma in patients with hepatitis C virus-related compensated cirrhosis: a prospective study." Journal of hepatology (2016).',
