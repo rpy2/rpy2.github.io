@@ -7,16 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>R packages &#8212; rpy2 3.5.4 documentation</title>
+    <title>R packages &#8212; rpy2 3.5.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="robjects_formulae.html" title="Formulae"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">R packages</a></li> 
@@ -155,12 +153,12 @@ the content of a .R file and wrap it up as an rpy2 R package.
 If you are given various R files, it is possible to wrap all
 of them into their own package-like structure, making concerns such conflicting
 names in the respective files unnecessary.</p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">square</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">square</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">2</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="n">cube</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">3</span><span class="p">)</span>
+<span class="n">cube</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nf">return</span><span class="p">(</span><span class="n">x</span><span class="o">^</span><span class="m">3</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -308,7 +306,7 @@ but this function returns an environment that contains the dataset(s).</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.packages.ParsedCode">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">ParsedCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Union" title="(in Python v3.10)"><span class="pre">Union</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SexpCapsule</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized" title="(in Python v3.10)"><span class="pre">Sized</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#ParsedCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.ParsedCode" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">ParsedCode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SupportsSEXP</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">SexpCapsule</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Sized" title="(in Python v3.11)"><span class="pre">Sized</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#ParsedCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.ParsedCode" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -391,13 +389,13 @@ name __rdata__ (default: True)</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rpy2.robjects.packages.isinstalled">
-<span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">isinstalled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lib_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#isinstalled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.isinstalled" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">isinstalled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lib_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#isinstalled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.isinstalled" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find whether an R package is installed
 :param name: name of an R package
 :param lib_loc: specific location for the R library (default: None)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
+<dd class="field-odd"><p>a <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -410,16 +408,16 @@ name __rdata__ (default: True)</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rpy2.robjects.packages.quiet_require">
-<span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">quiet_require</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lib_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#quiet_require"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.quiet_require" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">quiet_require</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">lib_loc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#quiet_require"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.quiet_require" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load an R package /quietly/ (suppressing messages to the console).</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rpy2.robjects.packages.reval">
-<span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">reval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">envir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Optional" title="(in Python v3.10)"><span class="pre">Optional</span></a><span class="p"><span class="pre">[</span></span><span class="pre">SexpEnvironment</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#reval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.reval" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rpy2.robjects.packages.</span></span><span class="sig-name descname"><span class="pre">reval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">envir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SexpEnvironment</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.11)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/packages.html#reval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.packages.reval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate a string as R code
 :param string: R code
-:type string: a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>
+:type string: a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>
 :param envir: Optional environment to evaluate the R code.</p>
 </dd></dl>
 
@@ -504,7 +502,37 @@ for more information.</p>
 <li><a class="reference internal" href="#importing-r-packages">Importing R packages</a></li>
 <li><a class="reference internal" href="#importing-arbitrary-r-code-as-a-package">Importing arbitrary R code as a package</a><ul>
 <li><a class="reference internal" href="#r-namespaces">R namespaces</a></li>
-<li><a class="reference internal" href="#module-rpy2.robjects.packages">Class diagram</a></li>
+<li><a class="reference internal" href="#module-rpy2.robjects.packages">Class diagram</a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.packages.InstalledPackage"><code class="docutils literal notranslate"><span class="pre">InstalledPackage</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.InstalledPackages"><code class="docutils literal notranslate"><span class="pre">InstalledPackages</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.InstalledSTPackage"><code class="docutils literal notranslate"><span class="pre">InstalledSTPackage</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.LibraryError"><code class="docutils literal notranslate"><span class="pre">LibraryError</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.Package"><code class="docutils literal notranslate"><span class="pre">Package</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.PackageData"><code class="docutils literal notranslate"><span class="pre">PackageData</span></code></a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.packages.PackageData.fetch"><code class="docutils literal notranslate"><span class="pre">PackageData.fetch()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.PackageData.names"><code class="docutils literal notranslate"><span class="pre">PackageData.names()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.PackageNotInstalledError"><code class="docutils literal notranslate"><span class="pre">PackageNotInstalledError</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.ParsedCode"><code class="docutils literal notranslate"><span class="pre">ParsedCode</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.STAP"><code class="docutils literal notranslate"><span class="pre">STAP</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.STP"><code class="docutils literal notranslate"><span class="pre">STP</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.SignatureTranslatedAnonymousPackage"><code class="docutils literal notranslate"><span class="pre">SignatureTranslatedAnonymousPackage</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.SignatureTranslatedPackage"><code class="docutils literal notranslate"><span class="pre">SignatureTranslatedPackage</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.SourceCode"><code class="docutils literal notranslate"><span class="pre">SourceCode</span></code></a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.packages.SourceCode.as_namespace"><code class="docutils literal notranslate"><span class="pre">SourceCode.as_namespace()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.WeakPackage"><code class="docutils literal notranslate"><span class="pre">WeakPackage</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.data"><code class="docutils literal notranslate"><span class="pre">data()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.importr"><code class="docutils literal notranslate"><span class="pre">importr()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.isinstalled"><code class="docutils literal notranslate"><span class="pre">isinstalled()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.no_warnings"><code class="docutils literal notranslate"><span class="pre">no_warnings()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.quiet_require"><code class="docutils literal notranslate"><span class="pre">quiet_require()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.reval"><code class="docutils literal notranslate"><span class="pre">reval()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.packages.wherefrom"><code class="docutils literal notranslate"><span class="pre">wherefrom()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#finding-where-an-r-symbol-is-coming-from">Finding where an R symbol is coming from</a></li>
@@ -560,7 +588,7 @@ for more information.</p>
         <li class="right" >
           <a href="robjects_formulae.html" title="Formulae"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">R packages</a></li> 
@@ -568,7 +596,7 @@ for more information.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
     </div>
   </body>
 </html>

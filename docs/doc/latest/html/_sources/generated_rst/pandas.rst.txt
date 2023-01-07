@@ -27,8 +27,6 @@ conversion layer between :class:``rpy2.robjects.vectors.DataFrame`` and
     import rpy2.robjects as ro
     from rpy2.robjects.packages import importr 
     from rpy2.robjects import pandas2ri
-    
-    from rpy2.robjects.conversion import localconverter
 
 From ``pandas`` to ``R``
 ------------------------
@@ -95,8 +93,8 @@ R data frame converted from a ``pandas`` data frame:
 
 .. code:: ipython3
 
-    with localconverter(ro.default_converter + pandas2ri.converter):
-      r_from_pd_df = ro.conversion.py2rpy(pd_df)
+    with ro.default_converter + pandas2ri.converter:
+      r_from_pd_df = ro.conversion.get_conversion().py2rpy(pd_df)
     
     r_from_pd_df
 
@@ -144,7 +142,7 @@ example, when calling the R function ``base::summary``:
 
     base = importr('base')
     
-    with localconverter(ro.default_converter + pandas2ri.converter):
+    with ro.default_converter + pandas2ri.converter:
       df_summary = base.summary(pd_df)
     print(df_summary)
 
@@ -233,8 +231,8 @@ It can be converted to a pandas data frame using the same converter:
 
 .. code:: ipython3
 
-    with localconverter(ro.default_converter + pandas2ri.converter):
-      pd_from_r_df = ro.conversion.rpy2py(r_df)
+    with ro.default_converter + pandas2ri.converter:
+      pd_from_r_df = ro.conversion.get_conversion().rpy2py(r_df)
     
     pd_from_r_df
 
@@ -373,7 +371,7 @@ Date and time objects
 
 .. code:: ipython3
 
-    with localconverter(ro.default_converter + pandas2ri.converter):
+    with ro.default_converter + pandas2ri.converter:
       r_from_pd_df = ro.conversion.py2rpy(pd_df)
     
     r_from_pd_df
@@ -420,7 +418,7 @@ time zone is specified in the original time object:
                                    tz='UTC')
         })
         
-    with localconverter(ro.default_converter + pandas2ri.converter):
+    with ro.default_converter + pandas2ri.converter:
       r_from_pd_tz_df = ro.conversion.py2rpy(pd_tz_df)
     
     r_from_pd_tz_df

@@ -14465,10 +14465,6 @@ a.anchor-link {
   display: none;
 }
 
-.highlight  {
-  margin: 0.4em;
-}
-
 /* Input area styling */
 .jp-InputArea {
   overflow: hidden;
@@ -14478,9 +14474,26 @@ a.anchor-link {
   overflow: hidden;
 }
 
-.CodeMirror pre {
+.CodeMirror.cm-s-jupyter .highlight pre {
+/* weird, but --jp-code-padding defined to be 5px but 4px horizontal padding is hardcoded for pre.CodeMirror-line */
+  padding: var(--jp-code-padding) 4px;
   margin: 0;
-  padding: 0;
+
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+
+}
+
+.jp-OutputArea-output pre {
+  line-height: inherit;
+  font-family: inherit;
+}
+
+.jp-RenderedText pre {
+  color: var(--jp-content-font-color1);
+  font-size: var(--jp-code-font-size);
 }
 
 /* Using table instead of flexbox so that we can use break-inside property */
@@ -14524,6 +14537,10 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 /* Hiding the collapser by default */
 .jp-Collapser {
   display: none;
+}
+
+@page {
+    margin: 0.5in; /* Margin for each printed piece of paper */
 }
 
 @media print {
@@ -14583,7 +14600,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 <span class="kn">from</span> <span class="nn">rpy2.ipython</span> <span class="kn">import</span> <span class="n">html</span>
-<span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">"docutils"</span><span class="p">)</span>
+<span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -14649,9 +14666,9 @@ breadth and depth of the packages available.</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># R package names</span>
-<span class="n">packnames</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'ggplot2'</span><span class="p">,</span> <span class="s1">'hexbin'</span><span class="p">)</span>
+<span class="n">packnames</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;ggplot2&#39;</span><span class="p">,</span> <span class="s1">&#39;hexbin&#39;</span><span class="p">)</span>
 
-<span class="c1"># import rpy2's package module</span>
+<span class="c1"># import rpy2&#39;s package module</span>
 <span class="kn">import</span> <span class="nn">rpy2.robjects.packages</span> <span class="k">as</span> <span class="nn">rpackages</span>
 
 <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">rpackages</span><span class="o">.</span><span class="n">isinstalled</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">packnames</span><span class="p">):</span>
@@ -14689,8 +14706,8 @@ We can get set with:</p>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">if</span> <span class="ow">not</span> <span class="n">have_tutorial_packages</span><span class="p">:</span>
-    <span class="c1"># import R's utility package</span>
-    <span class="n">utils</span> <span class="o">=</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">'utils'</span><span class="p">)</span>
+    <span class="c1"># import R&#39;s utility package</span>
+    <span class="n">utils</span> <span class="o">=</span> <span class="n">rpackages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
     <span class="c1"># select a mirror for R packages</span>
     <span class="n">utils</span><span class="o">.</span><span class="n">chooseCRANmirror</span><span class="p">(</span><span class="n">ind</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># select the first mirror in the list</span>
 </pre></div>
@@ -14796,9 +14813,7 @@ evaluates a variable from the R console.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -14833,7 +14848,7 @@ evaluates a variable from the R console.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">'pi'</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;pi&#39;</span><span class="p">]</span>
 <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
@@ -14848,9 +14863,7 @@ evaluates a variable from the R console.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[8]:</div>
 
@@ -14893,7 +14906,8 @@ evaluates a variable from the R console.</p>
 <p>
    Also, note that *pi* is not a scalar but a vector of length 1.
 </p>
-</div><h3 id="Evaluating-R-code">Evaluating R code<a class="anchor-link" href="#Evaluating-R-code">&#182;</a></h3><p>The <code>r</code> object is also callable, and the string passed to it evaluated
+</div>
+<h3 id="Evaluating-R-code">Evaluating R code<a class="anchor-link" href="#Evaluating-R-code">&#182;</a></h3><p>The <code>r</code> object is also callable, and the string passed to it evaluated
 as <code>R</code> code.</p>
 <p>This can be used to <code>get</code> variables, and provide an alternative to
 the method presented above.</p>
@@ -14925,9 +14939,7 @@ the method presented above.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -14962,7 +14974,7 @@ the method presented above.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">'pi'</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span>
 <span class="n">pi</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 </pre></div>
 
@@ -14977,9 +14989,7 @@ the method presented above.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[10]:</div>
 
@@ -15004,12 +15014,11 @@ the method presented above.</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <div style="border: solid 1px rgb(50,50,50)">
-
-   The result is an R vector. The Section
-   `introduction-vectors` will provide an explanation
-   for the following behavior:
-
+<p>The result is an R vector. The Section
+   <code>introduction-vectors</code> will provide an explanation
+   for the following behavior:</p>
 </div>
+
 </div>
 </div>
 </div>
@@ -15021,9 +15030,9 @@ the method presented above.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">piplus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">'pi'</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">piplus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">piplus2</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
-<span class="n">pi0plus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">'pi'</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
+<span class="n">pi0plus2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;pi&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">2</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">pi0plus2</span><span class="p">)</span>
 </pre></div>
 
@@ -15038,9 +15047,7 @@ the method presented above.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15066,7 +15073,7 @@ the method presented above.</p>
 <p>The evaluation is performed in what is known to R users as the 
 <code>Global Environment</code>, that is the place one starts at when starting
 the R console. Whenever the <code>R</code> code creates variables, those
-variables are "located" in that <code>Global Environment</code> by default.</p>
+variables are &quot;located&quot; in that <code>Global Environment</code> by default.</p>
 <p>Example:</p>
 
 </div>
@@ -15080,15 +15087,15 @@ variables are "located" in that <code>Global Environment</code> by default.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">'''</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">	f &lt;- function(r, verbose=FALSE) {</span>
 <span class="s1">        if (verbose) {</span>
-<span class="s1">            cat("I am calling f().</span><span class="se">\n</span><span class="s1">")</span>
+<span class="s1">            cat(&quot;I am calling f().</span><span class="se">\n</span><span class="s1">&quot;)</span>
 <span class="s1">        }</span>
 <span class="s1">        2 * pi * r </span>
 <span class="s1">        }</span>
 <span class="s1">        f(3)</span>
-<span class="s1">'''</span><span class="p">)</span>
+<span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -15102,9 +15109,7 @@ variables are "located" in that <code>Global Environment</code> by default.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
+<div class="jp-OutputArea-child jp-OutputArea-executeResult">
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 
@@ -15156,7 +15161,7 @@ be accessed with the <code>__getitem__</code> mechanism outlined above:</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[13]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r_f</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">'f'</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">r_f</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">r_f</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
 </pre></div>
 
@@ -15171,9 +15176,7 @@ be accessed with the <code>__getitem__</code> mechanism outlined above:</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15202,15 +15205,12 @@ be accessed with the <code>__getitem__</code> mechanism outlined above:</p>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <div style="border: solid 1px rgb(50,50,50)">
-
-   As shown earlier, an alternative way to get the function
-   is to get it from the :class:`R` singleton
-
-   ```
-   >>> r_f = robjects.r['f']
-   ```
-
-</div><p>The function r_f is callable, and can be used like a regular Python function.</p>
+<p>As shown earlier, an alternative way to get the function
+   is to get it from the :class:<code>R</code> singleton</p>
+<pre><code>&gt;&gt;&gt; r_f = robjects.r['f']
+</code></pre>
+</div>
+<p>The function r_f is callable, and can be used like a regular Python function.</p>
 
 </div>
 </div>
@@ -15258,8 +15258,8 @@ directly into R code to be evaluated.</p>
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[15]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">letters</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">'letters'</span><span class="p">]</span>
-<span class="n">rcode</span> <span class="o">=</span> <span class="s1">'paste(</span><span class="si">%s</span><span class="s1">, collapse="-")'</span> <span class="o">%</span><span class="p">(</span><span class="n">letters</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">letters</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;letters&#39;</span><span class="p">]</span>
+<span class="n">rcode</span> <span class="o">=</span> <span class="s1">&#39;paste(</span><span class="si">%s</span><span class="s1">, collapse=&quot;-&quot;)&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">letters</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
 <span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rcode</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
@@ -15275,9 +15275,7 @@ directly into R code to be evaluated.</p>
 
 
 <div class="jp-OutputArea jp-Cell-outputArea">
-
 <div class="jp-OutputArea-child">
-
     
     <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 
@@ -15305,87 +15303,124 @@ directly into R code to be evaluated.</p>
 like scalars.</p>
 <p>When looking closely at the R object <code>pi</code> used previously,
 we can observe that this is in fact a vector of length 1.</p>
-<blockquote><blockquote><blockquote><p>len(robjects.r['pi'])
-1</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>len(robjects.r['pi'])</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>1</p>
 <p>As such, the python method :meth:<code>add</code> will result in a concatenation
 (function <code>c()</code> in R), as this is the case for regular python lists.</p>
 <p>Accessing the one value in that vector has to be stated
 explicitly:</p>
-<blockquote><blockquote><blockquote><p>robjects.r['pi'][0]
-3.1415926535897931</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>robjects.r['pi'][0]</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>3.1415926535897931</p>
 <p>There is much that can be achieved with vectors, having them to behave
 more like Python lists or R vectors.
 A comprehensive description of the behavior of vectors is found in
 :mod:<code>robjects.vector</code>.</p>
 <h2 id="Creating-rpy2-vectors">Creating rpy2 vectors<a class="anchor-link" href="#Creating-rpy2-vectors">&#182;</a></h2><p>Creating R vectors can be achieved simply:</p>
-<blockquote><blockquote><blockquote><p>res = robjects.StrVector(['abc', 'def'])
-print(res.r_repr())
-c("abc", "def")
-res = robjects.IntVector([1, 2, 3])
-print(res.r_repr())
-1:3
-res = robjects.FloatVector([1.1, 2.2, 3.3])
-print(res.r_repr())
-c(1.1, 2.2, 3.3)</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>res = robjects.StrVector(['abc', 'def'])
+print(res.r_repr())</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>c(&quot;abc&quot;, &quot;def&quot;)</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>res = robjects.IntVector([1, 2, 3])
+print(res.r_repr())</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>1:3</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>res = robjects.FloatVector([1.1, 2.2, 3.3])
+print(res.r_repr())</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>c(1.1, 2.2, 3.3)</p>
 <p>R matrixes and arrays are just vectors with a <code>dim</code> attribute.</p>
 <p>The easiest way to create such objects is to do it through
 R functions:</p>
-<blockquote><blockquote><blockquote><p>v = robjects.FloatVector([1.1, 2.2, 3.3, 4.4, 5.5, 6.6])
-m = robjects.r<a href="v, nrow = 2">'matrix'</a>
-print(m)
-     [,1] [,2] [,3]
-[1,]  1.1  3.3  5.5
+<blockquote>
+<blockquote>
+<blockquote>
+<p>v = robjects.FloatVector([1.1, 2.2, 3.3, 4.4, 5.5, 6.6])
+m = robjects.r['matrix'](v, nrow = 2)
+print(m)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<pre><code> [,1] [,2] [,3]
+</code></pre>
+<p>[1,]  1.1  3.3  5.5
 [2,]  2.2  4.4  6.6</p>
-</blockquote>
-</blockquote>
-</blockquote>
 <p>.. _robjects-introduction-functions:</p>
 <h1 id="Calling-R-functions">Calling R functions<a class="anchor-link" href="#Calling-R-functions">&#182;</a></h1><p>Calling R functions is disappointingly similar to calling
 Python functions:</p>
-<blockquote><blockquote><blockquote><p>rsum = robjects.r['sum']
-rsum(robjects.IntVector([1,2,3]))[0]
-6L</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>rsum = robjects.r['sum']
+rsum(robjects.IntVector([1,2,3]))[0]</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>6L</p>
 <p>Keywords are also working:</p>
-<blockquote><blockquote><blockquote><p>rsort = robjects.r['sort']
+<blockquote>
+<blockquote>
+<blockquote>
+<p>rsort = robjects.r['sort']
 res = rsort(robjects.IntVector([1,2,3]), decreasing=True)
-print(res.r_repr())
-c(3L, 2L, 1L)</p>
+print(res.r_repr())</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>c(3L, 2L, 1L)</p>
 <p>.. note::</p>
 <p>By default, calling R functions returns R objects.</p>
 <p>More information on functions is in Section :ref:<code>robjects-functions</code>.</p>
 <h1 id="Getting-help">Getting help<a class="anchor-link" href="#Getting-help">&#182;</a></h1><p>R has a builtin help system that, just like the pydoc strings are used frequently
 in python during interactive sessions, is used very frequently by R programmmers.
 This help system is accessible from an R function, therefore accessible from rpy2.</p>
-<h2 id="Help-on-a-topic-within-a-given-package,-or-currently-loaded-packages">Help on a topic within a given package, or currently loaded packages<a class="anchor-link" href="#Help-on-a-topic-within-a-given-package,-or-currently-loaded-packages">&#182;</a></h2><blockquote><blockquote><blockquote><p>from rpy2.robjects.packages import importr
-utils = importr("utils") 
-help_doc = utils.help("help")
-help_doc[0]
-'/where/R/is/installed/library/utils/help/help'</p>
+<h2 id="Help-on-a-topic-within-a-given-package,-or-currently-loaded-packages">Help on a topic within a given package, or currently loaded packages<a class="anchor-link" href="#Help-on-a-topic-within-a-given-package,-or-currently-loaded-packages">&#182;</a></h2><blockquote>
+<blockquote>
+<blockquote>
+<p>from rpy2.robjects.packages import importr
+utils = importr(&quot;utils&quot;) 
+help_doc = utils.help(&quot;help&quot;)
+help_doc[0]</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>'/where/R/is/installed/library/utils/help/help'</p>
 <p>Converting the object returned to a string produces the full help text
 on the topic:</p>
-<blockquote><blockquote><blockquote><p>str(help_doc)
-[...long output...]</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>str(help_doc)</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>[...long output...]</p>
 <p>.. warning::</p>
 <p>The help message so produced is not a string returned to the console
    but is directly printed by R to the standard output. The call to
@@ -15397,7 +15432,10 @@ on the topic:</p>
    which in that case takes a singular route.</p>
 <p>For a Python friendly help to the R help system, consider the module
    :mod:<code>rpy2.robjects.help</code>.</p>
-<h2 id="Locate-topics-among-available-packages">Locate topics among available packages<a class="anchor-link" href="#Locate-topics-among-available-packages">&#182;</a></h2><blockquote><blockquote><blockquote><p>help_where = utils.help_search("help")</p>
+<h2 id="Locate-topics-among-available-packages">Locate topics among available packages<a class="anchor-link" href="#Locate-topics-among-available-packages">&#182;</a></h2><blockquote>
+<blockquote>
+<blockquote>
+<p>help_where = utils.help_search(&quot;help&quot;)</p>
 </blockquote>
 </blockquote>
 </blockquote>
@@ -15406,16 +15444,25 @@ giving a similar result to what is obtained from an R session.</p>
 <p>.. note::</p>
 <p>The data structure returned can otherwise be used to access the information
    returned in details.</p>
-<blockquote><blockquote><blockquote><p>tuple(help_where)
-   (&lt;StrVector - Python:0x1f9a968 / R:0x247f908&gt;,
+<blockquote>
+<blockquote>
+<blockquote>
+<p>tuple(help_where)</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>(&lt;StrVector - Python:0x1f9a968 / R:0x247f908&gt;,
     &lt;StrVector - Python:0x1f9a990 / R:0x25079d0&gt;,
     &lt;StrVector - Python:0x1f9a9b8 / R:0x247f928&gt;,
-    &lt;Matrix - Python:0x1f9a850 / R:0x1ec0390&gt;)
-tuple(help_where[3].colnames)
-   ('topic', 'title', 'Package', 'LibPath')</p>
+    &lt;Matrix - Python:0x1f9a850 / R:0x1ec0390&gt;)</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>tuple(help_where[3].colnames)</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>('topic', 'title', 'Package', 'LibPath')</p>
 <p>However, this is beyond the scope of an introduction, and one should
    master the content of the module :mod:<code>robjects.vector</code> before anything else.</p>
 <h1 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h1><p>This section demonstrates some of the features of
@@ -15427,7 +15474,7 @@ rpy2.</p>
   y = r.rnorm(10)</p>
 <p>r.X11()</p>
 <p>r.layout(r.matrix(robjects.IntVector([1,2,3,2]), nrow=2, ncol=2))
-  r.plot(r.runif(10), y, xlab="runif", ylab="foo/bar", col="red")</p>
+  r.plot(r.runif(10), y, xlab=&quot;runif&quot;, ylab=&quot;foo/bar&quot;, col=&quot;red&quot;)</p>
 <p>Setting dynamically the number of arguments in a function call can be
 done the usual way in python.</p>
 <p>There are several ways to plot data in <code>R</code>, some of which are
@@ -15457,7 +15504,7 @@ plots are presented in Section :ref:<code>graphics</code>.</p>
 <p>.. code-block:: r</p>
 <p>ctl &lt;- c(4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14)
    trt &lt;- c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
-   group &lt;- gl(2, 10, 20, labels = c("Ctl","Trt"))
+   group &lt;- gl(2, 10, 20, labels = c(&quot;Ctl&quot;,&quot;Trt&quot;))
    weight &lt;- c(ctl, trt)</p>
 <p>anova(lm.D9 &lt;- lm(weight ~ group))</p>
 <p>summary(lm.D90 &lt;- lm(weight ~ group - 1))# omitting intercept</p>
@@ -15469,13 +15516,13 @@ plots are presented in Section :ref:<code>graphics</code>.</p>
    base = importr('base')</p>
 <p>ctl = FloatVector([4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14])
    trt = FloatVector([4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69])
-   group = base.gl(2, 10, 20, labels = ["Ctl","Trt"])
+   group = base.gl(2, 10, 20, labels = [&quot;Ctl&quot;,&quot;Trt&quot;])
    weight = ctl + trt</p>
-<p>robjects.globalenv["weight"] = weight
-   robjects.globalenv["group"] = group
-   lm_D9 = stats.lm("weight ~ group")
+<p>robjects.globalenv[&quot;weight&quot;] = weight
+   robjects.globalenv[&quot;group&quot;] = group
+   lm_D9 = stats.lm(&quot;weight ~ group&quot;)
    print(stats.anova(lm_D9))</p>
-<h1 id="omitting-the-intercept">omitting the intercept<a class="anchor-link" href="#omitting-the-intercept">&#182;</a></h1><p>lm_D90 = stats.lm("weight ~ group - 1")
+<h1 id="omitting-the-intercept">omitting the intercept<a class="anchor-link" href="#omitting-the-intercept">&#182;</a></h1><p>lm_D90 = stats.lm(&quot;weight ~ group - 1&quot;)
    print(base.summary(lm_D90))</p>
 <p>This way to perform a linear fit it matching precisely the way in R presented
 above, but there are other ways (see Section :ref:<code>robjects-formula</code>
@@ -15485,45 +15532,57 @@ for storing the variables directly in the lookup environment of the formula).</p
 for interactive sessions, and users often inspect what a
 function is returning in order to know how to extract information.</p>
 <p>When taking the results from the code above, one could go like:</p>
-<blockquote><blockquote><blockquote><p>print(lm_D9.rclass)
-[1] "lm"</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>print(lm_D9.rclass)</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>[1] &quot;lm&quot;</p>
 <p>Here the resulting object is a list structure, as either inspecting
 the data structure or reading the R man pages for <code>lm</code> would tell us.
 Checking its element names is then trivial:</p>
-<blockquote><blockquote><blockquote><p>print(lm_D9.names)
- [1] "coefficients"  "residuals"     "effects"       "rank"<br>
- [5] "fitted.values" "assign"        "qr"            "df.residual"<br>
- [9] "contrasts"     "xlevels"       "call"          "terms"<br>
-[13] "model"</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>print(lm_D9.names)</p>
 </blockquote>
 </blockquote>
 </blockquote>
+<p>[1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;<br />
+ [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;<br />
+ [9] &quot;contrasts&quot;     &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;<br />
+[13] &quot;model&quot;</p>
 <p>And so is extracting a particular element:</p>
-<blockquote><blockquote><blockquote><p>print(lm_D9.rx2('coefficients'))
-(Intercept)    groupTrt 
+<blockquote>
+<blockquote>
+<blockquote>
+<p>print(lm_D9.rx2('coefficients'))</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>(Intercept)    groupTrt 
       5.032      -0.371</p>
-</blockquote>
-</blockquote>
-</blockquote>
 <p>or</p>
-<blockquote><blockquote><blockquote><p>print(lm_D9.rx('coefficients'))
-$coefficients
+<blockquote>
+<blockquote>
+<blockquote>
+<p>print(lm_D9.rx('coefficients'))</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>$coefficients
 (Intercept)    groupTrt 
       5.032      -0.371</p>
-</blockquote>
-</blockquote>
-</blockquote>
 <p>More about extracting elements from vectors is available
 at :ref:<code>robjects-extracting</code>.</p>
 <h2 id="Principal-component-analysis">Principal component analysis<a class="anchor-link" href="#Principal-component-analysis">&#182;</a></h2><p>The R code is</p>
 <p>.. code-block:: r</p>
 <p>m &lt;- matrix(rnorm(100), ncol=5)
   pca &lt;- princomp(m)
-  plot(pca, main="Eigen values")
-  biplot(pca, main="biplot")</p>
+  plot(pca, main=&quot;Eigen values&quot;)
+  biplot(pca, main=&quot;biplot&quot;)</p>
 <p>The :mod:<code>rpy2.robjects</code> code can be as close to the
 R code as possible:</p>
 <p>.. testcode::</p>
@@ -15531,8 +15590,8 @@ R code as possible:</p>
 <p>r = robjects.r</p>
 <p>m = r.matrix(r.rnorm(100), ncol=5)
   pca = r.princomp(m)
-  r.plot(pca, main="Eigen values")
-  r.biplot(pca, main="biplot")</p>
+  r.plot(pca, main=&quot;Eigen values&quot;)
+  r.biplot(pca, main=&quot;biplot&quot;)</p>
 <p>However, the same example can be made a little tidier
 (with respect to being specific about R functions used)</p>
 <p>.. testcode::</p>
@@ -15542,8 +15601,8 @@ R code as possible:</p>
    graphics = importr('graphics')</p>
 <p>m = base.matrix(stats.rnorm(100), ncol = 5)
    pca = stats.princomp(m)
-   graphics.plot(pca, main = "Eigen values")
-   stats.biplot(pca, main = "biplot")</p>
+   graphics.plot(pca, main = &quot;Eigen values&quot;)
+   stats.biplot(pca, main = &quot;biplot&quot;)</p>
 <h2 id="Creating-an-R-vector-or-matrix,-and-filling-its-cells-using-Python-code">Creating an R vector or matrix, and filling its cells using Python code<a class="anchor-link" href="#Creating-an-R-vector-or-matrix,-and-filling-its-cells-using-Python-code">&#182;</a></h2><p>.. testcode::</p>
 <p>from rpy2.robjects import NA_Real
    from rpy2.rlike.container import TaggedList

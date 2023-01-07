@@ -7,16 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Performances &#8212; rpy2 3.5.4 documentation</title>
+    <title>Performances &#8212; rpy2 3.5.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="related_projects.html" title="Related projects"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="miscellaneous.html" accesskey="U">Miscellaneous topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Performances</a></li> 
       </ul>
@@ -123,10 +121,10 @@ up all elements in a numerical vector.</p>
 <p>In pure R, the code is like:</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="p">{</span>
-  <span class="n">total</span> <span class="o">=</span> <span class="m">0</span><span class="p">;</span>
-  <span class="nf">for </span><span class="p">(</span><span class="n">elt</span> <span class="n">in</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">total</span> <span class="o">&lt;-</span> <span class="n">total</span> <span class="o">+</span> <span class="n">elt</span>
-  <span class="p">}</span> 
+<span class="w">  </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
+<span class="w">  </span><span class="nf">for </span><span class="p">(</span><span class="n">elt</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">total</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">elt</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -175,8 +173,8 @@ is to measure the running time of pure R code.</p>
 </div>
 <p>The running times are summarized in the figure below.</p>
 <a class="reference internal image-reference" href="_static/benchmark_sum.png"><img alt="_static/benchmark_sum.png" src="_static/benchmark_sum.png" /></a>
-<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> is the fastest, explaining
-why implementations of the sum in pure Python over a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of numbers
+<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> is the fastest, explaining
+why implementations of the sum in pure Python over a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of numbers
 is the fastest. Python is much faster than R for iterating through a vector/list
 (almost 9 times faster in this run).</p>
 <p>Measuring the respective slopes, and using the slope for the R code
@@ -284,7 +282,7 @@ iteration calls for each element in the R vector pure-Python code that
 performs various calling C for the extraction the element corresponding to
 the index.</p>
 <p>On the other hand, exposing the content of the R vector through a
-memoryview and <a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a> leads to a rather nice speedup by letting
+memoryview and <a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a> leads to a rather nice speedup by letting
 us operate at the same level of performance as if it was a Python array.
 In other words, rpy2 can make computations on R vectors using Python faster
 than if using R itself. R bridges relying on pipes or client-server architectures
@@ -369,14 +367,14 @@ intended to represent a general assessment of expected performances.</p>
         <li class="right" >
           <a href="related_projects.html" title="Related projects"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="miscellaneous.html" >Miscellaneous topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Performances</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
     </div>
   </body>
 </html>

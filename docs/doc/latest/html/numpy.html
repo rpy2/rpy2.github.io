@@ -7,16 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Numpy &#8212; rpy2 3.5.4 documentation</title>
+    <title>Numpy &#8212; rpy2 3.5.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="interactive.html" title="Interactive work"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Numpy</a></li> 
       </ul>
     </div>  
@@ -145,13 +143,12 @@ use of a local converter is recommended: it makes limiting the use
 of conversion rules to code blocks of interest easier to achieve.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">numpy2ri</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">default_converter</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="n">localconverter</span>
 
 <span class="c1"># Create a converter that starts with rpy2&#39;s default converter</span>
 <span class="c1"># to which the numpy conversion rules are added.</span>
 <span class="n">np_cv_rules</span> <span class="o">=</span> <span class="n">default_converter</span> <span class="o">+</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
 
-<span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">np_cv_rules</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">np_cv_rules</span><span class="p">:</span>
     <span class="c1"># Anything here and until the `with` block is exited</span>
     <span class="c1"># will use our numpy converter whenever objects are</span>
     <span class="c1"># passed to R or are returned by R while calling</span>
@@ -162,7 +159,7 @@ of conversion rules to code blocks of interest easier to achieve.</p>
 <p>An example of usage is:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
 <span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
-<span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">np_cv_rules</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">np_cv_rules</span><span class="p">:</span>
     <span class="n">v_np</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rlogis</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="c1"># `v_np` is a numpy array</span>
 
@@ -283,13 +280,13 @@ be used to construct <cite>numpy</cite> arrays:</p>
         <li class="right" >
           <a href="interactive.html" title="Interactive work"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Numpy</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
     </div>
   </body>
 </html>

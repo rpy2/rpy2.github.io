@@ -6,16 +6,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.functions &#8212; rpy2 3.5.4 documentation</title>
+    <title>rpy2.robjects.functions &#8212; rpy2 3.5.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -33,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.functions</a></li> 
@@ -59,6 +57,7 @@
 <span class="kn">import</span> <span class="nn">rpy2.rinterface_lib.sexp</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">help</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">conversion</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="kn">import</span> <span class="n">Vector</span>
 
 <span class="kn">from</span> <span class="nn">rpy2.robjects.packages_utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">default_symbol_r2python</span><span class="p">,</span>
                                           <span class="n">default_symbol_resolve</span><span class="p">,</span>
@@ -109,7 +108,7 @@
 
 
 <span class="k">def</span> <span class="nf">_repr_argval</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Helper functions to display an R object in the docstring.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Helper functions to display an R object in the docstring.</span>
 <span class="sd">    This a hack and will be hopefully replaced the extraction of</span>
 <span class="sd">    information from the R help system.&quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
@@ -132,7 +131,7 @@
 
 
 <div class="viewcode-block" id="Function"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function">[docs]</a><span class="k">class</span> <span class="nc">Function</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpClosure</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Python representation of an R function.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Python representation of an R function.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">__local</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;local&#39;</span><span class="p">)</span>
     <span class="n">__call</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;call&#39;</span><span class="p">)</span>
@@ -176,7 +175,7 @@
         <span class="k">return</span> <span class="n">res</span>
 
 <div class="viewcode-block" id="Function.formals"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.Function.formals">[docs]</a>    <span class="k">def</span> <span class="nf">formals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the signature of the underlying R function</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Return the signature of the underlying R function</span>
 <span class="sd">        (as the R function &#39;formals()&#39; would).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">_formals_fixed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -188,14 +187,14 @@
             <span class="n">keyvals</span><span class="p">,</span>
             <span class="n">environment</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">sexp</span><span class="o">.</span><span class="n">Sexp</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot; Wrapper around the parent method</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; Wrapper around the parent method</span>
 <span class="sd">        rpy2.rinterface.SexpClosure.rcall(). &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">Function</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">keyvals</span><span class="p">,</span> <span class="n">environment</span><span class="o">=</span><span class="n">environment</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div></div>
 
 
 <div class="viewcode-block" id="SignatureTranslatedFunction"><a class="viewcode-back" href="../../../robjects_functions.html#rpy2.robjects.functions.SignatureTranslatedFunction">[docs]</a><span class="k">class</span> <span class="nc">SignatureTranslatedFunction</span><span class="p">(</span><span class="n">Function</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Python representation of an R function, where</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Python representation of an R function, where</span>
 <span class="sd">    the names in named argument are translated to valid</span>
 <span class="sd">    argument names in Python. &quot;&quot;&quot;</span>
     <span class="n">_prm_translate</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">OrderedDict</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -327,7 +326,7 @@
 
 
 <span class="k">def</span> <span class="nf">_map_default_value</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Map default in the R signature.</span>
 
 <span class="sd">    Because of R&#39;s lazy evaluation some default might be unevaluated</span>
@@ -357,7 +356,7 @@
             <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">[[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">Sexp</span><span class="p">],</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">]</span>
         <span class="p">]</span> <span class="o">=</span> <span class="n">_map_default_value</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">inspect</span><span class="o">.</span><span class="n">Signature</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Map the signature of an function to the signature of a Python function.</span>
 
 <span class="sd">    While mapping the signature, it will report the eventual presence of</span>
@@ -387,11 +386,14 @@
                 <span class="n">r_ellipsis</span> <span class="o">=</span> <span class="n">i</span>
                 <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The R ellispsis is not yet well supported.&#39;</span><span class="p">)</span>
             <span class="n">transl_name</span> <span class="o">=</span> <span class="n">rev_prm_transl</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-            <span class="n">default_orig</span> <span class="o">=</span> <span class="n">default_orig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">map_default</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="o">.</span><span class="n">rsame</span><span class="p">(</span><span class="n">default_orig</span><span class="p">):</span>
-                <span class="n">default_mapped</span> <span class="o">=</span> <span class="n">map_default</span><span class="p">(</span><span class="n">default_orig</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default_orig</span><span class="p">,</span> <span class="n">Vector</span><span class="p">):</span>
+                <span class="n">default_orig</span> <span class="o">=</span> <span class="n">default_orig</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">map_default</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="o">.</span><span class="n">rsame</span><span class="p">(</span><span class="n">default_orig</span><span class="p">):</span>
+                    <span class="n">default_mapped</span> <span class="o">=</span> <span class="n">map_default</span><span class="p">(</span><span class="n">default_orig</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">default_mapped</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">default_mapped</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">empty</span>
+                <span class="n">default_mapped</span> <span class="o">=</span> <span class="n">default_orig</span>
             <span class="n">prm</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="p">(</span>
                 <span class="n">transl_name</span> <span class="k">if</span> <span class="n">transl_name</span> <span class="k">else</span> <span class="n">name</span><span class="p">,</span>
                 <span class="n">inspect</span><span class="o">.</span><span class="n">Parameter</span><span class="o">.</span><span class="n">POSITIONAL_OR_KEYWORD</span><span class="p">,</span>
@@ -408,7 +410,7 @@
         <span class="n">r_ellipsis</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="o">*</span><span class="p">,</span>
         <span class="n">full_repr</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a docstring that for a wrapped function.</span>
 
 <span class="sd">    Args:</span>
@@ -432,7 +434,7 @@
         <span class="n">docstring</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
             <span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
              <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span>
-                 <span class="sd">&quot;&quot;&quot;The R ellipsis &quot;...&quot; present in the function&#39;s parameters</span>
+<span class="w">                 </span><span class="sd">&quot;&quot;&quot;The R ellipsis &quot;...&quot; present in the function&#39;s parameters</span>
 <span class="sd">                 is mapped to a python iterable of (name, value) pairs (such as</span>
 <span class="sd">                 it is returned by the `dict` method `items()` for example.&quot;&quot;&quot;</span>
              <span class="p">),</span>
@@ -466,7 +468,7 @@
                             <span class="nb">str</span><span class="p">]</span>
             <span class="p">]</span> <span class="o">=</span> <span class="n">wrap_docstring_default</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrap an rpy2 function handle with a Python function of matching signature.</span>
 
 <span class="sd">    Args:</span>
@@ -545,7 +547,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.functions</a></li> 
@@ -553,7 +555,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
     </div>
   </body>
 </html>
