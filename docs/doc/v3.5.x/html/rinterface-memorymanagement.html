@@ -7,16 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Memory management and garbage collection &#8212; rpy2 3.5.4 documentation</title>
+    <title>Memory management and garbage collection &#8212; rpy2 3.5.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -42,7 +40,7 @@
         <li class="right" >
           <a href="rinterface.html" title="Low-level interface"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
       </ul>
     </div>  
@@ -148,10 +146,10 @@ and each time a Python object pointing to a given R object
 incremented.</p>
 <p>The rpy2 object (proxy for an R object) is implemented as a regular Python
 object to which a <code class="xref c c-type docutils literal notranslate"><span class="pre">SexpObject</span></code> pointer is appended.</p>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">PyObject_HEAD</span><span class="w"></span>
-<span class="w">    </span><span class="n">SexpObject</span><span class="w"> </span><span class="o">*</span><span class="n">sObj</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"> </span><span class="n">PySexpObject</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">PyObject_HEAD</span>
+<span class="w">    </span><span class="n">SexpObject</span><span class="w"> </span><span class="o">*</span><span class="n">sObj</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">PySexpObject</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The tracking of the capsule itself is what protects the
@@ -182,11 +180,11 @@ expose it as well.</p>
 (currently unused)</p></li>
 <li><p>a pointer to the R <code class="xref c c-type docutils literal notranslate"><span class="pre">SEXPREC</span></code></p></li>
 </ul>
-<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="n">Py_ssize_t</span><span class="w"> </span><span class="n">pycount</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rcount</span><span class="p">;</span><span class="w"></span>
-<span class="w">    </span><span class="n">SEXP</span><span class="w"> </span><span class="n">sexp</span><span class="p">;</span><span class="w"></span>
-<span class="p">}</span><span class="w"> </span><span class="n">SexpObject</span><span class="p">;</span><span class="w"></span>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">Py_ssize_t</span><span class="w"> </span><span class="n">pycount</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rcount</span><span class="p">;</span>
+<span class="w">    </span><span class="n">SEXP</span><span class="w"> </span><span class="n">sexp</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">SexpObject</span><span class="p">;</span>
 </pre></div>
 </div>
 <p>The capsule is used to provide a relatively safe composition-like flavor
@@ -212,7 +210,7 @@ it without writing any C code:</p>
 <span class="n">pycapsule_getpointer</span><span class="o">.</span><span class="n">restype</span><span class="o">=</span><span class="n">ctypes</span><span class="o">.</span><span class="n">c_void_p</span>
 
 <span class="k">class</span> <span class="nc">SexpObject</span><span class="p">(</span><span class="n">ctypes</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; C structure SexpObject as defined in the C</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; C structure SexpObject as defined in the C</span>
 <span class="sd">        layer of rpy2. &quot;&quot;&quot;</span>
     <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;pycount&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_ssize_t</span><span class="p">),</span>
                 <span class="p">(</span><span class="s1">&#39;rcount&#39;</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
@@ -338,13 +336,13 @@ will be local to the scope of the modification within R.</p>
         <li class="right" >
           <a href="rinterface.html" title="Low-level interface"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Memory management and garbage collection</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
     </div>
   </body>
 </html>

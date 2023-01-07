@@ -6,16 +6,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface_lib.sexp &#8212; rpy2 3.5.4 documentation</title>
+    <title>rpy2.rinterface_lib.sexp &#8212; rpy2 3.5.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
     
     <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/jquery.js"></script>
-    <script src="../../../_static/underscore.js"></script>
-    <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/sphinx_highlight.js"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -33,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.sexp</a></li> 
       </ul>
@@ -80,7 +78,7 @@
 
 
 <span class="k">class</span> <span class="nc">RTYPES</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Native R types as defined in R&#39;s C API.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Native R types as defined in R&#39;s C API.&quot;&quot;&quot;</span>
 
     <span class="n">NILSXP</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">NILSXP</span>
     <span class="n">SYMSXP</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SYMSXP</span>
@@ -124,7 +122,7 @@
 
 
 <div class="viewcode-block" id="Sexp"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp">[docs]</a><span class="k">class</span> <span class="nc">Sexp</span><span class="p">(</span><span class="n">SupportsSEXP</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base class for R objects.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for R objects.</span>
 
 <span class="sd">    The name of a class corresponds to the name SEXP</span>
 <span class="sd">    used in R&#39;s C API.&quot;&quot;&quot;</span>
@@ -150,8 +148,9 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="s1">&#39; [</span><span class="si">%s</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">typeof</span><span class="p">)</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_rinterface.CapsuleBase&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Access to the underlying C pointer to the R object.</span>
+    <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;_rinterface.SexpCapsule&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;_rinterface.UninitializedRCapsule&#39;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Access to the underlying C pointer to the R object.</span>
 
 <span class="sd">        When assigning a new SexpCapsule to this attribute, the</span>
 <span class="sd">        R C-level type of the new capsule must be equal to the</span>
@@ -160,7 +159,8 @@
 
     <span class="nd">@__sexp__</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">value</span><span class="p">:</span> <span class="s1">&#39;_rinterface.CapsuleBase&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+                 <span class="n">value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;_rinterface.SexpCapsule&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;_rinterface.UninitializedRCapsule&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">typeof</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">typeof</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;New capsule type mismatch: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
@@ -169,7 +169,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">__sexp_refcount__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Count the number of independent Python references to</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Count the number of independent Python references to</span>
 <span class="sd">        the underlying R object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_R_PRESERVED</span><span class="p">[</span>
             <span class="n">_rinterface</span><span class="o">.</span><span class="n">get_rid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
@@ -191,7 +191,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rclass</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;StrSexpVector&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get or set the R &quot;class&quot; attribute for the object.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get or set the R &quot;class&quot; attribute for the object.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">rclass_get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="p">)</span>
 
     <span class="nd">@rclass</span><span class="o">.</span><span class="n">setter</span>
@@ -201,7 +201,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">rid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;ID of the underlying R object (memory address).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;ID of the underlying R object (memory address).&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">get_rid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -272,7 +272,7 @@
 
 
 <span class="k">class</span> <span class="nc">NULLType</span><span class="p">(</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">SingletonABC</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;A singleton class for R&#39;s NULL.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A singleton class for R&#39;s NULL.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">embedded</span><span class="o">.</span><span class="n">isready</span><span class="p">():</span>
@@ -286,15 +286,17 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;This is always False.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;This is always False.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="kc">False</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">CapsuleBase</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;_rinterface.SexpCapsule&#39;</span><span class="p">,</span>
+                                       <span class="s1">&#39;_rinterface.UninitializedRCapsule&#39;</span><span class="p">]:</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span>
 
     <span class="nd">@__sexp__</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__sexp__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;_rinterface.SexpCapsule&#39;</span><span class="p">,</span>
+                                           <span class="s1">&#39;_rinterface.UninitializedRCapsule&#39;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The capsule for the R object cannot be modified.&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -303,7 +305,7 @@
 
 
 <span class="k">class</span> <span class="nc">CETYPE</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Character encodings for R string.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Character encodings for R string.&quot;&quot;&quot;</span>
     <span class="n">CE_NATIVE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_NATIVE</span>
     <span class="n">CE_UTF8</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_UTF8</span>
     <span class="n">CE_LATIN1</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_LATIN1</span>
@@ -313,14 +315,14 @@
 
 
 <span class="k">class</span> <span class="nc">NCHAR_TYPE</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Type of string scalar in R.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Type of string scalar in R.&quot;&quot;&quot;</span>
     <span class="n">Bytes</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">Chars</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="n">Width</span> <span class="o">=</span> <span class="mi">2</span>
 
 
 <span class="k">class</span> <span class="nc">CharSexp</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;R&#39;s internal (C API-level) scalar for strings.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;R&#39;s internal (C API-level) scalar for strings.&quot;&quot;&quot;</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CHARSXP</span>
     <span class="n">_NCHAR_MSG</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char []&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;rpy2.rinterface.CharSexp.nchar&#39;</span><span class="p">)</span>
@@ -341,7 +343,7 @@
 
 
 <span class="k">class</span> <span class="nc">SexpEnvironment</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Proxy for an R &quot;environment&quot; object.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Proxy for an R &quot;environment&quot; object.</span>
 
 <span class="sd">    An R &quot;environment&quot; object can be thought of as a mix of a</span>
 <span class="sd">    mapping (like a `dict`) and a scope. To make it more &quot;Pythonic&quot;,</span>
@@ -361,7 +363,7 @@
     <span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
              <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
              <span class="n">wantfun</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sexp</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Find an item, starting with this R environment.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Find an item, starting with this R environment.</span>
 
 <span class="sd">        Raises a `KeyError` if the key cannot be found.</span>
 
@@ -486,13 +488,13 @@
 
     <span class="nd">@_cdata_res_to_rinterface</span>
     <span class="k">def</span> <span class="nf">frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;typing.Union[NULLType, SexpEnvironment]&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the parent frame of the environment.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the parent frame of the environment.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FRAME</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
     <span class="nd">@property</span>  <span class="c1"># type: ignore</span>
     <span class="nd">@_cdata_res_to_rinterface</span>
     <span class="k">def</span> <span class="nf">enclos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;typing.Union[NULLType, SexpEnvironment]&#39;</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get or set the enclosing environment.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get or set the enclosing environment.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">ENCLOS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
     <span class="nd">@enclos</span><span class="o">.</span><span class="n">setter</span>
@@ -502,7 +504,7 @@
                                  <span class="n">value</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;Generator over the keys (symbols) in the environment.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generator over the keys (symbols) in the environment.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
             <span class="n">symbols</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                 <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_lsInternal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
@@ -521,7 +523,7 @@
             <span class="k">yield</span> <span class="n">e</span>
 
     <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;See method `keys()`.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;See method `keys()`.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">is_locked</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -544,7 +546,8 @@
         <span class="n">set_elt</span><span class="p">(</span><span class="n">r_vector</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">cast_value</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
 
 
-<span class="k">class</span> <span class="nc">SexpVectorAbstract</span><span class="p">(</span><span class="n">SupportsSEXP</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SexpVectorAbstract</span><span class="p">(</span><span class="n">SupportsSEXP</span><span class="p">,</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generic</span><span class="p">[</span><span class="n">VT</span><span class="p">],</span>
+                         <span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
@@ -582,7 +585,7 @@
                       <span class="n">populate_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">set_elt</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                       <span class="n">cast_value</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Create an R vector/array from an iterable.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an R vector/array from an iterable.&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">embedded</span><span class="o">.</span><span class="n">isready</span><span class="p">():</span>
             <span class="k">raise</span> <span class="n">embedded</span><span class="o">.</span><span class="n">RNotReadyError</span><span class="p">(</span><span class="s1">&#39;Embedded R is not ready to use.&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">populate_func</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -624,7 +627,7 @@
     <span class="nd">@classmethod</span>
     <span class="nd">@_cdata_res_to_rinterface</span>
     <span class="k">def</span> <span class="nf">from_memoryview</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">mview</span><span class="p">:</span> <span class="nb">memoryview</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Create an R vector/array from a memoryview.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an R vector/array from a memoryview.</span>
 
 <span class="sd">        The memoryview must be contiguous, and the C representation</span>
 <span class="sd">        for the vector must be compatible between R and Python. If</span>
@@ -652,7 +655,7 @@
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_object</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VT</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Create an R vector/array from a Python object, if possible.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create an R vector/array from a Python object, if possible.</span>
 
 <span class="sd">        An exception :class:`ValueError` will be raised if not possible.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
@@ -724,16 +727,17 @@
 
 
 <div class="viewcode-block" id="SexpVector"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.SexpVector">[docs]</a><span class="k">class</span> <span class="nc">SexpVector</span><span class="p">(</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">SexpVectorAbstract</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Base abstract class for R vector objects.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base abstract class for R vector objects.</span>
 
 <span class="sd">    R vector objects are, at the C level, essentially C arrays wrapped in</span>
 <span class="sd">    the general structure for R objects.&quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                 <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">,</span>
+                 <span class="n">obj</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">SupportsSEXP</span><span class="p">,</span>
+                                   <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">,</span>
                                    <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sized</span><span class="p">]):</span>
         <span class="k">if</span> <span class="p">(</span>
-                <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Sexp</span><span class="p">)</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SupportsSEXP</span><span class="p">)</span>
                 <span class="ow">or</span>
                 <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">)</span>
         <span class="p">):</span>
@@ -742,11 +746,12 @@
             <span class="n">robj</span><span class="p">:</span> <span class="n">Sexp</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">robj</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The constructor must be called &#39;</span>
-                            <span class="s1">&#39;with an instance of &#39;</span>
-                            <span class="s1">&#39;rpy2.rinterface.Sexp &#39;</span>
-                            <span class="s1">&#39;or an instance of &#39;</span>
-                            <span class="s1">&#39;rpy2.rinterface._rinterface.SexpCapsule&#39;</span><span class="p">)</span></div>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="s1">&#39;The constructor must be called with an instance of &#39;</span>
+                <span class="s1">&#39;rpy2.rinterface.Sexp, &#39;</span>
+                <span class="s1">&#39;a Python sized object that can be iterated on, &#39;</span>
+                <span class="s1">&#39;or less commonly an rpy2.rinterface._rinterface.SexpCapsule.&#39;</span>
+            <span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_as_charsxp_cdata</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">CharSexp</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
@@ -757,7 +762,7 @@
 
 
 <div class="viewcode-block" id="StrSexpVector"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.StrSexpVector">[docs]</a><span class="k">class</span> <span class="nc">StrSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;R vector of strings.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;R vector of strings.&quot;&quot;&quot;</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">STRSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">_STRING_PTR</span>
@@ -838,7 +843,7 @@
                             <span class="s1">&#39;not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
 <div class="viewcode-block" id="StrSexpVector.get_charsxp"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.StrSexpVector.get_charsxp">[docs]</a>    <span class="k">def</span> <span class="nf">get_charsxp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CharSexp</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Get the R CharSexp objects for the index i.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the R CharSexp objects for the index i.&quot;&quot;&quot;</span>
         <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">CharSexp</span><span class="p">(</span>
             <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">(</span>
@@ -895,7 +900,7 @@
 
 
 <span class="k">def</span> <span class="nf">rclass_get</span><span class="p">(</span><span class="n">scaps</span><span class="p">:</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">CapsuleBase</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StrSexpVector</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; Get the R class name.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Get the R class name.</span>
 
 <span class="sd">    If no specific attribute &quot;class&quot; is defined from the objects, this</span>
 <span class="sd">    will perform the equivalent of R_data_class()</span>
@@ -958,7 +963,7 @@
         <span class="n">scaps</span><span class="p">:</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">CapsuleBase</span><span class="p">,</span>
         <span class="n">value</span><span class="p">:</span> <span class="s1">&#39;typing.Union[StrSexpVector, str]&#39;</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot; Set the R class.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Set the R class.</span>
 
 <span class="sd">    :param:`scaps` A capsule with a pointer to an R object.</span>
 <span class="sd">    :param:`value` An R vector of strings.&quot;&quot;&quot;</span>
@@ -1105,14 +1110,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.sexp</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
     </div>
   </body>
 </html>

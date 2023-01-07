@@ -7,16 +7,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Documentation for rpy2 &#8212; rpy2 3.5.4 documentation</title>
+    <title>Documentation for rpy2 &#8212; rpy2 3.5.7 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
     
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -38,7 +36,7 @@
         <li class="right" >
           <a href="getting-started.html" title="Getting started"
              accesskey="N">next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">rpy2 3.5.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Documentation for rpy2</a></li> 
       </ul>
     </div>  
@@ -137,6 +135,7 @@ make complex and informative plots with little code written, while the underlyin
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="vector.html">Vectors and arrays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vector.html#rpy2.robjects.Vector"><code class="docutils literal notranslate"><span class="pre">Vector</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="vector.html#creating-vectors">Creating vectors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vector.html#extracting-items">Extracting items</a></li>
 <li class="toctree-l3"><a class="reference internal" href="vector.html#assigning-items">Assigning items</a></li>
@@ -189,9 +188,15 @@ Utilities are available in <a class="reference internal" href="interactive.html#
 <li class="toctree-l2"><a class="reference internal" href="interactive.html#overview">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="interactive.html#module-rpy2.ipython.rmagic">IPython magic integration (was rmagic)</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="interactive.html#rmagic">Rmagic</a></li>
+<li class="toctree-l3"><a class="reference internal" href="interactive.html#rpy2.ipython.rmagic.RInterpreterError"><code class="docutils literal notranslate"><span class="pre">RInterpreterError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="interactive.html#rpy2.ipython.rmagic.RMagics"><code class="docutils literal notranslate"><span class="pre">RMagics</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="interactive.html#rpy2.ipython.rmagic.load_ipython_extension"><code class="docutils literal notranslate"><span class="pre">load_ipython_extension()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="interactive.html#r-event-loop">R event loop</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interactive.html#r-event-loop">R event loop</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="interactive.html#rpy2.interactive.process_revents.process_revents"><code class="docutils literal notranslate"><span class="pre">process_revents()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="interactive.html#utilities-for-interactive-work">Utilities for interactive work</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="interactive.html#r-vectors">R vectors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="interactive.html#r-packages">R packages</a></li>
@@ -272,8 +277,14 @@ and benchmarks.</p>
 <li class="toctree-l3"><a class="reference internal" href="rlike.html#taggedlist">TaggedList</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="rlike.html#tools-for-working-with-sequences">Tools for working with sequences</a></li>
-<li class="toctree-l2"><a class="reference internal" href="rlike.html#indexing">Indexing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="rlike.html#tools-for-working-with-sequences">Tools for working with sequences</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rlike.html#rpy2.rlike.functional.tapply"><code class="docutils literal notranslate"><span class="pre">tapply()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="rlike.html#indexing">Indexing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="rlike.html#rpy2.rlike.indexing.order"><code class="docutils literal notranslate"><span class="pre">order()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="miscellaneous.html">Miscellaneous topics</a><ul>
@@ -361,13 +372,13 @@ upgrading to a newer version of rpy2.</p>
         <li class="right" >
           <a href="getting-started.html" title="Getting started"
              >next</a> |</li>
-        <li class="nav-item nav-item-0"><a href="#">rpy2 3.5.4 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="#">rpy2 3.5.7 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Documentation for rpy2</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 5.1.1.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
     </div>
   </body>
 </html>
