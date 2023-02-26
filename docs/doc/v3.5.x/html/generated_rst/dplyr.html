@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>dplyr in Python &#8212; rpy2 3.5.7 documentation</title>
+    <title>dplyr in Python &#8212; rpy2 3.5.9 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="pandas.html" title="R and pandas data frames"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.9 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../getting-started.html" accesskey="U">Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dplyr in Python</a></li> 
       </ul>
@@ -76,6 +76,10 @@ frames).</p>
 <p>2- dplyr</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.lib.dplyr</span> <span class="kn">import</span> <span class="n">DataFrame</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">rl</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.9.16</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">robjects</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">dplyr</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">This</span> <span class="n">was</span> <span class="n">designed</span> <span class="n">againt</span> <span class="n">dplyr</span> <span class="n">versions</span> <span class="n">starting</span> <span class="k">with</span> <span class="mf">1.0</span> <span class="n">but</span> <span class="n">you</span> <span class="n">have</span> <span class="mf">1.1.0</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
 </pre></div>
 </div>
 <p>With this we have the choice of chaining (D3-style)</p>
@@ -281,7 +285,7 @@ implementation of <code class="docutils literal notranslate"><span class="pre">d
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:   SQL [2 x 2]</span>
-<span class="c1"># Database: sqlite 3.40.0 [/tmp/tmp_q4usg8k]</span>
+<span class="c1"># Database: sqlite 3.40.1 [/tmp/tmpgw_6twrb]</span>
    <span class="n">gear</span> <span class="n">mean_ptw</span>
   <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>    <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>
 <span class="mi">1</span>     <span class="mi">4</span>    <span class="mf">1237.</span>
@@ -306,12 +310,11 @@ data frames, completing the “lexical loan” of the dplyr vocabulary from
 R.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">default_converter</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">localconverter</span>
 
 <span class="c1"># Using a conversion context in which the pandas conversion is</span>
 <span class="c1"># added to the default conversion rules, the rpy2 object</span>
 <span class="c1"># `mtcars` (an R data frame) is converted to a pandas data frame.</span>
-<span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+<span class="k">with</span> <span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
     <span class="n">pd_mtcars</span> <span class="o">=</span> <span class="n">mtcars_env</span><span class="p">[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pd_mtcars</span><span class="p">))</span>
 </pre></div>
@@ -319,10 +322,10 @@ R.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
 </pre></div>
 </div>
-<p>Using a local converter lets us also go from the pandas data frame to
-our dplyr-augmented R data frame and use the dplyr transformations on
-it.</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+<p>Using a local conversion context lets us also go from the pandas data
+frame to our dplyr-augmented R data frame and use the dplyr
+transformations on it.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
     <span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd_mtcars</span><span class="p">)</span>
              <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;=3&#39;</span><span class="p">))</span>
              <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
@@ -405,14 +408,14 @@ it.</p>
         <li class="right" >
           <a href="pandas.html" title="R and pandas data frames"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.9 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../getting-started.html" >Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dplyr in Python</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
   </body>
 </html>
