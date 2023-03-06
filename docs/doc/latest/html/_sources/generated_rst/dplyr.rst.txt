@@ -34,6 +34,13 @@ frames).
     from rpy2.robjects.lib.dplyr import DataFrame
     from rpy2.robjects import rl
 
+
+.. parsed-literal::
+
+    /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/rpy2/robjects/lib/dplyr.py:27: UserWarning: This was designed againt dplyr versions starting with 1.0 but you have 1.1.0
+      warnings.warn(
+
+
 With this we have the choice of chaining (D3-style)
 
 .. code:: ipython3
@@ -282,7 +289,7 @@ implementation of ``dplyr``, it *just works*.
 .. parsed-literal::
 
     # Source:   SQL [2 x 2]
-    # Database: sqlite 3.40.0 [/tmp/tmp_q4usg8k]
+    # Database: sqlite 3.40.1 [/tmp/tmpge4ia4mx]
        gear mean_ptw
       <dbl>    <dbl>
     1     4    1237.
@@ -318,12 +325,11 @@ R.
 
     from rpy2.robjects import pandas2ri
     from rpy2.robjects import default_converter
-    from rpy2.robjects.conversion import localconverter
     
     # Using a conversion context in which the pandas conversion is
     # added to the default conversion rules, the rpy2 object
     # `mtcars` (an R data frame) is converted to a pandas data frame.
-    with localconverter(default_converter + pandas2ri.converter) as cv:
+    with (default_converter + pandas2ri.converter).context() as cv:
         pd_mtcars = mtcars_env['mtcars']
     print(type(pd_mtcars))
 
@@ -333,13 +339,13 @@ R.
     <class 'pandas.core.frame.DataFrame'>
 
 
-Using a local converter lets us also go from the pandas data frame to
-our dplyr-augmented R data frame and use the dplyr transformations on
-it.
+Using a local conversion context lets us also go from the pandas data
+frame to our dplyr-augmented R data frame and use the dplyr
+transformations on it.
 
 .. code:: ipython3
 
-    with localconverter(default_converter + pandas2ri.converter) as cv:
+    with (default_converter + pandas2ri.converter).context() as cv:
         dataf = (DataFrame(pd_mtcars)
                  .filter(rl('gear>=3'))
                  .mutate(powertoweight=rl('hp*36/wt'))

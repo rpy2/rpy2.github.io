@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Interactive work &#8212; rpy2 3.5.9 documentation</title>
+    <title>Interactive work &#8212; rpy2 3.5.10 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.10 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Interactive work</a></li> 
       </ul>
     </div>  
@@ -530,12 +530,6 @@ cell.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.Rdevice">
-<span class="sig-name descname"><span class="pre">Rdevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rdevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rdevice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Change the plotting device R uses to one of [‘png’, ‘X11’, ‘svg’].</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.Rget">
 <span class="sig-name descname"><span class="pre">Rget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rget" title="Permalink to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rget</span> <span class="n">output</span>
@@ -668,7 +662,9 @@ withVisible is a LISPy R function).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.publish_graphics">
 <span class="sig-name descname"><span class="pre">publish_graphics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolate_svgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.publish_graphics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.publish_graphics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Wrap graphic file data for presentation in IPython</p>
+<dd><p>Wrap graphic file data for presentation in IPython.</p>
+<p>This method is deprecated. Use <cite>display_figures</cite> or
+‘display_figures_svg` instead.</p>
 <dl class="simple">
 <dt>graph_dir<span class="classifier">str</span></dt><dd><p>Probably provided by some tmpdir call</p>
 </dd>
@@ -686,11 +682,12 @@ must be installed. Because Cairo forces “onefile=TRUE”,
 it is not posible to include multiple plots per cell.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>device</strong> – [‘png’, ‘X11’, ‘svg’]
+<dd class="field-odd"><p><strong>device</strong> – [‘png’, ‘jpeg’, ‘X11’, ‘svg’]
 Device to be used for plotting.
-Currently only “png” and “X11” are supported,
-with ‘png’ and ‘svg’ being most useful in the notebook,
-and ‘X11’ allowing interactive plots in the terminal.</p>
+Currently only ‘png’, ‘jpeg’, ‘X11’ and ‘svg’ are supported,
+with ‘X11’ allowing interactive plots on a locally-running jupyter,
+and the other allowing to visualize R figure generated on a remote
+jupyter server/kernel.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -708,6 +705,30 @@ and ‘X11’ allowing interactive plots in the terminal.</p>
 <dd><p>A hook to capture R’s stdout in a cache.</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.display_figures">
+<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">display_figures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#display_figures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.display_figures" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterator to display PNG figures generated by R.</p>
+<dl class="simple">
+<dt>graph_dir<span class="classifier">str</span></dt><dd><p>A directory where R figures are to be searched.</p>
+</dd>
+</dl>
+<p>The iterator yields the image objects.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.display_figures_svg">
+<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">display_figures_svg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolate_svgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#display_figures_svg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.display_figures_svg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display SVG figures generated by R.</p>
+<dl class="simple">
+<dt>graph_dir<span class="classifier">str</span></dt><dd><p>A directory where R figures are to be searched.</p>
+</dd>
+<dt>isolate_svgs<span class="classifier">bool</span></dt><dd><p>Enable SVG namespace isolation in metadata.</p>
+</dd>
+</dl>
+<p>The iterator yields the image object.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -949,7 +970,6 @@ the need to install it again (unless a different version of R is used).</p>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RInterpreterError"><code class="docutils literal notranslate"><span class="pre">RInterpreterError</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics"><code class="docutils literal notranslate"><span class="pre">RMagics</span></code></a><ul>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.R"><code class="docutils literal notranslate"><span class="pre">RMagics.R()</span></code></a></li>
-<li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Rdevice"><code class="docutils literal notranslate"><span class="pre">RMagics.Rdevice()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Rget"><code class="docutils literal notranslate"><span class="pre">RMagics.Rget()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Rpull"><code class="docutils literal notranslate"><span class="pre">RMagics.Rpull()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Rpush"><code class="docutils literal notranslate"><span class="pre">RMagics.Rpush()</span></code></a></li>
@@ -961,6 +981,8 @@ the need to install it again (unless a different version of R is used).</p>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.write_console_regular"><code class="docutils literal notranslate"><span class="pre">RMagics.write_console_regular()</span></code></a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.display_figures"><code class="docutils literal notranslate"><span class="pre">display_figures()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.display_figures_svg"><code class="docutils literal notranslate"><span class="pre">display_figures_svg()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.load_ipython_extension"><code class="docutils literal notranslate"><span class="pre">load_ipython_extension()</span></code></a></li>
 </ul>
 </li>
@@ -1029,7 +1051,7 @@ the need to install it again (unless a different version of R is used).</p>
         <li class="right" >
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.9 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.10 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Interactive work</a></li> 
       </ul>
     </div>

@@ -7,7 +7,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Basic handling &#8212; rpy2 3.5.7 documentation</title>
+    <title>Basic handling &#8212; rpy2 3.5.10 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="../robjects_oop.html" title="Working with R’s OOPs"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.10 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >The robjects package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../robjects_oop.html" accesskey="U">Working with R’s OOPs</a> &#187;</li>
@@ -146,13 +146,13 @@ wrap the object in our Python class <code class="docutils literal notranslate"><
 <span class="n">rpy2py_s4</span><span class="p">(</span><span class="n">eset</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">ExpressionSet</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f2240fbd800</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">S4SXP</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">ExpressionSet</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f9825c58840</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">S4SXP</span><span class="p">]</span>
 <span class="n">R</span> <span class="n">classes</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;ExpressionSet&#39;</span><span class="p">,)</span>
 </pre></div>
 </div>
 <p>That function can be be register to a <code class="docutils literal notranslate"><span class="pre">Converter</span></code>:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">default_converter</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">Converter</span><span class="p">,</span> <span class="n">localconverter</span>
+<span class="kn">from</span> <span class="nn">rpy2.robjects.conversion</span> <span class="kn">import</span> <span class="n">Converter</span>
 
 <span class="n">my_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">&#39;ExpressionSet-aware converter&#39;</span><span class="p">,</span>
                          <span class="n">template</span><span class="o">=</span><span class="n">default_converter</span><span class="p">)</span>
@@ -166,7 +166,7 @@ wrap the object in our Python class <code class="docutils literal notranslate"><
 </div>
 <p>When using that converter, the matching R objects are returned as
 instances of our Python class <code class="docutils literal notranslate"><span class="pre">ExpressionSet</span></code>:</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">my_converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">my_converter</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
     <span class="n">eset</span> <span class="o">=</span> <span class="n">biobase</span><span class="o">.</span><span class="n">ExpressionSet</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">eset</span><span class="p">))</span>
 </pre></div>
@@ -193,7 +193,7 @@ method <code class="docutils literal notranslate"><span class="pre">exprs()</spa
 <span class="n">eset_myclass</span><span class="o">.</span><span class="n">exprs</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">Environment</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f2202a56580</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">ENVSXP</span><span class="p">]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">environments</span><span class="o">.</span><span class="n">Environment</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x7f97e56ce400</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">ENVSXP</span><span class="p">]</span>
 <span class="n">R</span> <span class="n">classes</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;environment&#39;</span><span class="p">,)</span>
 <span class="n">n</span> <span class="n">items</span><span class="p">:</span> <span class="mi">1</span>
 </pre></div>
@@ -319,7 +319,7 @@ function. For example:</p>
         <li class="right" >
           <a href="../robjects_oop.html" title="Working with R’s OOPs"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.7 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.5.10 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >The robjects package</a> &#187;</li>
           <li class="nav-item nav-item-3"><a href="../robjects_oop.html" >Working with R’s OOPs</a> &#187;</li>
@@ -328,7 +328,7 @@ function. For example:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.2.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
     </div>
   </body>
 </html>
