@@ -99,3 +99,11 @@ template = env.get_template('extensions.html')
 render = template.render(menu=MENU, projects=SUBPROJECTS)
 with open(os.path.join('docs', 'extensions.html'), 'w') as fh:
     fh.write(render)
+
+# render use-cases
+print('Rendering use-cases.html')
+template = env.get_template('use-cases.html')
+render = template.render(menu=MENU,
+                         references=references.REFERENCES)
+with open(os.path.join('docs', 'use-cases.html'), 'w') as fh:
+    fh.write(render)
