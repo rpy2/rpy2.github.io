@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.vectors &#8212; rpy2 3.5.10 documentation</title>
+    <title>rpy2.robjects.vectors &#8212; rpy2 3.5.11 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.11 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.vectors</a></li> 
@@ -696,14 +696,14 @@
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;tlist should have &quot;</span>
                                  <span class="s2">&quot;tlist.typeof == rinterface.RTYPES.VECSXP&quot;</span><span class="p">)</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">tlist</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tlist</span><span class="p">,</span> <span class="s1">&#39;items&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="n">tlist</span><span class="o">.</span><span class="n">items</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tlist</span><span class="p">,</span> <span class="s1">&#39;items&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="n">tlist</span><span class="o">.</span><span class="n">items</span><span class="p">):</span>
             <span class="n">cv</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span>
             <span class="n">kv</span> <span class="o">=</span> <span class="p">[(</span><span class="n">k</span><span class="p">,</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tlist</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
             <span class="n">kv</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">kv</span><span class="p">)</span>
             <span class="n">df</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;list&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">kv</span><span class="p">,</span> <span class="n">globalenv_ri</span><span class="p">)</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">tlist</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">tlist</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">tlist</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;tlist should have a /method/ __iter__ &#39;</span>
                                  <span class="s1">&#39;(not an attribute)&#39;</span><span class="p">)</span>
             <span class="n">cv</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span>
@@ -1630,7 +1630,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.10 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.11 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.vectors</a></li> 
