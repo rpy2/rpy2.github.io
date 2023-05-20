@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface &#8212; rpy2 3.5.11 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.5.12 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.11 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.12 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
@@ -185,6 +185,49 @@
     <span class="k">if</span> <span class="n">enclos</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">enclos</span> <span class="o">=</span> <span class="n">MissingArg</span>
     <span class="n">res</span> <span class="o">=</span> <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;eval&#39;</span><span class="p">](</span><span class="n">expr</span><span class="p">,</span> <span class="n">envir</span><span class="o">=</span><span class="n">envir</span><span class="p">,</span> <span class="n">enclos</span><span class="o">=</span><span class="n">enclos</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">def</span> <span class="nf">evalr_expr_with_visible</span><span class="p">(</span>
+        <span class="n">expr</span><span class="p">:</span> <span class="s1">&#39;ExprSexpVector&#39;</span><span class="p">,</span>
+        <span class="n">envir</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span>
+            <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;SexpEnvironment&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListSexpVector&#39;</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Evaluate an R expression and return value and visibility flag.</span>
+
+<span class="sd">    :param expr: An R expression.</span>
+<span class="sd">    :param envir: An environment in which the expression will be evaluated.</span>
+
+<span class="sd">    :return: An R list with (value, visibility) where visibility is</span>
+<span class="sd">    an R boolean.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">envir</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">envir</span> <span class="o">=</span> <span class="n">evaluation_context</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">envir</span><span class="p">,</span> <span class="n">SexpEnvironment</span><span class="p">)</span>
+
+    <span class="n">error_occured</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;int *&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
+        <span class="n">r_call_nested</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_lang2</span><span class="p">(</span>
+                <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;eval&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                <span class="n">expr</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">r_call</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_lang2</span><span class="p">(</span>
+                <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;withVisible&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                <span class="n">r_call_nested</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">r_res</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_tryEval</span><span class="p">(</span>
+                    <span class="n">r_call</span><span class="p">,</span>
+                    <span class="n">envir</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>  <span class="c1"># call context.</span>
+                    <span class="n">error_occured</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">error_occured</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">(</span><span class="n">_rinterface</span><span class="o">.</span><span class="n">_geterrmessage</span><span class="p">())</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cdata_to_rinterface</span><span class="p">(</span><span class="n">r_res</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">ListSexpVector</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">res</span>
 
 
@@ -1378,14 +1421,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.11 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.12 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
   </body>
 </html>
