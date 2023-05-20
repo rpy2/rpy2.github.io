@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.5.11 documentation</title>
+    <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.5.13 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.11 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
       </ul>
@@ -352,6 +352,7 @@
         <span class="k">if</span> <span class="n">_c_stack_limit</span><span class="p">:</span>
             <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="n">_c_stack_limit</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_Interactive</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Calling R setup_Rmainloop.&#39;</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">setup_Rmainloop</span><span class="p">()</span>
 
         <span class="n">_setinitialized</span><span class="p">()</span>
@@ -364,6 +365,7 @@
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_Consolefile</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span>
 
         <span class="k">if</span> <span class="n">_want_setcallbacks</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Setting functions for R callbacks.&#39;</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">rlib_symbol</span><span class="p">,</span> <span class="n">callback_symbol</span> <span class="ow">in</span> <span class="n">CALLBACK_INIT_PAIRS</span><span class="p">:</span>
                 <span class="n">_setcallback</span><span class="p">(</span><span class="n">rlib</span><span class="p">,</span> <span class="n">rlib_symbol</span><span class="p">,</span>
                              <span class="n">callback_funcs</span><span class="p">,</span> <span class="n">callback_symbol</span><span class="p">)</span>
@@ -372,18 +374,27 @@
 
 
 <div class="viewcode-block" id="endr"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.endr">[docs]</a><span class="k">def</span> <span class="nf">endr</span><span class="p">(</span><span class="n">fatal</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Ending embedded R process.&#39;</span><span class="p">)</span>
     <span class="k">global</span> <span class="n">rpy2_embeddedR_isinitialized</span>
     <span class="n">rlib</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
     <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">&amp;</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">ENDED</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Embedded R already ended.&#39;</span><span class="p">)</span>
             <span class="k">return</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_do_Last()&#39;</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_dot_Last</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_RunExitFinalizers()&#39;</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_RunExitFinalizers</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Rf_KillAllDevices()&#39;</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_KillAllDevices</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_CleanTempDir()&#39;</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_CleanTempDir</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_gc&#39;</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">R_gc</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Rf_endEmbeddedR(fatal)&#39;</span><span class="p">)</span>
         <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_endEmbeddedR</span><span class="p">(</span><span class="n">fatal</span><span class="p">)</span>
-        <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">^=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">ENDED</span><span class="o">.</span><span class="n">value</span></div>
+        <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">^=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">ENDED</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Embedded R ended.&#39;</span><span class="p">)</span></div>
 
 
 <span class="n">_REFERENCE_TO_R_SESSIONS</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/rstudio/reticulate/issues/98&#39;</span>
@@ -464,14 +475,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.11 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     </div>
   </body>
 </html>
