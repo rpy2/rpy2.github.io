@@ -15101,9 +15101,118 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     }
     init_mathjax();
     </script>
-    <!-- End of mathjax configuration --></head>
+    <!-- End of mathjax configuration --><script type="module">
+  document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.3/mermaid.esm.min.mjs")).default;
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement('img');
+      const maxWidth = svg.match(/max-width: (\d+)/);
+      if (maxWidth && maxWidth[1]) {
+        const width = parseInt(maxWidth[1]);
+        if (width && !Number.isNaN(width) && Number.isFinite(width)) {
+          img.width = width;
+        }
+      }
+      img.setAttribute('src', `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      return img;
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = '';
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement('details');
+      const summary = document.createElement('summary');
+      const pre = document.createElement('pre');
+      const code = document.createElement('code');
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement('pre');
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return result;
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let result = null;
+      try {
+        const { svg } = await mermaid.render(id, raw, el);
+        result = makeMermaidImage(svg);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        result = await makeMermaidError(raw);
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(result);
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+</script>
+<style>
+  .jp-RenderedMarkdown .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 10px;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning details > pre {
+    margin-top: 1em;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning summary {
+    color: var(--jp-warn-color2);
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning summary > pre {
+    display: inline-block;
+  }
+  .jp-RenderedMermaid > .mermaid {
+    display: none;
+  }
+</style>
+<!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div id="cell-id=03ccbd5b" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div id="cell-id=4a21fc23" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15122,7 +15231,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 
 </div>
-<div id="cell-id=17eaedb7" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=d66958b7" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15140,7 +15249,7 @@ to hide R behind a Python-like behavior.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=8e70301a" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=8c1369de" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15157,7 +15266,7 @@ to hide R behind a Python-like behavior.</p>
 </div>
 
 </div>
-<div id="cell-id=8d3f55d1" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=5daedb02" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15170,7 +15279,7 @@ breadth and depth of the packages available.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=6bdeb9fb" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=ced320e5" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15196,7 +15305,7 @@ breadth and depth of the packages available.</p>
 </div>
 
 </div>
-<div id="cell-id=d98fec4f" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=909dea37" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15210,7 +15319,7 @@ We can get set with:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=01ef1809" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=8da117e5" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15231,7 +15340,7 @@ We can get set with:</p>
 </div>
 
 </div>
-<div id="cell-id=ac0fd2fe" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=f61a336d" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15242,7 +15351,7 @@ We can get set with:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=e433f667" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=30252a08" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15265,7 +15374,7 @@ We can get set with:</p>
 </div>
 
 </div>
-<div id="cell-id=2a3228f1" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=2d4f9bc9" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15287,7 +15396,7 @@ evaluates a variable from the R console.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=341ccafa" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=c1542bfd" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15303,7 +15412,7 @@ evaluates a variable from the R console.</p>
 </div>
 </div>
 
-</div><div id="cell-id=597c6af2" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=31e5280c" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15361,7 +15470,7 @@ evaluates a variable from the R console.</p>
 </div>
 
 </div>
-<div id="cell-id=629fac4f" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=3de025a2" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15372,7 +15481,7 @@ evaluates a variable from the R console.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=8c529ddf" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=923feeba" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15413,7 +15522,7 @@ evaluates a variable from the R console.</p>
 </div>
 
 </div>
-<div id="cell-id=300094a3" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=6026e8e2" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15439,6 +15548,7 @@ evaluates a variable from the R console.</p>
    Also, note that *pi* is not a scalar but a vector of length 1.
 </p>
 </div>
+
 <h3 id="Evaluating-R-code">Evaluating R code<a class="anchor-link" href="#Evaluating-R-code">&#182;</a></h3><p>The <code>r</code> object is also callable, and the string passed to it evaluated
 as <code>R</code> code.</p>
 <p>This can be used to <code>get</code> variables, and provide an alternative to
@@ -15448,7 +15558,7 @@ the method presented above.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=44c3b550" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=3cbb9bc1" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15487,7 +15597,7 @@ the method presented above.</p>
 </div>
 
 </div>
-<div id="cell-id=c2757a8e" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=9895a271" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15498,7 +15608,7 @@ the method presented above.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=743f0b05" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=0df20721" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15539,22 +15649,24 @@ the method presented above.</p>
 </div>
 
 </div>
-<div id="cell-id=06d1c979" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=71284bf7" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <div style="border: solid 1px rgb(50,50,50)">
+
 <p>The result is an R vector. The Section
-   <code>introduction-vectors</code> will provide an explanation
-   for the following behavior:</p>
+<code>introduction-vectors</code> will provide an explanation
+for the following behavior:</p>
 </div>
+
 
 </div>
 </div>
 </div>
-</div><div id="cell-id=5824ad5f" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=446aebe9" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15596,13 +15708,13 @@ the method presented above.</p>
 </div>
 
 </div>
-<div id="cell-id=2d519c10" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=69208ccf" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The evaluation is performed in what is known to R users as the 
+<p>The evaluation is performed in what is known to R users as the
 <code>Global Environment</code>, that is the place one starts at when starting
 the R console. Whenever the <code>R</code> code creates variables, those
 variables are &quot;located&quot; in that <code>Global Environment</code> by default.</p>
@@ -15611,7 +15723,7 @@ variables are &quot;located&quot; in that <code>Global Environment</code> by def
 </div>
 </div>
 </div>
-</div><div id="cell-id=3ca28c7d" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=bc460b73" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15671,21 +15783,21 @@ variables are &quot;located&quot; in that <code>Global Environment</code> by def
 </div>
 
 </div>
-<div id="cell-id=88ae3a0e" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=747d0bf7" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p>The expression above returns the value 18.85, 
-but first creates an R function <code>f</code>. 
+<p>The expression above returns the value 18.85,
+but first creates an R function <code>f</code>.
 That function <code>f</code> is present in the R <code>Global Environement</code>, and can
 be accessed with the <code>__getitem__</code> mechanism outlined above:</p>
 
 </div>
 </div>
 </div>
-</div><div id="cell-id=5422cd85" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=10826d3a" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15730,24 +15842,26 @@ be accessed with the <code>__getitem__</code> mechanism outlined above:</p>
 </div>
 
 </div>
-<div id="cell-id=e7ea18cc" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=cb1eaa2a" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
 <div style="border: solid 1px rgb(50,50,50)">
+
 <p>As shown earlier, an alternative way to get the function
-   is to get it from the :class:<code>R</code> singleton</p>
+is to get it from the :class:<code>R</code> singleton</p>
 <pre><code>&gt;&gt;&gt; r_f = robjects.r['f']
 </code></pre>
 </div>
+
 <p>The function r_f is callable, and can be used like a regular Python function.</p>
 
 </div>
 </div>
 </div>
-</div><div id="cell-id=ab8a5822" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=3256c5e1" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15764,7 +15878,7 @@ be accessed with the <code>__getitem__</code> mechanism outlined above:</p>
 </div>
 
 </div>
-<div id="cell-id=619a8e81" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=828d2ea7" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15782,7 +15896,7 @@ directly into R code to be evaluated.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=69bcd7ea" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=97b0a1c5" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15824,7 +15938,7 @@ directly into R code to be evaluated.</p>
 </div>
 
 </div>
-<div id="cell-id=f340aad3" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=99912db8" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15838,11 +15952,11 @@ we can observe that this is in fact a vector of length 1.</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>len(robjects.r['pi'])</p>
+<p>len(robjects.r['pi'])
+1</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>1</p>
 <p>As such, the python method :meth:<code>add</code> will result in a concatenation
 (function <code>c()</code> in R), as this is the case for regular python lists.</p>
 <p>Accessing the one value in that vector has to be stated
@@ -15850,11 +15964,11 @@ explicitly:</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>robjects.r['pi'][0]</p>
+<p>robjects.r['pi'][0]
+3.1415926535897931</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>3.1415926535897931</p>
 <p>There is much that can be achieved with vectors, having them to behave
 more like Python lists or R vectors.
 A comprehensive description of the behavior of vectors is found in
@@ -15864,29 +15978,17 @@ A comprehensive description of the behavior of vectors is found in
 <blockquote>
 <blockquote>
 <p>res = robjects.StrVector(['abc', 'def'])
-print(res.r_repr())</p>
+print(res.r_repr())
+c(&quot;abc&quot;, &quot;def&quot;)
+res = robjects.IntVector([1, 2, 3])
+print(res.r_repr())
+1:3
+res = robjects.FloatVector([1.1, 2.2, 3.3])
+print(res.r_repr())
+c(1.1, 2.2, 3.3)</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>c(&quot;abc&quot;, &quot;def&quot;)</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>res = robjects.IntVector([1, 2, 3])
-print(res.r_repr())</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>1:3</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>res = robjects.FloatVector([1.1, 2.2, 3.3])
-print(res.r_repr())</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>c(1.1, 2.2, 3.3)</p>
 <p>R matrixes and arrays are just vectors with a <code>dim</code> attribute.</p>
 <p>The easiest way to create such objects is to do it through
 R functions:</p>
@@ -15895,14 +15997,13 @@ R functions:</p>
 <blockquote>
 <p>v = robjects.FloatVector([1.1, 2.2, 3.3, 4.4, 5.5, 6.6])
 m = robjects.r['matrix'](v, nrow = 2)
-print(m)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<pre><code> [,1] [,2] [,3]
-</code></pre>
-<p>[1,]  1.1  3.3  5.5
+print(m)
+[,1] [,2] [,3]
+[1,]  1.1  3.3  5.5
 [2,]  2.2  4.4  6.6</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>.. _robjects-introduction-functions:</p>
 <h1 id="Calling-R-functions">Calling R functions<a class="anchor-link" href="#Calling-R-functions">&#182;</a></h1><p>Calling R functions is disappointingly similar to calling
 Python functions:</p>
@@ -15910,22 +16011,22 @@ Python functions:</p>
 <blockquote>
 <blockquote>
 <p>rsum = robjects.r['sum']
-rsum(robjects.IntVector([1,2,3]))[0]</p>
+rsum(robjects.IntVector([1,2,3]))[0]
+6L</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>6L</p>
 <p>Keywords are also working:</p>
 <blockquote>
 <blockquote>
 <blockquote>
 <p>rsort = robjects.r['sort']
 res = rsort(robjects.IntVector([1,2,3]), decreasing=True)
-print(res.r_repr())</p>
+print(res.r_repr())
+c(3L, 2L, 1L)</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>c(3L, 2L, 1L)</p>
 <p>.. note::</p>
 <p>By default, calling R functions returns R objects.</p>
 <p>More information on functions is in Section :ref:<code>robjects-functions</code>.</p>
@@ -15936,34 +16037,34 @@ This help system is accessible from an R function, therefore accessible from rpy
 <blockquote>
 <blockquote>
 <p>from rpy2.robjects.packages import importr
-utils = importr(&quot;utils&quot;) 
+utils = importr(&quot;utils&quot;)
 help_doc = utils.help(&quot;help&quot;)
-help_doc[0]</p>
+help_doc[0]
+'/where/R/is/installed/library/utils/help/help'</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>'/where/R/is/installed/library/utils/help/help'</p>
 <p>Converting the object returned to a string produces the full help text
 on the topic:</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>str(help_doc)</p>
+<p>str(help_doc)
+[...long output...]</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>[...long output...]</p>
 <p>.. warning::</p>
 <p>The help message so produced is not a string returned to the console
-   but is directly printed by R to the standard output. The call to
-   :func:<code>str</code> only returns an empty string, and the reason for this is
-   somewhat involved for an introductory documentation.
-   This behaviour is rooted in :program:<code>R</code> itself and in :mod:<code>rpy2</code> the
-   string representation of R objects is the string representation as
-   given by the :program:<code>R</code> console,
-   which in that case takes a singular route.</p>
+but is directly printed by R to the standard output. The call to
+:func:<code>str</code> only returns an empty string, and the reason for this is
+somewhat involved for an introductory documentation.
+This behaviour is rooted in :program:<code>R</code> itself and in :mod:<code>rpy2</code> the
+string representation of R objects is the string representation as
+given by the :program:<code>R</code> console,
+which in that case takes a singular route.</p>
 <p>For a Python friendly help to the R help system, consider the module
-   :mod:<code>rpy2.robjects.help</code>.</p>
+:mod:<code>rpy2.robjects.help</code>.</p>
 <h2 id="Locate-topics-among-available-packages">Locate topics among available packages<a class="anchor-link" href="#Locate-topics-among-available-packages">&#182;</a></h2><blockquote>
 <blockquote>
 <blockquote>
@@ -15975,87 +16076,81 @@ on the topic:</p>
 giving a similar result to what is obtained from an R session.</p>
 <p>.. note::</p>
 <p>The data structure returned can otherwise be used to access the information
-   returned in details.</p>
+returned in details.</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>tuple(help_where)</p>
+<p>tuple(help_where)
+(&lt;StrVector - Python:0x1f9a968 / R:0x247f908&gt;,
+&lt;StrVector - Python:0x1f9a990 / R:0x25079d0&gt;,
+&lt;StrVector - Python:0x1f9a9b8 / R:0x247f928&gt;,
+&lt;Matrix - Python:0x1f9a850 / R:0x1ec0390&gt;)
+tuple(help_where[3].colnames)
+('topic', 'title', 'Package', 'LibPath')</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>(&lt;StrVector - Python:0x1f9a968 / R:0x247f908&gt;,
-    &lt;StrVector - Python:0x1f9a990 / R:0x25079d0&gt;,
-    &lt;StrVector - Python:0x1f9a9b8 / R:0x247f928&gt;,
-    &lt;Matrix - Python:0x1f9a850 / R:0x1ec0390&gt;)</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>tuple(help_where[3].colnames)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>('topic', 'title', 'Package', 'LibPath')</p>
 <p>However, this is beyond the scope of an introduction, and one should
-   master the content of the module :mod:<code>robjects.vector</code> before anything else.</p>
+master the content of the module :mod:<code>robjects.vector</code> before anything else.</p>
 <h1 id="Examples">Examples<a class="anchor-link" href="#Examples">&#182;</a></h1><p>This section demonstrates some of the features of
 rpy2.</p>
 <h2 id="Graphics-and-plots">Graphics and plots<a class="anchor-link" href="#Graphics-and-plots">&#182;</a></h2><p>.. code-block:: python</p>
 <p>import rpy2.robjects as robjects</p>
 <p>r = robjects.r</p>
 <p>x = robjects.IntVector(range(10))
-  y = r.rnorm(10)</p>
+y = r.rnorm(10)</p>
 <p>r.X11()</p>
 <p>r.layout(r.matrix(robjects.IntVector([1,2,3,2]), nrow=2, ncol=2))
-  r.plot(r.runif(10), y, xlab=&quot;runif&quot;, ylab=&quot;foo/bar&quot;, col=&quot;red&quot;)</p>
+r.plot(r.runif(10), y, xlab=&quot;runif&quot;, ylab=&quot;foo/bar&quot;, col=&quot;red&quot;)</p>
 <p>Setting dynamically the number of arguments in a function call can be
 done the usual way in python.</p>
 <p>There are several ways to plot data in <code>R</code>, some of which are
 presented in this documentation:</p>
 <p>The general setup is repeated here:</p>
 <p>.. literalinclude:: _static/demos/graphics.py
-   :start-after: #-- setup-begin
-   :end-before: #-- setup-end</p>
+:start-after: #-- setup-begin
+:end-before: #-- setup-end</p>
 <p>The setup specific to ggplot2 is:</p>
 <p>.. literalinclude:: _static/demos/graphics.py
-   :start-after: #-- setupggplot2-begin
-   :end-before: #-- setupggplot2-end</p>
+:start-after: #-- setupggplot2-begin
+:end-before: #-- setupggplot2-end</p>
 <p>.. literalinclude:: _static/demos/graphics.py
-   :start-after: #-- ggplot2smoothbycylwithcolours-begin
-   :end-before: #-- ggplot2smoothbycylwithcolours-end</p>
+:start-after: #-- ggplot2smoothbycylwithcolours-begin
+:end-before: #-- ggplot2smoothbycylwithcolours-end</p>
 <p>.. image:: _static/graphics_ggplot2_smoothbycylwithcolours.png
-   :scale: 50</p>
+:scale: 50</p>
 <p>More about plots and graphics in R, as well as more advanced
 plots are presented in Section :ref:<code>graphics</code>.</p>
 <p>.. warning::</p>
 <p>By default, the embedded R open an interactive plotting device,
-   that is a window in which the plot is located.
-   Processing interactive events on that devices, such as resizing or closing
-   the window must be explicitly required
-   (see Section :ref:<code>rinterface-interactive-processevents</code>).</p>
+that is a window in which the plot is located.
+Processing interactive events on that devices, such as resizing or closing
+the window must be explicitly required
+(see Section :ref:<code>rinterface-interactive-processevents</code>).</p>
 <h2 id="Linear-models">Linear models<a class="anchor-link" href="#Linear-models">&#182;</a></h2><p>The R code is:</p>
 <p>.. code-block:: r</p>
 <p>ctl &lt;- c(4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14)
-   trt &lt;- c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
-   group &lt;- gl(2, 10, 20, labels = c(&quot;Ctl&quot;,&quot;Trt&quot;))
-   weight &lt;- c(ctl, trt)</p>
+trt &lt;- c(4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69)
+group &lt;- gl(2, 10, 20, labels = c(&quot;Ctl&quot;,&quot;Trt&quot;))
+weight &lt;- c(ctl, trt)</p>
 <p>anova(lm.D9 &lt;- lm(weight ~ group))</p>
 <p>summary(lm.D90 &lt;- lm(weight ~ group - 1))# omitting intercept</p>
 <p>One way to achieve the same with :mod:<code>rpy2.robjects</code> is</p>
 <p>.. code-block:: python</p>
 <p>from rpy2.robjects import FloatVector
-   from rpy2.robjects.packages import importr
-   stats = importr('stats')
-   base = importr('base')</p>
+from rpy2.robjects.packages import importr
+stats = importr('stats')
+base = importr('base')</p>
 <p>ctl = FloatVector([4.17,5.58,5.18,6.11,4.50,4.61,5.17,4.53,5.33,5.14])
-   trt = FloatVector([4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69])
-   group = base.gl(2, 10, 20, labels = [&quot;Ctl&quot;,&quot;Trt&quot;])
-   weight = ctl + trt</p>
+trt = FloatVector([4.81,4.17,4.41,3.59,5.87,3.83,6.03,4.89,4.32,4.69])
+group = base.gl(2, 10, 20, labels = [&quot;Ctl&quot;,&quot;Trt&quot;])
+weight = ctl + trt</p>
 <p>robjects.globalenv[&quot;weight&quot;] = weight
-   robjects.globalenv[&quot;group&quot;] = group
-   lm_D9 = stats.lm(&quot;weight ~ group&quot;)
-   print(stats.anova(lm_D9))</p>
+robjects.globalenv[&quot;group&quot;] = group
+lm_D9 = stats.lm(&quot;weight ~ group&quot;)
+print(stats.anova(lm_D9))</p>
 <h1 id="omitting-the-intercept">omitting the intercept<a class="anchor-link" href="#omitting-the-intercept">&#182;</a></h1><p>lm_D90 = stats.lm(&quot;weight ~ group - 1&quot;)
-   print(base.summary(lm_D90))</p>
+print(base.summary(lm_D90))</p>
 <p>This way to perform a linear fit it matching precisely the way in R presented
 above, but there are other ways (see Section :ref:<code>robjects-formula</code>
 for storing the variables directly in the lookup environment of the formula).</p>
@@ -16067,83 +16162,83 @@ function is returning in order to know how to extract information.</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>print(lm_D9.rclass)</p>
+<p>print(lm_D9.rclass)
+[1] &quot;lm&quot;</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>[1] &quot;lm&quot;</p>
 <p>Here the resulting object is a list structure, as either inspecting
 the data structure or reading the R man pages for <code>lm</code> would tell us.
 Checking its element names is then trivial:</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>print(lm_D9.names)</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>[1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;<br />
- [5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;<br />
- [9] &quot;contrasts&quot;     &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;<br />
+<p>print(lm_D9.names)
+[1] &quot;coefficients&quot;  &quot;residuals&quot;     &quot;effects&quot;       &quot;rank&quot;<br />
+[5] &quot;fitted.values&quot; &quot;assign&quot;        &quot;qr&quot;            &quot;df.residual&quot;<br />
+[9] &quot;contrasts&quot;     &quot;xlevels&quot;       &quot;call&quot;          &quot;terms&quot;<br />
 [13] &quot;model&quot;</p>
+</blockquote>
+</blockquote>
+</blockquote>
 <p>And so is extracting a particular element:</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>print(lm_D9.rx2('coefficients'))</p>
+<p>print(lm_D9.rx2('coefficients'))
+(Intercept)    groupTrt
+5.032      -0.371</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>(Intercept)    groupTrt 
-      5.032      -0.371</p>
 <p>or</p>
 <blockquote>
 <blockquote>
 <blockquote>
-<p>print(lm_D9.rx('coefficients'))</p>
+<p>print(lm_D9.rx('coefficients'))
+$coefficients
+(Intercept)    groupTrt
+5.032      -0.371</p>
 </blockquote>
 </blockquote>
 </blockquote>
-<p>$coefficients
-(Intercept)    groupTrt 
-      5.032      -0.371</p>
 <p>More about extracting elements from vectors is available
 at :ref:<code>robjects-extracting</code>.</p>
 <h2 id="Principal-component-analysis">Principal component analysis<a class="anchor-link" href="#Principal-component-analysis">&#182;</a></h2><p>The R code is</p>
 <p>.. code-block:: r</p>
 <p>m &lt;- matrix(rnorm(100), ncol=5)
-  pca &lt;- princomp(m)
-  plot(pca, main=&quot;Eigen values&quot;)
-  biplot(pca, main=&quot;biplot&quot;)</p>
+pca &lt;- princomp(m)
+plot(pca, main=&quot;Eigen values&quot;)
+biplot(pca, main=&quot;biplot&quot;)</p>
 <p>The :mod:<code>rpy2.robjects</code> code can be as close to the
 R code as possible:</p>
 <p>.. testcode::</p>
 <p>import rpy2.robjects as robjects</p>
 <p>r = robjects.r</p>
 <p>m = r.matrix(r.rnorm(100), ncol=5)
-  pca = r.princomp(m)
-  r.plot(pca, main=&quot;Eigen values&quot;)
-  r.biplot(pca, main=&quot;biplot&quot;)</p>
+pca = r.princomp(m)
+r.plot(pca, main=&quot;Eigen values&quot;)
+r.biplot(pca, main=&quot;biplot&quot;)</p>
 <p>However, the same example can be made a little tidier
 (with respect to being specific about R functions used)</p>
 <p>.. testcode::</p>
 <p>from rpy2.robjects.packages import importr</p>
 <p>base     = importr('base')
-   stats    = importr('stats')
-   graphics = importr('graphics')</p>
+stats    = importr('stats')
+graphics = importr('graphics')</p>
 <p>m = base.matrix(stats.rnorm(100), ncol = 5)
-   pca = stats.princomp(m)
-   graphics.plot(pca, main = &quot;Eigen values&quot;)
-   stats.biplot(pca, main = &quot;biplot&quot;)</p>
+pca = stats.princomp(m)
+graphics.plot(pca, main = &quot;Eigen values&quot;)
+stats.biplot(pca, main = &quot;biplot&quot;)</p>
 <h2 id="Creating-an-R-vector-or-matrix,-and-filling-its-cells-using-Python-code">Creating an R vector or matrix, and filling its cells using Python code<a class="anchor-link" href="#Creating-an-R-vector-or-matrix,-and-filling-its-cells-using-Python-code">&#182;</a></h2><p>.. testcode::</p>
 <p>from rpy2.robjects import NA_Real
-   from rpy2.rlike.container import TaggedList
-   from rpy2.robjects.packages import importr</p>
+from rpy2.rlike.container import TaggedList
+from rpy2.robjects.packages import importr</p>
 <p>base = importr('base')</p>
 <h1 id="create-a-numerical-matrix-of-size-100x10-filled-with-NAs">create a numerical matrix of size 100x10 filled with NAs<a class="anchor-link" href="#create-a-numerical-matrix-of-size-100x10-filled-with-NAs">&#182;</a></h1><p>m = base.matrix(NA_Real, nrow=100, ncol=10)</p>
 <h1 id="fill-the-matrix">fill the matrix<a class="anchor-link" href="#fill-the-matrix">&#182;</a></h1><p>for row_i in xrange(1, 100+1):
-       for col_i in xrange(1, 10+1):
-           m.rx[TaggedList((row_i, ), (col_i, ))] = row_i + col_i * 100</p>
+for col_i in xrange(1, 10+1):
+m.rx[TaggedList((row_i, ), (col_i, ))] = row_i + col_i * 100</p>
 <p>.. testoutput::</p>
 <p>None</p>
 <h2 id="One-more-example">One more example<a class="anchor-link" href="#One-more-example">&#182;</a></h2><p>.. literalinclude:: _static/demos/example01.py</p>

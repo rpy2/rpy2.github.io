@@ -52,16 +52,19 @@
 <span class="kn">from</span> <span class="nn">.</span> <span class="kn">import</span> <span class="n">conversion</span>
 
 <span class="kn">import</span> <span class="nn">rpy2.rlike.container</span> <span class="k">as</span> <span class="nn">rlc</span>
-
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">zoneinfo</span>  <span class="c1"># type: ignore</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">backports</span> <span class="kn">import</span> <span class="n">zoneinfo</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">jinja2</span>  <span class="c1"># type: ignore</span>
 <span class="kn">import</span> <span class="nn">time</span>
-<span class="kn">import</span> <span class="nn">pytz</span>
 <span class="kn">import</span> <span class="nn">tzlocal</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">,</span> <span class="n">timezone</span>
+
 <span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">struct_time</span><span class="p">,</span> <span class="n">mktime</span>
 <span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -917,7 +920,7 @@
 
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">Sexp</span><span class="p">):</span>
             <span class="n">init_param</span> <span class="o">=</span> <span class="n">seq</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">date</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">):</span>
             <span class="n">init_param</span> <span class="o">=</span> <span class="n">DateVector</span><span class="o">.</span><span class="n">sexp_from_date</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -958,7 +961,7 @@
             <span class="n">init_param</span> <span class="o">=</span> <span class="n">seq</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">struct_time</span><span class="p">):</span>
             <span class="n">init_param</span> <span class="o">=</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">sexp_from_struct_time</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">datetime</span><span class="p">):</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seq</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
             <span class="n">init_param</span> <span class="o">=</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">sexp_from_datetime</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -989,7 +992,7 @@
                 <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">tz_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">tz_info</span> <span class="o">=</span> <span class="n">default_timezone</span><span class="o">.</span><span class="n">zone</span> <span class="k">if</span> <span class="n">default_timezone</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
+            <span class="n">tz_info</span> <span class="o">=</span> <span class="n">default_timezone</span> <span class="k">if</span> <span class="n">default_timezone</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span>
         <span class="c1"># We could use R&#39;s as.POSIXct instead of ISOdatetime</span>
         <span class="c1"># since as.POSIXct is used by it anyway, but the overall</span>
         <span class="c1"># interface for dates and conversion between formats</span>
@@ -997,7 +1000,10 @@
         <span class="c1"># time should look into this.</span>
 
         <span class="n">d</span> <span class="o">=</span> <span class="n">isodatetime_columns</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span>
-        <span class="n">sexp</span> <span class="o">=</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">_ISOdatetime</span><span class="p">(</span><span class="o">*</span><span class="n">d</span><span class="p">,</span> <span class="n">tz</span><span class="o">=</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">tz_info</span><span class="p">,</span> <span class="p">)))</span>
+        <span class="n">sexp</span> <span class="o">=</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">_ISOdatetime</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">d</span><span class="p">,</span>
+            <span class="n">tz</span><span class="o">=</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="nb">str</span><span class="p">(</span><span class="n">tz_info</span><span class="p">),</span> <span class="p">))</span>
+        <span class="p">)</span>
         <span class="k">return</span> <span class="n">sexp</span>
 
     <span class="nd">@staticmethod</span>
@@ -1024,7 +1030,7 @@
                     <span class="n">IntVector</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">second</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">])]</span>
 
         <span class="k">def</span> <span class="nf">get_tz</span><span class="p">(</span><span class="n">elt</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">elt</span><span class="o">.</span><span class="n">tzinfo</span><span class="o">.</span><span class="n">zone</span> <span class="k">if</span> <span class="n">elt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="k">return</span> <span class="n">elt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="k">if</span> <span class="n">elt</span><span class="o">.</span><span class="n">tzinfo</span> <span class="k">else</span> <span class="kc">None</span>
 
         <span class="k">return</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">_sexp_from_seq</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">get_tz</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
 
@@ -1034,13 +1040,13 @@
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;POSIXct&#39;</span></div>
 
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">_datetime_from_timestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_datetime_from_timestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Platform-dependent conversion from timestamp to datetime&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;nt&#39;</span> <span class="ow">or</span> <span class="n">ts</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">dt_utc</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span> <span class="o">+</span>
-                      <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">ts</span><span class="p">))</span>
+            <span class="n">dt_utc</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">1970</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tzinfo</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span> <span class="o">+</span>
+                      <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">ts</span><span class="p">))</span>
             <span class="n">dt</span> <span class="o">=</span> <span class="n">dt_utc</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">tz</span><span class="p">)</span>
             <span class="n">offset</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">utcoffset</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -1061,8 +1067,7 @@
             <span class="c1"># time libraries will assume UTC.</span>
             <span class="n">r_tzone</span> <span class="o">=</span> <span class="n">get_timezone</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">r_tzone</span> <span class="o">=</span> <span class="n">pytz</span><span class="o">.</span><span class="n">timezone</span><span class="p">(</span><span class="n">r_tzone_name</span><span class="p">)</span>
-
+            <span class="n">r_tzone</span> <span class="o">=</span> <span class="n">zoneinfo</span><span class="o">.</span><span class="n">ZoneInfo</span><span class="p">(</span><span class="n">r_tzone_name</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="k">yield</span> <span class="p">(</span>
                 <span class="kc">None</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>

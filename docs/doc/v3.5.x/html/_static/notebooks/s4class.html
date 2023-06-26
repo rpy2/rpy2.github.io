@@ -15101,9 +15101,118 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
     }
     init_mathjax();
     </script>
-    <!-- End of mathjax configuration --></head>
+    <!-- End of mathjax configuration --><script type="module">
+  document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.2.3/mermaid.esm.min.mjs")).default;
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement('img');
+      const maxWidth = svg.match(/max-width: (\d+)/);
+      if (maxWidth && maxWidth[1]) {
+        const width = parseInt(maxWidth[1]);
+        if (width && !Number.isNaN(width) && Number.isFinite(width)) {
+          img.width = width;
+        }
+      }
+      img.setAttribute('src', `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      return img;
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = '';
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement('details');
+      const summary = document.createElement('summary');
+      const pre = document.createElement('pre');
+      const code = document.createElement('code');
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement('pre');
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return result;
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let result = null;
+      try {
+        const { svg } = await mermaid.render(id, raw, el);
+        result = makeMermaidImage(svg);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        result = await makeMermaidError(raw);
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(result);
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+</script>
+<style>
+  .jp-RenderedMarkdown .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 10px;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning details > pre {
+    margin-top: 1em;
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning summary {
+    color: var(--jp-warn-color2);
+  }
+  .jp-RenderedMarkdown .jp-RenderedMermaid.jp-mod-warning summary > pre {
+    display: inline-block;
+  }
+  .jp-RenderedMermaid > .mermaid {
+    display: none;
+  }
+</style>
+<!-- End of mermaid configuration --></head>
 <body class="jp-Notebook" data-jp-theme-light="true" data-jp-theme-name="JupyterLab Light">
-<div id="cell-id=aa215f12" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div id="cell-id=71b352b7" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15122,7 +15231,7 @@ body[data-format='mobile'] .jp-OutputArea-child .jp-OutputArea-output {
 </div>
 
 </div>
-<div id="cell-id=6a85b7b2" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=27e15596" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15136,7 +15245,7 @@ for bioinformatics and computational biology.</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=cf9ae71d" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=eace5e0d" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15154,7 +15263,7 @@ for bioinformatics and computational biology.</p>
 </div>
 
 </div>
-<div id="cell-id=da44dcff" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=2a286f0d" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15166,7 +15275,7 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=9e6abd78" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=cd8b61f7" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15183,7 +15292,7 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 
 </div>
-<div id="cell-id=06782d2b" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=88a5bcd9" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15194,7 +15303,7 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=147fe0ab" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=eca2960c" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15234,7 +15343,7 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 
 </div>
-<div id="cell-id=bf354cc3" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=86655d7f" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15245,7 +15354,7 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=abbe2cf0" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=45632e6d" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15285,7 +15394,7 @@ are simply functions, and can be used as such through <code>rpy2</code>:</p>
 </div>
 
 </div>
-<div id="cell-id=c8ad2f9a" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=37a0e968" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15297,7 +15406,7 @@ can be listed with:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=c1554233" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=436dabf3" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15343,7 +15452,7 @@ can be listed with:</p>
 </div>
 
 </div>
-<div id="cell-id=ccae5923" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=74af7e21" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15356,7 +15465,7 @@ R object (values). It can be used as Python <code>dict</code>:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=5401543e" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=f6028b0f" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15401,7 +15510,7 @@ R object (values). It can be used as Python <code>dict</code>:</p>
 </div>
 
 </div>
-<div id="cell-id=3c9221f0" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=743b2fd0" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15413,7 +15522,7 @@ That class can be used wrap our <code>eset</code> object</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=523ef0c6" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=1a29bc89" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15434,7 +15543,7 @@ That class can be used wrap our <code>eset</code> object</p>
 </div>
 
 </div>
-<div id="cell-id=bda6cb5c" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=9e5752a6" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15448,7 +15557,7 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=b1c88f7c" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=de20b163" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15486,7 +15595,7 @@ the object in our Python class <code>ExpressionSet</code>:</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;__main__.ExpressionSet object at 0x7f513b373340&gt; [RTYPES.S4SXP]
+<pre>&lt;__main__.ExpressionSet object at 0x7fabd8872740&gt; [RTYPES.S4SXP]
 R classes: (&#39;ExpressionSet&#39;,)</pre>
 </div>
 
@@ -15497,7 +15606,7 @@ R classes: (&#39;ExpressionSet&#39;,)</pre>
 </div>
 
 </div>
-<div id="cell-id=cba03cf9" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=438ad57e" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15508,7 +15617,7 @@ R classes: (&#39;ExpressionSet&#39;,)</pre>
 </div>
 </div>
 </div>
-</div><div id="cell-id=0d654535" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=d88d567a" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15555,7 +15664,7 @@ R classes: (&#39;ExpressionSet&#39;,)</pre>
 </div>
 
 </div>
-<div id="cell-id=b0c7f92d" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=ba7b70bf" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15567,7 +15676,7 @@ instances of our Python class <code>ExpressionSet</code>:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=d494fa85" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=6c9510d7" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15607,7 +15716,7 @@ instances of our Python class <code>ExpressionSet</code>:</p>
 </div>
 
 </div>
-<div id="cell-id=c6ed65fd" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=df7b905f" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15620,7 +15729,7 @@ We can make it a property in our Python class:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=9e68685a" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div id="cell-id=28b87883" class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15661,7 +15770,7 @@ We can make it a property in our Python class:</p>
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>&lt;rpy2.robjects.environments.Environment object at 0x7f513ad35140&gt; [RTYPES.ENVSXP]
+<pre>&lt;rpy2.robjects.environments.Environment object at 0x7fabd858fc40&gt; [RTYPES.ENVSXP]
 R classes: (&#39;environment&#39;,)
 n items: 1</pre>
 </div>
@@ -15673,7 +15782,7 @@ n items: 1</pre>
 </div>
 
 </div>
-<div id="cell-id=bb1bff28" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=75363a31" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15686,7 +15795,7 @@ n items: 1</pre>
 </div>
 </div>
 </div>
-</div><div id="cell-id=18126f5f" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=2c2920b5" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15716,7 +15825,7 @@ n items: 1</pre>
 </div>
 
 </div>
-<div id="cell-id=e6c3c3bb" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=cc8b0d43" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15728,7 +15837,7 @@ on the Python end as well:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=6becc169" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=f13d1fd3" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15751,7 +15860,7 @@ on the Python end as well:</p>
 </div>
 
 </div>
-<div id="cell-id=64906612" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div id="cell-id=88ed49b0" class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
@@ -15767,7 +15876,7 @@ function. For example:</p>
 </div>
 </div>
 </div>
-</div><div id="cell-id=974e54f7" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+</div><div id="cell-id=dd184273" class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
