@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <title>rpy2.rinterface &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/documentation_options.js?v=e4a58163"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
@@ -146,10 +146,6 @@
             <span class="k">yield</span> <span class="n">env</span>
     <span class="k">finally</span><span class="p">:</span>
         <span class="n">evaluation_context</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
-
-
-<span class="k">def</span> <span class="nf">_sigint_handler</span><span class="p">(</span><span class="n">sig</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">KeyboardInterrupt</span><span class="p">()</span>
 
 
 <span class="nd">@_cdata_res_to_rinterface</span>
@@ -444,7 +440,9 @@
         <span class="p">)</span>
 
 
-<div class="viewcode-block" id="ByteSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.ByteSexpVector">[docs]</a><span class="k">class</span> <span class="nc">ByteSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="ByteSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.ByteSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">ByteSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Array of bytes.</span>
 
 <span class="sd">    This is the R equivalent to a Python :class:`bytesarray`.</span>
@@ -513,7 +511,10 @@
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="BoolSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.BoolSexpVector">[docs]</a><span class="k">class</span> <span class="nc">BoolSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BoolSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.BoolSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">BoolSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Array of booleans.</span>
 
 <span class="sd">    Note that R is internally storing booleans as integers to</span>
@@ -573,6 +574,7 @@
         <span class="k">return</span> <span class="n">vector_memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">nullable_int</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">float</span> <span class="ow">and</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NaInt</span>
@@ -580,7 +582,9 @@
         <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="IntSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.IntSexpVector">[docs]</a><span class="k">class</span> <span class="nc">IntSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="IntSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.IntSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">IntSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">INTSXP</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_INTEGER_ELT</span>
@@ -627,7 +631,10 @@
         <span class="k">return</span> <span class="n">vector_memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="s1">&#39;i&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="FloatSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.FloatSexpVector">[docs]</a><span class="k">class</span> <span class="nc">FloatSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
+
+<div class="viewcode-block" id="FloatSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.FloatSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">FloatSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">REALSXP</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">REAL_ELT</span>
@@ -673,7 +680,10 @@
         <span class="k">return</span> <span class="n">vector_memoryview</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;double&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ComplexSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.ComplexSexpVector">[docs]</a><span class="k">class</span> <span class="nc">ComplexSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ComplexSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.ComplexSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">ComplexSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CPLXSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX</span><span class="p">)</span>
@@ -731,7 +741,10 @@
                 <span class="s1">&#39;Indices must be integers or slices, not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="ListSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.ListSexpVector">[docs]</a><span class="k">class</span> <span class="nc">ListSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ListSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.ListSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">ListSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;R list.</span>
 
 <span class="sd">    An R list an R vector (array) that is similar to a Python list in</span>
@@ -746,7 +759,10 @@
     <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="PairlistSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.PairlistSexpVector">[docs]</a><span class="k">class</span> <span class="nc">PairlistSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PairlistSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.PairlistSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">PairlistSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;R pairlist.</span>
 
 <span class="sd">    A R pairlist is rarely used outside of R&#39;s internal libraries and</span>
@@ -819,6 +835,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
 
 
+
 <span class="k">class</span> <span class="nc">ExprSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">EXPRSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="kc">None</span>
@@ -848,7 +865,9 @@
 <span class="n">LangSexpVector_VT</span> <span class="o">=</span> <span class="n">typing</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;LangSexpVector_VT&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;LangSexpVector&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="LangSexpVector"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.LangSexpVector">[docs]</a><span class="k">class</span> <span class="nc">LangSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+<div class="viewcode-block" id="LangSexpVector">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.LangSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">LangSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An R language object.</span>
 
 <span class="sd">    To create from a (Python) string containing R code</span>
@@ -881,7 +900,9 @@
             <span class="n">value</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="p">)</span>
 
-<div class="viewcode-block" id="LangSexpVector.from_string"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.LangSexpVector.from_string">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LangSexpVector.from_string">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.LangSexpVector.from_string">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_string</span><span class="p">(</span>
             <span class="bp">cls</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">LangSexpVector_VT</span><span class="p">],</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">LangSexpVector_VT</span><span class="p">:</span>
@@ -895,7 +916,9 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            An instance of the class the method is called from.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_get_str2lang</span><span class="p">()(</span><span class="n">s</span><span class="p">))</span></div></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">_get_str2lang</span><span class="p">()(</span><span class="n">s</span><span class="p">))</span></div>
+</div>
+
 
 
 <span class="k">class</span> <span class="nc">SexpClosure</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
@@ -956,12 +979,15 @@
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CLOENV</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SexpS4"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.SexpS4">[docs]</a><span class="k">class</span> <span class="nc">SexpS4</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
+<div class="viewcode-block" id="SexpS4">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.SexpS4">[docs]</a>
+<span class="k">class</span> <span class="nc">SexpS4</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;R &quot;S4&quot; object.</span>
 
 <span class="sd">    S4 objects as one of the available forms of Object-Oriented Programming</span>
 <span class="sd">    in R.&quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
+
 
 
 <span class="c1"># TODO: clean up</span>
@@ -991,7 +1017,9 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
-<div class="viewcode-block" id="SexpExtPtr"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.SexpExtPtr">[docs]</a><span class="k">class</span> <span class="nc">SexpExtPtr</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
+<div class="viewcode-block" id="SexpExtPtr">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.SexpExtPtr">[docs]</a>
+<span class="k">class</span> <span class="nc">SexpExtPtr</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;R &quot;External Pointer&quot; object.&quot;&quot;&quot;</span>
     <span class="n">TYPE_TAG</span> <span class="o">=</span> <span class="s1">&#39;Python&#39;</span>
 
@@ -1007,6 +1035,7 @@
         <span class="k">if</span> <span class="n">tag</span> <span class="o">!=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">TYPE_TAG</span><span class="p">:</span>
             <span class="n">res</span><span class="o">.</span><span class="n">TYPE_TAG</span> <span class="o">=</span> <span class="n">tag</span>
         <span class="k">return</span> <span class="n">res</span></div>
+
 
 
 <span class="c1"># TODO: Only use rinterface-level ?</span>
@@ -1177,7 +1206,7 @@
         <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r_home</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;Rscript&#39;</span><span class="p">),</span>
         <span class="s1">&#39;-e&#39;</span><span class="p">,</span>
         <span class="s1">&#39;x&lt;-Sys.getenv();y&lt;-as.character(x);names(y)&lt;-names(x);&#39;</span>
-        <span class="s1">&#39;write.table(y,col.names=FALSE,quote=TRUE,sep=&quot;,&quot;)&#39;</span>
+        <span class="s1">&#39;write.csv(y)&#39;</span>
     <span class="p">)</span>
 
     <span class="n">envvars</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span>
@@ -1186,6 +1215,8 @@
 
     <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">envvars</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+    <span class="c1"># Skip column names.</span>
+    <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
         <span class="k">if</span> <span class="p">(</span>
                 <span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">baselinevars</span><span class="p">)</span>
@@ -1261,7 +1292,7 @@
     <span class="n">warn_about_thread</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">if</span> <span class="n">threading</span><span class="o">.</span><span class="n">current_thread</span><span class="p">()</span> <span class="ow">is</span> <span class="n">threading</span><span class="o">.</span><span class="n">main_thread</span><span class="p">():</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">_sigint_handler</span><span class="p">)</span>
+            <span class="n">signal</span><span class="o">.</span><span class="n">signal</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">SIGINT</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">default_int_handler</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ve</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="n">ve</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;signal only works in main thread&#39;</span><span class="p">:</span>
                 <span class="n">warn_about_thread</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1292,7 +1323,9 @@
     <span class="p">)</span>
 
 
-<div class="viewcode-block" id="rternalize"><a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.rternalize">[docs]</a><span class="k">def</span> <span class="nf">rternalize</span><span class="p">(</span>
+<div class="viewcode-block" id="rternalize">
+<a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.rternalize">[docs]</a>
+<span class="k">def</span> <span class="nf">rternalize</span><span class="p">(</span>
         <span class="n">function</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span>
         <span class="n">signature</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">SexpClosure</span><span class="p">,</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">]:</span>
@@ -1458,13 +1491,17 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="process_revents"><a class="viewcode-back" href="../../interactive.html#rpy2.interactive.process_revents.process_revents">[docs]</a><span class="k">def</span> <span class="nf">process_revents</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="process_revents">
+<a class="viewcode-back" href="../../interactive.html#rpy2.interactive.process_revents.process_revents">[docs]</a>
+<span class="k">def</span> <span class="nf">process_revents</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Process R events.</span>
 
 <span class="sd">    Calling this function a regular interval can help ensure that</span>
 <span class="sd">    R is processing input events (e.g., resizing of a window with</span>
 <span class="sd">    graphics).&quot;&quot;&quot;</span>
     <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">rpy2_runHandlers</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_InputHandlers</span><span class="p">)</span></div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -1496,14 +1533,14 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

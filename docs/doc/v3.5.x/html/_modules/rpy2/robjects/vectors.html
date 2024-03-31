@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.vectors &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <title>rpy2.robjects.vectors &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e4a58163"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.vectors</a></li> 
@@ -124,7 +124,7 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">conv_args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">kwargs</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">kwargs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
         <span class="n">fun</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extractfunction</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">fun</span><span class="p">(</span><span class="o">*</span><span class="n">conv_args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -289,7 +289,9 @@
 <span class="n">_sample</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;sample&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="Vector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Vector">[docs]</a><span class="k">class</span> <span class="nc">Vector</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Vector">[docs]</a>
+<span class="k">class</span> <span class="nc">Vector</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Vector(seq) -&gt; Vector.</span>
 
 <span class="sd">    The parameter &#39;seq&#39; can be an instance inheriting from</span>
@@ -356,7 +358,9 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">__sexp__</span>
 
-<div class="viewcode-block" id="Vector.items"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Vector.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Vector.items">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Vector.items">[docs]</a>
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; iterator on names and values &quot;&quot;&quot;</span>
         <span class="c1"># TODO: should be a view ?</span>
         <span class="k">if</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">rsame</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span><span class="p">):</span>
@@ -367,7 +371,10 @@
         <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">it_self</span><span class="p">,</span> <span class="n">it_names</span><span class="p">):</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Vector.sample"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Vector.sample">[docs]</a>    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sized</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+
+<div class="viewcode-block" id="Vector.sample">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Vector.sample">[docs]</a>
+    <span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sized</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">replace</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
                <span class="n">probabilities</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">collections</span><span class="o">.</span><span class="n">abc</span><span class="o">.</span><span class="n">Sized</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Draw a random sample of size n from the vector.</span>
 
@@ -388,6 +395,7 @@
                       <span class="n">prob</span><span class="o">=</span><span class="n">probabilities</span><span class="p">)</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
+
 
     <span class="k">def</span> <span class="nf">repr_format_elt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt</span><span class="p">,</span> <span class="n">max_width</span><span class="o">=</span><span class="mi">12</span><span class="p">):</span>
         <span class="n">max_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">max_width</span><span class="p">)</span>
@@ -439,7 +447,10 @@
         <span class="k">return</span> <span class="n">html</span></div>
 
 
-<div class="viewcode-block" id="StrVector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.StrVector">[docs]</a><span class="k">class</span> <span class="nc">StrVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">StrSexpVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="StrVector">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.StrVector">[docs]</a>
+<span class="k">class</span> <span class="nc">StrVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">StrSexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Vector of string elements</span>
 
 <span class="sd">    StrVector(seq) -&gt; StrVector.</span>
@@ -458,7 +469,9 @@
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_rops</span><span class="p">()</span>
 
-<div class="viewcode-block" id="StrVector.factor"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.StrVector.factor">[docs]</a>    <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="StrVector.factor">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.StrVector.factor">[docs]</a>
+    <span class="k">def</span> <span class="nf">factor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        factor() -&gt; FactorVector</span>
 
@@ -466,10 +479,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factorconstructor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="IntVector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.IntVector">[docs]</a><span class="k">class</span> <span class="nc">IntVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">IntSexpVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="IntVector">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.IntVector">[docs]</a>
+<span class="k">class</span> <span class="nc">IntVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">IntSexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Vector of integer elements</span>
 <span class="sd">    IntVector(seq) -&gt; IntVector.</span>
 
@@ -490,16 +507,22 @@
     <span class="k">def</span> <span class="nf">repr_format_elt</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">elt</span><span class="p">,</span> <span class="n">max_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="n">elt</span><span class="p">)</span>
 
-<div class="viewcode-block" id="IntVector.tabulate"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.IntVector.tabulate">[docs]</a>    <span class="k">def</span> <span class="nf">tabulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="IntVector.tabulate">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.IntVector.tabulate">[docs]</a>
+    <span class="k">def</span> <span class="nf">tabulate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nbins</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Like the R function tabulate,</span>
 <span class="sd">        count the number of times integer values are found &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">nbins</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">nbins</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tabulate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="BoolVector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.BoolVector">[docs]</a><span class="k">class</span> <span class="nc">BoolVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">BoolSexpVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="BoolVector">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.BoolVector">[docs]</a>
+<span class="k">class</span> <span class="nc">BoolVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">BoolSexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Vector of boolean (logical) elements</span>
 <span class="sd">    BoolVector(seq) -&gt; BoolVector.</span>
 
@@ -514,6 +537,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_rops</span><span class="p">()</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">ByteVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">ByteSexpVector</span><span class="p">):</span>
@@ -549,7 +573,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_rops</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="FloatVector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.FloatVector">[docs]</a><span class="k">class</span> <span class="nc">FloatVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">FloatSexpVector</span><span class="p">):</span>
+<div class="viewcode-block" id="FloatVector">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.FloatVector">[docs]</a>
+<span class="k">class</span> <span class="nc">FloatVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">FloatSexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Vector of float (double) elements</span>
 
 <span class="sd">    FloatVector(seq) -&gt; FloatVector.</span>
@@ -567,7 +593,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_add_rops</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="FactorVector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.FactorVector">[docs]</a><span class="k">class</span> <span class="nc">FactorVector</span><span class="p">(</span><span class="n">IntVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="FactorVector">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.FactorVector">[docs]</a>
+<span class="k">class</span> <span class="nc">FactorVector</span><span class="p">(</span><span class="n">IntVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Vector of &#39;factors&#39;.</span>
 
 <span class="sd">    FactorVector(obj,</span>
@@ -645,13 +674,17 @@
     <span class="n">isordered</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__isordered_get</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                          <span class="s2">&quot;are the levels in the factor ordered ?&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="FactorVector.iter_labels"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.FactorVector.iter_labels">[docs]</a>    <span class="k">def</span> <span class="nf">iter_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="FactorVector.iter_labels">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.FactorVector.iter_labels">[docs]</a>
+    <span class="k">def</span> <span class="nf">iter_labels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Iterate the over the labels, that is iterate over</span>
 <span class="sd">        the items returning associated label for each item &quot;&quot;&quot;</span>
         <span class="n">levels</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">levels</span>
         <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">conversion</span><span class="o">.</span><span class="n">noconversion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">NA_Character</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NA_Integer</span>
-                   <span class="k">else</span> <span class="n">levels</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div></div>
+                   <span class="k">else</span> <span class="n">levels</span><span class="p">[</span><span class="n">x</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span></div>
+</div>
+
 
 
 <span class="k">class</span> <span class="nc">PairlistVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">PairlistSexpVector</span><span class="p">):</span>
@@ -659,7 +692,9 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="ListVector"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.ListVector">[docs]</a><span class="k">class</span> <span class="nc">ListVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">ListSexpVector</span><span class="p">):</span>
+<div class="viewcode-block" id="ListVector">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.ListVector">[docs]</a>
+<span class="k">class</span> <span class="nc">ListVector</span><span class="p">(</span><span class="n">Vector</span><span class="p">,</span> <span class="n">ListSexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; R list (vector of arbitray elements)</span>
 
 <span class="sd">    ListVector(iterable) -&gt; ListVector.</span>
@@ -764,10 +799,11 @@
 
         <span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
         <span class="n">rnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span>
+        <span class="n">rnames_null</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span><span class="o">.</span><span class="n">rsame</span><span class="p">(</span><span class="n">rnames</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_items</span><span class="p">:</span>
             <span class="n">names</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
                 <span class="n">rnames</span>
-                <span class="k">if</span> <span class="n">rnames</span> <span class="o">!=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">rnames_null</span>
                 <span class="k">else</span> <span class="p">[</span><span class="s1">&#39;[no name]&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -775,7 +811,7 @@
             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">half_items</span><span class="p">):</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="p">(</span><span class="n">rnames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                            <span class="k">if</span> <span class="n">rnames</span> <span class="o">!=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span> <span class="k">else</span> <span class="s1">&#39;[no name]&#39;</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="ow">not</span> <span class="n">rnames_null</span> <span class="k">else</span> <span class="s1">&#39;[no name]&#39;</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;[no name]&#39;</span>
                 <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
@@ -793,12 +829,16 @@
         <span class="n">html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_html_template</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">html</span>
 
-<div class="viewcode-block" id="ListVector.from_length"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.ListVector.from_length">[docs]</a>    <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_length</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+<div class="viewcode-block" id="ListVector.from_length">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.ListVector.from_length">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_length</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Create a list of given length &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">ListVector</span><span class="o">.</span><span class="n">_vector</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="s2">&quot;list&quot;</span><span class="p">,</span> <span class="p">)),</span> <span class="n">length</span><span class="p">)</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">res</span></div></div>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span></div>
+</div>
+
 
 
 <span class="k">class</span> <span class="nc">POSIXt</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
@@ -833,7 +873,9 @@
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">repr_format_elt</span><span class="p">(</span><span class="n">str_elt</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="POSIXlt"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXlt">[docs]</a><span class="k">class</span> <span class="nc">POSIXlt</span><span class="p">(</span><span class="n">POSIXt</span><span class="p">,</span> <span class="n">ListVector</span><span class="p">):</span>
+<div class="viewcode-block" id="POSIXlt">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXlt">[docs]</a>
+<span class="k">class</span> <span class="nc">POSIXlt</span><span class="p">(</span><span class="n">POSIXt</span><span class="p">,</span> <span class="n">ListVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Representation of dates with a 11-component structure</span>
 <span class="sd">    (similar to Python&#39;s time.struct_time).</span>
 
@@ -894,6 +936,7 @@
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">Sexp</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">get_timezone</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the system&#39;s timezone settings.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">default_timezone</span><span class="p">:</span>
@@ -938,7 +981,9 @@
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;Date&#39;</span>
 
 
-<div class="viewcode-block" id="POSIXct"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct">[docs]</a><span class="k">class</span> <span class="nc">POSIXct</span><span class="p">(</span><span class="n">POSIXt</span><span class="p">,</span> <span class="n">FloatVector</span><span class="p">):</span>
+<div class="viewcode-block" id="POSIXct">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct">[docs]</a>
+<span class="k">class</span> <span class="nc">POSIXct</span><span class="p">(</span><span class="n">POSIXt</span><span class="p">,</span> <span class="n">FloatVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Representation of dates as seconds since Epoch.</span>
 <span class="sd">    This form is preferred to POSIXlt for inclusion in a DataFrame.</span>
 
@@ -1017,7 +1062,9 @@
                     <span class="n">IntVector</span><span class="p">([</span><span class="n">x</span><span class="o">.</span><span class="n">tm_sec</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">seq</span><span class="p">])]</span>
         <span class="k">return</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">_sexp_from_seq</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">elt</span><span class="p">:</span> <span class="n">elt</span><span class="o">.</span><span class="n">tm_zone</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
 
-<div class="viewcode-block" id="POSIXct.sexp_from_datetime"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.sexp_from_datetime">[docs]</a>    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="POSIXct.sexp_from_datetime">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.sexp_from_datetime">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">sexp_from_datetime</span><span class="p">(</span><span class="n">seq</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; return a POSIXct vector from a sequence of</span>
 <span class="sd">        datetime.datetime elements. &quot;&quot;&quot;</span>
@@ -1034,10 +1081,14 @@
 
         <span class="k">return</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">_sexp_from_seq</span><span class="p">(</span><span class="n">seq</span><span class="p">,</span> <span class="n">get_tz</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="POSIXct.isrinstance"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.isrinstance">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="POSIXct.isrinstance">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.isrinstance">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">isrinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Is an R object an instance of POSIXct.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">rclass</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;POSIXct&#39;</span></div>
+
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">_datetime_from_timestamp</span><span class="p">(</span><span class="n">ts</span><span class="p">,</span> <span class="n">tz</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">:</span>
@@ -1054,7 +1105,9 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">offset</span>
 
-<div class="viewcode-block" id="POSIXct.iter_localized_datetime"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.iter_localized_datetime">[docs]</a>    <span class="k">def</span> <span class="nf">iter_localized_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="POSIXct.iter_localized_datetime">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.POSIXct.iter_localized_datetime">[docs]</a>
+    <span class="k">def</span> <span class="nf">iter_localized_datetime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterator yielding localized Python datetime objects.&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">r_tzone_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;tzone&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
@@ -1072,10 +1125,14 @@
             <span class="k">yield</span> <span class="p">(</span>
                 <span class="kc">None</span> <span class="k">if</span> <span class="n">math</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">else</span> <span class="n">POSIXct</span><span class="o">.</span><span class="n">_datetime_from_timestamp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">r_tzone</span><span class="p">)</span>
-            <span class="p">)</span></div></div>
+            <span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Array"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Array">[docs]</a><span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">Vector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Array">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Array">[docs]</a>
+<span class="k">class</span> <span class="nc">Array</span><span class="p">(</span><span class="n">Vector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; An R array &quot;&quot;&quot;</span>
     <span class="n">_dimnames_get</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="p">[</span><span class="s1">&#39;dimnames&#39;</span><span class="p">]</span>
     <span class="n">_dimnames_set</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="p">[</span><span class="s1">&#39;dimnames&lt;-&#39;</span><span class="p">]</span>
@@ -1119,6 +1176,7 @@
     <span class="n">dimnames</span> <span class="o">=</span> <span class="n">names</span></div>
 
 
+
 <span class="k">class</span> <span class="nc">IntArray</span><span class="p">(</span><span class="n">Array</span><span class="p">,</span> <span class="n">IntVector</span><span class="p">):</span>
     <span class="k">pass</span>
 
@@ -1143,7 +1201,9 @@
     <span class="k">pass</span>
 
 
-<div class="viewcode-block" id="Matrix"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix">[docs]</a><span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">Array</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix">[docs]</a>
+<span class="k">class</span> <span class="nc">Matrix</span><span class="p">(</span><span class="n">Array</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; An R matrix &quot;&quot;&quot;</span>
     <span class="n">_transpose</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span>
     <span class="n">_rownames</span> <span class="o">=</span> <span class="n">baseenv_ri</span><span class="p">[</span><span class="s1">&#39;rownames&#39;</span><span class="p">]</span>
@@ -1221,10 +1281,13 @@
 
     <span class="n">colnames</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__colnames_get</span><span class="p">,</span> <span class="n">__colnames_set</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Column names&quot;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Matrix.transpose"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.transpose">[docs]</a>    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix.transpose">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.transpose">[docs]</a>
+    <span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; transpose the matrix &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="fm">__matmul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Matrix multiplication. &quot;&quot;&quot;</span>
@@ -1232,18 +1295,26 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_matmul</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Matrix.crossprod"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.crossprod">[docs]</a>    <span class="k">def</span> <span class="nf">crossprod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+<div class="viewcode-block" id="Matrix.crossprod">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.crossprod">[docs]</a>
+    <span class="k">def</span> <span class="nf">crossprod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; crossproduct X&#39;.Y&quot;&quot;&quot;</span>
         <span class="n">cv</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_crossprod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.tcrossprod"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.tcrossprod">[docs]</a>    <span class="k">def</span> <span class="nf">tcrossprod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Matrix.tcrossprod">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.tcrossprod">[docs]</a>
+    <span class="k">def</span> <span class="nf">tcrossprod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; crossproduct X.Y&#39;&quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tcrossprod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.svd"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.svd">[docs]</a>    <span class="k">def</span> <span class="nf">svd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linpack</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Matrix.svd">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.svd">[docs]</a>
+    <span class="k">def</span> <span class="nf">svd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">linpack</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; SVD decomposition.</span>
 <span class="sd">        If nu is None, it is given the default value min(tuple(self.dim)).</span>
 <span class="sd">        If nv is None, it is given the default value min(tuple(self.dim)).</span>
@@ -1255,18 +1326,28 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_svd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">nv</span><span class="o">=</span><span class="n">nv</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.dot"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.dot">[docs]</a>    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Matrix.dot">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.dot">[docs]</a>
+    <span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Matrix multiplication &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Matrix.eigen"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.eigen">[docs]</a>    <span class="k">def</span> <span class="nf">eigen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Matrix.eigen">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.Matrix.eigen">[docs]</a>
+    <span class="k">def</span> <span class="nf">eigen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Eigen values &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eigen</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="DataFrame"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame">[docs]</a><span class="k">class</span> <span class="nc">DataFrame</span><span class="p">(</span><span class="n">ListVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataFrame">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame">[docs]</a>
+<span class="k">class</span> <span class="nc">DataFrame</span><span class="p">(</span><span class="n">ListVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; R &#39;data.frame&#39;.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_dataframe_name</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="s1">&#39;data.frame&#39;</span><span class="p">,))</span>
@@ -1453,7 +1534,9 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 
-<div class="viewcode-block" id="DataFrame.cbind"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.cbind">[docs]</a>    <span class="k">def</span> <span class="nf">cbind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="DataFrame.cbind">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.cbind">[docs]</a>
+    <span class="k">def</span> <span class="nf">cbind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; bind objects as supplementary columns &quot;&quot;&quot;</span>
         <span class="n">new_args</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">,</span> <span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
         <span class="n">new_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
@@ -1462,7 +1545,10 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cbind</span><span class="p">(</span><span class="o">*</span><span class="n">new_args</span><span class="p">,</span> <span class="o">**</span><span class="n">new_kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataFrame.rbind"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.rbind">[docs]</a>    <span class="k">def</span> <span class="nf">rbind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataFrame.rbind">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.rbind">[docs]</a>
+    <span class="k">def</span> <span class="nf">rbind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; bind objects as supplementary rows &quot;&quot;&quot;</span>
         <span class="n">new_args</span> <span class="o">=</span> <span class="p">[</span><span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
         <span class="n">new_kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
@@ -1471,12 +1557,18 @@
         <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rbind</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">new_args</span><span class="p">,</span> <span class="o">**</span><span class="n">new_kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataFrame.head"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.head">[docs]</a>    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataFrame.head">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.head">[docs]</a>
+    <span class="k">def</span> <span class="nf">head</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Call the R generic &#39;head()&#39;. &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">utils_ri</span><span class="p">[</span><span class="s1">&#39;head&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataFrame.from_csvfile"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.from_csvfile">[docs]</a>    <span class="nd">@classmethod</span>
+
+<div class="viewcode-block" id="DataFrame.from_csvfile">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.from_csvfile">[docs]</a>
+    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_csvfile</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
                      <span class="n">quote</span><span class="o">=</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
                      <span class="n">row_names</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
@@ -1524,7 +1616,10 @@
                                      <span class="s1">&#39;as.is&#39;</span><span class="p">:</span> <span class="n">as_is</span><span class="p">})</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataFrame.to_csvfile"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.to_csvfile">[docs]</a>    <span class="k">def</span> <span class="nf">to_csvfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">quote</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
+
+<div class="viewcode-block" id="DataFrame.to_csvfile">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.to_csvfile">[docs]</a>
+    <span class="k">def</span> <span class="nf">to_csvfile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">quote</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span>
                    <span class="n">eol</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">,</span> <span class="n">na</span><span class="o">=</span><span class="s1">&#39;NA&#39;</span><span class="p">,</span> <span class="n">dec</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span>
                    <span class="n">row_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">col_names</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                    <span class="n">qmethod</span><span class="o">=</span><span class="s1">&#39;escape&#39;</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -1562,15 +1657,23 @@
                <span class="s1">&#39;append&#39;</span><span class="p">:</span> <span class="n">append</span><span class="p">})</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="DataFrame.iter_row"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.iter_row">[docs]</a>    <span class="k">def</span> <span class="nf">iter_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataFrame.iter_row">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.iter_row">[docs]</a>
+    <span class="k">def</span> <span class="nf">iter_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; iterator across rows &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrow</span><span class="p">):</span>
             <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="DataFrame.iter_column"><a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.iter_column">[docs]</a>    <span class="k">def</span> <span class="nf">iter_column</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="DataFrame.iter_column">
+<a class="viewcode-back" href="../../../vector.html#rpy2.robjects.DataFrame.iter_column">[docs]</a>
+    <span class="k">def</span> <span class="nf">iter_column</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; iterator across columns &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ncol</span><span class="p">):</span>
-            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span></div></div>
+            <span class="k">yield</span> <span class="bp">self</span><span class="o">.</span><span class="n">rx</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span></div>
+</div>
+
 
 
 <span class="k">class</span> <span class="nc">IntMatrix</span><span class="p">(</span><span class="n">Matrix</span><span class="p">,</span> <span class="n">IntVector</span><span class="p">):</span>
@@ -1635,15 +1738,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.vectors</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

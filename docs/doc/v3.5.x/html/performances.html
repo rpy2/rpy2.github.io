@@ -2,19 +2,19 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Performances &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <title>Performances &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/documentation_options.js?v=e4a58163"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="related_projects.html" title="Related projects"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="miscellaneous.html" accesskey="U">Miscellaneous topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Performances</a></li> 
       </ul>
@@ -52,11 +52,11 @@
           <div class="body" role="main">
             
   <section id="performances">
-<span id="misc-performances"></span><h1>Performances<a class="headerlink" href="#performances" title="Permalink to this heading">¶</a></h1>
+<span id="misc-performances"></span><h1>Performances<a class="headerlink" href="#performances" title="Link to this heading">¶</a></h1>
 <section id="optimizing-for-performances">
-<h2>Optimizing for performances<a class="headerlink" href="#optimizing-for-performances" title="Permalink to this heading">¶</a></h2>
+<h2>Optimizing for performances<a class="headerlink" href="#optimizing-for-performances" title="Link to this heading">¶</a></h2>
 <section id="memory-usage">
-<h3>Memory usage<a class="headerlink" href="#memory-usage" title="Permalink to this heading">¶</a></h3>
+<h3>Memory usage<a class="headerlink" href="#memory-usage" title="Link to this heading">¶</a></h3>
 <p>R objects live in the R memory space, their size unbeknown to Python,
 and because of that it seems that Python does not always garbage collect often enough when
 large objects are involved. This is sometimes leading to transient increased memory usage when large
@@ -86,7 +86,7 @@ the fastest, most memory efficient, and most versatile Python-to-R bridge.</p>
 </div>
 </section>
 <section id="low-level-interface">
-<h3>Low-level interface<a class="headerlink" href="#low-level-interface" title="Permalink to this heading">¶</a></h3>
+<h3>Low-level interface<a class="headerlink" href="#low-level-interface" title="Link to this heading">¶</a></h3>
 <p>The high-level layer <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> brings a lot of convenience, such a class
 mappings and interfaces, but obviously with a cost in term of performances. This cost is
 believe to be neglibible for common use cases (calling calling complex R code in libraries
@@ -115,7 +115,7 @@ vector objects.</p>
 </section>
 </section>
 <section id="a-naive-benchmark">
-<h2>A naive benchmark<a class="headerlink" href="#a-naive-benchmark" title="Permalink to this heading">¶</a></h2>
+<h2>A naive benchmark<a class="headerlink" href="#a-naive-benchmark" title="Link to this heading">¶</a></h2>
 <p>As a naive benchmark, we took a function that would sum
 up all elements in a numerical vector.</p>
 <p>In pure R, the code is like:</p>
@@ -173,8 +173,8 @@ is to measure the running time of pure R code.</p>
 </div>
 <p>The running times are summarized in the figure below.</p>
 <a class="reference internal image-reference" href="_static/benchmark_sum.png"><img alt="_static/benchmark_sum.png" src="_static/benchmark_sum.png" /></a>
-<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> is the fastest, explaining
-why implementations of the sum in pure Python over a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of numbers
+<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> is the fastest, explaining
+why implementations of the sum in pure Python over a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of numbers
 is the fastest. Python is much faster than R for iterating through a vector/list
 (almost 9 times faster in this run).</p>
 <p>Measuring the respective slopes, and using the slope for the R code
@@ -282,7 +282,7 @@ iteration calls for each element in the R vector pure-Python code that
 performs various calling C for the extraction the element corresponding to
 the index.</p>
 <p>On the other hand, exposing the content of the R vector through a
-memoryview and <a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a> leads to a rather nice speedup by letting
+memoryview and <a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a> leads to a rather nice speedup by letting
 us operate at the same level of performance as if it was a Python array.
 In other words, rpy2 can make computations on R vectors using Python faster
 than if using R itself. R bridges relying on pipes or client-server architectures
@@ -367,14 +367,14 @@ intended to represent a general assessment of expected performances.</p>
         <li class="right" >
           <a href="related_projects.html" title="Related projects"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="miscellaneous.html" >Miscellaneous topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Performances</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

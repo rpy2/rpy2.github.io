@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rlike.container &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <title>rpy2.rlike.container &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e4a58163"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rlike.container</a></li> 
       </ul>
@@ -51,7 +51,9 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
 
 
-<div class="viewcode-block" id="OrdDict"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict">[docs]</a><span class="k">class</span> <span class="nc">OrdDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdDict">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict">[docs]</a>
+<span class="k">class</span> <span class="nc">OrdDict</span><span class="p">(</span><span class="nb">dict</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Implements the Ordered Dict API defined in PEP 372.</span>
 <span class="sd">    When `odict` becomes part of collections, this class</span>
 <span class="sd">    should inherit from it rather than from `dict`.</span>
@@ -148,15 +150,23 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__l</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
             <span class="nb">super</span><span class="p">(</span><span class="n">OrdDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__l</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<div class="viewcode-block" id="OrdDict.byindex"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.byindex">[docs]</a>    <span class="k">def</span> <span class="nf">byindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<div class="viewcode-block" id="OrdDict.byindex">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.byindex">[docs]</a>
+    <span class="k">def</span> <span class="nf">byindex</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Fetch a value by index (rank), rather than by key.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__l</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="OrdDict.index"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.index">[docs]</a>    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+
+<div class="viewcode-block" id="OrdDict.index">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.index">[docs]</a>
+    <span class="k">def</span> <span class="nf">index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Return the index (rank) for the key &#39;k&#39; &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">OrdDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="n">k</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="OrdDict.get"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OrdDict.get">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">d</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; OD.get(k[,d]) -&gt; OD[k] if k in OD, else d.  d defaults to None &quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
@@ -164,15 +174,21 @@
             <span class="n">res</span> <span class="o">=</span> <span class="n">d</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="OrdDict.items"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="OrdDict.items">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.items">[docs]</a>
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; OD.items() -&gt; an iterator over the (key, value) items of D &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__l</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__l</span><span class="p">])</span>
 
-<div class="viewcode-block" id="OrdDict.reverse"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="OrdDict.reverse">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.OrdDict.reverse">[docs]</a>
+    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Reverse the order of the elements in-place (no copy).&quot;&quot;&quot;</span>
         <span class="n">seq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__l</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__l</span><span class="p">)</span>
@@ -187,11 +203,15 @@
             <span class="k">if</span> <span class="n">kv</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="nb">super</span><span class="p">(</span><span class="n">OrdDict</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__setitem__</span><span class="p">(</span><span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
 
+
     <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Not yet implemented.&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="TaggedList"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList">[docs]</a><span class="k">class</span> <span class="nc">TaggedList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList">[docs]</a>
+<span class="k">class</span> <span class="nc">TaggedList</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; A list for which each item has a &#39;tag&#39;.</span>
 
 <span class="sd">    :param l: list</span>
@@ -258,7 +278,9 @@
         <span class="c1"># TODO: handle TaggedList ?</span>
         <span class="c1"># self.__tags.__setslice__(i, j, [None, ])</span>
 
-<div class="viewcode-block" id="TaggedList.append"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.append">[docs]</a>    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="TaggedList.append">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.append">[docs]</a>
+    <span class="k">def</span> <span class="nf">append</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Append an object to the list</span>
 <span class="sd">        :param obj: object</span>
 <span class="sd">        :param tag: object</span>
@@ -266,7 +288,10 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">TaggedList</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TaggedList.extend"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.extend">[docs]</a>    <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.extend">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.extend">[docs]</a>
+    <span class="k">def</span> <span class="nf">extend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Extend the list with an iterable object.</span>
 
 <span class="sd">        :param iterable: iterable object</span>
@@ -280,7 +305,10 @@
         <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">itertags</span><span class="p">,</span> <span class="n">iterable</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TaggedList.insert"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.insert">[docs]</a>    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.insert">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.insert">[docs]</a>
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Insert an object in the list</span>
 
@@ -291,7 +319,10 @@
         <span class="nb">super</span><span class="p">(</span><span class="n">TaggedList</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">index</span><span class="p">,</span> <span class="n">tag</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TaggedList.iterontag"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.iterontag">[docs]</a>    <span class="k">def</span> <span class="nf">iterontag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.iterontag">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.iterontag">[docs]</a>
+    <span class="k">def</span> <span class="nf">iterontag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        iterate on items marked with one given tag.</span>
 
@@ -304,12 +335,18 @@
                 <span class="k">yield</span> <span class="bp">self</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
             <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
-<div class="viewcode-block" id="TaggedList.items"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.items">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.items">[docs]</a>
+    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; OD.items() -&gt; an iterator over the (key, value) items of D &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">tag</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">,</span> <span class="bp">self</span><span class="p">):</span>
             <span class="k">yield</span> <span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TaggedList.itertags"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.itertags">[docs]</a>    <span class="k">def</span> <span class="nf">itertags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.itertags">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.itertags">[docs]</a>
+    <span class="k">def</span> <span class="nf">itertags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        iterate on tags.</span>
 
@@ -318,7 +355,10 @@
         <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">:</span>
             <span class="k">yield</span> <span class="n">tag</span></div>
 
-<div class="viewcode-block" id="TaggedList.pop"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.pop">[docs]</a>    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.pop">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.pop">[docs]</a>
+    <span class="k">def</span> <span class="nf">pop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Pop the item at a given index out of the list</span>
 
@@ -332,7 +372,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="TaggedList.remove"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.remove">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.remove">[docs]</a>
+    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Remove a given value from the list.</span>
 
@@ -347,18 +390,25 @@
         <span class="k">if</span> <span class="n">found</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="TaggedList.reverse"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.reverse">[docs]</a>    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.reverse">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.reverse">[docs]</a>
+    <span class="k">def</span> <span class="nf">reverse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Reverse the order of the elements in the list. &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TaggedList</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="o">.</span><span class="n">reverse</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="TaggedList.sort"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.sort">[docs]</a>    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="TaggedList.sort">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.sort">[docs]</a>
+    <span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Sort in place</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">o</span> <span class="o">=</span> <span class="n">rli</span><span class="o">.</span><span class="n">order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">TaggedList</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">o</span><span class="p">]</span></div>
+
 
     <span class="k">def</span> <span class="nf">__get_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">)</span>
@@ -372,7 +422,9 @@
 
     <span class="n">tags</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__get_tags</span><span class="p">,</span> <span class="n">__set_tags</span><span class="p">)</span>
 
-<div class="viewcode-block" id="TaggedList.settag"><a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.settag">[docs]</a>    <span class="k">def</span> <span class="nf">settag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+<div class="viewcode-block" id="TaggedList.settag">
+<a class="viewcode-back" href="../../../rlike.html#rpy2.rlike.container.TaggedList.settag">[docs]</a>
+    <span class="k">def</span> <span class="nf">settag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set tag &#39;t&#39; for item &#39;i&#39;.</span>
 
@@ -380,7 +432,9 @@
 
 <span class="sd">        :param t: object (tag)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span></div></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__tags</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">t</span></div>
+</div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -412,14 +466,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rlike.container</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

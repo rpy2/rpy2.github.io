@@ -2,19 +2,19 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Interoperability with pandas &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <title>Interoperability with pandas &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/documentation_options.js?v=e4a58163"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -40,7 +40,7 @@
         <li class="right" >
           <a href="robjects_convert.html" title="Mapping rpy2 objects to arbitrary python objects"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Interoperability with pandas</a></li> 
       </ul>
@@ -52,7 +52,7 @@
           <div class="body" role="main">
             
   <section id="interoperability-with-pandas">
-<span id="robjects-pandas"></span><h1>Interoperability with pandas<a class="headerlink" href="#interoperability-with-pandas" title="Permalink to this heading">¶</a></h1>
+<span id="robjects-pandas"></span><h1>Interoperability with pandas<a class="headerlink" href="#interoperability-with-pandas" title="Link to this heading">¶</a></h1>
 <p>This section of the documentation is focused on the practical use of the conversion
 helper for <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code>. The conversion from and to <code class="xref py py-class docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code>
 can create nonnegligible overhead as the C level representations for the underlying
@@ -72,7 +72,7 @@ about <a class="reference internal" href="robjects_convert.html#module-rpy2.robj
 </pre></div>
 </div>
 <section id="r-and-pandas-data-frames">
-<h2><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frames<a class="headerlink" href="#r-and-pandas-data-frames" title="Permalink to this heading">¶</a></h2>
+<h2><code class="docutils literal notranslate"><span class="pre">R</span></code> and <code class="docutils literal notranslate"><span class="pre">pandas</span></code> data frames<a class="headerlink" href="#r-and-pandas-data-frames" title="Link to this heading">¶</a></h2>
 <p>R <code class="docutils literal notranslate"><span class="pre">data.frame</span></code> and :class:<code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> objects share a lot of
 conceptual similarities, and :mod:<code class="docutils literal notranslate"><span class="pre">pandas</span></code> chose to use the class name
 <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> after R objects.</p>
@@ -91,7 +91,7 @@ conversion layer between :class:<code class="docutils literal notranslate"><span
 </pre></div>
 </div>
 <section id="from-pandas-to-r">
-<h3>From <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code><a class="headerlink" href="#from-pandas-to-r" title="Permalink to this heading">¶</a></h3>
+<h3>From <code class="docutils literal notranslate"><span class="pre">pandas</span></code> to <code class="docutils literal notranslate"><span class="pre">R</span></code><a class="headerlink" href="#from-pandas-to-r" title="Link to this heading">¶</a></h3>
 <p>Pandas data frame:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;int_values&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
                       <span class="s1">&#39;str_values&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;def&#39;</span><span class="p">,</span> <span class="s1">&#39;ghi&#39;</span><span class="p">]})</span>
@@ -206,7 +206,7 @@ frame:</p>
 </div>
 </section>
 <section id="from-r-to-pandas">
-<h3>From <code class="docutils literal notranslate"><span class="pre">R</span></code> to <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#from-r-to-pandas" title="Permalink to this heading">¶</a></h3>
+<h3>From <code class="docutils literal notranslate"><span class="pre">R</span></code> to <code class="docutils literal notranslate"><span class="pre">pandas</span></code><a class="headerlink" href="#from-r-to-pandas" title="Link to this heading">¶</a></h3>
 <p>Starting from an R data frame this time:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">r_df</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;int_values&#39;</span><span class="p">:</span> <span class="n">ro</span><span class="o">.</span><span class="n">IntVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]),</span>
                      <span class="s1">&#39;str_values&#39;</span><span class="p">:</span> <span class="n">ro</span><span class="o">.</span><span class="n">StrVector</span><span class="p">([</span><span class="s1">&#39;abc&#39;</span><span class="p">,</span> <span class="s1">&#39;def&#39;</span><span class="p">,</span> <span class="s1">&#39;ghi&#39;</span><span class="p">])})</span>
@@ -289,7 +289,7 @@ frame:</p>
 </table>
 </div></section>
 <section id="date-and-time-objects">
-<h3>Date and time objects<a class="headerlink" href="#date-and-time-objects" title="Permalink to this heading">¶</a></h3>
+<h3>Date and time objects<a class="headerlink" href="#date-and-time-objects" title="Link to this heading">¶</a></h3>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
     <span class="s1">&#39;Timestamp&#39;</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="s1">&#39;2017-01-01 00:00:00&#39;</span><span class="p">,</span> <span class="n">periods</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">)</span>
     <span class="p">})</span>
@@ -493,14 +493,14 @@ time zone is specified in the original time object:</p>
         <li class="right" >
           <a href="robjects_convert.html" title="Mapping rpy2 objects to arbitrary python objects"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Interoperability with pandas</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

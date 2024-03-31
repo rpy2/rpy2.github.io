@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.ipython.rmagic &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <title>rpy2.ipython.rmagic &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e4a58163"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
@@ -112,20 +112,21 @@
 <span class="c1"># Try loading pandas and numpy, emitting a warning if either cannot be</span>
 <span class="c1"># loaded.</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">numpy</span>  <span class="c1"># type: ignore[import]</span>
+    <span class="kn">import</span> <span class="nn">numpy</span>  <span class="c1"># noqa: F401</span>
+    <span class="n">NUMPY_IMPORTED</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">pandas</span>  <span class="c1"># type: ignore[import]</span>
+        <span class="kn">import</span> <span class="nn">pandas</span>  <span class="c1"># noqa: F401</span>
+        <span class="n">PANDAS_IMPORTED</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ie</span><span class="p">:</span>
-        <span class="n">pandas</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">PANDAS_IMPORTED</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The Python package `pandas` is strongly &#39;</span>
                       <span class="s1">&#39;recommended when using `rpy2.ipython`. &#39;</span>
                       <span class="s1">&#39;Unfortunately it could not be loaded &#39;</span>
                       <span class="s1">&#39;(error: </span><span class="si">%s</span><span class="s1">), &#39;</span>
                       <span class="s1">&#39;but at least we found `numpy`.&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">ie</span><span class="p">))</span>
 <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ie</span><span class="p">:</span>
-    <span class="c1"># Give up on numerics</span>
-    <span class="n">numpy</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
-    <span class="n">pandas</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">NUMPY_IMPORTED</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">PANDAS_IMPORTED</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;The Python package `pandas` is strongly &#39;</span>
                   <span class="s1">&#39;recommended when using `rpy2.ipython`. &#39;</span>
                   <span class="s1">&#39;Unfortunately it could not be loaded, &#39;</span>
@@ -154,15 +155,22 @@
 <span class="n">DEVICES_SUPPORTED</span> <span class="o">=</span> <span class="n">DEVICES_STATIC</span> <span class="o">|</span> <span class="p">{</span><span class="s1">&#39;X11&#39;</span><span class="p">}</span>
 
 
-<span class="k">def</span> <span class="nf">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">,</span>
-                                    <span class="n">numpy</span><span class="o">=</span><span class="n">numpy</span><span class="p">,</span> <span class="n">pandas</span><span class="o">=</span><span class="n">pandas</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">numpy</span><span class="p">:</span>
-        <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">numpy2ri</span>
-        <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
-        <span class="k">if</span> <span class="n">pandas</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">NUMPY_IMPORTED</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">PANDAS_IMPORTED</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">numpy2ri</span>
+            <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
             <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">pandas2ri</span>
             <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span>
-    <span class="k">return</span> <span class="n">template_converter</span>
+            <span class="k">return</span> <span class="n">template_converter</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">):</span>
+            <span class="kn">from</span> <span class="nn">rpy2.robjects</span> <span class="kn">import</span> <span class="n">numpy2ri</span>
+            <span class="n">template_converter</span> <span class="o">+=</span> <span class="n">numpy2ri</span><span class="o">.</span><span class="n">converter</span>
+            <span class="k">return</span> <span class="n">template_converter</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">template_converter</span>
 
 
 <span class="k">def</span> <span class="nf">_get_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">template_converter</span><span class="p">):</span>
@@ -170,9 +178,7 @@
                      <span class="n">template</span><span class="o">=</span><span class="n">template_converter</span><span class="p">)</span>
 
 
-<span class="n">ipy_template_converter</span> <span class="o">=</span> <span class="n">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="p">,</span>
-                                                         <span class="n">numpy</span><span class="o">=</span><span class="n">numpy</span><span class="p">,</span>
-                                                         <span class="n">pandas</span><span class="o">=</span><span class="n">pandas</span><span class="p">)</span>
+<span class="n">ipy_template_converter</span> <span class="o">=</span> <span class="n">_get_ipython_template_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="p">)</span>
 <span class="n">converter</span> <span class="o">=</span> <span class="n">_get_converter</span><span class="p">(</span><span class="n">template_converter</span><span class="o">=</span><span class="n">ipy_template_converter</span><span class="p">)</span>
 
 
@@ -180,7 +186,9 @@
     <span class="k">return</span> <span class="n">ro</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="RInterpreterError"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RInterpreterError">[docs]</a><span class="k">class</span> <span class="nc">RInterpreterError</span><span class="p">(</span><span class="n">ri</span><span class="o">.</span><span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">):</span>
+<div class="viewcode-block" id="RInterpreterError">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RInterpreterError">[docs]</a>
+<span class="k">class</span> <span class="nc">RInterpreterError</span><span class="p">(</span><span class="n">ri</span><span class="o">.</span><span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;An error when running R code in a %%R magic cell.&quot;&quot;&quot;</span>
 
     <span class="n">msg_prefix_template</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Failed to parse and evaluate line </span><span class="si">%r</span><span class="s1">.</span><span class="se">\n</span><span class="s1">&#39;</span>
@@ -198,6 +206,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stdout</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">err</span><span class="p">):</span>
             <span class="n">s</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rstdout_prefix</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">stdout</span>
         <span class="k">return</span> <span class="n">s</span></div>
+
 
 
 <span class="c1"># The default conversion for lists is currently to make them an R list. That</span>
@@ -278,7 +287,9 @@
 <span class="c1">#     return res</span>
 
 
-<div class="viewcode-block" id="display_figures"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.display_figures">[docs]</a><span class="k">def</span> <span class="nf">display_figures</span><span class="p">(</span><span class="n">graph_dir</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="display_figures">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.display_figures">[docs]</a>
+<span class="k">def</span> <span class="nf">display_figures</span><span class="p">(</span><span class="n">graph_dir</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;png&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Iterator to display PNG figures generated by R.</span>
 
 <span class="sd">    graph_dir : str</span>
@@ -299,7 +310,10 @@
             <span class="k">yield</span> <span class="n">img</span></div>
 
 
-<div class="viewcode-block" id="display_figures_svg"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.display_figures_svg">[docs]</a><span class="k">def</span> <span class="nf">display_figures_svg</span><span class="p">(</span><span class="n">graph_dir</span><span class="p">,</span> <span class="n">isolate_svgs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="display_figures_svg">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.display_figures_svg">[docs]</a>
+<span class="k">def</span> <span class="nf">display_figures_svg</span><span class="p">(</span><span class="n">graph_dir</span><span class="p">,</span> <span class="n">isolate_svgs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Display SVG figures generated by R.</span>
 
 <span class="sd">    graph_dir : str</span>
@@ -314,7 +328,7 @@
     <span class="c1"># Cairo creates an SVG file every time R is called</span>
     <span class="c1"># -- empty ones are not published</span>
     <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">imgfile</span><span class="p">)</span><span class="o">.</span><span class="n">st_size</span> <span class="o">&gt;=</span> <span class="mi">1000</span><span class="p">:</span>
-        <span class="n">img</span> <span class="o">=</span> <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">SVG</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">imgfile</span><span class="p">),</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">SVG</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">imgfile</span><span class="p">)</span>
         <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">display_svg</span><span class="p">(</span>
             <span class="n">img</span><span class="p">,</span>
             <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;image/svg+xml&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">isolated</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span> <span class="k">if</span> <span class="n">isolate_svgs</span> <span class="k">else</span> <span class="p">{}</span>
@@ -326,7 +340,10 @@
         <span class="k">yield</span> <span class="n">img</span></div>
 
 
-<div class="viewcode-block" id="RMagics"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics">[docs]</a><span class="nd">@magics_class</span>
+
+<div class="viewcode-block" id="RMagics">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics">[docs]</a>
+<span class="nd">@magics_class</span>
 <span class="k">class</span> <span class="nc">RMagics</span><span class="p">(</span><span class="n">Magics</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A set of magics useful for interactive work with R via rpy2.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -359,7 +376,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">converter</span> <span class="o">=</span> <span class="n">converter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_R_plotting_device</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RMagics.set_R_plotting_device"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.set_R_plotting_device">[docs]</a>    <span class="k">def</span> <span class="nf">set_R_plotting_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
+<div class="viewcode-block" id="RMagics.set_R_plotting_device">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.set_R_plotting_device">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_R_plotting_device</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">device</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set which device R should use to produce plots.</span>
 <span class="sd">        If device == &#39;svg&#39; then the package &#39;Cairo&#39;</span>
@@ -398,6 +417,7 @@
                 <span class="k">raise</span> <span class="n">RInterpreterError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span></div>
 
+
     <span class="nd">@line_magic</span>
     <span class="k">def</span> <span class="nf">Rdevice</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -405,7 +425,9 @@
 <span class="sd">        &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">DEVICES_SUPPORTED</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_R_plotting_device</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
 
-<div class="viewcode-block" id="RMagics.eval"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.eval">[docs]</a>    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+<div class="viewcode-block" id="RMagics.eval">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.eval">[docs]</a>
+    <span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parse and evaluate a line of R code with rpy2.</span>
 <span class="sd">        Returns the output to R&#39;s stdout() connection,</span>
@@ -456,19 +478,26 @@
             <span class="n">text_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
             <span class="k">return</span> <span class="n">text_output</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">visible</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RMagics.write_console_regular"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.write_console_regular">[docs]</a>    <span class="k">def</span> <span class="nf">write_console_regular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RMagics.write_console_regular">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.write_console_regular">[docs]</a>
+    <span class="k">def</span> <span class="nf">write_console_regular</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A hook to capture R&#39;s stdout in a cache.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rstdout_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RMagics.flush"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.flush">[docs]</a>    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RMagics.flush">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.flush">[docs]</a>
+    <span class="k">def</span> <span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Flush R&#39;s stdout cache to a string, returning the string.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Rstdout_cache</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rstdout_cache</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">return</span> <span class="n">value</span></div>
+
 
     <span class="k">def</span> <span class="nf">_import_name_into_r</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">env</span><span class="p">:</span> <span class="n">ri</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">,</span>
@@ -512,7 +541,9 @@
         <span class="k">return</span> <span class="n">converter</span>
 
     <span class="c1"># @skip_doctest</span>
-<div class="viewcode-block" id="RMagics.Rpush"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rpush">[docs]</a>    <span class="nd">@magic_arguments</span><span class="p">()</span>
+<div class="viewcode-block" id="RMagics.Rpush">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rpush">[docs]</a>
+    <span class="nd">@magic_arguments</span><span class="p">()</span>
     <span class="nd">@argument</span><span class="p">(</span>
         <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--converter&#39;</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -559,8 +590,11 @@
             <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">args</span><span class="o">.</span><span class="n">inputs</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_import_name_into_r</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="p">,</span> <span class="n">local_ns</span><span class="p">)</span></div>
 
+
     <span class="c1"># @skip_doctest</span>
-<div class="viewcode-block" id="RMagics.Rpull"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rpull">[docs]</a>    <span class="nd">@magic_arguments</span><span class="p">()</span>
+<div class="viewcode-block" id="RMagics.Rpull">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rpull">[docs]</a>
+    <span class="nd">@magic_arguments</span><span class="p">()</span>
     <span class="nd">@argument</span><span class="p">(</span>
         <span class="s1">&#39;outputs&#39;</span><span class="p">,</span>
         <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span>
@@ -605,8 +639,11 @@
                 <span class="n">robj</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">shell</span><span class="o">.</span><span class="n">push</span><span class="p">({</span><span class="n">output</span><span class="p">:</span> <span class="n">robj</span><span class="p">})</span></div>
 
+
     <span class="c1"># @skip_doctest</span>
-<div class="viewcode-block" id="RMagics.Rget"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rget">[docs]</a>    <span class="nd">@magic_arguments</span><span class="p">()</span>
+<div class="viewcode-block" id="RMagics.Rget">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.Rget">[docs]</a>
+    <span class="nd">@magic_arguments</span><span class="p">()</span>
     <span class="nd">@argument</span><span class="p">(</span>
         <span class="s1">&#39;output&#39;</span><span class="p">,</span>
         <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -643,7 +680,10 @@
             <span class="n">res</span> <span class="o">=</span> <span class="n">ro</span><span class="o">.</span><span class="n">globalenv</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="RMagics.setup_graphics"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.setup_graphics">[docs]</a>    <span class="k">def</span> <span class="nf">setup_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RMagics.setup_graphics">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.setup_graphics">[docs]</a>
+    <span class="k">def</span> <span class="nf">setup_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup graphics in preparation for evaluating R code.</span>
 
 <span class="sd">        args : argparse bunch (should be whatever the R magic got).&quot;&quot;&quot;</span>
@@ -694,7 +734,10 @@
 
         <span class="k">return</span> <span class="n">tmpd</span></div>
 
-<div class="viewcode-block" id="RMagics.publish_graphics"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.publish_graphics">[docs]</a>    <span class="k">def</span> <span class="nf">publish_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_dir</span><span class="p">,</span> <span class="n">isolate_svgs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RMagics.publish_graphics">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.publish_graphics">[docs]</a>
+    <span class="k">def</span> <span class="nf">publish_graphics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph_dir</span><span class="p">,</span> <span class="n">isolate_svgs</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Wrap graphic file data for presentation in IPython.</span>
 
 <span class="sd">        This method is deprecated. Use `display_figures` or</span>
@@ -745,8 +788,11 @@
 
         <span class="k">return</span> <span class="n">display_data</span><span class="p">,</span> <span class="n">md</span></div>
 
+
     <span class="c1"># @skip_doctest</span>
-<div class="viewcode-block" id="RMagics.R"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.R">[docs]</a>    <span class="nd">@magic_arguments</span><span class="p">()</span>
+<div class="viewcode-block" id="RMagics.R">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.RMagics.R">[docs]</a>
+    <span class="nd">@magic_arguments</span><span class="p">()</span>
     <span class="nd">@argument</span><span class="p">(</span>
         <span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;append&#39;</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
@@ -1063,7 +1109,9 @@
             <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">ri</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
                 <span class="k">with</span> <span class="n">localconverter</span><span class="p">(</span><span class="n">converter</span><span class="p">)</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
                     <span class="n">res</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">res</span></div></div>
+                <span class="k">return</span> <span class="n">res</span></div>
+</div>
+
 
 
 <span class="vm">__doc__</span> <span class="o">=</span> <span class="vm">__doc__</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -1074,10 +1122,13 @@
 <span class="p">)</span>
 
 
-<div class="viewcode-block" id="load_ipython_extension"><a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.load_ipython_extension">[docs]</a><span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
+<div class="viewcode-block" id="load_ipython_extension">
+<a class="viewcode-back" href="../../../interactive.html#rpy2.ipython.rmagic.load_ipython_extension">[docs]</a>
+<span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the extension in IPython.&quot;&quot;&quot;</span>
 
     <span class="n">ip</span><span class="o">.</span><span class="n">register_magics</span><span class="p">(</span><span class="n">RMagics</span><span class="p">)</span></div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -1109,14 +1160,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.ipython.rmagic</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

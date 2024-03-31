@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.methods &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <title>rpy2.robjects.methods &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e4a58163"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.methods</a></li> 
@@ -46,6 +46,7 @@
   <h1>Source code for rpy2.robjects.methods</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">from</span> <span class="nn">types</span> <span class="kn">import</span> <span class="n">SimpleNamespace</span>
+<span class="kn">import</span> <span class="nn">typing</span>
 <span class="kn">from</span> <span class="nn">rpy2.robjects.robject</span> <span class="kn">import</span> <span class="n">RObjectMixin</span>
 <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
 <span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="kn">import</span> <span class="n">StrSexpVector</span>
@@ -61,69 +62,106 @@
         <span class="n">quietly</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">BoolSexpVector</span><span class="p">((</span><span class="kc">True</span><span class="p">,</span> <span class="p">)))</span>
 
 
-<div class="viewcode-block" id="RS4"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4">[docs]</a><span class="k">class</span> <span class="nc">RS4</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">):</span>
+<div class="viewcode-block" id="RS4">
+<a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4">[docs]</a>
+<span class="k">class</span> <span class="nc">RS4</span><span class="p">(</span><span class="n">RObjectMixin</span><span class="p">,</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Python representation of an R instance of class &#39;S4&#39;. &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="RS4.slotnames"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.slotnames">[docs]</a>    <span class="k">def</span> <span class="nf">slotnames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RS4.slotnames">
+<a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.slotnames">[docs]</a>
+    <span class="k">def</span> <span class="nf">slotnames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Return the &#39;slots&#39; defined for this object &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;slotNames&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">)</span></div>
+
 
     <span class="k">def</span> <span class="nf">do_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span>
                 <span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">RS4</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="n">name</span><span class="p">)))</span>
 
-<div class="viewcode-block" id="RS4.extends"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.extends">[docs]</a>    <span class="k">def</span> <span class="nf">extends</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RS4.extends">
+<a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.extends">[docs]</a>
+    <span class="k">def</span> <span class="nf">extends</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return the R classes this extends.</span>
 
 <span class="sd">        This calls the R function methods::extends().&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;extends&#39;</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">rclass</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="RS4.isclass"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.isclass">[docs]</a>    <span class="nd">@staticmethod</span>
+
+<div class="viewcode-block" id="RS4.isclass">
+<a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.isclass">[docs]</a>
+    <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">isclass</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Return whether the given name is a defined class. &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;isClass&#39;</span><span class="p">](</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="RS4.validobject"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.validobject">[docs]</a>    <span class="k">def</span> <span class="nf">validobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">complete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+<div class="viewcode-block" id="RS4.validobject">
+<a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4.validobject">[docs]</a>
+    <span class="k">def</span> <span class="nf">validobject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">complete</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Return whether the instance is &#39;valid&#39; for its class. &quot;&quot;&quot;</span>
         <span class="n">cv</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span>
         <span class="n">test</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
         <span class="n">complete</span> <span class="o">=</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="n">complete</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;validObject&#39;</span><span class="p">](</span><span class="bp">self</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span>
-                                          <span class="n">complete</span><span class="o">=</span><span class="n">complete</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div></div>
+                                          <span class="n">complete</span><span class="o">=</span><span class="n">complete</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
+</div>
+
 
 
 <span class="k">class</span> <span class="nc">ClassRepresentation</span><span class="p">(</span><span class="n">RS4</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; Definition of an R S4 class &quot;&quot;&quot;</span>
-    <span class="n">slots</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;slots&#39;</span><span class="p">)],</span>
-                     <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                     <span class="s2">&quot;Slots (attributes) for the class&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Definition of an R S4 class.</span>
 
-    <span class="n">basenames</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">x</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;contains&#39;</span><span class="p">)],</span>
-                         <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                         <span class="s2">&quot;Parent classes&quot;</span><span class="p">)</span>
+<span class="sd">    This can be thought of as the Python &quot;type&quot; (class definition)</span>
+<span class="sd">    for an R object with the C-level type S4.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">slots</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Slots (attributes) for the class.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;slots&#39;</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">basenames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parent classes.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">y</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;contains&#39;</span><span class="p">)]</span>
+
     <span class="n">contains</span> <span class="o">=</span> <span class="n">basenames</span>
 
-    <span class="n">isabstract</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;virtual&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-                          <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                          <span class="s2">&quot;Is the class an abstract class ?&quot;</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">isabstract</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Is the class an abstract class ?&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;virtual&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="n">virtual</span> <span class="o">=</span> <span class="n">isabstract</span>
 
-    <span class="n">packagename</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-                           <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                           <span class="s2">&quot;R package in which the class is defined&quot;</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">packagename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;R package in which the class is defined.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;package&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
     <span class="n">package</span> <span class="o">=</span> <span class="n">packagename</span>
 
-    <span class="n">classname</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;className&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
-                         <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
-                         <span class="s2">&quot;Name of the R class&quot;</span><span class="p">)</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">classname</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the R class.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;className&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
 
 
-<span class="k">def</span> <span class="nf">getclassdef</span><span class="p">(</span><span class="n">cls_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">packagename</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">getclassdef</span><span class="p">(</span><span class="n">cls_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">packagename</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="n">package</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">_MissingArgType</span><span class="p">,</span> <span class="n">StrSexpVector</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">packagename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">packagename</span><span class="p">,</span> <span class="p">))</span>
     <span class="n">cls_def</span> <span class="o">=</span> <span class="n">methods_env</span><span class="p">[</span><span class="s1">&#39;getClassDef&#39;</span><span class="p">](</span>
         <span class="n">StrSexpVector</span><span class="p">((</span><span class="n">cls_name</span><span class="p">,)),</span>
-        <span class="n">package</span><span class="o">=</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">packagename</span><span class="p">,</span> <span class="p">))</span>
+        <span class="n">package</span><span class="o">=</span><span class="n">package</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">cls_def</span> <span class="ow">is</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s1"> is not a class in the R package </span><span class="si">{</span><span class="n">packagename</span><span class="si">!r}</span><span class="s1">&#39;</span>
+        <span class="p">)</span>
     <span class="n">cls_def</span> <span class="o">=</span> <span class="n">ClassRepresentation</span><span class="p">(</span><span class="n">cls_def</span><span class="p">)</span>
     <span class="n">cls_def</span><span class="o">.</span><span class="n">__rname__</span> <span class="o">=</span> <span class="n">cls_name</span>
     <span class="k">return</span> <span class="n">cls_def</span>
@@ -171,7 +209,9 @@
 
 <span class="c1"># playground to experiment with more metaclass-level automation</span>
 
-<div class="viewcode-block" id="RS4Auto_Type"><a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4Auto_Type">[docs]</a><span class="k">class</span> <span class="nc">RS4Auto_Type</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+<div class="viewcode-block" id="RS4Auto_Type">
+<a class="viewcode-back" href="../../../robjects_oop.html#rpy2.robjects.methods.RS4Auto_Type">[docs]</a>
+<span class="k">class</span> <span class="nc">RS4Auto_Type</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; This type (metaclass) takes an R S4 class</span>
 <span class="sd">    and create a Python class out of it,</span>
 <span class="sd">    copying the R documention page into the Python docstring.</span>
@@ -289,6 +329,7 @@
         <span class="k">return</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="n">mcs</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">cls_dict</span><span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">set_accessors</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cls_name</span><span class="p">,</span> <span class="n">where</span><span class="p">,</span> <span class="n">acs</span><span class="p">):</span>
     <span class="c1"># set accessors (to be abandonned for the metaclass above ?)</span>
 
@@ -390,15 +431,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.methods</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface_lib.sexp &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <title>rpy2.rinterface_lib.sexp &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e4a58163"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.sexp</a></li> 
       </ul>
@@ -121,7 +121,9 @@
 <span class="n">UNINIT_CAPSULE_ENV</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">UninitializedRCapsule</span><span class="p">(</span><span class="n">RTYPES</span><span class="o">.</span><span class="n">ENVSXP</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Sexp"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp">[docs]</a><span class="k">class</span> <span class="nc">Sexp</span><span class="p">(</span><span class="n">SupportsSEXP</span><span class="p">):</span>
+<div class="viewcode-block" id="Sexp">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp">[docs]</a>
+<span class="k">class</span> <span class="nc">Sexp</span><span class="p">(</span><span class="n">SupportsSEXP</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for R objects.</span>
 
 <span class="sd">    The name of a class corresponds to the name SEXP</span>
@@ -227,7 +229,9 @@
             <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_do_slot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">name_r</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
-<div class="viewcode-block" id="Sexp.do_slot_assign"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp.do_slot_assign">[docs]</a>    <span class="k">def</span> <span class="nf">do_slot_assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="Sexp.do_slot_assign">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp.do_slot_assign">[docs]</a>
+    <span class="k">def</span> <span class="nf">do_slot_assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_rinterface</span><span class="o">.</span><span class="n">_assert_valid_slotname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
@@ -237,6 +241,7 @@
                                            <span class="n">name_r</span><span class="p">,</span>
                                            <span class="n">cdata</span><span class="p">)</span></div>
 
+
     <span class="nd">@conversion</span><span class="o">.</span><span class="n">_cdata_res_to_rinterface</span>
     <span class="k">def</span> <span class="nf">get_attrib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Sexp&#39;</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_getAttrib</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
@@ -244,13 +249,16 @@
         <span class="k">return</span> <span class="n">res</span>
 
     <span class="c1"># TODO: deprecate this (and implement __eq__) ?</span>
-<div class="viewcode-block" id="Sexp.rsame"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp.rsame">[docs]</a>    <span class="k">def</span> <span class="nf">rsame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sexp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<div class="viewcode-block" id="Sexp.rsame">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp.rsame">[docs]</a>
+    <span class="k">def</span> <span class="nf">rsame</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sexp</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sexp</span><span class="p">,</span> <span class="n">Sexp</span><span class="p">):</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span> <span class="o">==</span> <span class="n">sexp</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sexp</span><span class="p">,</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">sexp</span><span class="o">.</span><span class="n">_cdata</span> <span class="o">==</span> <span class="n">sexp</span><span class="o">.</span><span class="n">_cdata</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Not an R object.&#39;</span><span class="p">)</span></div>
+
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Sexp&#39;</span><span class="p">:</span>
@@ -269,6 +277,7 @@
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_getAttrib</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
             <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NameSymbol</span><span class="p">)</span></div>
+
 
 
 <span class="k">class</span> <span class="nc">NULLType</span><span class="p">(</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">SingletonABC</span><span class="p">):</span>
@@ -726,7 +735,9 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; is not in R vector&quot;</span> <span class="o">%</span> <span class="n">item</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="SexpVector"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.SexpVector">[docs]</a><span class="k">class</span> <span class="nc">SexpVector</span><span class="p">(</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">SexpVectorAbstract</span><span class="p">):</span>
+<div class="viewcode-block" id="SexpVector">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.SexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">SexpVector</span><span class="p">(</span><span class="n">Sexp</span><span class="p">,</span> <span class="n">SexpVectorAbstract</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Base abstract class for R vector objects.</span>
 
 <span class="sd">    R vector objects are, at the C level, essentially C arrays wrapped in</span>
@@ -754,6 +765,7 @@
             <span class="p">)</span></div>
 
 
+
 <span class="k">def</span> <span class="nf">_as_charsxp_cdata</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="n">CharSexp</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CharSexp</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
@@ -761,7 +773,9 @@
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_charsxp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="StrSexpVector"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.StrSexpVector">[docs]</a><span class="k">class</span> <span class="nc">StrSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+<div class="viewcode-block" id="StrSexpVector">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.StrSexpVector">[docs]</a>
+<span class="k">class</span> <span class="nc">StrSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;R vector of strings.&quot;&quot;&quot;</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">STRSXP</span>
@@ -842,14 +856,18 @@
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Indices must be integers or slices, &#39;</span>
                             <span class="s1">&#39;not </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="nb">type</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 
-<div class="viewcode-block" id="StrSexpVector.get_charsxp"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.StrSexpVector.get_charsxp">[docs]</a>    <span class="k">def</span> <span class="nf">get_charsxp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CharSexp</span><span class="p">:</span>
+<div class="viewcode-block" id="StrSexpVector.get_charsxp">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.StrSexpVector.get_charsxp">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_charsxp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CharSexp</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the R CharSexp objects for the index i.&quot;&quot;&quot;</span>
         <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">CharSexp</span><span class="p">(</span>
             <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">(</span>
                 <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">STRING_ELT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
             <span class="p">)</span>
-        <span class="p">)</span></div></div>
+        <span class="p">)</span></div>
+</div>
+
 
 
 <span class="k">class</span> <span class="nc">RVersion</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
@@ -995,7 +1013,9 @@
     <span class="k">return</span> <span class="n">res</span>
 
 
-<div class="viewcode-block" id="NAIntegerType"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NAIntegerType">[docs]</a><span class="k">class</span> <span class="nc">NAIntegerType</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
+<div class="viewcode-block" id="NAIntegerType">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NAIntegerType">[docs]</a>
+<span class="k">class</span> <span class="nc">NAIntegerType</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
@@ -1011,7 +1031,10 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;R value for missing integer value&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NACharacterType"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NACharacterType">[docs]</a><span class="k">class</span> <span class="nc">NACharacterType</span><span class="p">(</span><span class="n">CharSexp</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">SingletonABC</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NACharacterType">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NACharacterType">[docs]</a>
+<span class="k">class</span> <span class="nc">NACharacterType</span><span class="p">(</span><span class="n">CharSexp</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">SingletonABC</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
@@ -1031,7 +1054,10 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;R value for missing character value&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NALogicalType"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NALogicalType">[docs]</a><span class="k">class</span> <span class="nc">NALogicalType</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NALogicalType">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NALogicalType">[docs]</a>
+<span class="k">class</span> <span class="nc">NALogicalType</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
@@ -1047,7 +1073,10 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;R value for missing boolean value&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NARealType"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NARealType">[docs]</a><span class="k">class</span> <span class="nc">NARealType</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NARealType">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NARealType">[docs]</a>
+<span class="k">class</span> <span class="nc">NARealType</span><span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
@@ -1063,7 +1092,10 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;R value for missing float value&#39;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="NAComplexType"><a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NAComplexType">[docs]</a><span class="k">class</span> <span class="nc">NAComplexType</span><span class="p">(</span><span class="nb">complex</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NAComplexType">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.NAComplexType">[docs]</a>
+<span class="k">class</span> <span class="nc">NAComplexType</span><span class="p">(</span><span class="nb">complex</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">Singleton</span><span class="p">):</span>
 
     <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
@@ -1079,6 +1111,7 @@
 
     <span class="k">def</span> <span class="fm">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;R value for missing complex value&#39;</span><span class="p">)</span></div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -1110,14 +1143,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.sexp</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>

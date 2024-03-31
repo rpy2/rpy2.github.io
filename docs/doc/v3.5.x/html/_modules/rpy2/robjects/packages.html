@@ -2,18 +2,18 @@
 
 <!doctype html>
 
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.packages &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <title>rpy2.robjects.packages &#8212; rpy2 3.5.16 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=532c1bf3" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=eafc0fe6" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=e4a58163"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -31,7 +31,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.packages</a></li> 
@@ -85,7 +85,9 @@
 <span class="n">_options</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="no_warnings"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.no_warnings">[docs]</a><span class="k">def</span> <span class="nf">no_warnings</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+<div class="viewcode-block" id="no_warnings">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.no_warnings">[docs]</a>
+<span class="k">def</span> <span class="nf">no_warnings</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Decorator to run R functions without warning. &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">run_withoutwarnings</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="n">warn_i</span> <span class="o">=</span> <span class="n">_options</span><span class="p">()</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;warn&#39;</span><span class="p">)</span>
@@ -103,6 +105,7 @@
     <span class="k">return</span> <span class="n">run_withoutwarnings</span></div>
 
 
+
 <span class="nd">@no_warnings</span>
 <span class="k">def</span> <span class="nf">_eval_quiet</span><span class="p">(</span><span class="n">expr</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">_reval</span><span class="p">(</span><span class="n">expr</span><span class="p">)</span>
@@ -111,7 +114,9 @@
 <span class="c1"># FIXME: should this be part of the API for rinterface ?</span>
 <span class="c1">#        (may be it is already the case and there is code</span>
 <span class="c1">#        duplicaton ?)</span>
-<div class="viewcode-block" id="reval"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.reval">[docs]</a><span class="k">def</span> <span class="nf">reval</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<div class="viewcode-block" id="reval">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.reval">[docs]</a>
+<span class="k">def</span> <span class="nf">reval</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
           <span class="n">envir</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Evaluate a string as R code</span>
 <span class="sd">    :param string: R code</span>
@@ -123,7 +128,10 @@
     <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="quiet_require"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.quiet_require">[docs]</a><span class="k">def</span> <span class="nf">quiet_require</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lib_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+<div class="viewcode-block" id="quiet_require">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.quiet_require">[docs]</a>
+<span class="k">def</span> <span class="nf">quiet_require</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lib_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Load an R package /quietly/ (suppressing messages to the console). &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">lib_loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">lib_loc</span> <span class="o">=</span> <span class="s2">&quot;NULL&quot;</span>
@@ -137,7 +145,10 @@
     <span class="k">return</span> <span class="n">ok</span></div>
 
 
-<div class="viewcode-block" id="PackageData"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageData">[docs]</a><span class="k">class</span> <span class="nc">PackageData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PackageData">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageData">[docs]</a>
+<span class="k">class</span> <span class="nc">PackageData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Datasets in an R package.</span>
 <span class="sd">    In R datasets can be distributed with a package.</span>
 
@@ -173,13 +184,18 @@
             <span class="c1"># FIXME: check if instance methods are overriden</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datasets</span> <span class="o">=</span> <span class="n">_datasets</span>
 
-<div class="viewcode-block" id="PackageData.names"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageData.names">[docs]</a>    <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="PackageData.names">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageData.names">[docs]</a>
+    <span class="k">def</span> <span class="nf">names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Names of the datasets&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datasets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_init_setlist</span><span class="p">()</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datasets</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="PackageData.fetch"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageData.fetch">[docs]</a>    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PackageData.fetch">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageData.fetch">[docs]</a>
+    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Fetch the dataset (loads it or evaluates the R associated</span>
 <span class="sd">        with it.</span>
 
@@ -196,10 +212,14 @@
               <span class="o">**</span><span class="p">{</span><span class="s1">&#39;package&#39;</span><span class="p">:</span> <span class="n">StrSexpVector</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_packagename</span><span class="p">,</span> <span class="p">)),</span>
                  <span class="s1">&#39;lib.loc&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lib_loc</span><span class="p">,</span>
                  <span class="s1">&#39;envir&#39;</span><span class="p">:</span> <span class="n">env</span><span class="p">})</span>
-        <span class="k">return</span> <span class="n">Environment</span><span class="p">(</span><span class="n">env</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="n">Environment</span><span class="p">(</span><span class="n">env</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Package"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.Package">[docs]</a><span class="k">class</span> <span class="nc">Package</span><span class="p">(</span><span class="n">ModuleType</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Package">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.Package">[docs]</a>
+<span class="k">class</span> <span class="nc">Package</span><span class="p">(</span><span class="n">ModuleType</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Models an R package</span>
 <span class="sd">    (and can do so from an arbitrary environment - with the caution</span>
 <span class="sd">    that locked environments should mostly be considered).</span>
@@ -318,11 +338,14 @@
         <span class="k">return</span> <span class="s1">&#39;rpy2.robjects.packages.Package as a </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">s</span></div>
 
 
+
 <span class="c1"># alias</span>
 <span class="n">STF</span> <span class="o">=</span> <span class="n">SignatureTranslatedFunction</span>
 
 
-<div class="viewcode-block" id="SignatureTranslatedPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SignatureTranslatedPackage">[docs]</a><span class="k">class</span> <span class="nc">SignatureTranslatedPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
+<div class="viewcode-block" id="SignatureTranslatedPackage">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SignatureTranslatedPackage">[docs]</a>
+<span class="k">class</span> <span class="nc">SignatureTranslatedPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; R package in which the R functions had their signatures</span>
 <span class="sd">    &#39;translated&#39; (that this the named parameters were made to</span>
 <span class="sd">    to conform Python&#39;s rules for vaiable names).&quot;&quot;&quot;</span>
@@ -340,11 +363,14 @@
                 <span class="p">)</span></div>
 
 
+
 <span class="c1"># alias</span>
 <span class="n">STP</span> <span class="o">=</span> <span class="n">SignatureTranslatedPackage</span>
 
 
-<div class="viewcode-block" id="SignatureTranslatedAnonymousPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SignatureTranslatedAnonymousPackage">[docs]</a><span class="k">class</span> <span class="nc">SignatureTranslatedAnonymousPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
+<div class="viewcode-block" id="SignatureTranslatedAnonymousPackage">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SignatureTranslatedAnonymousPackage">[docs]</a>
+<span class="k">class</span> <span class="nc">SignatureTranslatedAnonymousPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
         <span class="n">reval</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
@@ -352,11 +378,14 @@
                                                                   <span class="n">name</span><span class="p">)</span></div>
 
 
+
 <span class="c1"># alias</span>
 <span class="n">STAP</span> <span class="o">=</span> <span class="n">SignatureTranslatedAnonymousPackage</span>
 
 
-<div class="viewcode-block" id="InstalledSTPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledSTPackage">[docs]</a><span class="k">class</span> <span class="nc">InstalledSTPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
+<div class="viewcode-block" id="InstalledSTPackage">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledSTPackage">[docs]</a>
+<span class="k">class</span> <span class="nc">InstalledSTPackage</span><span class="p">(</span><span class="n">SignatureTranslatedPackage</span><span class="p">):</span>
     <span class="nd">@docstring_property</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">doc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="s1">&#39;Python representation of an R package.&#39;</span><span class="p">])</span>
@@ -383,7 +412,10 @@
                 <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="InstalledPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledPackage">[docs]</a><span class="k">class</span> <span class="nc">InstalledPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
+
+<div class="viewcode-block" id="InstalledPackage">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledPackage">[docs]</a>
+<span class="k">class</span> <span class="nc">InstalledPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
     <span class="nd">@docstring_property</span><span class="p">(</span><span class="vm">__doc__</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">__doc__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">doc</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="s1">&#39;Python representation of an R package.&#39;</span><span class="p">,</span>
@@ -400,7 +432,10 @@
         <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="WeakPackage"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.WeakPackage">[docs]</a><span class="k">class</span> <span class="nc">WeakPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
+
+<div class="viewcode-block" id="WeakPackage">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.WeakPackage">[docs]</a>
+<span class="k">class</span> <span class="nc">WeakPackage</span><span class="p">(</span><span class="n">Package</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &#39;Weak&#39; R package, with which looking for symbols results in</span>
 <span class="sd">    a warning (and a None returned) whenever the desired symbol is</span>
@@ -416,17 +451,26 @@
         <span class="k">return</span> <span class="n">res</span></div>
 
 
-<div class="viewcode-block" id="LibraryError"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.LibraryError">[docs]</a><span class="k">class</span> <span class="nc">LibraryError</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">):</span>
+
+<div class="viewcode-block" id="LibraryError">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.LibraryError">[docs]</a>
+<span class="k">class</span> <span class="nc">LibraryError</span><span class="p">(</span><span class="ne">ImportError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Error occuring when importing an R library &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="PackageNotInstalledError"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageNotInstalledError">[docs]</a><span class="k">class</span> <span class="nc">PackageNotInstalledError</span><span class="p">(</span><span class="n">LibraryError</span><span class="p">):</span>
+
+<div class="viewcode-block" id="PackageNotInstalledError">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.PackageNotInstalledError">[docs]</a>
+<span class="k">class</span> <span class="nc">PackageNotInstalledError</span><span class="p">(</span><span class="n">LibraryError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Error occuring because the R package to import is not installed.&quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="InstalledPackages"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledPackages">[docs]</a><span class="k">class</span> <span class="nc">InstalledPackages</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="InstalledPackages">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.InstalledPackages">[docs]</a>
+<span class="k">class</span> <span class="nc">InstalledPackages</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; R packages installed. &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lib_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="n">libraryiqr</span> <span class="o">=</span> <span class="n">_library</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;lib.loc&#39;</span><span class="p">:</span> <span class="n">lib_loc</span><span class="p">})</span>
@@ -460,7 +504,10 @@
             <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lib_results</span><span class="p">[</span><span class="n">x</span><span class="o">*</span><span class="n">nrows</span><span class="o">+</span><span class="n">row_i</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">colrg</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="isinstalled"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.isinstalled">[docs]</a><span class="k">def</span> <span class="nf">isinstalled</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+
+<div class="viewcode-block" id="isinstalled">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.isinstalled">[docs]</a>
+<span class="k">def</span> <span class="nf">isinstalled</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                 <span class="n">lib_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find whether an R package is installed</span>
@@ -474,7 +521,10 @@
     <span class="k">return</span> <span class="n">instapack</span><span class="o">.</span><span class="n">isinstalled</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="importr"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.importr">[docs]</a><span class="k">def</span> <span class="nf">importr</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+
+<div class="viewcode-block" id="importr">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.importr">[docs]</a>
+<span class="k">def</span> <span class="nf">importr</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
             <span class="n">lib_loc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">robject_translations</span><span class="o">=</span><span class="p">{},</span>
             <span class="n">signature_translation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -563,12 +613,18 @@
     <span class="k">return</span> <span class="n">pack</span></div>
 
 
-<div class="viewcode-block" id="data"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.data">[docs]</a><span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
+
+<div class="viewcode-block" id="data">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.data">[docs]</a>
+<span class="k">def</span> <span class="nf">data</span><span class="p">(</span><span class="n">package</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Return the PackageData for the given package.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">package</span><span class="o">.</span><span class="n">__rdata__</span></div>
 
 
-<div class="viewcode-block" id="wherefrom"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.wherefrom">[docs]</a><span class="k">def</span> <span class="nf">wherefrom</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+
+<div class="viewcode-block" id="wherefrom">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.wherefrom">[docs]</a>
+<span class="k">def</span> <span class="nf">wherefrom</span><span class="p">(</span><span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
               <span class="n">startenv</span><span class="p">:</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">SexpEnvironment</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">globalenv</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; For a given symbol, return the environment</span>
 <span class="sd">    this symbol is first found in, starting from &#39;startenv&#39;.</span>
@@ -583,11 +639,17 @@
     <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">get_conversion</span><span class="p">()</span><span class="o">.</span><span class="n">rpy2py</span><span class="p">(</span><span class="n">env</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ParsedCode"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.ParsedCode">[docs]</a><span class="k">class</span> <span class="nc">ParsedCode</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">ExprSexpVector</span><span class="p">):</span>
+
+<div class="viewcode-block" id="ParsedCode">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.ParsedCode">[docs]</a>
+<span class="k">class</span> <span class="nc">ParsedCode</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">ExprSexpVector</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="SourceCode"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SourceCode">[docs]</a><span class="k">class</span> <span class="nc">SourceCode</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SourceCode">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SourceCode">[docs]</a>
+<span class="k">class</span> <span class="nc">SourceCode</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
 
     <span class="n">_parsed</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -596,10 +658,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_parsed</span> <span class="o">=</span> <span class="n">ParsedCode</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parsed</span>
 
-<div class="viewcode-block" id="SourceCode.as_namespace"><a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SourceCode.as_namespace">[docs]</a>    <span class="k">def</span> <span class="nf">as_namespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="SourceCode.as_namespace">
+<a class="viewcode-back" href="../../../robjects_rpackages.html#rpy2.robjects.packages.SourceCode.as_namespace">[docs]</a>
+    <span class="k">def</span> <span class="nf">as_namespace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Name for the namespace &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">SignatureTranslatedAnonymousPackage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                                                   <span class="n">name</span><span class="p">)</span></div></div>
+                                                   <span class="n">name</span><span class="p">)</span></div>
+</div>
+
 </pre></div>
 
             <div class="clearer"></div>
@@ -631,15 +697,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.16 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.packages</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
     </div>
   </body>
 </html>
