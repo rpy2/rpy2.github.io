@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mapping rpy2 objects to arbitrary python objects &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interoperability with pandas" href="pandas.html" />
+    <link rel="prev" title="R help" href="rhelp.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pandas.html" title="Interoperability with pandas"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="rhelp.html" title="R help"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Mapping rpy2 objects to arbitrary python objects</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="mapping-rpy2-objects-to-arbitrary-python-objects">
+<span id="robjects-conversion"></span><span id="module-rpy2.robjects.conversion"></span><h1>Mapping rpy2 objects to arbitrary python objects<a class="headerlink" href="#mapping-rpy2-objects-to-arbitrary-python-objects" title="Link to this heading">¶</a></h1>
+<section id="protocols">
+<h2>Protocols<a class="headerlink" href="#protocols" title="Link to this heading">¶</a></h2>
+<p>The package has a low level and a high level interface to R. The low level is
+closer to R’s C API, while the high level is meant to provide more convenience
+even if at the cost of performances. The low level (<a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>)
+is not devoid of any convenience. A minimal set of Pythonic characteristics are
+present, allowing rpy2 objects to behave like Python objects of similar nature
+and non-rpy2 objects be sometimes usable with R functions when there is
+no ambiguity about what conversion between the two systems should be.</p>
+<p>For example, R vectors (rank-one arrays) are wrapped to rpy2 classes
+implementing the methods <code class="xref py py-meth docutils literal notranslate"><span class="pre">__len_()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setitem__()</span></code>
+as defined in the sequence
+protocol in Python. Python functions working with sequences can then be passed such R
+objects:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ri</span>
+<span class="n">ri</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
+
+<span class="c1"># R array of integers</span>
+<span class="n">r_vec</span> <span class="o">=</span> <span class="n">ri</span><span class="o">.</span><span class="n">IntSexpVector</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="c1"># enumerate() can use our r_vec</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">elt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">r_vec</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;r_vec[</span><span class="si">%i</span><span class="s1">]: </span><span class="si">%i</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">elt</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>rpy2 objects with compatible underlying C representations also implement
+the <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> <code class="xref py py-attr docutils literal notranslate"><span class="pre">__array_interface__</span></code>, allowing them be used in
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> functions without the need for data copying or conversion.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before the move to <code class="xref py py-mod docutils literal notranslate"><span class="pre">cffi</span></code> Python’s buffer protocol was also implemented
+but the Python does not allow classes to define it outside of the Python C-API,
+and <cite>cffi</cite> does not allow the use of the Python’s C-API.</p>
+<p>Some rpy2 vectors will have a method <code class="xref py py-meth docutils literal notranslate"><span class="pre">memoryview()</span></code> that will return
+views that implement the buffer protocol.</p>
+</div>
+<p>R functions are mapped to Python objects that implement <code class="xref py py-meth docutils literal notranslate"><span class="pre">__call__()</span></code>. They
+can be called just as if they were functions.</p>
+<p>R environments are mapped to Python objects that implement <code class="xref py py-meth docutils literal notranslate"><span class="pre">__len__()</span></code>,
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">__setitem__()</span></code> in the mapping protocol so elements
+can be accessed similarly to in a Python <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>While it is technically possible to modify the way C-level R objects
+are shown to Python users through the <cite>rinterface</cite> level, it is not
+recommended. The <cite>rinterface</cite> level is quite close to R’s C API and modifying it may quickly
+result in segfaults.</p>
+<p>On the other hand, the robjects-level is designed to facilitate the customization
+of object conversions between Python and R.</p>
+</div>
+</section>
+<section id="conversion">
+<h2>Conversion<a class="headerlink" href="#conversion" title="Link to this heading">¶</a></h2>
+<p>The high level interface between Python in <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> uses a conversion system
+each time an R object is represented in Python, and each time a Python objects
+is passed to R (for example as a parameter to an R function). Those are the
+conversion rules you’ll mostly experience when using the API in <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a>
+or in the “R magic” used from <cite>ipython</cite> or <cite>jupyter</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The set of active conversion rules can be customized, including within
+a context (see <a class="reference internal" href="#local-conversion-rules">Local conversion rules</a>). Functions
+in the <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> will use the active rules, but if
+wanting the object with currently cactive rules <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.get_conversion()</span></code>
+must be used to fetch them.</p>
+<p>Behind the hood, the current active conversion system is set in a
+<a class="reference external" href="https://docs.python.org/3/library/contextvars.html#contextvars.ContextVar" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">contextvars.ContextVar</span></code></a>. This allows the change of conversion rules to work safely
+with Python context managers. However, <cite>contextvars</cite> is relatively recent and will not play
+well with older Python code for multithreading. Whenever the case, the error
+<cite>Conversion rules for `rpy2.robjects</cite> appear to be missing` is very likely to be encountered
+when using <cite>rpy2</cite>. A workaround can be to wrap all calls to rpy2 in conversion rules’s context.
+For example, to use the default converter:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+<p>import rpy2.robjects as ro
+with ro.default_converter.context():</p>
+<blockquote>
+<div><p># call to rpy2 here.
+pass</p>
+</div></blockquote>
+<p>Consult the rest of the documentation for more information about conversions.</p>
+</div>
+<p>This system is designed to manage the conversion between the low level (<cite>rinterface</cite>-level)
+interface and an arbitrary Python-level representation those objects.
+<cite>py2rpy</cite> will indicate a conversion from Python-level to <cite>rinterface</cite>-level,
+and <cite>rpy2py</cite> from <cite>rinterface</cite>-level to Python-level.</p>
+<p>If one wanted to turn all Python <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> objects
+into R <cite>character</cite> vectors (1D arrays of strings) before passing them to R the custom
+conversion function would make an <cite>rinterface</cite>-level R objects from the Python object.
+An implementation for this <cite>py2rpy</cite> function would look like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrSexpVector</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">tuple_str</span><span class="p">(</span><span class="n">tpl</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">(</span><span class="n">tpl</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+</div>
+<p>The conversion system is an <cite>robjects</cite>-level feature, and by default the Python-level
+representations are just high-level (<cite>robjects</cite>-level) representation. However, the package contains
+optional conversion rules in modules <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.numpy2ri</span></code> and
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.pandas2ri</span></code> to convert from and to <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> objects respectively.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Sections <a class="reference internal" href="numpy.html#robjects-numpy"><span class="std std-ref">Numpy</span></a> and <a class="reference internal" href="pandas.html#robjects-pandas"><span class="std std-ref">Interoperability with pandas</span></a> contain information about
+working with rpy2 and <code class="xref py py-mod docutils literal notranslate"><span class="pre">numpy</span></code> or <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> objects.</p>
+</div>
+<section id="converter-objects">
+<h3>Converter objects<a class="headerlink" href="#converter-objects" title="Link to this heading">¶</a></h3>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.Converter</span></code> objects are designed
+to keep sets of conversion rules together. There can be as many instances
+of that class as desired, but the one called <cite>converter</cite> in
+<a class="reference internal" href="#module-rpy2.robjects.conversion" title="rpy2.robjects.conversion: Converting rpy2 proxies for R objects into Python objects."><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.conversion</span></code></a> is the one used whenever conversion is needed.</p>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">Converter</span></code> has 2 attributes <cite>rpy2py</cite> and <cite>py2rpy</cite> to resolve
+the conversion from R (<cite>rinterface-level</cite>) to an arbitrary Python representation,
+and from an arbitrary Python representation to a suitable <cite>rinterface</cite> level.
+Each of those is a single dispatch as implemented in
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">functools.singledispatch()</span></code>. This means that a conversion function,
+such as the example function <cite>tuple_str</cite> above, just has to be associated with
+the class of the object to convert from. In our example, the Python class is <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a>.</p>
+<p>Our conversion function defined above can be registered in a converter as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">Converter</span>
+<span class="n">seq_converter</span> <span class="o">=</span> <span class="n">Converter</span><span class="p">(</span><span class="s1">&#39;sequence converter&#39;</span><span class="p">)</span>
+<span class="n">seq_converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">tuple_str</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Alternatively, the registration can be done with a decorator when the function is declared:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">my_converter</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">Converter</span><span class="p">()</span>
+
+<span class="nd">@my_converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="p">(</span><span class="nb">tuple</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">tuple_str</span><span class="p">(</span><span class="n">tpl</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">StrSexpVector</span><span class="p">(</span><span class="n">tpl</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+</div>
+<p>The class <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.Converter</span></code> can group several conversion rules
+into one object. This helps will defining sets of coherent conversion rules, or
+conversion domains. <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects.numpy2ri.converter</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rojects.pandas2ri.converter</span></code>
+are examples of such converters.</p>
+<p>Sets of conversion rules can be layered on the top of one another
+to create sets of combined conversion rules. To help with writing concise and
+clear code, <code class="xref py py-class docutils literal notranslate"><span class="pre">Converter</span></code> objects can be added. For example, creating a
+converter that adds the rule above to the default conversion rules in rpy2
+will look like:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_converter</span>
+<span class="n">conversion_rules</span> <span class="o">=</span> <span class="n">default_converter</span> <span class="o">+</span> <span class="n">seq_converter</span>
+</pre></div>
+</div>
+<p>While a dispatch solely based on Python classes will work very well in the
+direction “Python to <cite>rpy2.rinterface</cite>” it will quickly show limits in the direction
+“<cite>rpy2.rinterface</cite> to Python”, especially when independently-developed conversions
+must be  combined.</p>
+<p>The issue with converting from <cite>rpy2.rinterface</cite> to Python is not working too well
+because <cite>rpy2.rinterface</cite> mirrors the type of R objects at the C-level (as
+defined in R’s C-API), but class definitions in R often sit outside
+of structure types found at the C level. They are just a mere attribute of the R object
+that contains a list class names. For example, an R <cite>data.frame</cite> is a <cite>VECSXP</cite> at
+C-level (that is an R <cite>list</cite>), but it has an attribute <cite>“class”</cite> that contains <cite>“data.frame”</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Nothing would prevent someone to set the <cite>“class”</cite> attribute to <cite>“data.frame”</cite> to an R
+object of different type at C-level. For example, it is perfectly possible to write
+the following in R, and create an invalid data frame:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">c</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="m">3</span><span class="p">)</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="nf">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">int</span><span class="w"> </span><span class="p">[</span><span class="m">1</span><span class="o">:</span><span class="m">3</span><span class="p">]</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="nf">class</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="s">&quot;data.frame&quot;</span>
+<span class="o">&gt;</span><span class="w"> </span><span class="nf">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="s">&#39;data.frame&#39;</span><span class="o">:</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="n">obs.</span><span class="w"> </span><span class="n">of</span><span class="w">  </span><span class="m">3</span><span class="w"> </span><span class="n">variables</span><span class="o">:</span>
+<span class="w"> </span><span class="s">&#39;data.frame&#39;</span><span class="w"> </span><span class="n">int</span><span class="w">  </span><span class="nf">character</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="nf">character</span><span class="p">(</span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="nf">character</span><span class="p">(</span><span class="m">0</span><span class="p">)</span>
+<span class="n">Warning</span><span class="w"> </span><span class="n">message</span><span class="o">:</span>
+<span class="w">  </span><span class="n">In</span><span class="w"> </span><span class="nf">format.data.frame</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">trim</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="n">drop0trailing</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">,</span><span class="w"> </span><span class="kc">...</span><span class="p">)</span><span class="w"> </span><span class="o">:</span>
+<span class="w">  </span><span class="n">corrupt</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="n">frame</span><span class="o">:</span><span class="w"> </span><span class="n">columns</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">be</span><span class="w"> </span><span class="n">truncated</span><span class="w"> </span><span class="n">or</span><span class="w"> </span><span class="n">padded</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="n">NAs</span>
+</pre></div>
+</div>
+</div>
+<p>To allow a dispatch based name-specified classes in R, the rpy2 conversion system
+uses a secondary mechanism (the primary mechanism is the single dispatch-based one
+presented above).</p>
+<p>Instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.NameClassMap</span></code> can map and R class name to
+a Python class. Remember that this mapping only happen within the context of an <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a>
+class though. The attribute <code class="xref py py-attr docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.Converter._rpy2py_nc_name</span></code> is
+a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> where keys are <a class="reference internal" href="rinterface.html#module-rpy2.rinterface" title="rpy2.rinterface: Low-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.rinterface</span></code></a> classes to wrap C-level R objects, and
+values are instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.conversion.NameClassMap</span></code>.</p>
+<p>For example, a conversion rule for R objects of class “lm” that are R lists at
+the C level (this is a real exemple - R’s linear model fit objects are just that)
+can be added to a converter with:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Lm</span><span class="p">(</span><span class="n">rinterface</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">):</span>
+    <span class="c1"># implement attributes, properties, methods to make the handling of</span>
+    <span class="c1"># the R object more convenient on the Python side</span>
+    <span class="k">pass</span>
+
+<span class="n">clsmap</span> <span class="o">=</span> <span class="n">myconverter</span><span class="o">.</span><span class="n">_rpy2py_nc_name</span><span class="p">[</span><span class="n">rinterface</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">]</span>
+<span class="n">clsmap</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;lm&#39;</span><span class="p">:</span> <span class="n">Lm</span><span class="p">})</span>
+</pre></div>
+</div>
+</section>
+<section id="local-conversion-rules">
+<span id="id1"></span><h3>Local conversion rules<a class="headerlink" href="#local-conversion-rules" title="Link to this heading">¶</a></h3>
+<p>The conversion rules can be customized globally (See section <cite>Customizing the conversion</cite>)
+or locally in a Python <cite>with</cite> block.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The use of local conversion rules is
+much recommended as modifying the global conversion rules can lead to wasted resources
+(e.g., unnecessary round-trip conversions if the code is successively passing results from
+calling R functions to the next R functions) or errors (conversion cannot be guaranteed to
+be without loss, as concepts present in either language are not always able to survive
+a round trip).</p>
+</div>
+<p>As an example, we show how to write an alternative to rpy2 not knowing what to do with
+Python tuples.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="c1"># error here:</span>
+<span class="c1"># NotImplementedError: Conversion &#39;py2rpy&#39; not defined for objects of type &#39;&lt;class &#39;tuple&#39;&gt;&#39;</span>
+<span class="n">res</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This can be changed by using our converter defined above as an addition to the
+default conversion scheme:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_converter</span>
+<span class="k">with</span> <span class="n">conversion_rules</span><span class="o">.</span><span class="n">context</span><span class="p">():</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">collapse</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A local conversion rule can also ensure that code is robust against arbitrary changes
+in the conversion system made by the caller.</p>
+<p>For example, to ensure that a function always uses rpy2’s default conversion,
+irrespective of what are the conversion rules defined by the caller of the code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_converter</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">default_converter</span><span class="o">.</span><span class="n">context</span><span class="p">():</span>
+        <span class="c1"># Block of code mixing Python code and calls to R functions</span>
+        <span class="c1"># interacting with the objects returned by R in the Python code.</span>
+        <span class="c1"># Within this block the conversion rules are the ones of</span>
+        <span class="c1"># `default_converter`.</span>
+        <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Code in the <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> will use whatever the active conversion rules are, but
+there are situations where the set of active conversion rules must be accessed. Whenever
+the case the conversion rules from the context manager can be named.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>  <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_converter</span>
+  <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_conversion</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+      <span class="k">with</span> <span class="n">default_converter</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">local_converter</span><span class="p">:</span>
+          <span class="c1"># `local_converter` is a rpy2.robjects.conversion.Converter</span>
+          <span class="c1"># object.</span>
+          <span class="k">pass</span>
+
+<span class="n">The</span> <span class="n">converter</span> <span class="n">returned</span> <span class="n">by</span> <span class="p">:</span><span class="n">meth</span><span class="p">:</span><span class="err">`</span><span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">Converter</span><span class="o">.</span><span class="n">context</span><span class="err">`</span> <span class="ow">is</span>
+<span class="n">a</span> <span class="n">copy</span> <span class="n">of</span> <span class="n">the</span> <span class="n">rules</span> <span class="k">for</span> <span class="n">the</span> <span class="n">context</span><span class="o">.</span>
+
+<span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">python</span>
+
+    <span class="k">with</span> <span class="n">default_converter</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">local_converter</span><span class="p">:</span>
+        <span class="c1"># Conversion objects are not the same.</span>
+        <span class="k">assert</span> <span class="n">local_converter</span> <span class="o">!=</span> <span class="n">default_converter</span>
+        <span class="k">assert</span> <span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="o">.</span><span class="n">registry</span> <span class="o">!=</span> <span class="n">default_converter</span><span class="o">.</span><span class="n">py2rpy</span>
+        <span class="k">assert</span> <span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">registry</span> <span class="o">!=</span> <span class="n">default_converter</span><span class="o">.</span><span class="n">rpy2py</span>
+        <span class="c1"># The convertion rules are identical though.</span>
+        <span class="k">assert</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">py2rpy</span><span class="o">.</span><span class="n">registry</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">default_converter</span><span class="o">.</span><span class="n">py2rpy</span><span class="o">.</span><span class="n">registry</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">dict</span><span class="p">(</span><span class="n">cv</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">registry</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">(</span><span class="n">default_converter</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">registry</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="customizing-the-conversion">
+<h3>Customizing the conversion<a class="headerlink" href="#customizing-the-conversion" title="Link to this heading">¶</a></h3>
+<p>As an example, let’s assume that one want to return atomic values
+whenever an R numerical vector is of length one. This is only a matter
+of writing a new function <cite>rpy2py</cite> that handles this, as shown below:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">robjects</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="kn">import</span> <span class="n">SexpVector</span>
+
+<span class="nd">@robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">rpy2py</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">my_rpy2py</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">obj</span>
+</pre></div>
+</div>
+<p>Then we can test it with:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">type</span><span class="p">(</span><span class="n">pi</span><span class="p">)</span>
+<span class="go">&lt;type &#39;float&#39;&gt;</span>
+</pre></div>
+</div>
+<p>At the time of writing <code class="xref py py-func docutils literal notranslate"><span class="pre">singledispath()</span></code> does not provide a way to <cite>unregister</cite>.
+Removing the additional conversion rule without restarting Python is left as an
+exercise for the reader.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Customizing the conversion of S4 classes should preferably done using a separate
+dedicated system.</p>
+<p>The system is rather simple and can easily be described with an example.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">robjects</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">LMER</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">RS4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom class.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<span class="n">lme4</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;lme4&#39;</span><span class="p">)</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
+
+<span class="c1"># Map the R/S4 class &#39;lmerMod&#39; to our Python class LMER.</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rclass_map_context</span><span class="p">(</span>
+    <span class="n">rinterface</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;lmerMod&#39;</span><span class="p">:</span> <span class="n">LMER</span><span class="p">}</span>
+<span class="p">):</span>
+    <span class="n">res2</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>When running the example above, <cite>res</cite> is an instance of class
+<a class="reference internal" href="robjects_oop.html#rpy2.robjects.methods.RS4" title="rpy2.robjects.methods.RS4"><code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.robjects.methods.RS4</span></code></a>,
+which is the default mapping for R <cite>S4</cite> instances, while <cite>res2</cite> is an instance of our
+custom class <cite>LMER</cite>.</p>
+<p>The class mapping is using the hierarchy of R/S4-defined classes and tries to find
+the first
+matching Python-defined class. For example, the R/S4 class <cite>lmerMod</cite> has a parent class
+<cite>merMod</cite> (defined in R S4). Let run the following example after the previous one.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">MER</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">RS4</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom class.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rclass_map_context</span><span class="p">(</span>
+    <span class="n">rinterface</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;merMod&#39;</span><span class="p">:</span> <span class="n">MER</span><span class="p">}</span>
+<span class="p">):</span>
+    <span class="n">res3</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">conversion</span><span class="o">.</span><span class="n">converter</span><span class="o">.</span><span class="n">rclass_map_context</span><span class="p">(</span>
+    <span class="n">rinterface</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">SexpS4</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;lmerMod&#39;</span><span class="p">:</span> <span class="n">LMER</span><span class="p">,</span>
+     <span class="s1">&#39;merMod&#39;</span><span class="p">:</span> <span class="n">MER</span><span class="p">}):</span>
+    <span class="n">res4</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lmer(Reaction ~ Days + (Days | Subject), sleepstudy)&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><cite>res3</cite> will be a <cite>MER</cite> instance: there is no mapping for the R/S4 class <cite>lmerMod</cite> but there
+is a mapping for its R/S4 parent <cite>merMod</cite>. <cite>res4</cite> will be an <cite>LMER</cite> instance.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Mapping rpy2 objects to arbitrary python objects</a><ul>
+<li><a class="reference internal" href="#protocols">Protocols</a></li>
+<li><a class="reference internal" href="#conversion">Conversion</a><ul>
+<li><a class="reference internal" href="#converter-objects">Converter objects</a></li>
+<li><a class="reference internal" href="#local-conversion-rules">Local conversion rules</a></li>
+<li><a class="reference internal" href="#customizing-the-conversion">Customizing the conversion</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="rhelp.html"
+                          title="previous chapter">R help</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="pandas.html"
+                          title="next chapter">Interoperability with pandas</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects_convert.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="pandas.html" title="Interoperability with pandas"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="rhelp.html" title="R help"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Mapping rpy2 objects to arbitrary python objects</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

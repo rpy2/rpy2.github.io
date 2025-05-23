@@ -1,0 +1,330 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Environments &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Functions" href="robjects_functions.html" />
+    <link rel="prev" title="R objects" href="robjects_robjects.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_functions.html" title="Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="robjects_robjects.html" title="R objects"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Environments</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="environments">
+<span id="robjects-environments"></span><h1>Environments<a class="headerlink" href="#environments" title="Link to this heading">¶</a></h1>
+<p>R environments can be described to the Python user as
+an hybrid of a dictionary and a scope.</p>
+<p>The first of all environments is called the Global Environment,
+that can also be referred to as the R workspace.</p>
+<p>An R environment in RPy2 can be seen as a kind of Python
+dictionnary.</p>
+<p>Assigning a value to a symbol in an environment has been
+made as simple as assigning a value to a key in a Python
+dictionary:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">globalenv</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">ls</span><span class="p">(</span><span class="n">globalenv</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Care must be taken when assigning objects into an environment
+such as the Global Environment, as this can hide other objects
+with an identical name.
+The following example should make one measure that this can mean
+trouble if no care is taken:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">globalenv</span><span class="p">[</span><span class="s2">&quot;pi&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">123</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="go">[1] 123</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">rm</span><span class="p">(</span><span class="s2">&quot;pi&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+<span class="go">[1] 3.1415926535897931</span>
+</pre></div>
+</div>
+<p>The class inherits from the class
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpEnvironment</span></code>.</p>
+<p>An environment is also iter-able, returning all the symbols
+(keys) it contains:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">baseenv</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">env</span><span class="p">]</span>
+<span class="go">&lt;a long list returned&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Although there is a natural link between environment
+and R packages, one should consider using the convenience wrapper
+dedicated to model R packages (see <a class="reference internal" href="robjects_rpackages.html#robjects-packages"><span class="std std-ref">R packages</span></a>).</p>
+</div>
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.</span></span><span class="sig-name descname"><span class="pre">Environment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">o</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">SexpEnvironment</span></code></p>
+<p>An R environement, implementing Python’s mapping interface.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None.</span>&#160; <span class="pre">Remove</span> <span class="pre">all</span> <span class="pre">items</span> <span class="pre">from</span> <span class="pre">D.</span></span></span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.clear"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment.clear" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment.find">
+<span class="sig-name descname"><span class="pre">find</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">wantfun</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.find"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment.find" title="Link to this definition">¶</a></dt>
+<dd><p>Find an item, starting with this R environment.</p>
+<p>Raises a <cite>KeyError</cite> if the key cannot be found.</p>
+<p>This method is called <cite>find</cite> because it is somewhat different
+from the method <code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code> in Python mappings such <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.
+This is looking for a key across enclosing environments, returning
+the first key found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item</strong> – string (name/symbol)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object (as returned by <code class="xref py py-func docutils literal notranslate"><span class="pre">conversion.converter.rpy2py()</span></code>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.13)"><span class="pre">Generator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sexp</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment.items" title="Link to this definition">¶</a></dt>
+<dd><p>Iterate through the symbols and associated objects in
+this R environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.13)"><span class="pre">Generator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment.keys" title="Link to this definition">¶</a></dt>
+<dd><p>Return an iterator over keys in the environment.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment.pop">
+<span class="sig-name descname"><span class="pre">pop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">v,</span> <span class="pre">remove</span> <span class="pre">the</span> <span class="pre">specified</span> <span class="pre">key</span></span></span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.pop"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment.pop" title="Link to this definition">¶</a></dt>
+<dd><p>and return the corresponding value. If the key is not found,
+d is returned if given, otherwise KeyError is raised.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment.popitem">
+<span class="sig-name descname"><span class="pre">popitem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">)</span> <span class="pre">-&gt;</span> <span class="pre">(k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">remove</span> <span class="pre">and</span> <span class="pre">return</span> <span class="pre">some</span> <span class="pre">(key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.popitem"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment.popitem" title="Link to this definition">¶</a></dt>
+<dd><p>pair as a 2-tuple; but raise KeyError if E is empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Environment.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.13)"><span class="pre">Generator</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Sexp</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/rpy2/robjects/environments.html#Environment.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Environment.values" title="Link to this definition">¶</a></dt>
+<dd><p>Iterate through the objects in
+this R environment.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="environments-as-temporary-local-contexts">
+<h2>Environments as (temporary) local contexts<a class="headerlink" href="#environments-as-temporary-local-contexts" title="Link to this heading">¶</a></h2>
+<p>Environments are like nested boxes, each with an arbritrary number of
+symbols (the objects names) bound to objects (the actual code or data
+associated with the symbol). The topmost environment is <cite>globalenv</cite>
+(<cite>.GlobalEnv</cite> in R).</p>
+<p>When looking for a symbol, R will normally start looking for it in a starting
+environment, and if it does not find it it will look for it the
+enclosing (parent) environment. This is will repeat until the symbol
+is found or <cite>globalenv</cite> is reached and there is no more environment to search.</p>
+<p>The evaluation of R code can be given a starting environment, and this
+can be an alternative from cluttering <cite>globalenv</cite>.</p>
+<p>To illustrate this, we have an R code that adds one to
+a value <cite>y</cite> it has to find somewhere in its evaluation context.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;y + 1&#39;</span><span class="p">)</span>
+<span class="go">RRuntimeError: Error in (function (expr, envir = parent.frame(), enclos = if (is.list(envir) ||  :</span>
+<span class="go">  object &#39;y&#39; not found</span>
+</pre></div>
+</div>
+<p>Evaluating that code when no <cite>y</cite> can be found results in an
+error message.</p>
+<p>Adding a <cite>y</cite> to <cite>globalenv</cite> solves the issue:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;y + 1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="go">[1] 3</span>
+</pre></div>
+</div>
+<p>This is happening because <cite>globalenv</cite> is the environment where our function
+was defined (its closure).</p>
+<p>However, we could also an other environment.</p>
+<p>There as several mechanisms to do that, and one them is to use
+<code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.environments.local_context()</span></code> (also available
+as <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.local_context()</span></code>). It provides an easy way to
+temporarily set evaluation contexts.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">rsrc</span> <span class="o">=</span> <span class="s1">&#39;y + 1&#39;</span>
+<span class="k">if</span> <span class="s1">&#39;y&#39;</span> <span class="ow">in</span> <span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">:</span>
+    <span class="k">del</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">local_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">lc_a</span><span class="p">:</span>
+    <span class="n">lc_a</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In local context a:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rsrc</span><span class="p">))</span>
+    <span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">local_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">lc_b</span><span class="p">:</span>
+        <span class="n">lc_b</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;In local context b (masking a):&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rsrc</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Back to local context a:&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">rsrc</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The result is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="n">local</span> <span class="n">context</span> <span class="n">a</span><span class="p">:</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mi">3</span>
+
+<span class="n">In</span> <span class="n">local</span> <span class="n">context</span> <span class="n">b</span> <span class="p">(</span><span class="n">masking</span> <span class="n">a</span><span class="p">):</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mi">4</span>
+
+<span class="n">Back</span> <span class="n">to</span> <span class="n">local</span> <span class="n">context</span> <span class="n">a</span><span class="p">:</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="mi">3</span>
+</pre></div>
+</div>
+<p>Being able to do this is particularly helpful with R functions that like to report the full data
+content when anonymous objects are used. This is the case for a lot of the statistical modeling
+code in R’s standard library. A local context can help with binding the object to a symbol
+while R code is evaluated.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The function <code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.rl()</span></code> will turn a string into an unevaluated R language
+object. To know more, see Section <a class="reference internal" href="robjects_language.html#robjects-language"><span class="std std-ref">R language</span></a>.</p>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">rl</span>
+
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">mtcars</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">robjects</span><span class="o">.</span><span class="n">local_context</span><span class="p">()</span> <span class="k">as</span> <span class="n">lc</span><span class="p">:</span>
+    <span class="n">lc</span><span class="p">[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mtcars</span>
+    <span class="n">fit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="s1">&#39;mpg ~ gear&#39;</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Environments</a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.Environment"><code class="docutils literal notranslate"><span class="pre">Environment</span></code></a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.Environment.clear"><code class="docutils literal notranslate"><span class="pre">Environment.clear()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Environment.find"><code class="docutils literal notranslate"><span class="pre">Environment.find()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Environment.items"><code class="docutils literal notranslate"><span class="pre">Environment.items()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Environment.keys"><code class="docutils literal notranslate"><span class="pre">Environment.keys()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Environment.pop"><code class="docutils literal notranslate"><span class="pre">Environment.pop()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Environment.popitem"><code class="docutils literal notranslate"><span class="pre">Environment.popitem()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Environment.values"><code class="docutils literal notranslate"><span class="pre">Environment.values()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#environments-as-temporary-local-contexts">Environments as (temporary) local contexts</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="robjects_robjects.html"
+                          title="previous chapter">R objects</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="robjects_functions.html"
+                          title="next chapter">Functions</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects_environments.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_functions.html" title="Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="robjects_robjects.html" title="R objects"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Environments</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

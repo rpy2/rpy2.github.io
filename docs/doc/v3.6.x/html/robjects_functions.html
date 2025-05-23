@@ -1,0 +1,381 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Functions &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Formulae" href="robjects_formulae.html" />
+    <link rel="prev" title="Environments" href="robjects_environments.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_formulae.html" title="Formulae"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="robjects_environments.html" title="Environments"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Functions</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="functions">
+<span id="robjects-functions"></span><span id="index-0"></span><h1>Functions<a class="headerlink" href="#functions" title="Link to this heading">¶</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section is about calling R functions from Python.
+To make Python functions
+callable by R, see the low-level function <a class="reference internal" href="rinterface.html#rpy2.rinterface.rternalize" title="rpy2.rinterface.rternalize"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.rinterface.rternalize()</span></code></a>.</p>
+</div>
+<p>R functions exposed by <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code>’s high-level interface can be used:</p>
+<ul class="simple">
+<li><p>like any regular Python function as they are callable objects
+(see Section <a class="reference internal" href="#robjects-functions-callable"><span class="std std-ref">Callable</span></a>)</p></li>
+<li><p>through their method <code class="xref py py-meth docutils literal notranslate"><span class="pre">rcall()</span></code> (see Section <a class="reference internal" href="#robjects-functions-rcall"><span class="std std-ref">rcall()</span></a>)</p></li>
+</ul>
+<section id="callable">
+<span id="robjects-functions-callable"></span><h2>Callable<a class="headerlink" href="#callable" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot</span>
+<span class="n">rnorm</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="n">ylab</span><span class="o">=</span><span class="s2">&quot;random&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This is all looking fine and simple until R arguments with names
+such as <cite>na.rm</cite> are encountered. By default, this is addressed by
+having a translation of ‘.’ (dot) in the R argument name into a
+‘_’ in the Python
+argument name.</p>
+<p>Let’s take an example in R:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">rank</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">na.last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+<span class="c1"># or without the implicit namespace:</span>
+<span class="n">base</span><span class="o">::</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="n">na.last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In Python one can write:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="n">base</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">na_last</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this example, the object <cite>base.rank</cite> is an instance of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">functions.SignatureTranslatedFunction</span></code>,
+a child class of <code class="xref py py-class docutils literal notranslate"><span class="pre">functions.Function</span></code>, and the translation of
+the argument names is made during the creation of the instance.
+Making the translation during the creation obviously
+saves the need to perform translation operations on parameter names,
+such as replacing <cite>‘.’</cite> with <cite>‘_’</cite>,
+at each function call, and allows <cite>rpy2</cite> to perform sanity checks
+regarding possible ambiguous translations (<cite>R</cite> functions, even in
+the base libraries, happen to sometimes have both argument names
+<cite>foo.bar</cite> and <cite>foo_bar</cite> in the signature of the same function).
+The cost of performing the mapping is amortized when a function
+is called repeatedly since this is only performed when the instance
+is created.</p>
+<p>If no translation is desired, the class <code class="xref py py-class docutils literal notranslate"><span class="pre">functions.Function</span></code>
+can be used. With
+that class, using the special Python syntax <cite>**kwargs</cite> is one way to specify
+named arguments to R functions that contain a dot <cite>‘.’</cite></p>
+<p>One will note that the translation is done by inspecting
+the signature of the R function, and that not much can be guessed from the
+R ellipsis <cite>‘…’</cite> whenever present. Arguments falling in the <cite>‘…’</cite>
+will need
+to have their R names passed to the constructor for
+<code class="xref py py-class docutils literal notranslate"><span class="pre">functions.SignatureTranslatedFunction</span></code> as show in the example below:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span><span class="o">.</span><span class="n">par</span><span class="p">(</span><span class="n">cex_axis</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="go">Warning message:</span>
+<span class="go">In function (..., no.readonly = FALSE)  :</span>
+<span class="go">&quot;cex_axis&quot; is not a graphical parameter</span>
+<span class="go">&lt;Vector - Python:0xa1688cc / R:0xab763b0&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span><span class="o">.</span><span class="n">par</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s1">&#39;cex.axis&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">})</span>
+<span class="go">&lt;Vector - Python:0xae8fbec / R:0xaafb850&gt;</span>
+</pre></div>
+</div>
+<p>There exists a way to specify manually an argument mapping:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.functions</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignatureTranslatedFunction</span>
+<span class="n">STM</span> <span class="o">=</span> <span class="n">SignatureTranslatedFunction</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
+<span class="n">graphics</span><span class="o">.</span><span class="n">par</span> <span class="o">=</span> <span class="n">STM</span><span class="p">(</span><span class="n">graphics</span><span class="o">.</span><span class="n">par</span><span class="p">,</span>
+                   <span class="n">init_prm_translate</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cex_axis&#39;</span><span class="p">:</span> <span class="s1">&#39;cex.axis&#39;</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span><span class="o">.</span><span class="n">par</span><span class="p">(</span><span class="n">cex_axis</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="go">&lt;Vector - Python:0xa2cc90c / R:0xa5f7fd8&gt;</span>
+</pre></div>
+</div>
+<p>Translating blindly each <cite>‘.’</cite> in argument names into <cite>‘_’</cite>
+currently appearsto be a risky
+practice, and is left to one to decide for his/her own code.
+The code example is a demonstration of how to do, not a recommendation
+to do it:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">iamfeelinglucky</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">k</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">f</span>
+
+<span class="n">lucky_par</span> <span class="o">=</span> <span class="n">iamfeelinglucky</span><span class="p">(</span><span class="n">graphics</span><span class="o">.</span><span class="n">par</span><span class="p">)</span>
+<span class="n">lucky_path</span><span class="p">(</span><span class="n">cex_axis</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Things are also not always that simple, as the use of a dictionary does
+not ensure that the order in which the arguments are passed is conserved.</p>
+<p>R is capable of introspection, and can return the arguments accepted
+by a function through the function <cite>formals()</cite>, modelled as a method of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">functions.Function</span></code>.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rnorm</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rnorm</span><span class="o">.</span><span class="n">formals</span><span class="p">()</span>
+<span class="go">&lt;Vector - Python:0x8790bcc / R:0x93db250&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">tuple</span><span class="p">(</span><span class="n">rnorm</span><span class="o">.</span><span class="n">formals</span><span class="p">()</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+<span class="go">(&#39;n&#39;, &#39;mean&#39;, &#39;sd&#39;)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Here again there is a twist coming from R, and some functions are “special”.
+rpy2 is exposing as <code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpClosure</span></code>  R objects that
+can be either CLOSXP, BUILTINSXP, or SPECIALSXP. However, only CLOSXP objects
+will return non-null <cite>formals</cite>.</p>
+</div>
+</section>
+<section id="rcall">
+<span id="robjects-functions-rcall"></span><h2><code class="xref py py-meth docutils literal notranslate"><span class="pre">rcall()</span></code><a class="headerlink" href="#rcall" title="Link to this heading">¶</a></h2>
+<p>The method <code class="xref py py-meth docutils literal notranslate"><span class="pre">Function.rcall()</span></code> is an alternative way to call an
+underlying R function. When using R environment
+in which the function should be evaluated must be specified.</p>
+<p>We use again the example with <cite>plot()</cite>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+<span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;graphics&#39;</span><span class="p">)</span>
+
+<span class="n">plot</span> <span class="o">=</span> <span class="n">graphics</span><span class="o">.</span><span class="n">plot</span>
+<span class="n">rnorm</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span>
+
+<span class="c1"># import R&#39;s &quot;GlobalEnv&quot; to evaluate the function</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">globalenv</span>
+
+<span class="c1"># build a tuple of 2-tuple as arguments</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">)),)</span>
+
+<span class="c1"># run the function in globalenv</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">globalenv</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the example above the label for y-axis is inferred from the call (in R,
+using the function <cite>deparse()</cite>) and this is producing rather undesirably
+long labels. This is the case because the vector <code class="xref py py-obj docutils literal notranslate"><span class="pre">x</span></code> is an anonymous
+object as far a <cite>R</cite> is concerned: while it has a symbol for Python (<cite>“x”</cite>),
+it does not have any for <cite>R</cite>.</p>
+<p>The method <code class="xref py py-meth docutils literal notranslate"><span class="pre">rcall()</span></code> can help overcome this by letting one use
+an environment in which the R objects can be bound to a symbol (a name).
+While <code class="xref py py-data docutils literal notranslate"><span class="pre">globalenv</span></code> can be used, a dedicated environment can lead
+to a better compartmentalization of code.</p>
+<p>The call above can then become:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">Environment</span>
+
+<span class="c1"># Create an R environment</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+
+<span class="c1"># Bind in R the R vector to the symbol &quot;x&quot; and</span>
+<span class="c1"># in that environment</span>
+<span class="n">env</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Build a tuple of pairs (&lt;argument name&gt;, &lt;argument&gt;).</span>
+<span class="c1"># Note that the argument is a symbol. R will resolve what</span>
+<span class="c1"># object is associated to that symbol when the function</span>
+<span class="c1"># is executed.</span>
+<span class="n">args</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">base</span><span class="o">.</span><span class="n">as_symbol</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)),)</span>
+
+<span class="c1"># plot</span>
+<span class="n">plot</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="docstrings">
+<h2>Docstrings<a class="headerlink" href="#docstrings" title="Link to this heading">¶</a></h2>
+<p>The R functions as defined in <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> inherit from the class
+<code class="xref py py-class docutils literal notranslate"><span class="pre">rpy2.rinterface.SexpClosure</span></code>, and further documentation
+on the behavior of function can be found in Section <a class="reference internal" href="rinterface.html#rinterface-functions"><span class="std std-ref">Functions</span></a>.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.robjects.functions.Function">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.functions.</span></span><span class="sig-name descname"><span class="pre">Function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.functions.Function" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">SexpClosure</span></code></p>
+<p>Python representation of an R function.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.functions.Function.formals">
+<span class="sig-name descname"><span class="pre">formals</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.formals"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.formals" title="Link to this definition">¶</a></dt>
+<dd><p>Return the signature of the underlying R function
+(as the R function ‘formals()’ would).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.functions.Function.rcall">
+<span class="sig-name descname"><span class="pre">rcall</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyvals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SexpEnvironment</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Sexp</span></span></span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#Function.rcall"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.functions.Function.rcall" title="Link to this definition">¶</a></dt>
+<dd><p>Wrapper around the parent method
+rpy2.rinterface.SexpClosure.rcall().</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.robjects.functions.SignatureTranslatedFunction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.functions.</span></span><span class="sig-name descname"><span class="pre">SignatureTranslatedFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/functions.html#SignatureTranslatedFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.functions.SignatureTranslatedFunction" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#rpy2.robjects.functions.Function" title="rpy2.robjects.functions.Function"><code class="xref py py-class docutils literal notranslate"><span class="pre">Function</span></code></a></p>
+<p>Python representation of an R function, where
+the names in named argument are translated to valid
+argument names in Python.</p>
+</dd></dl>
+
+</section>
+<section id="automagic-python-functions">
+<h2>Automagic Python functions<a class="headerlink" href="#automagic-python-functions" title="Link to this heading">¶</a></h2>
+<p>Genuine Python functions can also be dynamically created from R functions, complete
+with matching signatures.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">r_func_code</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">function(x, y=FALSE, z=&quot;abc&quot;) {</span>
+<span class="s2">  TRUE</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">r_func</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="n">r_func_code</span><span class="p">)</span>
+
+<span class="n">py_func</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">functions</span><span class="o">.</span><span class="n">wrap_r_function</span><span class="p">(</span><span class="n">r_func</span><span class="p">,</span> <span class="s1">&#39;py_func&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The resulting object <code class="xref py py-func docutils literal notranslate"><span class="pre">py_func()</span></code> is a Python function of signature
+<cite>(x, y=False, z=’abc’)</cite>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Functions</a><ul>
+<li><a class="reference internal" href="#callable">Callable</a></li>
+<li><a class="reference internal" href="#rcall"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rcall()</span></code></a></li>
+<li><a class="reference internal" href="#docstrings">Docstrings</a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.functions.Function"><code class="docutils literal notranslate"><span class="pre">Function</span></code></a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.functions.Function.formals"><code class="docutils literal notranslate"><span class="pre">Function.formals()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.functions.Function.rcall"><code class="docutils literal notranslate"><span class="pre">Function.rcall()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rpy2.robjects.functions.SignatureTranslatedFunction"><code class="docutils literal notranslate"><span class="pre">SignatureTranslatedFunction</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#automagic-python-functions">Automagic Python functions</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="robjects_environments.html"
+                          title="previous chapter">Environments</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="robjects_formulae.html"
+                          title="next chapter">Formulae</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects_functions.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_formulae.html" title="Formulae"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="robjects_environments.html" title="Environments"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Functions</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

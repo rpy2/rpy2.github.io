@@ -1,0 +1,398 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Callbacks &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Client-Server" href="server.html" />
+    <link rel="prev" title="Miscellaneous topics" href="miscellaneous.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="Client-Server"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="miscellaneous.html" title="Miscellaneous topics"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="miscellaneous.html" accesskey="U">Miscellaneous topics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Callbacks</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="callbacks">
+<span id="rinterface-callbacks"></span><h1>Callbacks<a class="headerlink" href="#callbacks" title="Link to this heading">¶</a></h1>
+<p>The R C-API allows front-end developpers to customize R’s interactive behavior
+to their needs using callbacks, and <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> is making those callbacks
+accessible with the ability to implement them in pure Python. In other words,
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> makes it possible to implement a completely an R front-end such
+as RStudio.</p>
+<section id="console-i-o">
+<span id="rinterface-callbacks-consoleio"></span><h2>Console I/O<a class="headerlink" href="#console-i-o" title="Link to this heading">¶</a></h2>
+<p>During an interactive session, much of the communication between R and the
+user happen through the console. How the console reads input and writes output,
+can be defined through callback functions.</p>
+<section id="read-console">
+<h3>Read console<a class="headerlink" href="#read-console" title="Link to this heading">¶</a></h3>
+<p>The function “read console” is called whenever console input is expected.</p>
+<p>The default callback for inputing data is
+<a class="reference internal" href="#rpy2.rinterface_lib.callbacks.consoleread" title="rpy2.rinterface_lib.callbacks.consoleread"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.rinterface_lib.callbacks.consoleread()</span></code></a></p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.consoleread">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">consoleread</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consoleread"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consoleread" title="Link to this definition">¶</a></dt>
+<dd><p>Read input for the R console.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>prompt</strong> – The message prompted.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string with the input returned by the user.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<p>Any Python function with the same signature can be used instead. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w">  </span><span class="nf">my_consoleread</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">custom_prompt</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;R is asking this: </span><span class="si">{</span><span class="n">promp</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">return</span> <span class="nb">input</span><span class="p">(</span><span class="n">custom_prompt</span><span class="p">)</span>
+
+<span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">consoleread</span> <span class="o">=</span> <span class="n">my_consoleread</span>
+</pre></div>
+</div>
+</section>
+<section id="write-console">
+<h3>Write console<a class="headerlink" href="#write-console" title="Link to this heading">¶</a></h3>
+<p>The function “write console” is called whenever output is sent to the R console.
+In R’s C API, there are two functions behind the hood, one for regular
+printing, and one for warnings and errors.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.consolewrite_print">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">consolewrite_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consolewrite_print" title="Link to this definition">¶</a></dt>
+<dd><p>R writing to the console/terminal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> – the data to write to the console/terminal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.consolewrite_warnerror">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">consolewrite_warnerror</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_warnerror"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consolewrite_warnerror" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<p>An example should make it obvious:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">buf</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="c1"># function that append its argument to the list &#39;buf&#39;</span>
+    <span class="n">buf</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># output from the R console will now be appended to the list &#39;buf&#39;</span>
+<span class="n">consolewrite_print_backup</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">consolewrite_print</span>
+<span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">consolewrite_print</span> <span class="o">=</span> <span class="n">f</span>
+
+<span class="n">date</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span>
+<span class="n">rprint</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;print&#39;</span><span class="p">]</span>
+<span class="n">rprint</span><span class="p">(</span><span class="n">date</span><span class="p">())</span>
+
+<span class="c1"># the output is in our list (as defined in the function f above)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+
+<span class="c1"># restore default function</span>
+<span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">consolewrite_print</span> <span class="o">=</span> <span class="n">consolewrite_print_backup</span>
+</pre></div>
+</div>
+<dl class="py function">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">consolewrite_print</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consolewrite_print"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd><p>R writing to the console/terminal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>s</strong> – the data to write to the console/terminal.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="show-message">
+<h3>Show message<a class="headerlink" href="#show-message" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.showmessage">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">showmessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#showmessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.showmessage" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="flush-console">
+<h3>Flush console<a class="headerlink" href="#flush-console" title="Link to this heading">¶</a></h3>
+<p>The function “flush console” is called whenever output is sent to the R console.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.consoleflush">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">consoleflush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#consoleflush"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.consoleflush" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="yes-no-cancel">
+<h3>Yes/No/Cancel<a class="headerlink" href="#yes-no-cancel" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.yesnocancel">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">yesnocancel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">question</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#yesnocancel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.yesnocancel" title="Link to this definition">¶</a></dt>
+<dd><p>Asking a user to answer yes, no, or cancel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>question</strong> – The question asked to the user</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An integer with the answer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+<section id="files">
+<h2>Files<a class="headerlink" href="#files" title="Link to this heading">¶</a></h2>
+<section id="showing-files">
+<h3>Showing files<a class="headerlink" href="#showing-files" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.showfiles">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">showfiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Tuple" title="(in Python v3.13)"><span class="pre">Tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wtitle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">pager</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#showfiles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.showfiles" title="Link to this definition">¶</a></dt>
+<dd><p>R showing files.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filenames</strong> – A tuple of file names.</p></li>
+<li><p><strong>headers</strong> – A tuple of strings (TODO: check what it is)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Wtitle<span class="colon">:</span></dt>
+<dd class="field-even"><p>Title of the “window” showing the files.</p>
+</dd>
+<dt class="field-odd">Pager<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pager to use to show the list of files.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="choosing-files">
+<h3>Choosing files<a class="headerlink" href="#choosing-files" title="Link to this heading">¶</a></h3>
+<p>File choosing a on basic R console has very little bells and whistles.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">choose_csv</span><span class="p">(</span><span class="n">prompt</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="other">
+<h2>Other<a class="headerlink" href="#other" title="Link to this heading">¶</a></h2>
+<section id="process-events">
+<h3>Process events<a class="headerlink" href="#process-events" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.processevents">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">processevents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#processevents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.processevents" title="Link to this definition">¶</a></dt>
+<dd><p>Process R events.</p>
+<p>This function can be periodically called by R to handle
+events such as window resizing in an interactive graphical
+device.</p>
+</dd></dl>
+
+</section>
+<section id="busy">
+<h3>Busy<a class="headerlink" href="#busy" title="Link to this heading">¶</a></h3>
+<dl class="py function">
+<dt class="sig sig-object py" id="rpy2.rinterface_lib.callbacks.busy">
+<span class="sig-prename descclassname"><span class="pre">rpy2.rinterface_lib.callbacks.</span></span><span class="sig-name descname"><span class="pre">busy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.13)"><span class="pre">int</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="_modules/rpy2/rinterface_lib/callbacks.html#busy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.rinterface_lib.callbacks.busy" title="Link to this definition">¶</a></dt>
+<dd><p>R is busy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – TODO this is an integer but I do not know what it does.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="clean-up">
+<span id="rinterface-callbacks-cleanup"></span><h3>Clean up<a class="headerlink" href="#clean-up" title="Link to this heading">¶</a></h3>
+<p>When asked to terminate, through either its terminal console
+win32 or quartz GUI front-end, <em>R</em> will perform a cleanup operation
+at the begining of which whether the user wants to save the workspace
+or not.</p>
+<p>What is happening during that cleaning step can be specified through
+a callback function that will take three parameters <em>saveact</em>, <em>status</em>,
+and <em>runlast</em>, return of 1 (save the workspace),
+0 (do not save the workspace), and None (cancel the exit/cleanup, raising
+an <code class="xref py py-class docutils literal notranslate"><span class="pre">RRuntimeError</span></code>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface</span>
+
+<span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
+
+<span class="n">rquit</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;q&#39;</span><span class="p">]</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">my_cleanup</span><span class="p">(</span><span class="n">saveact</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">runlast</span><span class="p">):</span>
+    <span class="c1"># cancel all attempts to quit R programmatically</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;One can&#39;t escape...&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">orig_cleanup</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">cleanup</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">cleanup</span> <span class="o">=</span> <span class="n">my_cleanup</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rquit</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Restore the original cleanup:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface_lib</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">cleanup</span> <span class="o">=</span> <span class="n">orig_cleanup</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Callbacks</a><ul>
+<li><a class="reference internal" href="#console-i-o">Console I/O</a><ul>
+<li><a class="reference internal" href="#read-console">Read console</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.consoleread"><code class="docutils literal notranslate"><span class="pre">consoleread()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#write-console">Write console</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.consolewrite_print"><code class="docutils literal notranslate"><span class="pre">consolewrite_print()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.consolewrite_warnerror"><code class="docutils literal notranslate"><span class="pre">consolewrite_warnerror()</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">consolewrite_print()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#show-message">Show message</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.showmessage"><code class="docutils literal notranslate"><span class="pre">showmessage()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flush-console">Flush console</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.consoleflush"><code class="docutils literal notranslate"><span class="pre">consoleflush()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#yes-no-cancel">Yes/No/Cancel</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.yesnocancel"><code class="docutils literal notranslate"><span class="pre">yesnocancel()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#files">Files</a><ul>
+<li><a class="reference internal" href="#showing-files">Showing files</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.showfiles"><code class="docutils literal notranslate"><span class="pre">showfiles()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#choosing-files">Choosing files</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#other">Other</a><ul>
+<li><a class="reference internal" href="#process-events">Process events</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.processevents"><code class="docutils literal notranslate"><span class="pre">processevents()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#busy">Busy</a><ul>
+<li><a class="reference internal" href="#rpy2.rinterface_lib.callbacks.busy"><code class="docutils literal notranslate"><span class="pre">busy()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#clean-up">Clean up</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="miscellaneous.html"
+                          title="previous chapter">Miscellaneous topics</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="server.html"
+                          title="next chapter">Client-Server</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/callbacks.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="server.html" title="Client-Server"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="miscellaneous.html" title="Miscellaneous topics"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="miscellaneous.html" >Miscellaneous topics</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Callbacks</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

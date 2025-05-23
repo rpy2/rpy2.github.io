@@ -1,0 +1,570 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>DataFrames and dplyr &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Interactive work" href="interactive.html" />
+    <link rel="prev" title="Graphics" href="graphics.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interactive.html" title="Interactive work"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="graphics.html" title="Graphics"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" accesskey="U">High-level interface</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">DataFrames and dplyr</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="dataframes-and-dplyr">
+<h1>DataFrames and dplyr<a class="headerlink" href="#dataframes-and-dplyr" title="Link to this heading">¶</a></h1>
+<section id="dplyr">
+<span id="robjects-lib-dplyr"></span><span id="index-0"></span><h2>dplyr<a class="headerlink" href="#dplyr" title="Link to this heading">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section is available as a jupyter notebook <a class="reference external" href="_static/notebooks/dplyr.ipynb">dplyr.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/dplyr.html">dplyr.html</a>).</p>
+<p>See also Section <a class="reference internal" href="robjects_language.html#robjects-language"><span class="std std-ref">R language</span></a> as <cite>dplyr</cite> is using a lot
+unevaluated R language expressions.</p>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.ipython</span><span class="w"> </span><span class="kn">import</span> <span class="n">html</span>
+<span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;LD_LIBRARY_PATH&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;PWD&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/home/runner/work/rpy2/rpy2/doc&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/home/runner/work/rpy2/rpy2/doc/notebooks&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;LD_LIBRARY_PATH&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;R_SESSION_TMPDIR&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/tmp/Rtmp2r0D3H&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/tmp/RtmpBedMOF&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+</pre></div>
+</div>
+</section>
+<section id="dplyr-in-python">
+<h2>dplyr in Python<a class="headerlink" href="#dplyr-in-python" title="Link to this heading">¶</a></h2>
+<p>We need 2 things for this:</p>
+<p>1- A data frame (using one of R’s demo datasets).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<span class="n">datasets</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
+<span class="n">mtcars_env</span> <span class="o">=</span> <span class="n">data</span><span class="p">(</span><span class="n">datasets</span><span class="p">)</span><span class="o">.</span><span class="n">fetch</span><span class="p">(</span><span class="s1">&#39;mtcars&#39;</span><span class="p">)</span>
+<span class="n">mtcars</span> <span class="o">=</span> <span class="n">mtcars_env</span><span class="p">[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>In addition to that, and because this tutorial is in a notebook, we
+initialize HTML rendering for R objects (pretty display of R data
+frames).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.ipython.html</span>
+<span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>2- dplyr</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.lib.dplyr</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">rl</span>
+</pre></div>
+</div>
+<p>With this we have the choice of chaining (D3-style)</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">))</span>
+<span class="p">)</span>
+
+<span class="n">dataf</span>
+</pre></div>
+</div>
+<emph>DataFrame</emph> with 2 rows and
+  2 columns:
+<table class="docutils">
+  <thead>
+    <tr class="rpy2_names">
+      <th></th>
+      <th></th>
+      <th>gear</th>
+      <th>mean_ptw</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="rpy2_rowname">0</td>
+        <td class="rpy2_names">1</td>
+      <td>4.0</td>
+      <td>1237.1266499803169</td>
+    </tr>
+    <tr>
+      <td class="rpy2_rowname">1</td>
+        <td class="rpy2_names">2</td>
+      <td>5.0</td>
+      <td>2574.0331639315027</td>
+    </tr>
+  </tbody>
+</table><p>or with pipes (magrittr style).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># currently no longer working</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.lib.dplyr</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="nb">filter</span><span class="p">,</span>
+                                     <span class="n">mutate</span><span class="p">,</span>
+                                     <span class="n">group_by</span><span class="p">,</span>
+                                     <span class="n">summarize</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="kc">False</span><span class="p">:</span>
+    <span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span> <span class="o">&gt;&gt;</span>
+             <span class="nb">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">))</span> <span class="o">&gt;&gt;</span>
+             <span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span> <span class="o">&gt;&gt;</span>
+             <span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span> <span class="o">&gt;&gt;</span>
+             <span class="n">summarize</span><span class="p">(</span><span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">)))</span>
+
+    <span class="n">dataf</span>
+</pre></div>
+</div>
+<p>The function <code class="docutils literal notranslate"><span class="pre">rl</span></code> creates unevaluated R language objects, which are
+then consummed by the <code class="docutils literal notranslate"><span class="pre">dplyr</span></code> function, just like it would be
+happening when using <code class="docutils literal notranslate"><span class="pre">dplyr</span></code> in R itself. This means that when writing
+<code class="docutils literal notranslate"><span class="pre">mean(powertoweight)</span></code> the R function <code class="docutils literal notranslate"><span class="pre">mean()</span></code> is used.</p>
+<p>Using a Python function is not too difficult though. We can just call
+Python back from R. To achieve this we simply use the decorator
+<code class="docutils literal notranslate"><span class="pre">rternalize</span></code>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define a python function, and make</span>
+<span class="c1"># it a function R can use through `rternalize`</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="kn">import</span> <span class="n">rternalize</span>
+<span class="nd">@rternalize</span><span class="p">(</span><span class="n">signature</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mean_np</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">statistics</span>
+    <span class="k">return</span> <span class="n">statistics</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c1"># Bind that function to a symbol in R&#39;s</span>
+<span class="c1"># global environment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">globalenv</span>
+<span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;mean_np&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_np</span>
+
+<span class="c1"># Write a dplyr chain of operations,</span>
+<span class="c1"># using our Python function `mean_np`</span>
+<span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">),</span>
+               <span class="n">mean_np_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean_np(powertoweight)&#39;</span><span class="p">))</span>
+<span class="p">)</span>
+
+<span class="n">dataf</span>
+</pre></div>
+</div>
+<emph>DataFrame</emph> with 2 rows and
+  3 columns:
+<table class="docutils">
+  <thead>
+    <tr class="rpy2_names">
+      <th></th>
+      <th></th>
+      <th>gear</th>
+      <th>mean_ptw</th>
+      <th>mean_np_ptw</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="rpy2_rowname">0</td>
+        <td class="rpy2_names">1</td>
+      <td>4.0</td>
+      <td>1237.1266499803169</td>
+      <td>1237.1266499803169</td>
+    </tr>
+    <tr>
+      <td class="rpy2_rowname">1</td>
+        <td class="rpy2_names">2</td>
+      <td>5.0</td>
+      <td>2574.0331639315027</td>
+      <td>2574.0331639315027</td>
+    </tr>
+  </tbody>
+</table><p>It is also possible to carry this out without having to place the custom
+function in R’s global environment, although this is not
+straightforward.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># First we delete our Python callback in globalenv to</span>
+<span class="c1"># ensure that we are picking up our callback in our</span>
+<span class="c1"># specific environment rather than this one.</span>
+<span class="k">del</span><span class="p">(</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;mean_np&#39;</span><span class="p">])</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">Environment</span>
+<span class="n">my_env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="n">my_env</span><span class="p">[</span><span class="s1">&#39;mean_np&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mean_np</span>
+
+
+<span class="c1"># Create an rlang &quot;quosure&quot; object within</span>
+<span class="c1"># a given environment. We use the R package</span>
+<span class="c1"># rlang used by dplyr.</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.lib.dplyr</span><span class="w"> </span><span class="kn">import</span> <span class="n">rlang</span>
+
+<span class="n">myquo</span> <span class="o">=</span> <span class="n">rlang</span><span class="o">.</span><span class="n">quo</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span>
+    <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean_np(rlang::enexpr(powertoweight))&#39;</span><span class="p">))],</span>
+    <span class="n">environment</span><span class="o">=</span><span class="n">my_env</span>
+<span class="p">)</span>
+
+<span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">summarize</span><span class="p">(</span>
+        <span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">),</span>
+        <span class="n">mean_np_ptw</span><span class="o">=</span><span class="n">myquo</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">dataf</span>
+</pre></div>
+</div>
+<emph>DataFrame</emph> with 2 rows and
+  3 columns:
+<table class="docutils">
+  <thead>
+    <tr class="rpy2_names">
+      <th></th>
+      <th></th>
+      <th>gear</th>
+      <th>mean_ptw</th>
+      <th>mean_np_ptw</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="rpy2_rowname">0</td>
+        <td class="rpy2_names">1</td>
+      <td>4.0</td>
+      <td>1237.1266499803169</td>
+      <td>1237.1266499803169</td>
+    </tr>
+    <tr>
+      <td class="rpy2_rowname">1</td>
+        <td class="rpy2_names">2</td>
+      <td>5.0</td>
+      <td>2574.0331639315027</td>
+      <td>2574.0331639315027</td>
+    </tr>
+  </tbody>
+</table><p><strong>note</strong>: rpy2’s interface to dplyr is implementing a fix to the
+(non-?)issue 1323 (<a class="reference external" href="https://github.com/hadley/dplyr/issues/1323">https://github.com/hadley/dplyr/issues/1323</a>)</p>
+<p>The seamless translation of transformations to SQL whenever the data are
+in a table can be used directly. Since we are lifting the original
+implementation of <code class="docutils literal notranslate"><span class="pre">dplyr</span></code>, it <em>just works</em>.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.lib.dplyr</span><span class="w"> </span><span class="kn">import</span> <span class="n">dplyr</span>
+<span class="c1"># in-memory SQLite database broken in dplyr&#39;s src_sqlite</span>
+<span class="c1"># db = dplyr.src_sqlite(&quot;:memory:&quot;)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span> <span class="k">as</span> <span class="n">db_fh</span><span class="p">:</span>
+    <span class="n">db</span> <span class="o">=</span> <span class="n">dplyr</span><span class="o">.</span><span class="n">src_sqlite</span><span class="p">(</span><span class="n">db_fh</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="c1"># copy the table to that database</span>
+    <span class="n">dataf_db</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mtcars&quot;</span><span class="p">)</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">dataf_db</span>
+           <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">))</span>
+           <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
+           <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span>
+           <span class="o">.</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="c1">#</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:   SQL [?? x 2]</span>
+<span class="c1"># Database: sqlite 3.49.1 [/tmp/tmp8qyxtji0]</span>
+   <span class="n">gear</span> <span class="n">mean_ptw</span>
+  <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>    <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>
+<span class="mi">1</span>     <span class="mi">4</span>    <span class="mf">1237.</span>
+<span class="mi">2</span>     <span class="mi">5</span>    <span class="mf">2574.</span>
+</pre></div>
+</div>
+<p>Since we are manipulating R objects, anything available to R is also
+available to us. If we want to see the SQL code generated that’s:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">silent</span> <span class="o">=</span> <span class="n">dplyr</span><span class="o">.</span><span class="n">show_query</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+</pre></div>
+</div>
+<pre class="literal-block">&lt;SQL&gt;
+SELECT <cite>gear</cite>, AVG(<cite>powertoweight</cite>) AS <cite>mean_ptw</cite>
+FROM (
+  SELECT <cite>mtcars</cite>.*, (<cite>hp</cite> * 36.0) / <cite>wt</cite> AS <cite>powertoweight</cite>
+  FROM <cite>mtcars</cite>
+  WHERE (<cite>gear</cite> &gt; 3.0)
+) AS <cite>q01</cite>
+GROUP BY <cite>gear</cite></pre>
+<p>The conversion rules in rpy2 make the above easily applicable to pandas
+data frames, completing the “lexical loan” of the dplyr vocabulary from
+R.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">pandas2ri</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">default_converter</span>
+
+<span class="c1"># Using a conversion context in which the pandas conversion is</span>
+<span class="c1"># added to the default conversion rules, the rpy2 object</span>
+<span class="c1"># `mtcars` (an R data frame) is converted to a pandas data frame.</span>
+<span class="k">with</span> <span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+    <span class="n">pd_mtcars</span> <span class="o">=</span> <span class="n">mtcars_env</span><span class="p">[</span><span class="s1">&#39;mtcars&#39;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">pd_mtcars</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+</pre></div>
+</div>
+<p>Using a local conversion context lets us also go from the pandas data
+frame to our dplyr-augmented R data frame and use the dplyr
+transformations on it.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="p">(</span><span class="n">default_converter</span> <span class="o">+</span> <span class="n">pandas2ri</span><span class="o">.</span><span class="n">converter</span><span class="p">)</span><span class="o">.</span><span class="n">context</span><span class="p">()</span> <span class="k">as</span> <span class="n">cv</span><span class="p">:</span>
+    <span class="n">dataf</span> <span class="o">=</span> <span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pd_mtcars</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;=3&#39;</span><span class="p">))</span>
+             <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
+             <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span>
+             <span class="o">.</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">)))</span>
+
+<span class="n">dataf</span>
+</pre></div>
+</div>
+<emph>DataFrame</emph> with 1 rows and
+  1 columns:
+<table class="docutils">
+  <thead>
+    <tr class="rpy2_names">
+      <th></th>
+      <th></th>
+      <th>mean_ptw</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="rpy2_rowname">0</td>
+        <td class="rpy2_names">1</td>
+      <td>1632.0477884748632</td>
+    </tr>
+  </tbody>
+</table><p><strong>Reuse. Get things done. Don’t reimplement.</strong></p>
+</section>
+<section id="tidyr">
+<span id="robjects-lib-tidyr"></span><h2>tidyr<a class="headerlink" href="#tidyr" title="Link to this heading">¶</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This section is available as a jupyter notebook <a class="reference external" href="_static/notebooks/tidyr.ipynb">tidyr.ipynb</a> (HTML render: <a class="reference external" href="_static/notebooks/tidyr.html">tidyr.html</a>)</p>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">functools</span><span class="w"> </span><span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.ipython</span><span class="w"> </span><span class="kn">import</span> <span class="n">html</span>
+<span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="o">=</span><span class="n">partial</span><span class="p">(</span><span class="n">html</span><span class="o">.</span><span class="n">html_rdataframe</span><span class="p">,</span> <span class="n">table_class</span><span class="o">=</span><span class="s2">&quot;docutils&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;LD_LIBRARY_PATH&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;PWD&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/home/runner/work/rpy2/rpy2/doc&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/home/runner/work/rpy2/rpy2/doc/notebooks&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;LD_LIBRARY_PATH&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.17</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">rinterface</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1185</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">Environment</span> <span class="n">variable</span> <span class="s2">&quot;R_SESSION_TMPDIR&quot;</span> <span class="n">redefined</span> <span class="n">by</span> <span class="n">R</span> <span class="ow">and</span> <span class="n">overriding</span> <span class="n">existing</span> <span class="n">variable</span><span class="o">.</span> <span class="n">Current</span><span class="p">:</span> <span class="s2">&quot;/tmp/RtmpIiyTq2&quot;</span><span class="p">,</span> <span class="n">R</span><span class="p">:</span> <span class="s2">&quot;/tmp/RtmpAUflBl&quot;</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+</pre></div>
+</div>
+</section>
+<section id="tidyr-in-python">
+<h2>tidyr in Python<a class="headerlink" href="#tidyr-in-python" title="Link to this heading">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.lib.tidyr</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+</pre></div>
+</div>
+<p>(note: <code class="docutils literal notranslate"><span class="pre">dplyr</span></code> is implicitly used by <code class="docutils literal notranslate"><span class="pre">tidyr</span></code>.)</p>
+<p>In addition to that, and because this tutorial is in a notebook, we
+initialize HTML rendering for R objects (pretty display of R data
+frames).</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.ipython.html</span>
+<span class="n">rpy2</span><span class="o">.</span><span class="n">ipython</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">init_printing</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.vectors</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">StrVector</span><span class="p">,</span>
+                                   <span class="n">IntVector</span><span class="p">)</span>
+<span class="n">dataf</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">OrderedDict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">StrVector</span><span class="p">((</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">)),</span>
+                              <span class="n">y</span><span class="o">=</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)),</span>
+                          <span class="n">z</span><span class="o">=</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">))))</span>
+<span class="n">dataf</span>
+</pre></div>
+</div>
+<emph>DataFrame</emph> with 3 rows and
+  3 columns:
+<table class="docutils">
+  <thead>
+    <tr class="rpy2_names">
+      <th></th>
+      <th></th>
+      <th>x</th>
+      <th>y</th>
+      <th>z</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="rpy2_rowname">0</td>
+        <td class="rpy2_names">1</td>
+      <td>a</td>
+      <td>3</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td class="rpy2_rowname">1</td>
+        <td class="rpy2_names">2</td>
+      <td>b</td>
+      <td>4</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td class="rpy2_rowname">2</td>
+        <td class="rpy2_names">3</td>
+      <td>b</td>
+      <td>5</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table><div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dataf</span><span class="o">.</span><span class="n">spread</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<emph>DataFrame</emph> with 3 rows and
+  3 columns:
+<table class="docutils">
+  <thead>
+    <tr class="rpy2_names">
+      <th></th>
+      <th></th>
+      <th>z</th>
+      <th>a</th>
+      <th>b</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="rpy2_rowname">0</td>
+        <td class="rpy2_names">1</td>
+      <td>6</td>
+      <td>3</td>
+      <td>NA_integer_</td>
+    </tr>
+    <tr>
+      <td class="rpy2_rowname">1</td>
+        <td class="rpy2_names">2</td>
+      <td>7</td>
+      <td>NA_integer_</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td class="rpy2_rowname">2</td>
+        <td class="rpy2_names">3</td>
+      <td>8</td>
+      <td>NA_integer_</td>
+      <td>5</td>
+    </tr>
+  </tbody>
+</table><p><strong>Reuse. Get things done. Don’t reimplement.</strong></p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">DataFrames and dplyr</a><ul>
+<li><a class="reference internal" href="#dplyr">dplyr</a></li>
+<li><a class="reference internal" href="#dplyr-in-python">dplyr in Python</a></li>
+<li><a class="reference internal" href="#tidyr">tidyr</a></li>
+<li><a class="reference internal" href="#tidyr-in-python">tidyr in Python</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="graphics.html"
+                          title="previous chapter">Graphics</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="interactive.html"
+                          title="next chapter">Interactive work</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/lib_dplyr.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="interactive.html" title="Interactive work"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="graphics.html" title="Graphics"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">DataFrames and dplyr</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

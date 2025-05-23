@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Formulae &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="R packages" href="robjects_rpackages.html" />
+    <link rel="prev" title="Functions" href="robjects_functions.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_rpackages.html" title="R packages"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="robjects_functions.html" title="Functions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Formulae</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="formulae">
+<span id="robjects-formula"></span><span id="index-0"></span><h1>Formulae<a class="headerlink" href="#formulae" title="Link to this heading">¶</a></h1>
+<p>For tasks such as modelling and plotting, an R formula can be
+a terse, yet readable, way of expressing what is wanted.</p>
+<p>In R, it generally looks like:</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="m">1</span><span class="o">:</span><span class="m">10</span>
+<span class="n">y</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nf">rnorm</span><span class="p">(</span><span class="m">10</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="o">=</span><span class="m">0.2</span><span class="p">)</span>
+
+<span class="n">fit</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="nf">lm</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the call to <cite>lm</cite>, the argument is a <cite>formula</cite>, and it can read like
+<em>model y using x</em>.
+A formula is a <strong class="program">R</strong> language object, and the terms in the formula
+are evaluated in the environment it was defined in. Without further
+specification, that environment is the environment in which the
+the formula is created.</p>
+<p>The class <code class="xref py py-class docutils literal notranslate"><span class="pre">robjects.Formula</span></code> is representing an <strong class="program">R</strong> formula.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">array</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntVector</span><span class="p">,</span> <span class="n">Formula</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="n">stats</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats&#39;</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">ro</span> <span class="o">+</span> <span class="n">stats</span><span class="o">.</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">sd</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+<span class="n">fmla</span> <span class="o">=</span> <span class="n">Formula</span><span class="p">(</span><span class="s1">&#39;y ~ x&#39;</span><span class="p">)</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">fmla</span><span class="o">.</span><span class="n">environment</span>
+<span class="n">env</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+<span class="n">env</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+
+<span class="n">fit</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">lm</span><span class="p">(</span><span class="n">fmla</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>One drawback with that approach is that pretty printing of
+the <cite>fit</cite> object is not quite as good as what one would
+expect when working in <strong class="program">R</strong>: the <cite>call</cite> item now displays the code
+for the function used to perform the fit.</p>
+<p>If one still wants to avoid polluting the R global environment,
+the answer is to evaluate R call within the environment where the
+function is defined.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">Environment</span>
+
+<span class="n">eval_env</span> <span class="o">=</span> <span class="n">Environment</span><span class="p">()</span>
+<span class="n">eval_env</span><span class="p">[</span><span class="s1">&#39;fmla&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fmla</span>
+<span class="n">base</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;base&#39;</span><span class="p">)</span>
+
+<span class="n">fit</span> <span class="o">=</span> <span class="n">base</span><span class="o">.</span><span class="n">eval</span><span class="o">.</span><span class="n">rcall</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;lm(fmla)&#39;</span><span class="p">),</span> <span class="n">stats</span><span class="o">.</span><span class="n">_env</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Other options are:</p>
+<ul>
+<li><p>Evaluate R code on the fly so we that model fitting function has a symbol
+in R</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fit</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;lm(</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span><span class="n">fmla</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+</pre></div>
+</div>
+</li>
+<li><p>Evaluate R code where all symbols are defined</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.robjects.Formula">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.</span></span><span class="sig-name descname"><span class="pre">Formula</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">formula</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">rinterface.globalenv</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects.html#Formula"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Formula" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RObjectMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Sexp</span></code></p>
+<dl class="py property">
+<dt class="sig sig-object py" id="rpy2.robjects.Formula.environment">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">environment</span></span><a class="headerlink" href="#rpy2.robjects.Formula.environment" title="Link to this definition">¶</a></dt>
+<dd><p>R environment in which the formula will look for its variables.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Formula.getenvironment">
+<span class="sig-name descname"><span class="pre">getenvironment</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects.html#Formula.getenvironment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Formula.getenvironment" title="Link to this definition">¶</a></dt>
+<dd><p>Get the environment in which the formula is finding its symbols.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="rpy2.robjects.Formula.setenvironment">
+<span class="sig-name descname"><span class="pre">setenvironment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects.html#Formula.setenvironment"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.Formula.setenvironment" title="Link to this definition">¶</a></dt>
+<dd><p>Set the environment in which a formula will find its symbols.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Formulae</a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.Formula"><code class="docutils literal notranslate"><span class="pre">Formula</span></code></a><ul>
+<li><a class="reference internal" href="#rpy2.robjects.Formula.environment"><code class="docutils literal notranslate"><span class="pre">Formula.environment</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Formula.getenvironment"><code class="docutils literal notranslate"><span class="pre">Formula.getenvironment()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.robjects.Formula.setenvironment"><code class="docutils literal notranslate"><span class="pre">Formula.setenvironment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="robjects_functions.html"
+                          title="previous chapter">Functions</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="robjects_rpackages.html"
+                          title="next chapter">R packages</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects_formulae.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_rpackages.html" title="R packages"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="robjects_functions.html" title="Functions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Formulae</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

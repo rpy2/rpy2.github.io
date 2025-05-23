@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>r: the instance of R &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="R objects" href="robjects_robjects.html" />
+    <link rel="prev" title="Overview" href="robjects_overview.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_robjects.html" title="R objects"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="robjects_overview.html" title="Overview"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>r</cite>: the instance of <strong class="program">R</strong></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="r-the-instance-of-r">
+<h1><cite>r</cite>: the instance of <strong class="program">R</strong><a class="headerlink" href="#r-the-instance-of-r" title="Link to this heading">¶</a></h1>
+<p>This class is currently a singleton, with
+its one representation instanciated when the
+module is loaded:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The instance can be seen as the entry point to an
+embedded R process.</p>
+<p>Being a singleton means that each time the constructor
+for <code class="xref py py-class docutils literal notranslate"><span class="pre">R</span></code> is called the same instance is returned;
+this is required by the fact that the embedded R is stateful.</p>
+<p>The elements that would be accessible
+from an equivalent R environment are accessible as attributes
+of the instance.
+Readers familiar with the <a class="reference external" href="https://docs.python.org/3/library/ctypes.html#module-ctypes" title="(in Python v3.13)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">ctypes</span></code></a> module for Python will note
+the similarity with it.</p>
+<p>R vectors:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pi</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">pi</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">letters</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">letters</span>
+</pre></div>
+</div>
+<p>R functions:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">plot</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">plot</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">dir</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">dir</span>
+</pre></div>
+</div>
+<p>This approach has limitation as:</p>
+<ul class="simple">
+<li><p>The actual Python attributes for the object masks the R elements</p></li>
+<li><dl class="simple">
+<dt>‘.’ (dot) is syntactically valid in names for R objects, but not for</dt><dd><p>python objects.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Behind the scene, the steps for getting an attribute of <cite>r</cite> are
+rather straightforward:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Check if the attribute is defined as such in the python definition for
+<cite>r</cite></p></li>
+<li><p>Check if the attribute is can be accessed in R, starting from <cite>globalenv</cite></p></li>
+</ol>
+</div></blockquote>
+<p>When safety matters most, we recommend using <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getitem__()</span></code> to get
+a given R object.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">as_null</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;as.null&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Storing the object in a python variable will protect it from garbage
+collection, even if deleted from the objects visible to an R user.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">1.2</span>
+</pre></div>
+</div>
+<p>Here we <cite>remove</cite> the symbol <cite>foo</cite> from the R Global Environment.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;rm&#39;</span><span class="p">](</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">]</span>
+<span class="go">LookupError: &#39;foo&#39; not found</span>
+</pre></div>
+</div>
+<p>The object itself remains available, and protected from R’s
+garbage collection until <cite>foo</cite> is deleted from Python</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">foo</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="go">1.2</span>
+</pre></div>
+</div>
+<section id="evaluating-a-string-as-r-code">
+<h2>Evaluating a string as R code<a class="headerlink" href="#evaluating-a-string-as-r-code" title="Link to this heading">¶</a></h2>
+<p>Just like it is the case with RPy-1.x, on-the-fly
+evaluation of R code contained in a string can be performed
+by calling the <cite>r</cite> instance:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;1+2&#39;</span><span class="p">))</span>
+<span class="go">[1] 3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sqr</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;function(x) x^2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sqr</span><span class="p">)</span>
+<span class="go">function (x)</span>
+<span class="go">x^2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">sqr</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="go">[1] 4</span>
+</pre></div>
+</div>
+<p>The astute reader will quickly realize that R objects named
+by python variables can
+be plugged into code through their <strong class="program">R</strong> representation:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="o">.</span><span class="n">rnorm</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span><span class="p">(</span><span class="s1">&#39;hist(</span><span class="si">%s</span><span class="s1">, xlab=&quot;x&quot;, main=&quot;hist(x)&quot;)&#39;</span> <span class="o">%</span><span class="n">x</span><span class="o">.</span><span class="n">r_repr</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Doing this with large objects might not be the best use of
+your computing power.</p>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><cite>r</cite>: the instance of <strong class="program">R</strong></a><ul>
+<li><a class="reference internal" href="#evaluating-a-string-as-r-code">Evaluating a string as R code</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="robjects_overview.html"
+                          title="previous chapter">Overview</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="robjects_robjects.html"
+                          title="next chapter">R objects</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/robjects_rinstance.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="robjects_robjects.html" title="R objects"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="robjects_overview.html" title="Overview"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><cite>r</cite>: the instance of <strong class="program">R</strong></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>

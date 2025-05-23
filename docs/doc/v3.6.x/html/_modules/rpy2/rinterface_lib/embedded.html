@@ -1,0 +1,552 @@
+
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rpy2.rinterface_lib.embedded &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+    
+    <script src="../../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/bizstyle.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <!--[if lt IE 9]>
+    <script src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head><body>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for rpy2.rinterface_lib.embedded</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">enum</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">typing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">openrlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">callbacks</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Protocol</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">ffi</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span>
+
+<span class="c1"># Container for module-level C objects needing to be protected from garbage</span>
+<span class="c1"># collection on the Python side.</span>
+<span class="n">__cffi_protected</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">_options</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;rpy2&#39;</span><span class="p">,</span> <span class="s1">&#39;--quiet&#39;</span><span class="p">,</span> <span class="s1">&#39;--no-save&#39;</span><span class="p">)</span>  <span class="c1"># type: typing.Tuple[str, ...]</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Default options to initialize R: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_options</span><span class="p">)))</span>
+
+<span class="c1"># These constants are default values from R sources</span>
+<span class="n">_DEFAULT_VSIZE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">67108864</span>  <span class="c1"># vector heap size</span>
+<span class="n">_DEFAULT_NSIZE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">350000</span>  <span class="c1"># language heap size</span>
+<span class="n">_DEFAULT_MAX_VSIZE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">maxsize</span>  <span class="c1"># max vector heap size</span>
+<span class="n">_DEFAULT_MAX_NSIZE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50000000</span>  <span class="c1"># max language heap size</span>
+<span class="n">_DEFAULT_PPSIZE</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50000</span>  <span class="c1"># stack size</span>
+<span class="n">_DEFAULT_C_STACK_LIMIT</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">_DEFAULT_R_INTERACTIVE</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">=</span> <span class="mh">0x00</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Is_RStart</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rhome</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@rhome</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">rhome</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@home</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CharacterMode</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@CharacterMode</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CharacterMode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ReadConsole</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@ReadConsole</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ReadConsole</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">WriteConsoleEx</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@WriteConsoleEx</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">WriteConsoleEx</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CallBack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@CallBack</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">CallBack</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ShowMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@ShowMessage</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ShowMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">YesNoCancel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@YesNoCancel</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">YesNoCancel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Busy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@Busy</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">Busy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">R_Quiet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@R_Quiet</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">R_Quiet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">R_Interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@R_Interactive</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">R_Interactive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">RestoreAction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@RestoreAction</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">RestoreAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SaveAction</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@SaveAction</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">SaveAction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@vsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@nsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">max_vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@max_vsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">max_vsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">max_nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@max_nsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">max_nsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ppsize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="o">...</span>
+
+    <span class="nd">@ppsize</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ppsize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span> <span class="o">...</span>
+
+
+<span class="n">rstart</span><span class="p">:</span> <span class="n">Is_RStart</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_build_rstart</span><span class="p">(</span><span class="n">rhome</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">setcallbacks</span><span class="p">):</span>
+    <span class="n">rstart</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;Rstart&#39;</span><span class="p">)</span>
+    <span class="n">__cffi_protected</span><span class="p">[</span><span class="s1">&#39;rstart&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rstart</span>
+    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_DefParams</span><span class="p">(</span><span class="n">rstart</span><span class="p">)</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">rhome</span> <span class="o">=</span> <span class="n">rhome</span>
+    <span class="n">userhome</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;char[]&quot;</span><span class="p">,</span> <span class="n">ffi</span><span class="o">.</span><span class="n">string</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">getRUser</span><span class="p">()))</span>
+    <span class="n">__cffi_protected</span><span class="p">[</span><span class="s1">&#39;userhome&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">userhome</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">home</span> <span class="o">=</span> <span class="n">userhome</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">CharacterMode</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LinkDLL</span>
+    <span class="k">if</span> <span class="n">setcallbacks</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">CALLBACK_INIT_PAIRS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">c_name_nt</span><span class="p">:</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">rstart</span><span class="p">,</span> <span class="n">cb</span><span class="o">.</span><span class="n">c_name_nt</span><span class="p">,</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="n">callbacks</span><span class="p">,</span> <span class="n">cb</span><span class="o">.</span><span class="n">py_name</span><span class="p">))</span>
+
+    <span class="n">rstart</span><span class="o">.</span><span class="n">R_Quiet</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">R_Interactive</span> <span class="o">=</span> <span class="n">interactive</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">RestoreAction</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SA_RESTORE</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">SaveAction</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SA_NOSAVE</span>
+
+    <span class="n">rstart</span><span class="o">.</span><span class="n">vsize</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">_DEFAULT_VSIZE</span><span class="p">)</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">nsize</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">_DEFAULT_NSIZE</span><span class="p">)</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">max_vsize</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">_DEFAULT_MAX_VSIZE</span><span class="p">)</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">max_nsize</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">_DEFAULT_MAX_NSIZE</span><span class="p">)</span>
+    <span class="n">rstart</span><span class="o">.</span><span class="n">ppsize</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;size_t&#39;</span><span class="p">,</span> <span class="n">_DEFAULT_PPSIZE</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rstart</span>
+
+
+<span class="c1"># TODO: move initialization-related code to _rinterface ?</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RPY_R_Status</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Possible status for the embedded R.&quot;&quot;&quot;</span>
+    <span class="n">INITIALIZED</span> <span class="o">=</span> <span class="mh">0x01</span>
+    <span class="n">BUSY</span> <span class="o">=</span> <span class="mh">0x02</span>
+    <span class="n">ENDED</span> <span class="o">=</span> <span class="mh">0x04</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">set_initoptions</span><span class="p">(</span><span class="n">options</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set initialization options for the embedded R.</span>
+
+<span class="sd">    :param:`options` A tuple of string with the options</span>
+<span class="sd">    (e.g., &#39;--verbose&#39;, &#39;--quiet&#39;).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rpy2_embeddedR_isinitialized</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Options can no longer be set once &#39;</span>
+                           <span class="s1">&#39;R is initialized.&#39;</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">_options</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Setting options to initialize R: </span><span class="si">{}</span><span class="s1">&#39;</span>
+                    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">options</span><span class="p">)))</span>
+        <span class="n">_options</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_initoptions</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the initialization options for the embedded R.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_options</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">isinitialized</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Is the embedded R initialized.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">&amp;</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">INITIALIZED</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_setinitialized</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the embedded R as initialized.</span>
+
+<span class="sd">    This may result in a later segfault if used with the embedded R has not</span>
+<span class="sd">    been initialized. You should not have to use it.&quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">rpy2_embeddedR_isinitialized</span>
+    <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">INITIALIZED</span><span class="o">.</span><span class="n">value</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">isready</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Is the embedded R ready for use.&quot;&quot;&quot;</span>
+    <span class="n">INITIALIZED</span> <span class="o">=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">INITIALIZED</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span>
+        <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">==</span> <span class="n">INITIALIZED</span><span class="o">.</span><span class="n">value</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">assert_isready</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Assert whether R is ready (initialized).</span>
+
+<span class="sd">    Raises an RNotReadyError if it is not.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">isready</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="n">RNotReadyError</span><span class="p">(</span>
+            <span class="s1">&#39;The embedded R is not ready to use.&#39;</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RNotReadyError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Embedded R is not ready to use.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">RRuntimeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Error generated by R.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_setcallback</span><span class="p">(</span><span class="n">rlib</span><span class="p">,</span> <span class="n">rlib_symbol</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="n">callbacks</span><span class="p">,</span>
+                 <span class="n">callback_symbol</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set R callbacks.</span>
+
+<span class="sd">    :param rlib: Namespace</span>
+<span class="sd">    :param rlib_symbol: Symbol (name) in the namespace in which to place</span>
+<span class="sd">      the new callback function</span>
+<span class="sd">    :param callbacks: Namespace in which to find the callback function.</span>
+<span class="sd">    :param callbacks_symbol: Symbol (name) of the new callback function.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">callback_symbol</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">new_callback</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">new_callback</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">callbacks</span><span class="p">,</span> <span class="n">callback_symbol</span><span class="p">)</span>
+    <span class="nb">setattr</span><span class="p">(</span><span class="n">rlib</span><span class="p">,</span> <span class="n">rlib_symbol</span><span class="p">,</span> <span class="n">new_callback</span><span class="p">)</span>
+
+
+<span class="n">_CallbackInit</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">namedtuple</span><span class="p">(</span>
+    <span class="s1">&#39;_CallbackInit&#39;</span><span class="p">,</span>
+    <span class="p">(</span><span class="s1">&#39;c_name_posix&#39;</span><span class="p">,</span> <span class="s1">&#39;c_name_nt&#39;</span><span class="p">,</span> <span class="s1">&#39;py_name&#39;</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">CALLBACK_INIT_PAIRS</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_CallbackInit</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_WriteConsoleEx&#39;</span><span class="p">,</span> <span class="s1">&#39;WriteConsoleEx&#39;</span><span class="p">,</span> <span class="s1">&#39;_consolewrite_ex&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_WriteConsole&#39;</span><span class="p">,</span> <span class="s1">&#39;WriteConsole&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_ShowMessage&#39;</span><span class="p">,</span> <span class="s1">&#39;ShowMessage&#39;</span><span class="p">,</span> <span class="s1">&#39;_showmessage&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_ReadConsole&#39;</span><span class="p">,</span> <span class="s1">&#39;ReadConsole&#39;</span><span class="p">,</span> <span class="s1">&#39;_consoleread&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_FlushConsole&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;_consoleflush&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_ResetConsole&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;_consolereset&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_ChooseFile&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;_choosefile&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_ShowFiles&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;_showfiles&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_CleanUp&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;_cleanup&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_ProcessEvents&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;_processevents&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;YesNoCancel&#39;</span><span class="p">,</span> <span class="s1">&#39;_yesnocancel&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;CallBack&#39;</span><span class="p">,</span> <span class="s1">&#39;_callback&#39;</span><span class="p">),</span>
+    <span class="n">_CallbackInit</span><span class="p">(</span><span class="s1">&#39;ptr_R_Busy&#39;</span><span class="p">,</span> <span class="s1">&#39;Busy&#39;</span><span class="p">,</span> <span class="s1">&#39;_busy&#39;</span><span class="p">),</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_initr</span><span class="p">(</span>
+        <span class="n">interactive</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">_want_setcallbacks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">_c_stack_limit</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Initialize the embedded R.</span>
+
+<span class="sd">    :param interactive: Should R run in interactive or non-interactive mode?</span>
+<span class="sd">    if `None` the value in `_DEFAULT_R_INTERACTIVE` will be used.</span>
+<span class="sd">    :param _want_setcallbacks: Should custom rpy2 callbacks for R frontends</span>
+<span class="sd">    be set?.</span>
+<span class="sd">    :param _c_stack_limit: Limit for the C Stack.</span>
+<span class="sd">    if `None` the value in `_DEFAULT_C_STACK_LIMIT` will be used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">interactive</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">interactive</span> <span class="o">=</span> <span class="n">_DEFAULT_R_INTERACTIVE</span>
+    <span class="k">if</span> <span class="n">_c_stack_limit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">_c_stack_limit</span> <span class="o">=</span> <span class="n">_DEFAULT_C_STACK_LIMIT</span>
+
+    <span class="n">rlib</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
+    <span class="n">ffi_proxy</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi_proxy</span>
+    <span class="k">if</span> <span class="p">(</span>
+            <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">get_ffi_mode</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">_rinterface_cffi</span><span class="p">)</span>
+            <span class="o">==</span>
+            <span class="n">ffi_proxy</span><span class="o">.</span><span class="n">InterfaceType</span><span class="o">.</span><span class="n">ABI</span>
+    <span class="p">):</span>
+        <span class="n">callback_funcs</span> <span class="o">=</span> <span class="n">callbacks</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">callback_funcs</span> <span class="o">=</span> <span class="n">rlib</span>
+
+    <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">isinitialized</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;R is already initialized. No need to initialize.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span> <span class="o">!=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;R was initialized outside of rpy2 (R_NilValue != NULL). &#39;</span>
+                   <span class="s1">&#39;Trying to use it nevertheless.&#39;</span><span class="p">)</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="n">_setinitialized</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
+        <span class="c1"># TODO: Setting LD_LIBRARY_PATH after the process has started</span>
+        <span class="c1"># is too late. Because of this, the line below does not help</span>
+        <span class="c1"># address issues where calling R from the command line is working</span>
+        <span class="c1"># (as it is a shell script setting environment variables before</span>
+        <span class="c1"># start the binary in a child process). Calling C&#39;s dlopen with</span>
+        <span class="c1"># the path of the shared library could address this but for the</span>
+        <span class="c1"># API mode this would require writing a C wrapper to manually</span>
+        <span class="c1"># load each each symbol in the C library.</span>
+        <span class="n">options_c</span> <span class="o">=</span> <span class="p">[</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char[]&#39;</span><span class="p">,</span> <span class="n">o</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ASCII&#39;</span><span class="p">))</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="n">_options</span><span class="p">]</span>
+        <span class="n">n_options</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">options_c</span><span class="p">)</span>
+        <span class="n">n_options_c</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">,</span> <span class="n">n_options</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_initEmbeddedR</span><span class="p">(</span><span class="n">n_options_c</span><span class="p">,</span> <span class="n">options_c</span><span class="p">)</span>
+            <span class="n">_setinitialized</span><span class="p">()</span>
+
+            <span class="n">rhome</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">get_R_HOME</span><span class="p">()</span>
+            <span class="n">__cffi_protected</span><span class="p">[</span><span class="s1">&#39;rhome&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rhome</span>
+            <span class="n">rstart</span> <span class="o">=</span> <span class="n">_build_rstart</span><span class="p">(</span><span class="n">rhome</span><span class="p">,</span> <span class="n">interactive</span><span class="p">,</span> <span class="n">_want_setcallbacks</span><span class="p">)</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_SetParams</span><span class="p">(</span><span class="n">rstart</span><span class="p">)</span>
+
+            <span class="c1"># TODO: still needed ?</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="n">_c_stack_limit</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;openrlib.R_HOME cannot be None.&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;R_HOME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span>
+
+            <span class="c1"># TODO: Conditional in C code</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_SignalHandlers</span> <span class="o">=</span> <span class="mi">0</span>
+
+            <span class="c1"># Instead of calling Rf_initEmbeddedR which breaks threaded context</span>
+            <span class="c1"># perform the initialization manually to set R_CStackLimit before</span>
+            <span class="c1"># calling setup_Rmainloop(), see:</span>
+            <span class="c1"># https://github.com/rpy2/rpy2/issues/729</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_initialize_R</span><span class="p">(</span><span class="n">n_options_c</span><span class="p">,</span> <span class="n">options_c</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">_c_stack_limit</span><span class="p">:</span>
+                <span class="n">rlib</span><span class="o">.</span><span class="n">R_CStackLimit</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;uintptr_t&#39;</span><span class="p">,</span> <span class="n">_c_stack_limit</span><span class="p">)</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_Interactive</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Calling R setup_Rmainloop.&#39;</span><span class="p">)</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">setup_Rmainloop</span><span class="p">()</span>
+
+            <span class="n">_setinitialized</span><span class="p">()</span>
+
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_Interactive</span> <span class="o">=</span> <span class="n">interactive</span>
+
+            <span class="c1"># TODO: Conditional definition in C code</span>
+            <span class="c1">#   (Aqua, TERM, and TERM not &quot;dumb&quot;)</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_Outputfile</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span>
+            <span class="n">rlib</span><span class="o">.</span><span class="n">R_Consolefile</span> <span class="o">=</span> <span class="n">ffi</span><span class="o">.</span><span class="n">NULL</span>
+
+            <span class="k">if</span> <span class="n">_want_setcallbacks</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Setting functions for R callbacks.&#39;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">cb</span> <span class="ow">in</span> <span class="n">CALLBACK_INIT_PAIRS</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">cb</span><span class="o">.</span><span class="n">c_name_posix</span><span class="p">:</span>
+                        <span class="n">_setcallback</span><span class="p">(</span><span class="n">rlib</span><span class="p">,</span> <span class="n">cb</span><span class="o">.</span><span class="n">c_name_posix</span><span class="p">,</span>
+                                     <span class="n">callback_funcs</span><span class="p">,</span> <span class="n">cb</span><span class="o">.</span><span class="n">py_name</span><span class="p">)</span>
+            <span class="n">status</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">status</span>
+
+
+<div class="viewcode-block" id="endr">
+<a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.endr">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">endr</span><span class="p">(</span><span class="n">fatal</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Ending embedded R process.&#39;</span><span class="p">)</span>
+    <span class="k">global</span> <span class="n">rpy2_embeddedR_isinitialized</span>
+    <span class="n">rlib</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
+    <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">&amp;</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">ENDED</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Embedded R already ended.&#39;</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_do_Last()&#39;</span><span class="p">)</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">R_dot_Last</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_RunExitFinalizers()&#39;</span><span class="p">)</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">R_RunExitFinalizers</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Rf_KillAllDevices()&#39;</span><span class="p">)</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_KillAllDevices</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_CleanTempDir()&#39;</span><span class="p">)</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">R_CleanTempDir</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;R_gc&#39;</span><span class="p">)</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">R_gc</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Rf_endEmbeddedR(fatal)&#39;</span><span class="p">)</span>
+        <span class="n">rlib</span><span class="o">.</span><span class="n">Rf_endEmbeddedR</span><span class="p">(</span><span class="n">fatal</span><span class="p">)</span>
+        <span class="n">rpy2_embeddedR_isinitialized</span> <span class="o">^=</span> <span class="n">RPY_R_Status</span><span class="o">.</span><span class="n">ENDED</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Embedded R ended.&#39;</span><span class="p">)</span></div>
+
+
+
+<span class="n">_REFERENCE_TO_R_SESSIONS</span> <span class="o">=</span> <span class="s1">&#39;https://github.com/rstudio/reticulate/issues/98&#39;</span>
+<span class="n">_R_SESSION_INITIALIZED</span> <span class="o">=</span> <span class="s1">&#39;R_SESSION_INITIALIZED&#39;</span>
+<span class="n">_PYTHON_SESSION_INITIALIZED</span> <span class="o">=</span> <span class="s1">&#39;PYTHON_SESSION_INITIALIZED&#39;</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_r_session_status</span><span class="p">(</span><span class="n">r_session_init</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return information about the R session, if available.</span>
+
+<span class="sd">    Information about the R session being already initialized can be</span>
+<span class="sd">    communicated by an environment variable exported by the process that</span>
+<span class="sd">    initialized it. See discussion at:</span>
+<span class="sd">    %s</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">_REFERENCE_TO_R_SESSIONS</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;current_pid&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()}</span>
+
+    <span class="k">if</span> <span class="n">r_session_init</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r_session_init</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_R_SESSION_INITIALIZED</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">r_session_init</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">r_session_init</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;=&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="s1">&#39;The item </span><span class="si">%s</span><span class="s1"> in </span><span class="si">%s</span><span class="s1"> should be of the form key=value.&#39;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">_R_SESSION_INITIALIZED</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">is_r_externally_initialized</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="n">r_status</span> <span class="o">=</span> <span class="n">get_r_session_status</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">r_status</span><span class="p">[</span><span class="s1">&#39;current_pid&#39;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">r_status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;PID&#39;</span><span class="p">))</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">set_python_process_info</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set information about the Python process in an environment variable.</span>
+
+<span class="sd">    See discussion at:</span>
+<span class="sd">    %s</span>
+<span class="sd">    &quot;&quot;&quot;</span> <span class="o">%</span> <span class="n">_REFERENCE_TO_R_SESSIONS</span>
+
+    <span class="n">info</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;current_pid&#39;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">getpid</span><span class="p">()),</span>
+            <span class="p">(</span><span class="s1">&#39;sys.executable&#39;</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">executable</span><span class="p">))</span>
+    <span class="n">info_string</span> <span class="o">=</span> <span class="s1">&#39;:&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">info</span><span class="p">)</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">_PYTHON_SESSION_INITIALIZED</span><span class="p">]</span> <span class="o">=</span> <span class="n">info_string</span>
+</pre></div>
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<search id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="Related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.embedded</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    </div>
+  </body>
+</html>
