@@ -24,6 +24,7 @@ DOC_PARAMS = ('doc.html', 'Documentation',
      LabelURL('rpy2', 'https://github.com/rpy2/rpy2'),
      (
          LabelURL('dev', 'doc/latest/html/index.html'),
+         LabelURL('3.6.x', 'doc/v3.6.x/html/index.html'),
          LabelURL('3.5.x', 'doc/v3.5.x/html/index.html'),
          LabelURL('3.4.x', 'doc/v3.4.x/html/index.html'),
          LabelURL('3.3.x', 'doc/v3.3.x/html/index.html'),
