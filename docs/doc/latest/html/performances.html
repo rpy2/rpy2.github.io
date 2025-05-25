@@ -1,20 +1,19 @@
 
+<!DOCTYPE html>
 
-<!doctype html>
-
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Performances &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <title>Performances &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -25,7 +24,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,7 +39,7 @@
         <li class="right" >
           <a href="related_projects.html" title="Related projects"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="miscellaneous.html" accesskey="U">Miscellaneous topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Performances</a></li> 
       </ul>
@@ -52,17 +51,17 @@
           <div class="body" role="main">
             
   <section id="performances">
-<span id="misc-performances"></span><h1>Performances<a class="headerlink" href="#performances" title="Permalink to this heading">¶</a></h1>
+<span id="misc-performances"></span><h1>Performances<a class="headerlink" href="#performances" title="Link to this heading">¶</a></h1>
 <section id="optimizing-for-performances">
-<h2>Optimizing for performances<a class="headerlink" href="#optimizing-for-performances" title="Permalink to this heading">¶</a></h2>
+<h2>Optimizing for performances<a class="headerlink" href="#optimizing-for-performances" title="Link to this heading">¶</a></h2>
 <section id="memory-usage">
-<h3>Memory usage<a class="headerlink" href="#memory-usage" title="Permalink to this heading">¶</a></h3>
+<h3>Memory usage<a class="headerlink" href="#memory-usage" title="Link to this heading">¶</a></h3>
 <p>R objects live in the R memory space, their size unbeknown to Python,
 and because of that it seems that Python does not always garbage collect often enough when
 large objects are involved. This is sometimes leading to transient increased memory usage when large
 objects are overwritten in loops, and although reaching a system’s memory limit appears
 to trigger garbage collection, one may wish to explicitly trigger the collection.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gc</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">gc</span>
 <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -70,8 +69,8 @@ to trigger garbage collection, one may wish to explicitly trigger the collection
 Python-to-R bridge, unfortunately without considering specificities of the Python and R respective garbage
 collection mechanisms. The outcome of the benchmark changes dramatically, probably putting back rpy2 as
 the fastest, most memory efficient, and most versatile Python-to-R bridge.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span>
-<span class="kn">import</span> <span class="nn">gc</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.robjects</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gc</span>
 
 <span class="n">r</span> <span class="o">=</span> <span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">r</span>
 
@@ -86,7 +85,7 @@ the fastest, most memory efficient, and most versatile Python-to-R bridge.</p>
 </div>
 </section>
 <section id="low-level-interface">
-<h3>Low-level interface<a class="headerlink" href="#low-level-interface" title="Permalink to this heading">¶</a></h3>
+<h3>Low-level interface<a class="headerlink" href="#low-level-interface" title="Link to this heading">¶</a></h3>
 <p>The high-level layer <a class="reference internal" href="robjects.html#module-rpy2.robjects" title="rpy2.robjects: High-level interface with R (Unix, Windows)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.robjects</span></code></a> brings a lot of convenience, such a class
 mappings and interfaces, but obviously with a cost in term of performances. This cost is
 believe to be neglibible for common use cases (calling calling complex R code in libraries
@@ -115,21 +114,21 @@ vector objects.</p>
 </section>
 </section>
 <section id="a-naive-benchmark">
-<h2>A naive benchmark<a class="headerlink" href="#a-naive-benchmark" title="Permalink to this heading">¶</a></h2>
+<h2>A naive benchmark<a class="headerlink" href="#a-naive-benchmark" title="Link to this heading">¶</a></h2>
 <p>As a naive benchmark, we took a function that would sum
 up all elements in a numerical vector.</p>
 <p>In pure R, the code is like:</p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="kr">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="p">{</span>
 <span class="w">  </span><span class="n">total</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span>
-<span class="w">  </span><span class="nf">for </span><span class="p">(</span><span class="n">elt</span><span class="w"> </span><span class="n">in</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kr">for</span><span class="w"> </span><span class="p">(</span><span class="n">elt</span><span class="w"> </span><span class="kr">in</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">total</span><span class="w"> </span><span class="o">&lt;-</span><span class="w"> </span><span class="n">total</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">elt</span>
 <span class="w">  </span><span class="p">}</span><span class="w"> </span>
 <span class="p">}</span>
 </pre></div>
 </div>
 <p>while in pure Python this is like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">python_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">python_sum</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">total</span> <span class="o">=</span> <span class="mf">0.0</span>
     <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
         <span class="n">total</span> <span class="o">+=</span> <span class="n">elt</span>
@@ -144,20 +143,20 @@ is to measure the running time of pure R code.</p>
     <span class="n">x_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)]</span>
     <span class="n">module</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;array.array&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">array</span> <span class="k">as</span> <span class="nn">module</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">array</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">module</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="n">x_list</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;numpy.array&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">module</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">module</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">x_list</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;FloatVector&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">module</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">module</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">FloatVector</span><span class="p">(</span><span class="n">x_list</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;FloatSexpVector&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">module</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">module</span>
         <span class="n">module</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">FloatSexpVector</span><span class="p">(</span><span class="n">x_list</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;FloatSexpVector-memoryview-array&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">module</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">module</span>
         <span class="n">module</span><span class="o">.</span><span class="n">initr</span><span class="p">()</span>
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">FloatSexpVector</span><span class="p">(</span><span class="n">x_list</span><span class="p">)</span>
         <span class="n">mv</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">memoryview</span><span class="p">()</span>
@@ -165,16 +164,23 @@ is to measure the running time of pure R code.</p>
     <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">x_list</span>
     <span class="k">elif</span> <span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;R&quot;</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">module</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">module</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">FloatSexpVector</span><span class="p">(</span><span class="n">x_list</span><span class="p">)</span>
         <span class="n">module</span><span class="o">.</span><span class="n">globalenv</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">res</span>
         <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
 </pre></div>
 </div>
 <p>The running times are summarized in the figure below.</p>
-<a class="reference internal image-reference" href="_static/benchmark_sum.png"><img alt="_static/benchmark_sum.png" src="_static/benchmark_sum.png" /></a>
-<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> is the fastest, explaining
-why implementations of the sum in pure Python over a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of numbers
+<a class="reference internal image-reference" href="_static/benchmark_sum.png"><img alt="_static/benchmark_sum.png" src="_static/benchmark_sum.png" />
+<aside class="system-message">
+<p class="system-message-title">System Message: WARNING/2 (<span class="docutils literal">/home/runner/work/rpy2/rpy2/doc/performances.rst</span>, line 109)</p>
+<p>Cannot scale image!
+  Could not get size from &quot;_static/benchmark_sum.png&quot;:
+  Requires Python Imaging Library.</p>
+</aside>
+</a>
+<p>Iterating through a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> is the fastest, explaining
+why implementations of the sum in pure Python over a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a> of numbers
 is the fastest. Python is much faster than R for iterating through a vector/list
 (almost 9 times faster in this run).</p>
 <p>Measuring the respective slopes, and using the slope for the R code
@@ -282,7 +288,7 @@ iteration calls for each element in the R vector pure-Python code that
 performs various calling C for the extraction the element corresponding to
 the index.</p>
 <p>On the other hand, exposing the content of the R vector through a
-memoryview and <a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a> leads to a rather nice speedup by letting
+memoryview and <a class="reference external" href="https://docs.python.org/3/library/array.html#array.array" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">array.array</span></code></a> leads to a rather nice speedup by letting
 us operate at the same level of performance as if it was a Python array.
 In other words, rpy2 can make computations on R vectors using Python faster
 than if using R itself. R bridges relying on pipes or client-server architectures
@@ -304,7 +310,7 @@ intended to represent a general assessment of expected performances.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h3><a href="index.html">Table of Contents</a></h3>
@@ -338,7 +344,7 @@ intended to represent a general assessment of expected performances.</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -346,13 +352,13 @@ intended to represent a general assessment of expected performances.</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -367,14 +373,14 @@ intended to represent a general assessment of expected performances.</p>
         <li class="right" >
           <a href="related_projects.html" title="Related projects"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="miscellaneous.html" >Miscellaneous topics</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Performances</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
   </body>
 </html>

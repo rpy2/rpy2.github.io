@@ -1,20 +1,19 @@
 
+<!DOCTYPE html>
 
-<!doctype html>
-
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Working with R’s OOPs &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <title>Working with R’s OOPs &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -25,7 +24,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,7 +39,7 @@
         <li class="right" >
           <a href="robjects_rpackages.html" title="R packages"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" accesskey="U">The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Working with R’s OOPs</a></li> 
@@ -53,12 +52,12 @@
           <div class="body" role="main">
             
   <section id="working-with-r-s-oops">
-<h1>Working with R’s OOPs<a class="headerlink" href="#working-with-r-s-oops" title="Permalink to this heading">¶</a></h1>
+<h1>Working with R’s OOPs<a class="headerlink" href="#working-with-r-s-oops" title="Link to this heading">¶</a></h1>
 <p>Object-Oriented Programming can be achieved in R, but in more than
 one way. Beside the <em>official</em> S3 and S4 systems, there is a rich
 ecosystem of alternative implementations of objects, like aroma, or proto.</p>
 <section id="s3-objects">
-<h2>S3 objects<a class="headerlink" href="#s3-objects" title="Permalink to this heading">¶</a></h2>
+<h2>S3 objects<a class="headerlink" href="#s3-objects" title="Link to this heading">¶</a></h2>
 <p>S3 objects are default R objects (i.e., not S4 instances) for which
 an attribute “class” has been added.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">x</span> <span class="o">=</span> <span class="n">robjects</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
@@ -83,9 +82,9 @@ if a function <em>plot.&lt;class_of_something&gt;</em> is in the search path.</p
 <p>This rule is not strict as there can exist functions with a <em>dot</em> in their name
 and the part after the dot not correspond to an S3 class name.</p>
 </div>
-<span class="target" id="module-rpy2.robjects.methods"></span></section>
+</section>
 <section id="s4-objects">
-<h2>S4 objects<a class="headerlink" href="#s4-objects" title="Permalink to this heading">¶</a></h2>
+<span id="module-rpy2.robjects.methods"></span><h2>S4 objects<a class="headerlink" href="#s4-objects" title="Link to this heading">¶</a></h2>
 <p>S4 objects are a little more formal regarding their class definition, and all
 instances belong to the low-level R type SEXPS4.</p>
 <p>The definition of methods for a class can happen anytime after the class has
@@ -115,7 +114,7 @@ as a jupyter notebook <a class="reference external" href="_static/notebooks/s4cl
 </div>
 </div>
 <section id="manual-r-in-python-class-definition">
-<h3>Manual R-in-Python class definition<a class="headerlink" href="#manual-r-in-python-class-definition" title="Permalink to this heading">¶</a></h3>
+<h3>Manual R-in-Python class definition<a class="headerlink" href="#manual-r-in-python-class-definition" title="Link to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The R package <cite>lme4</cite> is not distributed with R, and will have to be installed
@@ -126,10 +125,10 @@ import the higher-level interface and the function
 <a class="reference internal" href="robjects_rpackages.html#rpy2.robjects.packages.importr" title="rpy2.robjects.packages.importr"><code class="xref py py-func docutils literal notranslate"><span class="pre">rpy2.robjects.packages.importr()</span></code></a>. The R class we want to represent
 is defined in the
 <code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2</span></code> modules and utilities.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.robjects</span> <span class="k">as</span> <span class="nn">robjects</span>
-<span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="kn">import</span> <span class="n">getmethod</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">robjects</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rinterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span><span class="p">,</span> <span class="n">data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.methods</span><span class="w"> </span><span class="kn">import</span> <span class="n">getmethod</span>
 
 <span class="n">lme4</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;lme4&#39;</span><span class="p">)</span>
 <span class="n">utils</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;utils&#39;</span><span class="p">)</span>
@@ -147,7 +146,7 @@ is a wrapper to those mappings, where Python-to-R operations prior
 to calling the R method can be performed.
 In the last part of the class definition, a <em>static method</em> is defined.
 This is one way to have polymorphic constructors implemented.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">LmList</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">RS4</span><span class="p">):</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">LmList</span><span class="p">(</span><span class="n">robjects</span><span class="o">.</span><span class="n">methods</span><span class="o">.</span><span class="n">RS4</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Reflection of the S4 class &#39;lmList&#39;. &quot;&quot;&quot;</span>
     
     <span class="n">_coef</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">getS3method</span><span class="p">(</span>
@@ -161,26 +160,26 @@ This is one way to have polymorphic constructors implemented.</p>
         <span class="s1">&#39;lmList4&#39;</span><span class="p">)</span>
     <span class="n">_lmfit_from_formula</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">lme4</span><span class="o">.</span><span class="n">lmList</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">_call_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_call_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s2">&quot;call&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">_call_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_call_set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s2">&quot;call&quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
     <span class="n">call</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_call_get</span><span class="p">,</span> <span class="n">_call_set</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Get or set the RS4 slot &#39;call&#39;.&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">coef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">coef</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; fitted coefficients &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_coef</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">confint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">confint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; confidence interval &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_confint</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     
-    <span class="k">def</span> <span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">formula</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; formula used to fit the model &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formula</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span> <span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> 
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_formula</span><span class="p">(</span><span class="n">formula</span><span class="p">,</span> 
                      <span class="n">data</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
                      <span class="n">family</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
                      <span class="n">subset</span><span class="o">=</span><span class="n">rinterface</span><span class="o">.</span><span class="n">MissingArg</span><span class="p">,</span>
@@ -219,31 +218,31 @@ the environment for the <code class="xref py py-class docutils literal notransla
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.methods.</span></span><span class="sig-name descname"><span class="pre">RS4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.methods.</span></span><span class="sig-name descname"><span class="pre">RS4</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4" title="Link to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="robjects_robjects.html#rpy2.robjects.robject.RObjectMixin" title="rpy2.robjects.robject.RObjectMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">RObjectMixin</span></code></a>, <a class="reference internal" href="rinterface.html#rpy2.rinterface.SexpS4" title="rpy2.rinterface.SexpS4"><code class="xref py py-class docutils literal notranslate"><span class="pre">SexpS4</span></code></a></p>
 <p>Python representation of an R instance of class ‘S4’.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4.extends">
-<span class="sig-name descname"><span class="pre">extends</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.extends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.extends" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">extends</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.extends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.extends" title="Link to this definition">¶</a></dt>
 <dd><p>Return the R classes this extends.</p>
 <p>This calls the R function methods::extends().</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4.isclass">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isclass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.isclass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.isclass" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">isclass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.isclass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.isclass" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether the given name is a defined class.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4.slotnames">
-<span class="sig-name descname"><span class="pre">slotnames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.slotnames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.slotnames" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">slotnames</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.slotnames"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.slotnames" title="Link to this definition">¶</a></dt>
 <dd><p>Return the ‘slots’ defined for this object</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4.validobject">
-<span class="sig-name descname"><span class="pre">validobject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.validobject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.validobject" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">validobject</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">test</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">complete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4.validobject"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4.validobject" title="Link to this definition">¶</a></dt>
 <dd><p>Return whether the instance is ‘valid’ for its class.</p>
 </dd></dl>
 
@@ -251,7 +250,7 @@ the environment for the <code class="xref py py-class docutils literal notransla
 
 </section>
 <section id="automated-r-in-python-class-definitions">
-<h3>Automated R-in-Python class definitions<a class="headerlink" href="#automated-r-in-python-class-definitions" title="Permalink to this heading">¶</a></h3>
+<h3>Automated R-in-Python class definitions<a class="headerlink" href="#automated-r-in-python-class-definitions" title="Link to this heading">¶</a></h3>
 <p>The S4 system allows polymorphic definitions of methods, that is,
 there can be several methods with the same name but different number and types of arguments.
 (This is like Clojure’s multimethods). Mapping R methods to Python methods
@@ -272,22 +271,22 @@ class is declared</p></td>
 </tr>
 <tr class="row-odd"><td><p>__attr_translation__</p></td>
 <td><p>optional</p></td>
-<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</p></td>
 </tr>
 <tr class="row-even"><td><p>__meth_translation__</p></td>
 <td><p>optional</p></td>
-<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</p></td>
+<td><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a> to translate</p></td>
 </tr>
 </tbody>
 </table>
 <p>Example:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
 <span class="n">stats4</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;stats4&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">rpy2.robjects.methods</span> <span class="kn">import</span> <span class="n">RS4Auto_Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.methods</span><span class="w"> </span><span class="kn">import</span> <span class="n">RS4Auto_Type</span>
 <span class="c1"># use &quot;six&quot; for Python2/Python3 compatibility</span>
-<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">six</span>
 
-<span class="k">class</span> <span class="nc">MLE</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">RS4Auto_Type</span><span class="p">)):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MLE</span><span class="p">(</span><span class="n">six</span><span class="o">.</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">RS4Auto_Type</span><span class="p">)):</span>
   <span class="n">__rname__</span> <span class="o">=</span> <span class="s1">&#39;mle&#39;</span>
   <span class="n">__rpackagename__</span> <span class="o">=</span> <span class="s1">&#39;stats4&#39;</span>
 </pre></div>
@@ -299,8 +298,8 @@ and methods defined for the class when the class is declared
 R package).</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.robjects.methods.RS4Auto_Type">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.methods.</span></span><span class="sig-name descname"><span class="pre">RS4Auto_Type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4Auto_Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4Auto_Type" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABCMeta" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a></p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.robjects.methods.</span></span><span class="sig-name descname"><span class="pre">RS4Auto_Type</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sexp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/robjects/methods.html#RS4Auto_Type"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.robjects.methods.RS4Auto_Type" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABCMeta" title="(in Python v3.13)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABCMeta</span></code></a></p>
 <p>This type (metaclass) takes an R S4 class
 and create a Python class out of it,
 copying the R documention page into the Python docstring.
@@ -312,7 +311,7 @@ __meth_translation__.</p>
 </section>
 </section>
 <section id="automated-mapping-of-user-defined-classes">
-<h2>Automated mapping of user-defined classes<a class="headerlink" href="#automated-mapping-of-user-defined-classes" title="Permalink to this heading">¶</a></h2>
+<h2>Automated mapping of user-defined classes<a class="headerlink" href="#automated-mapping-of-user-defined-classes" title="Link to this heading">¶</a></h2>
 <p>Once a Python class mirroring an R classis is defined, the mapping can be made
 automatic by adding new rules to the conversion system
 (see Section <a class="reference internal" href="robjects_convert.html#robjects-conversion"><span class="std std-ref">Mapping rpy2 objects to arbitrary python objects</span></a>).</p>
@@ -324,7 +323,7 @@ automatic by adding new rules to the conversion system
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h3><a href="index.html">Table of Contents</a></h3>
@@ -371,7 +370,7 @@ automatic by adding new rules to the conversion system
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -379,13 +378,13 @@ automatic by adding new rules to the conversion system
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -400,15 +399,15 @@ automatic by adding new rules to the conversion system
         <li class="right" >
           <a href="robjects_rpackages.html" title="R packages"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="high-level.html" >High-level interface</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="robjects.html" >The robjects package</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Working with R’s OOPs</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
   </body>
 </html>

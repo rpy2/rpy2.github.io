@@ -4,6 +4,19 @@
     from rpy2.ipython import html
     html.html_rdataframe=partial(html.html_rdataframe, table_class="docutils")
 
+
+.. parsed-literal::
+
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "LD_LIBRARY_PATH" redefined by R and overriding existing variable. Current: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib", R: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib"
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "PWD" redefined by R and overriding existing variable. Current: "/home/runner/work/rpy2/rpy2/doc", R: "/home/runner/work/rpy2/rpy2/doc/notebooks"
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "LD_LIBRARY_PATH" redefined by R and overriding existing variable. Current: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib", R: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib"
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "R_SESSION_TMPDIR" redefined by R and overriding existing variable. Current: "/tmp/Rtmp2r0D3H", R: "/tmp/RtmpBedMOF"
+      warnings.warn(
+
+
 dplyr in Python
 ===============
 
@@ -33,13 +46,6 @@ frames).
 
     from rpy2.robjects.lib.dplyr import DataFrame
     from rpy2.robjects import rl
-
-
-.. parsed-literal::
-
-    /opt/hostedtoolcache/Python/3.9.17/x64/lib/python3.9/site-packages/rpy2/robjects/lib/dplyr.py:27: UserWarning: This was designed againt dplyr versions starting with 1.0 but you have 1.1.2
-      warnings.warn(
-
 
 With this we have the choice of chaining (D3-style)
 
@@ -288,8 +294,8 @@ implementation of ``dplyr``, it *just works*.
 
 .. parsed-literal::
 
-    # Source:   SQL [2 x 2]
-    # Database: sqlite 3.41.2 [/tmp/tmpxo4an2ls]
+    # Source:   SQL [?? x 2]
+    # Database: sqlite 3.49.1 [/tmp/tmp8qyxtji0]
        gear mean_ptw
       <dbl>    <dbl>
     1     4    1237.
@@ -310,10 +316,10 @@ available to us. If we want to see the SQL code generated that’s:
     <SQL>
     SELECT `gear`, AVG(`powertoweight`) AS `mean_ptw`
     FROM (
-      SELECT *, (`hp` * 36.0) / `wt` AS `powertoweight`
+      SELECT `mtcars`.*, (`hp` * 36.0) / `wt` AS `powertoweight`
       FROM `mtcars`
       WHERE (`gear` > 3.0)
-    )
+    ) AS `q01`
     GROUP BY `gear`
 
 

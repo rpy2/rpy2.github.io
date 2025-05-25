@@ -1,20 +1,19 @@
 
+<!DOCTYPE html>
 
-<!doctype html>
-
-<html lang="en">
+<html lang="en" data-content_root="./">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Interactive work &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <title>Interactive work &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/documentation_options.js?v=5349f462"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -25,7 +24,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -40,7 +39,7 @@
         <li class="right" >
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Interactive work</a></li> 
       </ul>
     </div>  
@@ -51,9 +50,9 @@
           <div class="body" role="main">
             
   <section id="interactive-work">
-<h1>Interactive work<a class="headerlink" href="#interactive-work" title="Permalink to this heading">¶</a></h1>
+<h1>Interactive work<a class="headerlink" href="#interactive-work" title="Link to this heading">¶</a></h1>
 <section id="overview">
-<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this heading">¶</a></h2>
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is an experimental package, and some of the ideas experimented
@@ -61,11 +60,11 @@ here have already made it to <a class="reference internal" href="robjects.html#m
 <p>For interactive work the “R magic” extension to <cite>ipython</cite> is
 the preferred way / most tested way for interactive work.</p>
 </div>
-<span class="target" id="module-rpy2.ipython"></span></section>
+</section>
 <section id="module-rpy2.ipython.rmagic">
-<span id="ipython-magic-integration-was-rmagic"></span><h2>IPython magic integration (was rmagic)<a class="headerlink" href="#module-rpy2.ipython.rmagic" title="Permalink to this heading">¶</a></h2>
+<span id="ipython-magic-integration-was-rmagic"></span><span id="module-rpy2.ipython"></span><h2>IPython magic integration (was rmagic)<a class="headerlink" href="#module-rpy2.ipython.rmagic" title="Link to this heading">¶</a></h2>
 <section id="rmagic">
-<h3>Rmagic<a class="headerlink" href="#rmagic" title="Permalink to this heading">¶</a></h3>
+<h3>Rmagic<a class="headerlink" href="#rmagic" title="Link to this heading">¶</a></h3>
 <p>Magic command interface for interactive work with R in ipython. %R and %%R are
 the line and cell magics, respectively.</p>
 <div class="admonition note">
@@ -73,7 +72,7 @@ the line and cell magics, respectively.</p>
 <p>You will need a working copy of R.</p>
 </div>
 <section id="usage">
-<h4>Usage<a class="headerlink" href="#usage" title="Permalink to this heading">¶</a></h4>
+<h4>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h4>
 <p>To enable the magics below, execute <cite>%load_ext rpy2.ipython</cite>.</p>
 <p><cite>%R</cite></p>
 <blockquote>
@@ -81,7 +80,9 @@ the line and cell magics, respectively.</p>
 <div></div></blockquote>
 <dl class="simple">
 <dt>%R [-i INPUT] [-o OUTPUT] [-n] [-w WIDTH] [-h HEIGHT] [-p POINTSIZE]</dt><dd><p>[-b BG] [–noisolation] [-u {px,in,cm,mm}] [-r RES]
-[–type {cairo,cairo-png,Xlib,quartz}] [-c CONVERTER] [-d DISPLAY]
+[–type {cairo,cairo-png,Xlib,quartz}]
+[–graphics-device {grDevices::png,grDevices::jpeg,grDevices::bmp,grDevices::svg,grDevices::X11,grDevices::quartz,Cairo::CairoPNG,Cairo::CairoSVG,Cairo::CairoX11,svglite::svglite,jpeg,png,svg,X11,quartz}]
+[-c CONVERTER] [-d DISPLAY]
 [code …]</p>
 </dd>
 </dl>
@@ -154,7 +155,7 @@ Use %Rget to push a structured array.</p></li>
 value in the line is an empty string.</p></li>
 </ul>
 <dl>
-<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt>options:</dt><dd><dl class="option-list">
 <dt><kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></dt>
 <dd><p>Names of Python objects to be assigned to R objects
 after using the default converter or one specified
@@ -221,7 +222,11 @@ to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
 [“in”, “cm”, “mm”].</p>
 </dd>
 <dt><kbd><span class="option">--type <var>&lt;{cairo,cairo-png,Xlib,quartz}&gt;</var></span></kbd></dt>
-<dd><p>Type device used to generate the figure.</p>
+<dd><p>Deprecated. Use ‘–graphics-device’. Type device used
+to generate the figure.</p>
+</dd>
+<dt><kbd><span class="option">--graphics-device <var>&lt;{grDevices::png,grDevices::jpeg,grDevices::bmp,grDevices::svg,grDevices::X11,grDevices::quartz,Cairo::CairoPNG,Cairo::CairoSVG,Cairo::CairoX11,svglite::svglite,jpeg,png,svg,X11,quartz}&gt;</var></span></kbd></dt>
+<dd><p>R graphics device used to render graphics.</p>
 </dd>
 <dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
 <dd><p>Name of local converter to use. A converter contains
@@ -254,7 +259,7 @@ cell.</p>
 variables from python to R. The line should be made up
 of whitespace separated variable names in the IPython
 namespace:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">6.3</span><span class="p">,</span><span class="mf">7.9</span><span class="p">])</span>
 
@@ -270,7 +275,7 @@ namespace:</p>
 <dl>
 <dt>positional arguments:</dt><dd><p>inputs</p>
 </dd>
-<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt>options:</dt><dd><dl class="option-list">
 <dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
 <dd><p>Name of local converter to use. A converter contains
 the rules to convert objects back and forth between
@@ -310,7 +315,7 @@ variables from python to rpy2:</p>
 when the object in R has mixed data types.
 See the %%R docstring for more examples.</p>
 <section id="notes">
-<h5>Notes<a class="headerlink" href="#notes" title="Permalink to this heading">¶</a></h5>
+<h5>Notes<a class="headerlink" href="#notes" title="Link to this heading">¶</a></h5>
 <p>Beware that R names can have dots (‘.’) so this is not fool proof.
 To avoid this, don’t name your R objects with dots…</p>
 <dl class="simple">
@@ -347,25 +352,62 @@ returned rather than pushed to self.shell.user_ns:</p>
 <dt>positional arguments:</dt><dd><p>output</p>
 </dd>
 </dl>
+<p><cite>%Rdevice</cite></p>
+<blockquote>
+<div><p>None</p>
+</div></blockquote>
 </section>
 </section>
 </section>
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.FileDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">FileDevice</span></span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#FileDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.FileDevice" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.GraphicsDevice">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">GraphicsDevice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mimetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#GraphicsDevice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.GraphicsDevice" title="Link to this definition">¶</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.GraphicsDevice.get_rfunc">
+<span class="sig-name descname"><span class="pre">get_rfunc</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="robjects_functions.html#rpy2.robjects.functions.Function" title="rpy2.robjects.functions.Function"><span class="pre">Function</span></a></span></span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#GraphicsDevice.get_rfunc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.GraphicsDevice.get_rfunc" title="Link to this definition">¶</a></dt>
+<dd><p>Get the R function attached with the device.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.GraphicsDeviceRaster">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">GraphicsDeviceRaster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mimetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#GraphicsDeviceRaster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.GraphicsDeviceRaster" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.GraphicsDeviceSVG">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">GraphicsDeviceSVG</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mimetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#GraphicsDeviceSVG"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.GraphicsDeviceSVG" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.GraphicsDeviceWindow">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">GraphicsDeviceWindow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extension</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mimetype</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#GraphicsDeviceWindow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.GraphicsDeviceWindow" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="py exception">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RInterpreterError">
-<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">RInterpreterError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RInterpreterError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RInterpreterError" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">RInterpreterError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdout</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RInterpreterError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RInterpreterError" title="Link to this definition">¶</a></dt>
 <dd><p>An error when running R code in a %%R magic cell.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">RMagics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.11)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics" title="Permalink to this definition">¶</a></dt>
-<dd><p>A set of magics useful for interactive work with R via rpy2.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">RMagics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.13)"><span class="pre">Any</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics" title="Link to this definition">¶</a></dt>
+<dd><p>A set of ipython/jupyter “magic”s useful for interactive work with R.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.R">
-<span class="sig-name descname"><span class="pre">R</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.R"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.R" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">R</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.R"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.R" title="Link to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">R</span> <span class="p">[</span><span class="o">-</span><span class="n">i</span> <span class="n">INPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">o</span> <span class="n">OUTPUT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">n</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">w</span> <span class="n">WIDTH</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span> <span class="n">HEIGHT</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="n">POINTSIZE</span><span class="p">]</span>
        <span class="p">[</span><span class="o">-</span><span class="n">b</span> <span class="n">BG</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">noisolation</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">u</span> <span class="p">{</span><span class="n">px</span><span class="p">,</span><span class="ow">in</span><span class="p">,</span><span class="n">cm</span><span class="p">,</span><span class="n">mm</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">r</span> <span class="n">RES</span><span class="p">]</span>
-       <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="p">{</span><span class="n">cairo</span><span class="p">,</span><span class="n">cairo</span><span class="o">-</span><span class="n">png</span><span class="p">,</span><span class="n">Xlib</span><span class="p">,</span><span class="n">quartz</span><span class="p">}]</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">DISPLAY</span><span class="p">]</span>
+       <span class="p">[</span><span class="o">--</span><span class="nb">type</span> <span class="p">{</span><span class="n">cairo</span><span class="p">,</span><span class="n">cairo</span><span class="o">-</span><span class="n">png</span><span class="p">,</span><span class="n">Xlib</span><span class="p">,</span><span class="n">quartz</span><span class="p">}]</span>
+       <span class="p">[</span><span class="o">--</span><span class="n">graphics</span><span class="o">-</span><span class="n">device</span> <span class="p">{</span><span class="n">grDevices</span><span class="p">::</span><span class="n">png</span><span class="p">,</span><span class="n">grDevices</span><span class="p">::</span><span class="n">jpeg</span><span class="p">,</span><span class="n">grDevices</span><span class="p">::</span><span class="n">bmp</span><span class="p">,</span><span class="n">grDevices</span><span class="p">::</span><span class="n">svg</span><span class="p">,</span><span class="n">grDevices</span><span class="p">::</span><span class="n">X11</span><span class="p">,</span><span class="n">grDevices</span><span class="p">::</span><span class="n">quartz</span><span class="p">,</span><span class="n">Cairo</span><span class="p">::</span><span class="n">CairoPNG</span><span class="p">,</span><span class="n">Cairo</span><span class="p">::</span><span class="n">CairoSVG</span><span class="p">,</span><span class="n">Cairo</span><span class="p">::</span><span class="n">CairoX11</span><span class="p">,</span><span class="n">svglite</span><span class="p">::</span><span class="n">svglite</span><span class="p">,</span><span class="n">jpeg</span><span class="p">,</span><span class="n">png</span><span class="p">,</span><span class="n">svg</span><span class="p">,</span><span class="n">X11</span><span class="p">,</span><span class="n">quartz</span><span class="p">}]</span>
+       <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">d</span> <span class="n">DISPLAY</span><span class="p">]</span>
        <span class="p">[</span><span class="n">code</span> <span class="o">...</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -437,7 +479,7 @@ Use %Rget to push a structured array.</p></li>
 value in the line is an empty string.</p></li>
 </ul>
 <dl>
-<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt>options:</dt><dd><dl class="option-list">
 <dt><kbd><span class="option">-i <var>INPUT</var></span>, <span class="option">--input <var>INPUT</var></span></kbd></dt>
 <dd><p>Names of Python objects to be assigned to R objects
 after using the default converter or one specified
@@ -504,7 +546,11 @@ to <em>png</em> in R. Defaults to 72 if <em>units</em> is one of
 [“in”, “cm”, “mm”].</p>
 </dd>
 <dt><kbd><span class="option">--type <var>&lt;{cairo,cairo-png,Xlib,quartz}&gt;</var></span></kbd></dt>
-<dd><p>Type device used to generate the figure.</p>
+<dd><p>Deprecated. Use ‘–graphics-device’. Type device used
+to generate the figure.</p>
+</dd>
+<dt><kbd><span class="option">--graphics-device <var>&lt;{grDevices::png,grDevices::jpeg,grDevices::bmp,grDevices::svg,grDevices::X11,grDevices::quartz,Cairo::CairoPNG,Cairo::CairoSVG,Cairo::CairoX11,svglite::svglite,jpeg,png,svg,X11,quartz}&gt;</var></span></kbd></dt>
+<dd><p>R graphics device used to render graphics.</p>
 </dd>
 <dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
 <dd><p>Name of local converter to use. A converter contains
@@ -531,7 +577,7 @@ cell.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.Rget">
-<span class="sig-name descname"><span class="pre">Rget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rget" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Rget</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rget"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rget" title="Link to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rget</span> <span class="n">output</span>
 </pre></div>
 </div>
@@ -562,8 +608,23 @@ returned rather than pushed to self.shell.user_ns:</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.Roptions">
+<span class="sig-name descname"><span class="pre">Roptions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Roptions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Roptions" title="Link to this definition">¶</a></dt>
+<dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Roptions</span> <span class="p">{</span><span class="n">show</span><span class="p">,</span><span class="n">refresh</span><span class="p">}</span>
+</pre></div>
+</div>
+<dl class="simple">
+<dt>positional arguments:</dt><dd><dl class="simple">
+<dt>{show,refresh}  Show options for magics, or refresh them to current</dt><dd><p>rpy2.ipython.rmagic.default.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.Rpull">
-<span class="sig-name descname"><span class="pre">Rpull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpull"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpull" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Rpull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpull"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpull" title="Link to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rpull</span> <span class="p">[</span><span class="n">outputs</span> <span class="o">...</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -589,7 +650,7 @@ variables from python to rpy2:</p>
 when the object in R has mixed data types.
 See the %%R docstring for more examples.</p>
 <section id="id1">
-<h3>Notes<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<h3>Notes<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <p>Beware that R names can have dots (‘.’) so this is not fool proof.
 To avoid this, don’t name your R objects with dots…</p>
 <dl class="simple">
@@ -601,7 +662,7 @@ To avoid this, don’t name your R objects with dots…</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.Rpush">
-<span class="sig-name descname"><span class="pre">Rpush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpush"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpush" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">Rpush</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">local_ns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.Rpush"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.Rpush" title="Link to this definition">¶</a></dt>
 <dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="n">Rpush</span> <span class="p">[</span><span class="o">-</span><span class="n">c</span> <span class="n">CONVERTER</span><span class="p">]</span> <span class="p">[</span><span class="n">inputs</span> <span class="o">...</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -609,7 +670,7 @@ To avoid this, don’t name your R objects with dots…</p>
 variables from python to R. The line should be made up
 of whitespace separated variable names in the IPython
 namespace:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">7</span><span class="p">]:</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="n">In</span> <span class="p">[</span><span class="mi">8</span><span class="p">]:</span> <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.5</span><span class="p">,</span><span class="mf">6.3</span><span class="p">,</span><span class="mf">7.9</span><span class="p">])</span>
 
@@ -625,7 +686,7 @@ namespace:</p>
 <dl>
 <dt>positional arguments:</dt><dd><p>inputs</p>
 </dd>
-<dt>optional arguments:</dt><dd><dl class="option-list">
+<dt>options:</dt><dd><dl class="option-list">
 <dt><kbd><span class="option">-c <var>CONVERTER</var></span>, <span class="option">--converter <var>CONVERTER</var></span></kbd></dt>
 <dd><p>Name of local converter to use. A converter contains
 the rules to convert objects back and forth between
@@ -641,13 +702,13 @@ converter if all three are available).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.eval">
-<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.eval" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse and evaluate a line of R code with rpy2.
-Returns the output to R’s stdout() connection,
+<span class="sig-name descname"><span class="pre">eval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.eval" title="Link to this definition">¶</a></dt>
+<dd><p>Parse and evaluate a line of R code.</p>
+<p>Returns the output to R’s stdout() connection,
 the value generated by evaluating the code, and a
 boolean indicating whether the return value would be
 visible if the line of code were evaluated in an R REPL.</p>
-<p>R Code evaluation and visibility determination are done via an R call
+<p>R code evaluation and visibility determination are done via an R call
 of the form withVisible(code_string), and this entire expression needs
 to be evaluated in R (we can’t use rpy2 function proxies here, as
 withVisible is a LISPy R function).</p>
@@ -655,16 +716,16 @@ withVisible is a LISPy R function).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.flush">
-<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.flush"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.flush" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">flush</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.flush"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.flush" title="Link to this definition">¶</a></dt>
 <dd><p>Flush R’s stdout cache to a string, returning the string.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.publish_graphics">
-<span class="sig-name descname"><span class="pre">publish_graphics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolate_svgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.publish_graphics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.publish_graphics" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">publish_graphics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolate_svgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.publish_graphics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.publish_graphics" title="Link to this definition">¶</a></dt>
 <dd><p>Wrap graphic file data for presentation in IPython.</p>
-<p>This method is deprecated. Use <cite>display_figures</cite> or
-‘display_figures_svg` instead.</p>
+<p>This method is deprecated. Use method <cite>display_filename</cite>
+for the attribute <cite>graphics_device</cite>.</p>
 <dl class="simple">
 <dt>graph_dir<span class="classifier">str</span></dt><dd><p>Probably provided by some tmpdir call</p>
 </dd>
@@ -674,34 +735,8 @@ withVisible is a LISPy R function).</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.set_R_plotting_device">
-<span class="sig-name descname"><span class="pre">set_R_plotting_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.set_R_plotting_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.set_R_plotting_device" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set which device R should use to produce plots.
-If device == ‘svg’ then the package ‘Cairo’
-must be installed. Because Cairo forces “onefile=TRUE”,
-it is not posible to include multiple plots per cell.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>device</strong> – [‘png’, ‘jpeg’, ‘X11’, ‘svg’]
-Device to be used for plotting.
-Currently only ‘png’, ‘jpeg’, ‘X11’ and ‘svg’ are supported,
-with ‘X11’ allowing interactive plots on a locally-running jupyter,
-and the other allowing to visualize R figure generated on a remote
-jupyter server/kernel.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.setup_graphics">
-<span class="sig-name descname"><span class="pre">setup_graphics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.setup_graphics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.setup_graphics" title="Permalink to this definition">¶</a></dt>
-<dd><p>Setup graphics in preparation for evaluating R code.</p>
-<p>args : argparse bunch (should be whatever the R magic got).</p>
-</dd></dl>
-
-<dl class="py method">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.RMagics.write_console_regular">
-<span class="sig-name descname"><span class="pre">write_console_regular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.write_console_regular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.write_console_regular" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">write_console_regular</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#RMagics.write_console_regular"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.RMagics.write_console_regular" title="Link to this definition">¶</a></dt>
 <dd><p>A hook to capture R’s stdout in a cache.</p>
 </dd></dl>
 
@@ -709,7 +744,7 @@ jupyter server/kernel.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.display_figures">
-<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">display_figures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#display_figures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.display_figures" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">display_figures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'png'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#display_figures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.display_figures" title="Link to this definition">¶</a></dt>
 <dd><p>Iterator to display PNG figures generated by R.</p>
 <dl class="simple">
 <dt>graph_dir<span class="classifier">str</span></dt><dd><p>A directory where R figures are to be searched.</p>
@@ -720,7 +755,7 @@ jupyter server/kernel.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.display_figures_svg">
-<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">display_figures_svg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolate_svgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#display_figures_svg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.display_figures_svg" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">display_figures_svg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">graph_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">isolate_svgs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#display_figures_svg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.display_figures_svg" title="Link to this definition">¶</a></dt>
 <dd><p>Display SVG figures generated by R.</p>
 <dl class="simple">
 <dt>graph_dir<span class="classifier">str</span></dt><dd><p>A directory where R figures are to be searched.</p>
@@ -733,21 +768,21 @@ jupyter server/kernel.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="rpy2.ipython.rmagic.load_ipython_extension">
-<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">load_ipython_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#load_ipython_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.load_ipython_extension" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rpy2.ipython.rmagic.</span></span><span class="sig-name descname"><span class="pre">load_ipython_extension</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ip</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/ipython/rmagic.html#load_ipython_extension"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.ipython.rmagic.load_ipython_extension" title="Link to this definition">¶</a></dt>
 <dd><p>Load the extension in IPython.</p>
 </dd></dl>
 
-<span class="target" id="module-rpy2.interactive.process_revents"></span></section>
+</section>
 <section id="r-event-loop">
-<span id="interactive-reventloop"></span><h2>R event loop<a class="headerlink" href="#r-event-loop" title="Permalink to this heading">¶</a></h2>
+<span id="interactive-reventloop"></span><span id="module-rpy2.interactive.process_revents"></span><h2>R event loop<a class="headerlink" href="#r-event-loop" title="Link to this heading">¶</a></h2>
 <p>In order to perform operations like refreshing interactive graphical
 devices, R need to process the events triggering the refresh.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.interactive</span> <span class="kn">import</span> <span class="n">process_revents</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.interactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">process_revents</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">process_revents</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.packages</span> <span class="kn">import</span> <span class="n">importr</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rpy2.robjects.vectors</span> <span class="kn">import</span> <span class="n">IntVector</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages</span><span class="w"> </span><span class="kn">import</span> <span class="n">importr</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.vectors</span><span class="w"> </span><span class="kn">import</span> <span class="n">IntVector</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s2">&quot;graphics&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">graphics</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">)),</span> <span class="n">ylab</span><span class="o">=</span><span class="s2">&quot;Value&quot;</span><span class="p">)</span>
 </pre></div>
@@ -773,16 +808,16 @@ active and will be taken into account at the next sleep cycle.</p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="rpy2.interactive.process_revents.process_revents">
-<span class="sig-prename descclassname"><span class="pre">rpy2.interactive.process_revents.</span></span><span class="sig-name descname"><span class="pre">process_revents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#process_revents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.interactive.process_revents.process_revents" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">rpy2.interactive.process_revents.</span></span><span class="sig-name descname"><span class="pre">process_revents</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/rpy2/rinterface.html#process_revents"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#rpy2.interactive.process_revents.process_revents" title="Link to this definition">¶</a></dt>
 <dd><p>Process R events.</p>
 <p>Calling this function a regular interval can help ensure that
 R is processing input events (e.g., resizing of a window with
 graphics).</p>
 </dd></dl>
 
-<span class="target" id="module-rpy2.interactive"></span></section>
+</section>
 <section id="utilities-for-interactive-work">
-<h2>Utilities for interactive work<a class="headerlink" href="#utilities-for-interactive-work" title="Permalink to this heading">¶</a></h2>
+<span id="module-rpy2.interactive"></span><h2>Utilities for interactive work<a class="headerlink" href="#utilities-for-interactive-work" title="Link to this heading">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This module contains a number of experimental features, some of
@@ -802,8 +837,8 @@ help strings or function signatures have made those valuable tools.</p>
 <p>The package <a class="reference internal" href="#module-rpy2.interactive" title="rpy2.interactive"><code class="xref py py-mod docutils literal notranslate"><span class="pre">rpy2.interactive</span></code></a> aims at interactive users, but can be used
 in non-interactive code as well. It is trading flexibility
 or performances for ease-of-use.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">v</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">IntVector</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s1">&#39;datasets&#39;</span><span class="p">)</span>
 <span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;datasets&#39; (built-in)&gt;</span>
@@ -818,8 +853,8 @@ or performances for ease-of-use.</p>
 </pre></div>
 </div>
 <section id="r-vectors">
-<h3>R vectors<a class="headerlink" href="#r-vectors" title="Permalink to this heading">¶</a></h3>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
+<h3>R vectors<a class="headerlink" href="#r-vectors" title="Link to this heading">¶</a></h3>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">r</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">IntVector</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
 <span class="go">&lt;IntVector - Python:0x935774c / R:0xa22b440&gt;</span>
 <span class="go">[       0,        1,        2, ...,        7,        8,        9]</span>
@@ -837,7 +872,7 @@ or performances for ease-of-use.</p>
 <p>To know more, please check Section <a class="reference internal" href="introduction.html#introduction-vectors"><span class="std std-ref">R vectors</span></a>.</p>
 </section>
 <section id="r-packages">
-<h3>R packages<a class="headerlink" href="#r-packages" title="Permalink to this heading">¶</a></h3>
+<h3>R packages<a class="headerlink" href="#r-packages" title="Link to this heading">¶</a></h3>
 <p>R has a rich selection of packages, known in other computer
 languages and systems as libraries.</p>
 <p>R Packages can be:</p>
@@ -847,15 +882,15 @@ languages and systems as libraries.</p>
 <li><p>attached (loaded)</p></li>
 </ul>
 <section id="loading-installed-packages">
-<h4>Loading installed packages<a class="headerlink" href="#loading-installed-packages" title="Permalink to this heading">¶</a></h4>
+<h4>Loading installed packages<a class="headerlink" href="#loading-installed-packages" title="Link to this heading">¶</a></h4>
 <p>When starting R, the <em>base</em> package as well as by default the packages
 <em>grDevices</em>, <em>graphics</em>, <em>methods</em>, <em>stats</em>, and <em>utils</em> are loaded.</p>
 <p>We start with the loading of R packages since this is a very common
 operation in R, and since R is typically distributed
 with <em>recommended</em> packages one can immediately start playing with.</p>
 <p>Loading installed R packages can be done through the function <code class="xref py py-func docutils literal notranslate"><span class="pre">importr()</span></code>.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;cluster&quot;</span><span class="p">)</span>
 <span class="go">rpy2.robjecs.packages.Package as a &lt;module &#39;cluster&#39; (built-in)&gt;</span>
 </pre></div>
@@ -889,10 +924,10 @@ a graphical example:</p>
 </div>
 </section>
 <section id="available-packages">
-<h4>Available packages<a class="headerlink" href="#available-packages" title="Permalink to this heading">¶</a></h4>
+<h4>Available packages<a class="headerlink" href="#available-packages" title="Link to this heading">¶</a></h4>
 <p>R has a function to list the available packages.</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">m</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">available_packages</span><span class="p">()</span>
@@ -912,7 +947,7 @@ package per row (there are many packages in the default CRAN repository).</p>
 <p class="admonition-title">Note</p>
 <p>Specific repositories can be specified.</p>
 <p>For example with bioconductor.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">rpy2.rinteractive</span> <span class="k">as</span> <span class="nn">r</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinteractive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">r</span>
 
 <span class="n">bioc_rooturl</span> <span class="o">=</span> <span class="s2">&quot;http://www.bioconductor.org/packages&quot;</span>
 <span class="n">bioc_version</span> <span class="o">=</span> <span class="s2">&quot;2.7&quot;</span>
@@ -926,14 +961,14 @@ package per row (there are many packages in the default CRAN repository).</p>
 </div>
 </section>
 <section id="installing-packages">
-<h4>Installing packages<a class="headerlink" href="#installing-packages" title="Permalink to this heading">¶</a></h4>
+<h4>Installing packages<a class="headerlink" href="#installing-packages" title="Link to this heading">¶</a></h4>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To install a package for repositories, we have to load the package <cite>utils</cite>.
 See Section load-packages for details about loading packages</p>
 </div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive</span> <span class="k">as</span> <span class="nn">r</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">r</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.interactive.packages</span> <span class="c1"># this can take few seconds</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rlib</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">packages</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span><span class="o">.</span><span class="n">packages</span><span class="o">.</span><span class="n">importr</span><span class="p">(</span><span class="s2">&quot;utils&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">package_name</span> <span class="o">=</span> <span class="s2">&quot;lme4&quot;</span>
@@ -952,7 +987,7 @@ the need to install it again (unless a different version of R is used).</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
   <div>
     <h3><a href="index.html">Table of Contents</a></h3>
@@ -967,17 +1002,24 @@ the need to install it again (unless a different version of R is used).</p>
 </li>
 </ul>
 </li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.FileDevice"><code class="docutils literal notranslate"><span class="pre">FileDevice</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.GraphicsDevice"><code class="docutils literal notranslate"><span class="pre">GraphicsDevice</span></code></a><ul>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.GraphicsDevice.get_rfunc"><code class="docutils literal notranslate"><span class="pre">GraphicsDevice.get_rfunc()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.GraphicsDeviceRaster"><code class="docutils literal notranslate"><span class="pre">GraphicsDeviceRaster</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.GraphicsDeviceSVG"><code class="docutils literal notranslate"><span class="pre">GraphicsDeviceSVG</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.GraphicsDeviceWindow"><code class="docutils literal notranslate"><span class="pre">GraphicsDeviceWindow</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RInterpreterError"><code class="docutils literal notranslate"><span class="pre">RInterpreterError</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics"><code class="docutils literal notranslate"><span class="pre">RMagics</span></code></a><ul>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.R"><code class="docutils literal notranslate"><span class="pre">RMagics.R()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Rget"><code class="docutils literal notranslate"><span class="pre">RMagics.Rget()</span></code></a></li>
+<li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Roptions"><code class="docutils literal notranslate"><span class="pre">RMagics.Roptions()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Rpull"><code class="docutils literal notranslate"><span class="pre">RMagics.Rpull()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.Rpush"><code class="docutils literal notranslate"><span class="pre">RMagics.Rpush()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.eval"><code class="docutils literal notranslate"><span class="pre">RMagics.eval()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.flush"><code class="docutils literal notranslate"><span class="pre">RMagics.flush()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.publish_graphics"><code class="docutils literal notranslate"><span class="pre">RMagics.publish_graphics()</span></code></a></li>
-<li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.set_R_plotting_device"><code class="docutils literal notranslate"><span class="pre">RMagics.set_R_plotting_device()</span></code></a></li>
-<li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.setup_graphics"><code class="docutils literal notranslate"><span class="pre">RMagics.setup_graphics()</span></code></a></li>
 <li><a class="reference internal" href="#rpy2.ipython.rmagic.RMagics.write_console_regular"><code class="docutils literal notranslate"><span class="pre">RMagics.write_console_regular()</span></code></a></li>
 </ul>
 </li>
@@ -1022,7 +1064,7 @@ the need to install it again (unless a different version of R is used).</p>
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
@@ -1030,13 +1072,13 @@ the need to install it again (unless a different version of R is used).</p>
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -1051,13 +1093,13 @@ the need to install it again (unless a different version of R is used).</p>
         <li class="right" >
           <a href="lib_dplyr.html" title="DataFrames and dplyr"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.0 documentation</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Interactive work</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
   </body>
 </html>

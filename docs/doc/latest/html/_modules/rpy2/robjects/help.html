@@ -1,19 +1,18 @@
 
+<!DOCTYPE html>
 
-<!doctype html>
-
-<html lang="en">
+<html lang="en" data-content_root="../../../">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.help &#8212; rpy2 3.5.13 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css" />
+    <title>rpy2.robjects.help &#8212; rpy2 3.6.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
-    <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -22,7 +21,7 @@
     <script src="_static/css3-mediaqueries.js"></script>
     <![endif]-->
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -31,7 +30,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.help</a></li> 
@@ -48,20 +47,20 @@
 <span class="sd">R help system.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">sqlite3</span>
-<span class="kn">import</span> <span class="nn">typing</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">typing</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
-<span class="kn">import</span> <span class="nn">rpy2.rinterface</span> <span class="k">as</span> <span class="nn">rinterface</span>
-<span class="kn">from</span> <span class="nn">rpy2.rinterface</span> <span class="kn">import</span> <span class="n">StrSexpVector</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">rinterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface</span><span class="w"> </span><span class="kn">import</span> <span class="n">StrSexpVector</span>
 
-<span class="kn">from</span> <span class="nn">rpy2.robjects.packages_utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_packagepath</span><span class="p">,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.packages_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">get_packagepath</span><span class="p">,</span>
                                           <span class="n">_libpaths</span><span class="p">,</span>
                                           <span class="n">_packages</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">OrderedDict</span>
 
 <span class="n">tmp</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;R.Version&#39;</span><span class="p">]()</span>
 <span class="n">tmp_major</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tmp</span><span class="p">[</span><span class="n">tmp</span><span class="o">.</span><span class="n">do_slot</span><span class="p">(</span><span class="s1">&#39;names&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;major&#39;</span><span class="p">)][</span><span class="mi">0</span><span class="p">])</span>
@@ -77,7 +76,7 @@
 <span class="n">NON_UNIQUE_TAGS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">((</span><span class="sa">r</span><span class="s1">&#39;\alias&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\keyword&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\section&#39;</span><span class="p">))</span>
 
 
-<span class="k">def</span> <span class="nf">quiet_require</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lib_loc</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">quiet_require</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lib_loc</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Load an R package /quietly/ (suppressing messages to the console). &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">lib_loc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">lib_loc</span> <span class="o">=</span> <span class="s2">&quot;NULL&quot;</span>
@@ -103,7 +102,7 @@
 <span class="n">p_desc</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^\s+([^\s]+.*?)\s*$&#39;</span><span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">_Rd2txt</span><span class="p">(</span><span class="n">section_doc</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_Rd2txt</span><span class="p">(</span><span class="n">section_doc</span><span class="p">):</span>
     <span class="n">tempfilename</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;tempfile&#39;</span><span class="p">]()[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">filecon</span> <span class="o">=</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">](</span><span class="n">tempfilename</span><span class="p">,</span> <span class="nb">open</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -119,7 +118,7 @@
     <span class="k">return</span> <span class="n">section_rows</span>
 
 
-<span class="k">def</span> <span class="nf">create_metaRd_db</span><span class="p">(</span><span class="n">dbcon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">create_metaRd_db</span><span class="p">(</span><span class="n">dbcon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Create an database to store R help pages.</span>
 
 <span class="sd">    dbcon: database connection (assumed to be SQLite - may or may not work</span>
@@ -153,7 +152,7 @@
     <span class="n">dbcon</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
 
-<span class="k">def</span> <span class="nf">populate_metaRd_db</span><span class="p">(</span><span class="n">package_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dbcon</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">populate_metaRd_db</span><span class="p">(</span><span class="n">package_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dbcon</span><span class="p">,</span>
                        <span class="n">package_path</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Populate a database with the meta-information</span>
 <span class="sd">    associated with an R package: version, description, title, and</span>
@@ -207,7 +206,9 @@
 <span class="n">Item</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Item&#39;</span><span class="p">,</span> <span class="s1">&#39;name value&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Page"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page">[docs]</a><span class="k">class</span> <span class="nc">Page</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Page">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Page</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; An R documentation page.</span>
 
 <span class="sd">    The original R structure is a nested sequence of components,</span>
@@ -220,7 +221,7 @@
 <span class="sd">    In R, the S3 class &#39;Rd&#39; is the closest entity to this class.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct_rdb</span><span class="p">:</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">struct_rdb</span><span class="p">:</span> <span class="n">rinterface</span><span class="o">.</span><span class="n">ListSexpVector</span><span class="p">,</span>
                  <span class="n">_type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="n">sections</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">elt_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">struct_rdb</span><span class="p">)):</span>
@@ -232,17 +233,19 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_sections</span> <span class="o">=</span> <span class="n">sections</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_type</span> <span class="o">=</span> <span class="n">_type</span>
 
-    <span class="k">def</span> <span class="nf">_section_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_section_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sections</span>
 
     <span class="n">sections</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">_section_get</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                         <span class="s1">&#39;Sections in the in help page, as a dict.&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get a section &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="n">item</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Page.arguments"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.arguments">[docs]</a>    <span class="k">def</span> <span class="nf">arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
+<div class="viewcode-block" id="Page.arguments">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.arguments">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the arguments and descriptions as a list of Item objects. &quot;&quot;&quot;</span>
         <span class="n">section_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\arguments&#39;</span><span class="p">)</span>
         <span class="n">res</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">List</span><span class="p">[</span><span class="n">Item</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
@@ -250,7 +253,7 @@
             <span class="k">return</span> <span class="n">res</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">arg_name</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">arg_desc</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">arg_desc</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">section_rows</span> <span class="o">=</span> <span class="n">_Rd2txt</span><span class="p">(</span><span class="n">section_doc</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">section_rows</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
                 <span class="k">return</span> <span class="n">res</span>
@@ -259,7 +262,7 @@
                     <span class="n">m</span> <span class="o">=</span> <span class="n">p_newarg</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
                         <span class="n">arg_name</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-                        <span class="n">arg_desc</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">1</span><span class="p">]]</span>
+                        <span class="n">arg_desc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">groups</span><span class="p">()[</span><span class="mi">1</span><span class="p">])</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">p_desc</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
                         <span class="n">arg_desc</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
@@ -268,7 +271,7 @@
                             <span class="n">Item</span><span class="p">(</span><span class="n">arg_name</span><span class="p">,</span> <span class="n">arg_desc</span><span class="p">)</span>
                         <span class="p">)</span>
                         <span class="n">arg_name</span> <span class="o">=</span> <span class="kc">None</span>
-                        <span class="n">arg_desc</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="n">arg_desc</span> <span class="o">=</span> <span class="p">[]</span>
 
             <span class="k">if</span> <span class="n">arg_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
@@ -276,7 +279,8 @@
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
-    <span class="k">def</span> <span class="nf">_get_section</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_section</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">section_doc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sections</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">section_doc</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">res</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
@@ -284,42 +288,68 @@
             <span class="n">res</span> <span class="o">=</span> <span class="n">_Rd2txt</span><span class="p">(</span><span class="n">section_doc</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
-<div class="viewcode-block" id="Page.description"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.description">[docs]</a>    <span class="k">def</span> <span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="Page.description">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.description">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">description</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the description of the entry &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_section</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\description&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Page.details"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.details">[docs]</a>    <span class="k">def</span> <span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Page.details">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.details">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the section Details for the documentation entry.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_section</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\details&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Page.title"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.title">[docs]</a>    <span class="k">def</span> <span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Page.title">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.title">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">title</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the title &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_section</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\title&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Page.value"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.value">[docs]</a>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Page.value">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.value">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the value returned &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_section</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\value&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Page.seealso"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.seealso">[docs]</a>    <span class="k">def</span> <span class="nf">seealso</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Page.seealso">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.seealso">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">seealso</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the other documentation entries recommended &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_section</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\seealso&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Page.usage"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.usage">[docs]</a>    <span class="k">def</span> <span class="nf">usage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+
+<div class="viewcode-block" id="Page.usage">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.usage">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">usage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Get the usage for the object &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_section</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\usage&#39;</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Page.items"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.items">[docs]</a>    <span class="k">def</span> <span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Page.items">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.items">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; iterator through the sections names and content</span>
 <span class="sd">        in the documentation Page. &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Page.iteritems"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.iteritems">[docs]</a>    <span class="k">def</span> <span class="nf">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Page.iteritems">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.iteritems">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">iteritems</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; iterator through the sections names and content</span>
 <span class="sd">        in the documentation Page. (deprecated, use items()) &quot;&quot;&quot;</span>
         <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Use the method items().&#39;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="Page.to_docstring"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.to_docstring">[docs]</a>    <span class="k">def</span> <span class="nf">to_docstring</span><span class="p">(</span>
+
+<div class="viewcode-block" id="Page.to_docstring">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Page.to_docstring">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_docstring</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
             <span class="n">section_names</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -332,7 +362,7 @@
         <span class="k">if</span> <span class="n">section_names</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">section_names</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 
-        <span class="k">def</span> <span class="nf">walk</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">walk</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">elt</span> <span class="ow">in</span> <span class="n">tree</span><span class="p">:</span>
                     <span class="n">walk</span><span class="p">(</span><span class="n">elt</span><span class="p">)</span>
@@ -350,10 +380,14 @@
             <span class="n">walk</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sections</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
             <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
             <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div></div>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+</div>
 
 
-<div class="viewcode-block" id="Package"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Package">[docs]</a><span class="k">class</span> <span class="nc">Package</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="Package">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Package">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Package</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    The R documentation page (aka help) for a package.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -364,13 +398,13 @@
     <span class="n">__paths_info</span> <span class="o">=</span> <span class="s1">&#39;paths.rds&#39;</span>
     <span class="n">__anindex_info</span> <span class="o">=</span> <span class="s1">&#39;AnIndex&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__package_name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__package_name_get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__package_name</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">__package_name_get</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                     <span class="s1">&#39;Name of the package as known by R&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">package_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                  <span class="n">package_path</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__package_name</span> <span class="o">=</span> <span class="n">package_name</span>
         <span class="k">if</span> <span class="n">package_path</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -387,7 +421,9 @@
         <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">package_path</span><span class="p">,</span> <span class="s1">&#39;help&#39;</span><span class="p">,</span> <span class="n">package_name</span> <span class="o">+</span> <span class="s1">&#39;.rdx&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_rdx</span> <span class="o">=</span> <span class="n">readRDS</span><span class="p">(</span><span class="n">StrSexpVector</span><span class="p">((</span><span class="n">path</span><span class="p">,</span> <span class="p">)))</span>
 
-<div class="viewcode-block" id="Package.fetch"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Package.fetch">[docs]</a>    <span class="k">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Page</span><span class="p">:</span>
+<div class="viewcode-block" id="Package.fetch">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.Package.fetch">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Page</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot; Fetch the documentation page associated with a given alias.</span>
 
 <span class="sd">        For S4 classes, the class name is *often* suffixed with &#39;-class&#39;.</span>
@@ -437,25 +473,29 @@
         <span class="n">p_res</span> <span class="o">=</span> <span class="n">Page</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">_type</span><span class="o">=</span><span class="n">_type</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">p_res</span></div>
 
+
     <span class="n">package_path</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__package_path</span><span class="p">),</span>
                             <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span>
                             <span class="s1">&#39;Path to the installed R package&#39;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">r</span> <span class="o">=</span> <span class="s1">&#39;R package </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__package_name</span><span class="p">,</span>
                                  <span class="nb">super</span><span class="p">(</span><span class="n">Package</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">r</span></div>
 
 
-<span class="k">class</span> <span class="nc">HelpNotFoundError</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">HelpNotFoundError</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Exception raised when an help topic cannot be found. &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">topic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">topic</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">package</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">HelpNotFoundError</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">topic</span> <span class="o">=</span> <span class="n">topic</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">package</span> <span class="o">=</span> <span class="n">package</span>
 
 
-<div class="viewcode-block" id="pages"><a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.pages">[docs]</a><span class="k">def</span> <span class="nf">pages</span><span class="p">(</span><span class="n">topic</span><span class="p">):</span>
+<div class="viewcode-block" id="pages">
+<a class="viewcode-back" href="../../../rhelp.html#rpy2.robjects.help.pages">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">pages</span><span class="p">(</span><span class="n">topic</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Get help pages corresponding to a given topic. &quot;&quot;&quot;</span>
     <span class="n">res</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
 
@@ -474,7 +514,8 @@
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">res</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">docstring</span><span class="p">(</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">docstring</span><span class="p">(</span>
         <span class="n">package</span><span class="p">:</span> <span class="n">Package</span><span class="p">,</span> <span class="n">alias</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">sections</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\usage&#39;</span><span class="p">,</span>
                                             <span class="sa">r</span><span class="s1">&#39;\arguments&#39;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -489,9 +530,9 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none" role="search">
+<search id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../../search.html" method="get">
@@ -499,13 +540,13 @@
       <input type="submit" value="Go" />
     </form>
     </div>
-</div>
+</search>
 <script>document.getElementById('searchbox').style.display = "block"</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
+    <div class="related" role="navigation" aria-label="Related">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -514,15 +555,15 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.5.13 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.0 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.help</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    &#169; Copyright 2008-2022, Laurent Gautier &amp; rpy2 contributors.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     </div>
   </body>
 </html>

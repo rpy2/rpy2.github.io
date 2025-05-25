@@ -4,6 +4,19 @@
     from rpy2.ipython import html
     html.html_rdataframe=partial(html.html_rdataframe, table_class="docutils")
 
+
+.. parsed-literal::
+
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "LD_LIBRARY_PATH" redefined by R and overriding existing variable. Current: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib", R: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib"
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "PWD" redefined by R and overriding existing variable. Current: "/home/runner/work/rpy2/rpy2/doc", R: "/home/runner/work/rpy2/rpy2/doc/notebooks"
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "LD_LIBRARY_PATH" redefined by R and overriding existing variable. Current: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib", R: "/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/R/4.5.0/lib/R/lib:/usr/local/lib:/usr/lib/x86_64-linux-gnu:/usr/lib/jvm/temurin-17-jdk-amd64/lib/server:/opt/hostedtoolcache/Python/3.10.17/x64/lib:/opt/hostedtoolcache/Python/3.10.17/x64/lib"
+      warnings.warn(
+    /opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/rpy2/rinterface/__init__.py:1185: UserWarning: Environment variable "R_SESSION_TMPDIR" redefined by R and overriding existing variable. Current: "/tmp/RtmpYfWKZx", R: "/tmp/RtmpPhk7yI"
+      warnings.warn(
+
+
 Data Import
 ===========
 
@@ -321,13 +334,6 @@ from Python.
 
     import rpy2.robjects.lib.ggplot2 as gp
 
-
-.. parsed-literal::
-
-    /opt/hostedtoolcache/Python/3.9.17/x64/lib/python3.9/site-packages/rpy2/robjects/lib/ggplot2.py:70: UserWarning: This was designed againt ggplot2 versions starting with 3.3. but you have 3.4.2
-      warnings.warn(
-
-
 R lets is function parameters be unevaluated language objects, which is
 fairly different from Python’s immediate evaluation. ``rpy2`` has a
 utility code to create such R language objects from Python strings. It
@@ -365,57 +371,57 @@ notebook, is just function call away.
 
 .. parsed-literal::
 
-    R[write to console]: In addition: 
-    R[write to console]: Warning messages:
-    
-    R[write to console]: 1: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
-    R[write to console]: 2: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
-    R[write to console]: 3: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
-    R[write to console]: 4: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
-    R[write to console]: 5: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
-    R[write to console]: 6: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
-    R[write to console]: 7: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
-    R[write to console]: 8: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
+    R callback write-console: In addition:   
+    R callback write-console: Warning messages:
+      
+    R callback write-console: 1:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
+    R callback write-console: 2:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
+    R callback write-console: 3:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
+    R callback write-console: 4:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
+    R callback write-console: 5:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
+    R callback write-console: 6:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
+    R callback write-console: 7:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
+    R callback write-console: 8:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
 
 
 
@@ -452,11 +458,12 @@ to get the figure we want is:
 
 .. parsed-literal::
 
-    R[write to console]: In addition: 
-    R[write to console]: Warning message:
-    
-    R[write to console]: Removed 5 rows containing missing values (`geom_point()`). 
-    
+    R callback write-console: In addition:   
+    R callback write-console: Warning message:
+      
+    R callback write-console: Removed 5 rows containing missing values or values outside the scale range
+    (`geom_point()`). 
+      
 
 
 
@@ -508,17 +515,18 @@ in ``ggplot2``:
 
 .. parsed-literal::
 
-    R[write to console]: In addition: 
-    R[write to console]: Warning messages:
-    
-    R[write to console]: 1: Removed 5 rows containing missing values (`geom_point()`). 
-    
-    R[write to console]: 2: 
-    R[write to console]: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :
-    R[write to console]: 
-     
-    R[write to console]:  library ‘/home/runner/work/_temp/Library’ contains no packages
-    
+    R callback write-console: In addition:   
+    R callback write-console: Warning messages:
+      
+    R callback write-console: 1: Removed 5 rows containing missing values or values outside the scale range
+    (`geom_point()`). 
+      
+    R callback write-console: 2:   
+    R callback write-console: In (function (package, help, pos = 2, lib.loc = NULL, character.only = FALSE,  :  
+    R callback write-console: 
+       
+    R callback write-console:  library ‘/home/runner/work/_temp/Library’ contains no packages
+      
 
 
 
@@ -527,11 +535,14 @@ in ``ggplot2``:
 
 
 
+R “magics”
+==========
+
 So far we have shown that using ``ggplot2`` can be done from Python as
 if it was just an other Python library for visualization, but R can also
 be used in cells.
 
-First the so-called “R magic” extension should be loaded.
+First the so-called “R magic” extensions should be loaded.
 
 .. code:: ipython3
 
@@ -549,14 +560,15 @@ displayed along with the rest of the output.
 
 .. parsed-literal::
 
-    [1] "R version 4.3.1 (2023-06-16)"
+    [1] "R version 4.5.0 (2025-04-11)"
 
 
 
 .. parsed-literal::
 
     In addition: Warning message:
-    Removed 5 rows containing missing values (`geom_point()`). 
+    Removed 5 rows containing missing values or values outside the scale range
+    (`geom_point()`). 
 
 
 
@@ -640,10 +652,264 @@ lingo) in our previous cell. We can just use it in subsequent cells.
 .. parsed-literal::
 
     In addition: Warning message:
-    Removed 5 rows containing missing values (`geom_point()`). 
+    Removed 5 rows containing missing values or values outside the scale range
+    (`geom_point()`). 
 
 
 
 
 .. image:: jupyter_files/jupyter_28_2.png
+
+
+Options.
+--------
+
+The R “magics” use a number of configurable options that control aspects
+of the interaction between Python and R, or between ipython / jupyter
+and R. Some of the options can specified through arguments to “magics”,
+but it is also possible to configure the default value for some of them
+when an argument to a “magic” does not specify otherwise. The easiest
+way to list these default-configurable options can be achieved with a
+“magic”:
+
+.. code:: ipython3
+
+    %Roptions show
+
+
+.. parsed-literal::
+
+    Default settings for R magics.
+    ------------------------------
+    <rpy2.ipython.rmagic.Options object at 0x7f40caa2b8e0>
+      - graphics device
+          requested: png
+          found: grDevices::png
+            <rpy2.ipython.rmagic.GraphicsDeviceRaster object at 0x7f4129c9d630>: 
+            grDevices::png 
+            (extension: png)
+            Options and default values:
+              width: None
+              height: None
+              pointsize: None
+              bg: None
+              units: None
+              res: None
+      - converter
+        <class 'rpy2.robjects.conversion.Converter'>
+        py2rpy
+        - builtins.object
+        - rpy2.rinterface._MissingArgType
+        - builtins.bool
+        - builtins.int
+        - builtins.float
+        - builtins.bytes
+        - builtins.str
+        - rpy2.robjects.robject.RObject
+        - rpy2.rinterface_lib.sexp.Sexp
+        - array.array
+        - builtins.list
+        - rpy2.rlike.container.TaggedList
+        - rpy2.rlike.container.NamedList
+        - builtins.complex
+        - builtins.function
+        - numpy.ndarray
+        - numpy.integer
+        - numpy.floating
+        - rpy2.rlike.container.OrdDict
+        - pandas.core.frame.DataFrame
+        - pandas.core.indexes.base.Index
+        - pandas.core.arrays.categorical.Categorical
+        - pandas.core.series.Series
+        ---
+        rpy2py
+        - builtins.object
+        - rpy2.robjects.robject.RObject
+        - rpy2.rinterface.IntSexpVector
+          - factor (in rpy2.robjects.pandas2ri)
+        - rpy2.rinterface.FloatSexpVector
+          - Date (in rpy2.robjects.vectors)
+          - POSIXct (in rpy2.robjects.vectors)
+        - rpy2.rinterface.ComplexSexpVector
+        - rpy2.rinterface.BoolSexpVector
+        - rpy2.rinterface_lib.sexp.StrSexpVector
+        - rpy2.rinterface.ByteSexpVector
+        - rpy2.rinterface.PairlistSexpVector
+        - rpy2.rinterface.LangSexpVector
+        - rpy2.rinterface.SexpClosure
+        - rpy2.rinterface_lib.sexp.SexpEnvironment
+        - rpy2.rinterface.ListSexpVector
+          - data.frame (in rpy2.robjects.pandas2ri)
+        - rpy2.rinterface.SexpS4
+        - rpy2.rinterface.SexpExtPtr
+        - rpy2.rinterface_lib.sexp.NULLType
+        - rpy2.rinterface_lib.sexp.CharSexp
+        - rpy2.rinterface_lib.sexp.Sexp
+        - rpy2.rinterface_lib.sexp.SexpVector
+        - rpy2.robjects.vectors.POSIXct
+        - rpy2.robjects.vectors.DataFrame
+        ---
+
+
+Changing these defaults requires to modify components of the attribute
+:attr:``rpy2.ipython.rmagic.RMagic.options``. Here is an example showing
+how to changing the default of R figures rendered in the notebook to
+“svg”.
+
+.. code:: ipython3
+
+    import IPython
+    ipy = IPython.get_ipython()
+    ipy.magics_manager.registry['RMagics'].options.graphics_device_name = 'svg'
+
+Another example is how to change conversion rules, that can be an
+expensive operation depending object sizes and rules, to a no-op: no
+convertion rules to keep all rpy2 objects as proxy wrappers to R objects
+for example, no conversion of Python objects to R:
+
+.. code:: ipython3
+
+    import rpy2.robjects
+    import IPython
+    ipy = IPython.get_ipython()
+    
+    noop_conv = rpy2.robjects.conversion.Converter('No-Op')
+    noop_conv.rpy2py.register(rpy2.robjects.RObject,
+                              rpy2.robjects._rpy2py_robject)
+    
+    ipy.magics_manager.registry['RMagics'].options.converter = noop_conv
+
+Modifying this come with risks though, or afterthoughts about changes
+made. While there are some checks in place, the new default options set
+this way may break the R “magics”. To address this, options can be
+restore to “factory settings”. Here again, there is no guarantee that
+this can work no matter what. A driven (or unlucky) user may break this
+mechanism if modifying it in the module. Restarting kernel will be
+needed in that case.
+
+.. code:: ipython3
+
+    %Roptions refresh
+
+Graphics devices
+----------------
+
+Graphics devices can be specified precisely as a function in an R
+namespace. For example, “grDevices:png”. It is also possible to specify
+a generic graphical device name that is a sequence of graphics devices
+to try. The first one in that sequence that appears to be functioning is
+then selected.
+
+For example, this is the case when the graphics device option is set to
+“svg”. The R package ``svglite`` is the first to try in the sequence. If
+R fails to load that package there are other SVG devices to try try as
+alternatives.
+
+To demonstrate this, let’s set the graphics devices to “svg”:
+
+.. code:: ipython3
+
+    import IPython
+    ipy = IPython.get_ipython()
+    ipy.magics_manager.registry['RMagics'].options.graphics_device_name = 'svg'
+
+The output of the following magic depends on the R packages installed on
+your system. If the R package ``svglite`` is installed its device will
+be used. Otherwise alternatives will be tried.
+
+.. code:: ipython3
+
+    %Roptions show
+
+
+.. parsed-literal::
+
+    Default settings for R magics.
+    ------------------------------
+    <rpy2.ipython.rmagic.Options object at 0x7f40cac37820>
+      - graphics device
+          requested: svg
+          found: grDevices::svg
+            <rpy2.ipython.rmagic.GraphicsDeviceSVG object at 0x7f40cd2459c0>: 
+            grDevices::svg 
+            (extension: svg)
+            Options and default values:
+    
+      - converter
+        <class 'rpy2.robjects.conversion.Converter'>
+        py2rpy
+        - builtins.object
+        - rpy2.rinterface._MissingArgType
+        - builtins.bool
+        - builtins.int
+        - builtins.float
+        - builtins.bytes
+        - builtins.str
+        - rpy2.robjects.robject.RObject
+        - rpy2.rinterface_lib.sexp.Sexp
+        - array.array
+        - builtins.list
+        - rpy2.rlike.container.TaggedList
+        - rpy2.rlike.container.NamedList
+        - builtins.complex
+        - builtins.function
+        - numpy.ndarray
+        - numpy.integer
+        - numpy.floating
+        - rpy2.rlike.container.OrdDict
+        - pandas.core.frame.DataFrame
+        - pandas.core.indexes.base.Index
+        - pandas.core.arrays.categorical.Categorical
+        - pandas.core.series.Series
+        ---
+        rpy2py
+        - builtins.object
+        - rpy2.robjects.robject.RObject
+        - rpy2.rinterface.IntSexpVector
+          - factor (in rpy2.robjects.pandas2ri)
+        - rpy2.rinterface.FloatSexpVector
+          - Date (in rpy2.robjects.vectors)
+          - POSIXct (in rpy2.robjects.vectors)
+        - rpy2.rinterface.ComplexSexpVector
+        - rpy2.rinterface.BoolSexpVector
+        - rpy2.rinterface_lib.sexp.StrSexpVector
+        - rpy2.rinterface.ByteSexpVector
+        - rpy2.rinterface.PairlistSexpVector
+        - rpy2.rinterface.LangSexpVector
+        - rpy2.rinterface.SexpClosure
+        - rpy2.rinterface_lib.sexp.SexpEnvironment
+        - rpy2.rinterface.ListSexpVector
+          - data.frame (in rpy2.robjects.pandas2ri)
+        - rpy2.rinterface.SexpS4
+        - rpy2.rinterface.SexpExtPtr
+        - rpy2.rinterface_lib.sexp.NULLType
+        - rpy2.rinterface_lib.sexp.CharSexp
+        - rpy2.rinterface_lib.sexp.Sexp
+        - rpy2.rinterface_lib.sexp.SexpVector
+        - rpy2.robjects.vectors.POSIXct
+        - rpy2.robjects.vectors.DataFrame
+        ---
+
+
+Options for graphics device
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Graphics devices, selected from a generic names when the case (see
+above), may havee options. These options can be specific to each
+graphics device.
+
+**note: this is prefixed with an underscore to indicate that the API is
+subject to changes.**
+
+Options to display graphics are under ``_options_display``. For example,
+to change the default width:
+
+.. code:: ipython3
+
+    (
+        ipy.magics_manager.registry['RMagics'].graphics_device
+        ._options_display
+        .width
+    ) = 10
+
 
