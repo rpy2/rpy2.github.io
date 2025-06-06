@@ -64,8 +64,12 @@ env = jinja2.Environment(loader=jinja2.FileSystemLoader('templates'))
 # render main page
 print('Rendering index.html')
 template = env.get_template('index.html')
-render = template.render(menu=MENU,
-                         references=references.REFERENCES)
+head_scripts=("https://buttons.github.io/buttons.js", )
+render = template.render(
+    head_scripts=head_scripts,
+    menu=MENU,
+    references=references.REFERENCES
+)
 with open(os.path.join('docs', 'index.html'), 'w') as fh:
     fh.write(render)
 
