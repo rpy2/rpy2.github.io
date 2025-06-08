@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface &#8212; rpy2 3.6.0 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.6.1 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     
-    <script src="../../_static/documentation_options.js?v=5349f462"></script>
+    <script src="../../_static/documentation_options.js?v=f731707b"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
@@ -84,6 +84,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.sexp</span><span class="w"> </span><span class="kn">import</span> <span class="n">emptyenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.sexp</span><span class="w"> </span><span class="kn">import</span> <span class="n">baseenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.sexp</span><span class="w"> </span><span class="kn">import</span> <span class="n">globalenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.sexp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SexpVectorCCompatibleAbstract</span>
 
 <span class="n">R_NilValue</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span>
 
@@ -411,7 +412,7 @@
         <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_eval</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">env</span><span class="p">)</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">SexpVectorWithNumpyInterface</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SexpVectorWithNumpyInterface</span><span class="p">(</span><span class="n">SexpVectorCCompatibleAbstract</span><span class="p">,</span> <span class="n">SexpVector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Numpy-specific API for accessing the content of a numpy array.</span>
 
 <span class="sd">    This interface implements version 3 of Numpy&#39;s `__array_interface__`</span>
@@ -540,7 +541,7 @@
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LGLSXP</span>
     <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;Rboolean&#39;</span><span class="p">)</span>
     <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|i&#39;</span>
-    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">LOGICAL_ELT</span>
+    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">LOGICAL_ELT</span><span class="p">)</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_LOGICAL_ELT</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">LOGICAL</span><span class="p">)</span>
 
@@ -604,8 +605,8 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">IntSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">INTSXP</span>
-    <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_INTEGER_ELT</span>
-    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">INTEGER_ELT</span>
+    <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">SET_INTEGER_ELT</span><span class="p">)</span>
+    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">INTEGER_ELT</span><span class="p">)</span>
     <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
     <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|i&#39;</span>
 
@@ -654,8 +655,8 @@
 <span class="k">class</span><span class="w"> </span><span class="nc">FloatSexpVector</span><span class="p">(</span><span class="n">SexpVectorWithNumpyInterface</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">REALSXP</span>
-    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">REAL_ELT</span>
-    <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">SET_REAL_ELT</span>
+    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">REAL_ELT</span><span class="p">)</span>
+    <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">SET_REAL_ELT</span><span class="p">)</span>
     <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">sizeof</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span>
     <span class="n">_NP_TYPESTR</span> <span class="o">=</span> <span class="s1">&#39;|d&#39;</span>
 
@@ -700,7 +701,7 @@
 
 <div class="viewcode-block" id="ComplexSexpVector">
 <a class="viewcode-back" href="../../rinterface.html#rpy2.interactive.process_revents.ComplexSexpVector">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">ComplexSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">ComplexSexpVector</span><span class="p">(</span><span class="n">SexpVectorCCompatibleAbstract</span><span class="p">,</span> <span class="n">SexpVector</span><span class="p">):</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CPLXSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">COMPLEX</span><span class="p">)</span>
@@ -770,8 +771,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECSXP</span>
     <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">_VECTOR_PTR</span><span class="p">)</span>
-    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECTOR_ELT</span>
+    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECTOR_ELT</span><span class="p">)</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SET_VECTOR_ELT</span>
     <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span><span class="p">)</span></div>
 
@@ -787,10 +787,16 @@
 <span class="sd">    list of (name, value) pairs.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LISTSXP</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">_PAIRLIST_PTR</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_R_VECTOR_ELT</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;R pairlists cannot be accessed by index.&#39;</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_R_SET_VECTOR_ELT</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;R pairlist elements cannot be replaced by index.&#39;</span><span class="p">)</span>
+
     <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">slice</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Sexp</span><span class="p">:</span>
@@ -855,11 +861,20 @@
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ExprSexpVector</span><span class="p">(</span><span class="n">SexpVector</span><span class="p">):</span>
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">EXPRSXP</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECTOR_ELT</span>
-    <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_R_GET_PTR</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_CAST_IN</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">VECTOR_ELT</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_R_SET_VECTOR_ELT</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
 
 <span class="n">_str2lang</span> <span class="o">=</span> <span class="kc">None</span>
@@ -890,11 +905,22 @@
 <span class="sd">    To create from a (Python) string containing R code</span>
 <span class="sd">    use the classmethod `from_string`.&quot;&quot;&quot;</span>
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">LANGSXP</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_SIZEOF_ELT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_R_GET_PTR</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_CAST_IN</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_R_VECTOR_ELT</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_R_SET_VECTOR_ELT</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
 
     <span class="nd">@_cdata_res_to_rinterface</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
@@ -1552,7 +1578,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.0 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
