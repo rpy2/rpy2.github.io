@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface &#8212; rpy2 3.6.1 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.6.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     
-    <script src="../../_static/documentation_options.js?v=f731707b"></script>
+    <script src="../../_static/documentation_options.js?v=c0c9fa11"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
@@ -52,12 +52,14 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">enum</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">signal</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">typing</span>
@@ -85,6 +87,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.sexp</span><span class="w"> </span><span class="kn">import</span> <span class="n">baseenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.sexp</span><span class="w"> </span><span class="kn">import</span> <span class="n">globalenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.sexp</span><span class="w"> </span><span class="kn">import</span> <span class="n">SexpVectorCCompatibleAbstract</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">R_NilValue</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_NilValue</span>
 
@@ -1188,6 +1192,11 @@
 
     <span class="n">status</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">with</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlock</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="n">embedded</span><span class="o">.</span><span class="n">isinitialized</span><span class="p">():</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;R is already initialized. No need to initialize.&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+
         <span class="n">_setrenvvars</span><span class="p">(</span><span class="n">_DEFAULT_ENVVAR_ACTION</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">embedded</span><span class="o">.</span><span class="n">is_r_externally_initialized</span><span class="p">():</span>
             <span class="n">embedded</span><span class="o">.</span><span class="n">_setinitialized</span><span class="p">()</span>
@@ -1229,40 +1238,53 @@
         <span class="n">r_home</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="n">typing</span><span class="o">.</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">...</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the environment variables defined by the R front-end script.&quot;&quot;&quot;</span>
-
     <span class="k">if</span> <span class="n">baselinevars</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">baselinevars</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
     <span class="k">if</span> <span class="n">r_home</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">r_home</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">R_HOME</span>
         <span class="k">if</span> <span class="n">r_home</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;Unable to determine R_HOME.&#39;</span><span class="p">)</span>
-    <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r_home</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;Rscript&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;-e&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="p">(</span>
-                <span class="s1">&#39;x &lt;- Sys.getenv()&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;y &lt;- as.character(x)&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;names(y) &lt;- names(x)&#39;</span><span class="p">,</span>
-                <span class="s1">&#39;write.csv(y)&#39;</span>
+
+    <span class="c1"># Use a temporary file to write the environment variables. Windows</span>
+    <span class="c1"># has a file locking system that requires a slightly more complicated</span>
+    <span class="c1"># implementation than it would otherwise be on other OSes.</span>
+    <span class="n">temp_fh</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
+    <span class="n">temp_fh</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>
+            <span class="n">temp_name</span> <span class="o">=</span> <span class="n">temp_fh</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">temp_name</span> <span class="o">=</span> <span class="n">temp_fh</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">cmd</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r_home</span><span class="p">,</span> <span class="s1">&#39;bin&#39;</span><span class="p">,</span> <span class="s1">&#39;Rscript&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;-e&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="s1">&#39;x &lt;- Sys.getenv()&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;dataf &lt;- data.frame(key=names(x), val=as.character(x))&#39;</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s1">&#39;write.csv(dataf, file=&quot;</span><span class="si">{</span><span class="n">temp_name</span><span class="si">}</span><span class="s1">&quot;, row.names=FALSE)&#39;</span>
+                <span class="p">)</span>
             <span class="p">)</span>
         <span class="p">)</span>
-    <span class="p">)</span>
-
-    <span class="n">envvars</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">cmd</span><span class="p">,</span>
-                                      <span class="n">universal_newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                      <span class="n">stderr</span><span class="o">=</span><span class="n">subprocess</span><span class="o">.</span><span class="n">PIPE</span><span class="p">)</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">row</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">envvars</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-    <span class="c1"># Skip column names.</span>
-    <span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
-        <span class="k">if</span> <span class="p">(</span>
-                <span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">baselinevars</span><span class="p">)</span>
-                <span class="ow">or</span>
-                <span class="p">(</span><span class="n">baselinevars</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="n">v</span><span class="p">)</span>
-        <span class="p">):</span>
-            <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">temp_fh</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">_</span><span class="p">:</span>
+            <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+            <span class="k">assert</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">next</span><span class="p">(</span><span class="n">reader</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;key&#39;</span><span class="p">,</span> <span class="s1">&#39;val&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s1">&#39;Invalid environment variable row: </span><span class="si">{</span><span class="n">row</span><span class="si">}</span><span class="s1">&#39;</span>
+                    <span class="p">)</span>
+                <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">row</span>
+                <span class="k">if</span> <span class="p">(</span>
+                        <span class="p">(</span><span class="n">k</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">baselinevars</span><span class="p">)</span>
+                        <span class="ow">or</span>
+                        <span class="p">(</span><span class="n">baselinevars</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="n">v</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">temp_fh</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
 
@@ -1270,25 +1292,21 @@
     <span class="n">new_envvars</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_getrenvvars</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-            <span class="k">if</span> <span class="p">(</span>
-                    <span class="n">action</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_WARN</span><span class="p">,</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_NOWARN</span><span class="p">)</span>
-            <span class="p">):</span>
+            <span class="k">if</span> <span class="n">action</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_WARN</span><span class="p">,</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_NOWARN</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_WARN</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                         <span class="sa">f</span><span class="s1">&#39;Environment variable &quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&quot; redefined by R but ignored.&#39;</span>
                     <span class="p">)</span>
                 <span class="k">continue</span>
-            <span class="k">elif</span> <span class="p">(</span>
-                    <span class="n">action</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">REPLACE_WARN</span><span class="p">,</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">REPLACE_NOWARN</span><span class="p">)</span>
-            <span class="p">):</span>
+            <span class="k">elif</span> <span class="n">action</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">REPLACE_WARN</span><span class="p">,</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">REPLACE_NOWARN</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">REPLACE_WARN</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">v</span> <span class="o">==</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">k</span><span class="p">]:</span>
-                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s1">&#39;Environment variable &quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&quot; also defined by R and &#39;</span>
                             <span class="s1">&#39;with the same value.&#39;</span>
                         <span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s1">&#39;Environment variable &quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s1">&quot; redefined by R and overriding &#39;</span>
                             <span class="sa">f</span><span class="s1">&#39;existing variable. Current: &quot;</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="si">}</span><span class="s1">&quot;, R: &quot;</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">&quot;&#39;</span>
                         <span class="p">)</span>
@@ -1578,7 +1596,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
