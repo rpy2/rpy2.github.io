@@ -6,12 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>dplyr in Python &#8212; rpy2 3.6.2 documentation</title>
+    <title>dplyr in Python &#8212; rpy2 3.6.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/bizstyle.css?v=5283bb3d" />
     <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
     
-    <script src="../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../_static/documentation_options.js?v=0b406adc"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/bizstyle.js"></script>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="pandas.html" title="R and pandas data frames"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.6.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../getting-started.html" accesskey="U">Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dplyr in Python</a></li> 
       </ul>
@@ -75,6 +75,10 @@ frames).</p>
 <p>2- dplyr</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.lib.dplyr</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects</span><span class="w"> </span><span class="kn">import</span> <span class="n">rl</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">opt</span><span class="o">/</span><span class="n">hostedtoolcache</span><span class="o">/</span><span class="n">Python</span><span class="o">/</span><span class="mf">3.10.19</span><span class="o">/</span><span class="n">x64</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.10</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">rpy2</span><span class="o">/</span><span class="n">robjects</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">dplyr</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">27</span><span class="p">:</span> <span class="ne">UserWarning</span><span class="p">:</span> <span class="n">This</span> <span class="n">was</span> <span class="n">designed</span> <span class="n">against</span> <span class="n">dplyr</span> <span class="n">versions</span> <span class="n">starting</span> <span class="k">with</span> <span class="mf">1.1</span><span class="o">.</span> <span class="n">but</span> <span class="n">you</span> <span class="n">have</span> <span class="mf">1.2.0</span>
+  <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
 </pre></div>
 </div>
 <p>With this we have the choice of chaining (D3-style)</p>
@@ -263,31 +267,44 @@ straightforward.</p>
 in a table can be used directly. Since we are lifting the original
 implementation of <code class="docutils literal notranslate"><span class="pre">dplyr</span></code>, it <em>just works</em>.</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.robjects.lib.dplyr</span><span class="w"> </span><span class="kn">import</span> <span class="n">dplyr</span>
-<span class="c1"># in-memory SQLite database broken in dplyr&#39;s src_sqlite</span>
-<span class="c1"># db = dplyr.src_sqlite(&quot;:memory:&quot;)</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
-<span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">()</span> <span class="k">as</span> <span class="n">db_fh</span><span class="p">:</span>
-    <span class="n">db</span> <span class="o">=</span> <span class="n">dplyr</span><span class="o">.</span><span class="n">src_sqlite</span><span class="p">(</span><span class="n">db_fh</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-    <span class="c1"># copy the table to that database</span>
-    <span class="n">dataf_db</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">db</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mtcars&quot;</span><span class="p">)</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="p">(</span><span class="n">dataf_db</span>
-           <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">))</span>
-           <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
-           <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span>
-           <span class="o">.</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">)))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<span class="c1">#</span>
+
+<span class="c1"># Import R packages to connect to dababases, and to SQLite.</span>
+<span class="n">dbi</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;DBI&#39;</span><span class="p">)</span>
+<span class="n">rsqlite</span> <span class="o">=</span> <span class="n">importr</span><span class="p">(</span><span class="s1">&#39;RSQLite&#39;</span><span class="p">)</span>
+<span class="n">dbcon</span> <span class="o">=</span> <span class="n">dbi</span><span class="o">.</span><span class="n">dbConnect</span><span class="p">(</span><span class="n">rsqlite</span><span class="o">.</span><span class="n">SQLite</span><span class="p">(),</span> <span class="s2">&quot;:memory:&quot;</span><span class="p">)</span>
+
+<span class="c1"># copy the table to that database</span>
+<span class="n">dataf_db</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">mtcars</span><span class="p">)</span><span class="o">.</span><span class="n">copy_to</span><span class="p">(</span><span class="n">dbcon</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;mtcars&quot;</span><span class="p">)</span>
+<span class="n">res</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">dataf_db</span>
+    <span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&gt;3&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">mutate</span><span class="p">(</span><span class="n">powertoweight</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;hp*36/wt&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">group_by</span><span class="p">(</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;gear&#39;</span><span class="p">))</span>
+    <span class="o">.</span><span class="n">summarize</span><span class="p">(</span><span class="n">mean_ptw</span><span class="o">=</span><span class="n">rl</span><span class="p">(</span><span class="s1">&#39;mean(powertoweight)&#39;</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+
+<span class="c1"># Close the connection to clean up.</span>
+<span class="n">dbi</span><span class="o">.</span><span class="n">dbDisconnect</span><span class="p">(</span><span class="n">dbcon</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source:   SQL [?? x 2]</span>
-<span class="c1"># Database: sqlite 3.50.3 [/tmp/tmpa5d8hl_h]</span>
+<span class="c1"># Database: sqlite 3.51.2 [:memory:]</span>
    <span class="n">gear</span> <span class="n">mean_ptw</span>
   <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>    <span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span>
 <span class="mi">1</span>     <span class="mi">4</span>    <span class="mf">1237.</span>
 <span class="mi">2</span>     <span class="mi">5</span>    <span class="mf">2574.</span>
 </pre></div>
 </div>
-<p>Since we are manipulating R objects, anything available to R is also
+<emph>BoolVector</emph> with 1 elements:
+<table class="rpy2_table">
+<thead>
+</thead>
+<tbody>
+<tr>
+      <td>True</td>
+</tr>
+</tbody>
+</table><p>Since we are manipulating R objects, anything available to R is also
 available to us. If we want to see the SQL code generated that’s:</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">silent</span> <span class="o">=</span> <span class="n">dplyr</span><span class="o">.</span><span class="n">show_query</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 </pre></div>
@@ -403,7 +420,7 @@ transformations on it.</p>
         <li class="right" >
           <a href="pandas.html" title="R and pandas data frames"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">rpy2 3.6.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../getting-started.html" >Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">dplyr in Python</a></li> 
       </ul>

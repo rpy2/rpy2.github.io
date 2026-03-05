@@ -6,12 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Introduction to rpy2 &#8212; rpy2 3.6.2 documentation</title>
+    <title>Introduction to rpy2 &#8212; rpy2 3.6.5 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/bizstyle.css?v=5283bb3d" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css?v=4ae1632d" />
     
-    <script src="_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="_static/documentation_options.js?v=0b406adc"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/bizstyle.js"></script>
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="overview.html" title="Overview"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="getting-started.html" accesskey="U">Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Introduction to rpy2</a></li> 
       </ul>
@@ -60,15 +60,24 @@ their first steps through the API.</p>
 <p>It is assumed here that the rpy2 package has been properly installed.
 This will be the case if working out of one of the Docker containers available,
 of if the instructions were followed (see <a class="reference internal" href="overview.html#install-installation"><span class="std std-ref">Installation</span></a>).</p>
-<p><cite>rpy2</cite> is like any other python package binding to a C library. Its top
-level can be imported, and the version obtained.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">rpy2</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
+<p><cite>rpy2</cite> is a namespace package (see PEP 420). It is composed of two subpackages: <cite>rpy2.rinterface</cite> (low-level with C-extensions
+to access R’s C API) and <cite>rpy2.robjects</cite> (higher level and more pythonic interface).</p>
+<p>The <cite>rpy2</cite> version can be obtained from the installed package metadata:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">metadata</span><span class="p">(</span><span class="s1">&#39;rpy2&#39;</span><span class="p">)[</span><span class="s1">&#39;version&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>For the subpackages, an attribute <cite>__version__</cite> is available in addition to the metadata.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;rinterface: </span><span class="si">{</span><span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.robjects</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;robjects: </span><span class="si">{</span><span class="n">rpy2</span><span class="o">.</span><span class="n">robjects</span><span class="o">.</span><span class="n">__version__</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The rpy2 version is rather important when reporting an issue with rpy2,
+<p>Versions are rather important when reporting an issue with rpy2,
 or in your own code if trying to assess whether rpy2 is matching the
 expected version.</p>
 <p>A utility module is included to report what rpy2’s environment.</p>
@@ -781,7 +790,7 @@ R code as possible:</p>
         <li class="right" >
           <a href="overview.html" title="Overview"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="index.html">rpy2 3.6.5 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="getting-started.html" >Getting started</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">Introduction to rpy2</a></li> 
       </ul>
