@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.robjects.robject &#8212; rpy2 3.6.2 documentation</title>
+    <title>rpy2.robjects.robject &#8212; rpy2 3.6.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     
-    <script src="../../../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../../../_static/documentation_options.js?v=3cb8e0b6"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" accesskey="U">rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.robject</a></li> 
@@ -58,15 +58,16 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_add_warn_reticulate_hook</span><span class="p">():</span>
     <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    WARNING: The R package &quot;reticulate&quot; only fixed recently</span>
-<span class="s2">    an issue that caused a segfault when used with rpy2:</span>
+<span class="s2">    WARNING: Using old versions of R package &quot;reticulate&quot;</span>
+<span class="s2">    within rpy2 leads to segfaults, see</span>
 <span class="s2">    https://github.com/rstudio/reticulate/pull/1188</span>
-<span class="s2">    Make sure that you use a version of that package that includes</span>
-<span class="s2">    the fix.</span>
+<span class="s2">    Do consider upgrading to reticulate &gt;= 1.25 (May 2022).</span>
 <span class="s2">    &quot;&quot;&quot;</span>
     <span class="n">rpy2</span><span class="o">.</span><span class="n">rinterface</span><span class="o">.</span><span class="n">evalr</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">    setHook(packageEvent(&quot;reticulate&quot;, &quot;onLoad&quot;),</span>
-<span class="s2">            function(...) cat(</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">))</span>
+<span class="s2">    setHook(</span>
+<span class="s2">        packageEvent(&quot;reticulate&quot;, &quot;onLoad&quot;),</span>
+<span class="s2">        function(...) if (packageVersion(&quot;reticulate&quot;) &lt; &quot;1.25&quot;) cat(</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span><span class="si">}</span><span class="s2">)</span>
+<span class="s2">    )</span>
 <span class="s2">    &quot;&quot;&quot;</span><span class="p">)</span>
 
 
@@ -291,7 +292,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../robjects.html" >rpy2.robjects</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.robjects.robject</a></li> 

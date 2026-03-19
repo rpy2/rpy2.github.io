@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface &#8212; rpy2 3.6.2 documentation</title>
+    <title>rpy2.rinterface &#8212; rpy2 3.6.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/bizstyle.css?v=5283bb3d" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
     
-    <script src="../../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../../_static/documentation_options.js?v=3cb8e0b6"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/bizstyle.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>
@@ -46,6 +46,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">atexit</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">contextvars</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">csv</span>
@@ -58,7 +59,6 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">signal</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">textwrap</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
@@ -106,6 +106,14 @@
 
 
 <span class="n">_DEFAULT_ENVVAR_ACTION</span><span class="p">:</span> <span class="n">_ENVVAR_ACTION</span> <span class="o">=</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">REPLACE_WARN</span>
+
+<span class="c1"># Map environment variables to an action. If no specific map</span>
+<span class="c1"># for a requested environment map, the default is used.</span>
+<span class="n">_ENVVAR_ACTION_MAP</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span>
+    <span class="k">lambda</span><span class="p">:</span> <span class="n">_DEFAULT_ENVVAR_ACTION</span><span class="p">,</span>
+    <span class="p">{</span><span class="s1">&#39;R_SESSION_TMPDIR&#39;</span><span class="p">:</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_NOWARN</span><span class="p">,</span>
+     <span class="s1">&#39;R_LIBS_USER&#39;</span><span class="p">:</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_NOWARN</span><span class="p">}</span>
+<span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_evaluation_context</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SexpEnvironment</span><span class="p">:</span>
@@ -346,9 +354,11 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Sexp</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">CapsuleBase</span><span class="p">):</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="n">name_cdata</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char []&#39;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span>
             <span class="n">sexp</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">SexpCapsule</span><span class="p">(</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_install</span><span class="p">(</span><span class="n">name_cdata</span><span class="p">))</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_installChar</span><span class="p">(</span>
+                    <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_charsxp</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
             <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">sexp</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -358,9 +368,12 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">_STRING_VALUE</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span><span class="o">.</span><span class="n">_cdata</span>
-            <span class="p">),</span> <span class="n">sys</span><span class="o">.</span><span class="n">getdefaultencoding</span><span class="p">()</span>
+            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_translateCharUTF8</span><span class="p">(</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">PRINTNAME</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span><span class="o">.</span><span class="n">_cdata</span>
+                <span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">&#39;utf-8&#39;</span>
         <span class="p">)</span>
 
 
@@ -1197,7 +1210,7 @@
             <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;R is already initialized. No need to initialize.&#39;</span><span class="p">)</span>
             <span class="k">return</span> <span class="kc">None</span>
 
-        <span class="n">_setrenvvars</span><span class="p">(</span><span class="n">_DEFAULT_ENVVAR_ACTION</span><span class="p">)</span>
+        <span class="n">_setrenvvars</span><span class="p">(</span><span class="n">_ENVVAR_ACTION_MAP</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">embedded</span><span class="o">.</span><span class="n">is_r_externally_initialized</span><span class="p">():</span>
             <span class="n">embedded</span><span class="o">.</span><span class="n">_setinitialized</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1212,23 +1225,48 @@
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_update_R_ENC_PY</span><span class="p">():</span>
-    <span class="n">conversion</span><span class="o">.</span><span class="n">_R_ENC_PY</span><span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_UTF8</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+<span class="c1"># TODO: rewrite?</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_l10n_info</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get locale and string encoding capabilities from R.&quot;&quot;&quot;</span>
+    <span class="c1"># Obtain localization information from the embedded R.</span>
+    <span class="n">_</span> <span class="o">=</span> <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;l10n_info&#39;</span><span class="p">]()</span>
+    <span class="n">l10n_info</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">_</span><span class="o">.</span><span class="n">names</span><span class="p">,</span> <span class="n">_</span><span class="p">)}</span>
 
-    <span class="n">l10n_info</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;l10n_info&#39;</span><span class="p">]())</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">attributes</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;MBCS&#39;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;Latin-1&#39;</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)]</span>
     <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span><span class="p">:</span>
-        <span class="n">val_latin1</span> <span class="o">=</span> <span class="s1">&#39;cp</span><span class="si">{:d}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">l10n_info</span><span class="p">[</span><span class="mi">3</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">attributes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="p">(</span><span class="s1">&#39;codepage&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">),</span>
+                <span class="p">(</span><span class="s1">&#39;system.codepage&#39;</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">val_latin1</span> <span class="o">=</span> <span class="s1">&#39;latin1&#39;</span>
-    <span class="n">conversion</span><span class="o">.</span><span class="n">_R_ENC_PY</span><span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_LATIN1</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_latin1</span>
+        <span class="n">attributes</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="s1">&#39;codeset&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
 
-    <span class="k">if</span> <span class="n">l10n_info</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="n">val_native</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_R_ENC_PY</span><span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_UTF8</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+        <span class="n">enc_info</span> <span class="o">=</span> <span class="n">l10n_info</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">enc_info</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;R&#39;s l10n_info() does not have an </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> item.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">enc_info</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+            <span class="n">res</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">enc_info</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">embedded</span><span class="o">.</span><span class="n">RRuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;R does not return a </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span><span class="si">}</span><span class="s1"> for l10n_info()$`</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">`.&#39;</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">res</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_ensure_utf8_locale</span><span class="p">(</span><span class="n">l10n</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Ensure that the utf-8 can be used as a locale.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">l10n</span><span class="p">[</span><span class="s1">&#39;MBCS&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">l10n</span><span class="p">[</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">]:</span>
+        <span class="n">baseenv</span><span class="p">[</span><span class="s1">&#39;Sys.setlocale&#39;</span><span class="p">](</span><span class="s1">&#39;LC_CTYPE&#39;</span><span class="p">,</span> <span class="s1">&#39;.UTF-8&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">val_native</span> <span class="o">=</span> <span class="n">val_latin1</span>
-    <span class="n">conversion</span><span class="o">.</span><span class="n">_R_ENC_PY</span><span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_NATIVE</span><span class="p">]</span> <span class="o">=</span> <span class="n">val_native</span>
-
-    <span class="n">conversion</span><span class="o">.</span><span class="n">_R_ENC_PY</span><span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_ANY</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+        <span class="k">return</span> <span class="kc">False</span>
 
 
 <span class="c1"># TODO: This function could be used by situation.py. May be better to</span>
@@ -1288,10 +1326,11 @@
     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_setrenvvars</span><span class="p">(</span><span class="n">action</span><span class="p">:</span> <span class="n">_ENVVAR_ACTION</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_setrenvvars</span><span class="p">(</span><span class="n">action_map</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">_ENVVAR_ACTION</span><span class="p">]):</span>
     <span class="n">new_envvars</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_getrenvvars</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+            <span class="n">action</span> <span class="o">=</span> <span class="n">action_map</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">action</span> <span class="ow">in</span> <span class="p">(</span><span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_WARN</span><span class="p">,</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_NOWARN</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="n">_ENVVAR_ACTION</span><span class="o">.</span><span class="n">KEEP_WARN</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
@@ -1374,7 +1413,7 @@
             <span class="p">)</span>
         <span class="p">)</span>
 
-    <span class="n">_update_R_ENC_PY</span><span class="p">()</span>
+    <span class="n">_l10n_info</span><span class="p">()</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_find_first</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">of_type</span><span class="p">):</span>
@@ -1596,7 +1635,7 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">rpy2 3.6.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface</a></li> 
       </ul>

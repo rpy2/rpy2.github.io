@@ -5,12 +5,12 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>rpy2.rinterface_lib.sexp &#8212; rpy2 3.6.2 documentation</title>
+    <title>rpy2.rinterface_lib.sexp &#8212; rpy2 3.6.6 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/bizstyle.css?v=5283bb3d" />
     <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
     
-    <script src="../../../_static/documentation_options.js?v=c0c9fa11"></script>
+    <script src="../../../_static/documentation_options.js?v=3cb8e0b6"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/bizstyle.js"></script>
@@ -30,7 +30,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.sexp</a></li> 
       </ul>
@@ -220,9 +220,10 @@
     <span class="nd">@conversion</span><span class="o">.</span><span class="n">_cdata_res_to_rinterface</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">do_slot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_rinterface</span><span class="o">.</span><span class="n">_assert_valid_slotname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
-            <span class="n">name_r</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_install</span><span class="p">(</span><span class="n">cchar</span><span class="p">))</span>
+            <span class="n">name_r</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_symsxp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_has_slot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">name_r</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">LookupError</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_do_slot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">name_r</span><span class="p">)</span>
@@ -232,9 +233,10 @@
 <a class="viewcode-back" href="../../../rinterface.html#rpy2.rinterface.Sexp.do_slot_assign">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">do_slot_assign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">_rinterface</span><span class="o">.</span><span class="n">_assert_valid_slotname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
-            <span class="n">name_r</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_install</span><span class="p">(</span><span class="n">cchar</span><span class="p">))</span>
+            <span class="n">name_r</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_symsxp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="n">cdata</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
             <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_do_slot_assign</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
                                            <span class="n">name_r</span><span class="p">,</span>
@@ -244,7 +246,11 @@
     <span class="nd">@conversion</span><span class="o">.</span><span class="n">_cdata_res_to_rinterface</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_attrib</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Sexp&#39;</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
-            <span class="n">charsxp</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_charsxp</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
+            <span class="n">charsxp</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_charsxp</span><span class="p">(</span><span class="n">name</span><span class="p">,</span>
+                                           <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">,</span>
+                                           <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_R</span><span class="p">)</span>
+            <span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_getAttrib</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
                                              <span class="n">charsxp</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
@@ -323,8 +329,10 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sexpobject</span><span class="o">.</span><span class="n">rid</span>
 
 
-<span class="k">class</span><span class="w"> </span><span class="nc">CETYPE</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">Enum</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Character encodings for R string.&quot;&quot;&quot;</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CETYPE</span><span class="p">(</span><span class="n">enum</span><span class="o">.</span><span class="n">IntEnum</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Character encodings for R strings.</span>
+
+<span class="sd">    This enum wraps character encoding declarations in R&#39;s C API.&quot;&quot;&quot;</span>
     <span class="n">CE_NATIVE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_NATIVE</span>
     <span class="n">CE_UTF8</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_UTF8</span>
     <span class="n">CE_LATIN1</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CE_LATIN1</span>
@@ -404,9 +412,8 @@
         <span class="k">elif</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The key must be a non-empty string.&#39;</span><span class="p">)</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
-            <span class="n">key_cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
             <span class="n">symbol</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_install</span><span class="p">(</span><span class="n">key_cchar</span><span class="p">)</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_symsxp</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="n">wantfun</span><span class="p">:</span>
                 <span class="c1"># One would expect this to be like</span>
@@ -442,9 +449,8 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The key must be a non-empty string.&#39;</span><span class="p">)</span>
         <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
-            <span class="n">key_cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="n">symbol</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_install</span><span class="p">(</span><span class="n">key_cchar</span><span class="p">)</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_symsxp</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                 <span class="n">_rinterface</span><span class="o">.</span><span class="n">findvar_in_frame_wrap</span><span class="p">(</span>
@@ -469,9 +475,8 @@
                              <span class="s1">&#39;empty environments.&#39;</span><span class="p">)</span>
         <span class="c1"># TODO: call to Rf_duplicate needed ?</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
-            <span class="n">key_cchar</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
             <span class="n">symbol</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_install</span><span class="p">(</span><span class="n">key_cchar</span><span class="p">)</span>
+                <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_symsxp</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">cdata</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_get_cdata</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
             <span class="n">cdata_copy</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
@@ -506,7 +511,13 @@
 
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
             <span class="n">key_cdata</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_mkString</span><span class="p">(</span><span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">key</span><span class="p">))</span>
+                <span class="c1"># TODO: is there a wrapper for this in &quot;conversion&quot;?</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_ScalarString</span><span class="p">(</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_mkCharCE</span><span class="p">(</span>
+                        <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_cchar</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">),</span>
+                        <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_R</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
             <span class="p">)</span>
             <span class="n">_rinterface</span><span class="o">.</span><span class="n">_remove</span><span class="p">(</span><span class="n">key_cdata</span><span class="p">,</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
@@ -837,7 +848,9 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">CharSexp</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_charsxp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_charsxp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span>
+                                          <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">,</span>
+                                          <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_R</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="StrSexpVector">
@@ -859,11 +872,11 @@
         <span class="n">res</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Union</span><span class="p">[</span><span class="s1">&#39;StrSexpVector&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;NACharacterType&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">i_c</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_python_index_to_c</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">_</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_string_getitem</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">_</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_string_getitem</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">na_values</span><span class="o">.</span><span class="n">NA_Character</span>  <span class="c1"># type: ignore</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">_</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">item</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
             <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">_rinterface</span><span class="o">.</span><span class="n">_string_getitem</span><span class="p">(</span><span class="n">cdata</span><span class="p">,</span> <span class="n">i_c</span><span class="p">)</span>
@@ -1036,10 +1049,9 @@
                     <span class="n">symb</span> <span class="o">=</span> <span class="n">rlib</span><span class="o">.</span><span class="n">CAR</span><span class="p">(</span><span class="n">scaps</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_isSymbol</span><span class="p">(</span><span class="n">symb</span><span class="p">):</span>
                         <span class="n">symb_rstr</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">PRINTNAME</span><span class="p">(</span><span class="n">symb</span><span class="p">)</span>
-                        <span class="n">symb_str</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_cchar_to_str</span><span class="p">(</span>
-                            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_CHAR</span><span class="p">(</span><span class="n">symb_rstr</span><span class="p">),</span>
-                            <span class="n">conversion</span><span class="o">.</span><span class="n">_R_ENC_PY</span><span class="p">[</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span>
-                                                 <span class="o">.</span><span class="n">Rf_getCharCE</span><span class="p">(</span><span class="n">symb_rstr</span><span class="p">)]</span>
+                        <span class="n">symb_str</span> <span class="o">=</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_rchar_to_str</span><span class="p">(</span>
+                            <span class="n">symb_rstr</span><span class="p">,</span>
+                            <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span>
                         <span class="p">)</span>
                         <span class="k">if</span> <span class="n">symb_str</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;if&#39;</span><span class="p">,</span> <span class="s1">&#39;while&#39;</span><span class="p">,</span> <span class="s1">&#39;for&#39;</span><span class="p">,</span> <span class="s1">&#39;=&#39;</span><span class="p">,</span>
                                         <span class="s1">&#39;&lt;-&#39;</span><span class="p">,</span> <span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;{&#39;</span><span class="p">):</span>
@@ -1226,7 +1238,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">rpy2 3.6.6 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">rpy2.rinterface_lib.sexp</a></li> 
       </ul>

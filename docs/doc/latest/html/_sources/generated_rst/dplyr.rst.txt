@@ -34,6 +34,13 @@ frames).
     from rpy2.robjects.lib.dplyr import DataFrame
     from rpy2.robjects import rl
 
+
+.. parsed-literal::
+
+    /opt/hostedtoolcache/Python/3.10.20/x64/lib/python3.10/site-packages/rpy2/robjects/lib/dplyr.py:27: UserWarning: This was designed against dplyr versions starting with 1.1. but you have 1.2.0
+      warnings.warn(
+
+
 With this we have the choice of chaining (D3-style)
 
 .. code:: ipython3
@@ -263,31 +270,53 @@ implementation of ``dplyr``, it *just works*.
 .. code:: ipython3
 
     from rpy2.robjects.lib.dplyr import dplyr
-    # in-memory SQLite database broken in dplyr's src_sqlite
-    # db = dplyr.src_sqlite(":memory:")
-    import tempfile
-    with tempfile.NamedTemporaryFile() as db_fh:
-        db = dplyr.src_sqlite(db_fh.name)
-        # copy the table to that database
-        dataf_db = DataFrame(mtcars).copy_to(db, name="mtcars")
-        res = (dataf_db
-               .filter(rl('gear>3'))
-               .mutate(powertoweight=rl('hp*36/wt'))
-               .group_by(rl('gear'))
-               .summarize(mean_ptw=rl('mean(powertoweight)')))
-        print(res)
-    # 
+    
+    # Import R packages to connect to dababases, and to SQLite.
+    dbi = importr('DBI')
+    rsqlite = importr('RSQLite')
+    dbcon = dbi.dbConnect(rsqlite.SQLite(), ":memory:")
+    
+    # copy the table to that database
+    dataf_db = DataFrame(mtcars).copy_to(dbcon, name="mtcars")
+    res = (
+        dataf_db
+        .filter(rl('gear>3'))
+        .mutate(powertoweight=rl('hp*36/wt'))
+        .group_by(rl('gear'))
+        .summarize(mean_ptw=rl('mean(powertoweight)')))
+    print(res)
+    
+    # Close the connection to clean up.
+    dbi.dbDisconnect(dbcon)
 
 
 .. parsed-literal::
 
     # Source:   SQL [?? x 2]
-    # Database: sqlite 3.50.3 [/tmp/tmpa5d8hl_h]
+    # Database: sqlite 3.51.2 [:memory:]
        gear mean_ptw
       <dbl>    <dbl>
     1     4    1237.
     2     5    2574.
     
+
+
+
+
+.. raw:: html
+
+    
+    <emph>BoolVector</emph> with 1 elements:
+    <table class="rpy2_table">
+    <thead>
+    </thead>
+    <tbody>
+    <tr>
+          <td>True</td>
+    </tr>
+    </tbody>
+    </table>
+
 
 
 Since we are manipulating R objects, anything available to R is also
