@@ -88,11 +88,10 @@
 
     <span class="nd">@enclos</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">enclos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">sexp</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="c1"># TODO: I can&#39;t figure out why mypy is throwing an error</span>
-        <span class="c1"># here. There scope of this assignment is rather limited</span>
-        <span class="c1"># (the setter in the parent class SexpEnvironment has the same</span>
-        <span class="c1"># signature).</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">enclos</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># type: ignore</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;Changing the enclosing environment disappeared from the &#39;</span>
+            <span class="s1">&#39;API with R-4.6.0.&#39;</span>
+        <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sexp</span><span class="o">.</span><span class="n">SexpEnvironment</span><span class="p">:</span>

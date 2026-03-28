@@ -54,7 +54,6 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">memorymanagement</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">openrlib</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib._rinterface_capi</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_rinterface</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib._rinterface_capi</span><span class="w"> </span><span class="kn">import</span> <span class="n">_evaluated_promise</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib._rinterface_capi</span><span class="w"> </span><span class="kn">import</span> <span class="n">SupportsSEXP</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">conversion</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">rpy2.rinterface_lib.conversion</span><span class="w"> </span><span class="kn">import</span> <span class="n">_cdata_res_to_rinterface</span>
@@ -352,7 +351,6 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;R&#39;s internal (C API-level) scalar for strings.&quot;&quot;&quot;</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CHARSXP</span>
-    <span class="n">_NCHAR_MSG</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">ffi</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s1">&#39;char []&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;rpy2.rinterface.CharSexp.nchar&#39;</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">encoding</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CETYPE</span><span class="p">:</span>
@@ -365,16 +363,10 @@
             <span class="n">openrlib</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">nchar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="n">NCHAR_TYPE</span> <span class="o">=</span> <span class="n">NCHAR_TYPE</span><span class="o">.</span><span class="n">Bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-            <span class="c1"># TODO: nchar_type is not parsed properly by cffi ?</span>
-            <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_nchar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
-                                         <span class="n">what</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                                         <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FALSE</span><span class="p">,</span>
-                                         <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FALSE</span><span class="p">,</span>
-                                         <span class="bp">self</span><span class="o">.</span><span class="n">_NCHAR_MSG</span><span class="p">)</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="n">openrlib</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;Changing the enclosing environment disappeared from the &#39;</span>
+            <span class="s1">&#39;API with R-4.6.0.&#39;</span>
+        <span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SexpEnvironment</span><span class="p">(</span><span class="n">Sexp</span><span class="p">):</span>
@@ -394,7 +386,6 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="nd">@_cdata_res_to_rinterface</span>
-    <span class="nd">@_evaluated_promise</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">find</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
              <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
              <span class="n">wantfun</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Sexp</span><span class="p">:</span>
@@ -420,47 +411,69 @@
                 <span class="c1">#   res = _rinterface._findfun(symbol, self.__sexp__._cdata)</span>
                 <span class="c1"># but R&#39;s findfun will segfault if the symbol is not in</span>
                 <span class="c1"># the environment. :/</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="n">rho</span> <span class="o">=</span> <span class="bp">self</span>
                 <span class="k">while</span> <span class="n">rho</span><span class="o">.</span><span class="n">rid</span> <span class="o">!=</span> <span class="n">emptyenv</span><span class="o">.</span><span class="n">rid</span><span class="p">:</span>
-                    <span class="n">res</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                        <span class="n">_rinterface</span><span class="o">.</span><span class="n">findvar_in_frame_wrap</span><span class="p">(</span>
-                            <span class="n">rho</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">symbol</span>
+                    <span class="k">if</span> <span class="p">(</span>
+                            <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_existsVarInFrame</span><span class="p">(</span>
+                                <span class="n">rho</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                                <span class="n">symbol</span>
+                            <span class="p">)</span> <span class="o">==</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">TRUE</span>
+                    <span class="p">):</span>
+                        <span class="n">res</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+                            <span class="n">_rinterface</span><span class="o">.</span><span class="n">_getvar_wrap</span><span class="p">(</span>
+                                <span class="n">symbol</span><span class="p">,</span> <span class="n">rho</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FALSE</span>  <span class="c1"># inherits.</span>
+                            <span class="p">)</span>
                         <span class="p">)</span>
-                    <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_TYPEOF</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CLOSXP</span><span class="p">,</span>
-                                                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">BUILTINSXP</span><span class="p">):</span>
-                        <span class="k">break</span>
-                    <span class="c1"># TODO: move check of R_UnboundValue to _rinterface ?</span>
-                    <span class="n">res</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_UnboundValue</span>
+                        <span class="k">if</span> <span class="p">(</span>
+                                <span class="n">_rinterface</span><span class="o">.</span><span class="n">_TYPEOF</span><span class="p">(</span><span class="n">res</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span>
+                                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">CLOSXP</span><span class="p">,</span>
+                                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">BUILTINSXP</span>
+                                <span class="p">)</span>
+                        <span class="p">):</span>
+                            <span class="k">break</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">res</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="n">rho</span> <span class="o">=</span> <span class="n">rho</span><span class="o">.</span><span class="n">enclos</span>
+                <span class="k">if</span> <span class="n">res</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; not found&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">_findvar</span><span class="p">(</span><span class="n">symbol</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
-        <span class="c1"># TODO: move check of R_UnboundValue to _rinterface ?</span>
-        <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_UnboundValue</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; not found&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">res</span> <span class="o">=</span> <span class="n">_rinterface</span><span class="o">.</span><span class="n">getvar</span><span class="p">(</span>
+                                <span class="n">symbol</span><span class="p">,</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">TRUE</span>  <span class="c1"># inherits.</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="c1"># R&#39;s R_getVar() triggers an R error when the key cannot</span>
+                    <span class="c1"># be found.</span>
+                    <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; not found&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
     <span class="nd">@_cdata_res_to_rinterface</span>
-    <span class="nd">@_evaluated_promise</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Any</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;The key must be a non-empty string.&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The key must be a non-empty string.&#39;</span><span class="p">)</span>
         <span class="n">embedded</span><span class="o">.</span><span class="n">assert_isready</span><span class="p">()</span>
+
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
             <span class="n">symbol</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
                 <span class="n">conversion</span><span class="o">.</span><span class="n">_str_to_symsxp</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">conversion</span><span class="o">.</span><span class="n">_ENC_PY</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                <span class="n">_rinterface</span><span class="o">.</span><span class="n">findvar_in_frame_wrap</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span> <span class="n">symbol</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
+                    <span class="n">_rinterface</span><span class="o">.</span><span class="n">getvar</span><span class="p">(</span>
+                        <span class="n">symbol</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                        <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FALSE</span>
+                    <span class="p">)</span>
                 <span class="p">)</span>
-            <span class="p">)</span>
-
-        <span class="c1"># TODO: move check of R_UnboundValue to _rinterface</span>
-        <span class="k">if</span> <span class="n">res</span> <span class="o">==</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_UnboundValue</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; not found&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="c1"># TODO: move check of R_UnboundValue to _rinterface</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39; not found&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">res</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -489,8 +502,11 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
             <span class="n">symbols</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_lsInternal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
-                                           <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">TRUE</span><span class="p">)</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_lsInternal3</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">TRUE</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FALSE</span>  <span class="c1"># sort.</span>
+                <span class="p">)</span>
             <span class="p">)</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_xlength</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n</span>
@@ -527,26 +543,35 @@
     <span class="nd">@_cdata_res_to_rinterface</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">frame</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;typing.Union[NULLType, SexpEnvironment]&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the parent frame of the environment.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FRAME</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;Changing the enclosing environment disappeared from the &#39;</span>
+                <span class="s1">&#39;API with R-4.6.0.&#39;</span>
+            <span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="nd">@_cdata_res_to_rinterface</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">enclos</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;typing.Union[NULLType, SexpEnvironment]&#39;</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get or set the enclosing environment.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">ENCLOS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
+        <span class="c1"># TODO: not the most efficient. The choice of C-API should</span>
+        <span class="c1"># be made once.</span>
+        <span class="k">return</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_ParentEnv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
 
     <span class="nd">@enclos</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">enclos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="s1">&#39;SexpEnvironment&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">SexpEnvironment</span><span class="p">)</span>
-        <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SET_ENCLOS</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
-                                 <span class="n">value</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+            <span class="s1">&#39;Changing the enclosing environment disappeared from the &#39;</span>
+            <span class="s1">&#39;API with R-4.6.0.&#39;</span>
+        <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Generator</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Generator over the keys (symbols) in the environment.&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">memorymanagement</span><span class="o">.</span><span class="n">rmemory</span><span class="p">()</span> <span class="k">as</span> <span class="n">rmemory</span><span class="p">:</span>
             <span class="n">symbols</span> <span class="o">=</span> <span class="n">rmemory</span><span class="o">.</span><span class="n">protect</span><span class="p">(</span>
-                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_lsInternal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
-                                           <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">TRUE</span><span class="p">)</span>
+                <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">R_lsInternal3</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__sexp__</span><span class="o">.</span><span class="n">_cdata</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">TRUE</span><span class="p">,</span>
+                    <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">FALSE</span>  <span class="c1"># sort.</span>
+                <span class="p">)</span>
             <span class="p">)</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">Rf_xlength</span><span class="p">(</span><span class="n">symbols</span><span class="p">)</span>
             <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
@@ -859,7 +884,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;R vector of strings.&quot;&quot;&quot;</span>
 
     <span class="n">_R_TYPE</span> <span class="o">=</span> <span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">STRSXP</span>
-    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">_STRING_PTR</span><span class="p">)</span>
+    <span class="n">_R_GET_PTR</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">STRING_PTR_RO</span><span class="p">)</span>
     <span class="n">_R_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">STRING_ELT</span><span class="p">)</span>
     <span class="n">_R_SET_VECTOR_ELT</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">openrlib</span><span class="o">.</span><span class="n">rlib</span><span class="o">.</span><span class="n">SET_STRING_ELT</span><span class="p">)</span>
     <span class="n">_CAST_IN</span> <span class="o">=</span> <span class="nb">staticmethod</span><span class="p">(</span><span class="n">_as_charsxp_cdata</span><span class="p">)</span>
